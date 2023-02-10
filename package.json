@@ -26,6 +26,7 @@
     "wagmi": "^0.9.6"
   },
   "devDependencies": {
+    "encoding": "^0.1.13",
     "sass": "^1.58.0"
   }
 }

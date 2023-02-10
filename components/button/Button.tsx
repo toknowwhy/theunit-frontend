@@ -18,12 +18,15 @@ export default function Button({
     children 
 }: ButtonProps) {
     return (
-        <button 
-            className={styles.button} 
-            onClick={onClick} 
-            disabled={disabled || loading}
+        <div 
+            className={`${styles.button} ${loading && 'loading'} ${disabled && 'disabled'}`} 
+            onClick={() => {
+                if (!disabled && !loading) {
+                    onClick();
+                }
+            }} 
         >
             {children} {loading && <LoadingOutlined />}
-        </button>
+        </div>
     )
 }

@@ -5,6 +5,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import {
   getDefaultWallets,
   RainbowKitProvider,
+  darkTheme
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
@@ -30,7 +31,9 @@ const { chains, provider } = configureChains(
 export default function WalletProvider({ children } : PropsWithChildren<{}>) {
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider theme={darkTheme({
+      accentColor: '#4844FF'
+    })} chains={chains}>
         {children}
       </RainbowKitProvider>
     </WagmiConfig>
