@@ -1,0 +1,24 @@
+@import '_variables.scss';
+
+body {
+  background-color: $body-background;
+  margin: 0;
+  font-size: 18px;
+  color: $white;
+}
+
+a {
+  text-decoration: none;
+}
+
+.primary-color {
+  color: $primary-color;
+}
+
+.page-container {
+  padding: 56px 48px 88px 48px;
+
+  @media (max-width: #{$screen-lg}) {
+    padding: 15px;
+  }
+}
