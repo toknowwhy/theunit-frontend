@@ -1,6 +1,7 @@
 import localFont from '@next/font/local';
 import '@/styles/global.scss';
 import Header from '@/components/navbar/Header';
+import WalletProvider from './wallet';
 
 const avenirFont = localFont({
   src: [
@@ -31,8 +32,10 @@ export default function RootLayout({
     <html lang="en" className={avenirFont.className}>
       <head />
       <body>
-        <Header />
-        {children}
+        <WalletProvider>
+          <Header />
+          {children}
+        </WalletProvider>
       </body>
     </html>
   )

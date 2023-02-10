@@ -1,14 +1,5 @@
 @import '_placeholders.scss';
 
-@mixin tu-btn($color) {
-    @extend %btn;
-    background-color: $color;
-
-    &:hover {
-        background-color: $primary-color;
-    }
-}
-
 /* Responsive
 ========================================================================== */
 
