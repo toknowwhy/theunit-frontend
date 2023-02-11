@@ -1,0 +1,7 @@
+@import '@/styles/_variables.scss';
+
+.body {
+    margin-left: $sidebar-width;
+    margin-top: $navbar-height;
+    padding: $page-top-margin $body-horizontal-margin;
+}

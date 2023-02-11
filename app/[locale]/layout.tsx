@@ -2,9 +2,9 @@ import {useLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import {ReactNode} from 'react';
 import localFont from '@next/font/local';
-import '@/styles/global.scss';
 import WalletProvider from '../context/wallet';
 import MainLayout from '@/components/navbar/MainLayout';
+import '@/styles/global.scss';
 
 const avenirFont = localFont({
   src: [
