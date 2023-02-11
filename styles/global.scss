@@ -1,24 +1,25 @@
 @import '_variables.scss';
 
 body {
-  background-color: $body-background;
+  background-color: $black;
   margin: 0;
   font-size: 18px;
   color: $white;
 }
 
 a {
+  color: $grey;
   text-decoration: none;
+
+  &:hover {
+      color: $white;
+  }
 }
 
 .primary-color {
   color: $primary-color;
 }
 
-.page-container {
-  padding: 56px 48px 88px 48px;
-
-  @media (max-width: #{$screen-lg}) {
-    padding: 15px;
-  }
+li {
+  list-style-type: none;
 }

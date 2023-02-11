@@ -3,8 +3,8 @@ import {notFound} from 'next/navigation';
 import {ReactNode} from 'react';
 import localFont from '@next/font/local';
 import '@/styles/global.scss';
-import Header from '@/components/navbar/Header';
 import WalletProvider from '../context/wallet';
+import MainLayout from '@/components/navbar/MainLayout';
 
 const avenirFont = localFont({
   src: [
@@ -45,8 +45,9 @@ export default function RootLayout({
       <head />
       <body>
         <WalletProvider>
-          <Header />
-          {children}
+          <MainLayout>
+            {children}
+          </MainLayout>
         </WalletProvider>
       </body>
     </html>

@@ -1,29 +1,31 @@
-import Link from 'next/link';
+'use client';
+
+import {useUnlocalizedPathname} from 'next-intl/client';
+import { NavLink } from './MainLayout';
 import styles from './Sidebar.module.scss';
+import menuLogo from '@/public/menu-logo.svg';
+import Image from 'next/image';
+import Link from 'next/link';
 
-const navLinks = [{
-    label: "The Unit",
-    link: "the-unit"
-}, {
-    label: "Vaults",
-    link: "vaults"
-}, {
-    label: "Candidates",
-    link: "candidates"
-}, {
-    label: "One Unit",
-    link: "one-unit"
-}, {
-    label: "History",
-    link: "histories"
-}]
+export default function Sidebar({ 
+    navLinks,
+    locale
+} : { 
+    navLinks: NavLink[],
+    locale: string
+}) {
 
-export default function Sidebar() {
+    const pathname = useUnlocalizedPathname();
+
     return <div className={styles.sidebar}>
         <ul className={styles.menu}>
-            {navLinks.map((link) => <li key={link.link}>
-                <Link href={link.link}>{link.label}</Link> 
-            </li>)}
+            {navLinks.map((link) => {
+                const active = pathname?.startsWith(link.link);
+                return <li key={link.link} className={active ? styles.linkActive : ''}>
+                {active && <Image className={styles.menuLogo} src={menuLogo} alt="logo" />}
+                <Link href={`/${locale}${link.link}`}>{link.label}</Link> 
+            </li>
+            })}
         </ul>
     </div>;
 }

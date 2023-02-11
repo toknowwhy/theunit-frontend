@@ -18,7 +18,7 @@ const { chains, provider } = configureChains(
   );
   
   const { connectors } = getDefaultWallets({
-    appName: 'The Unit App',
+    appName: 'The Unit',
     chains
   });
   

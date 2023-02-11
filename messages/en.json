@@ -1,5 +1,12 @@
 {
     "Menu": {
-        "the-unit": "The Unit"
+        "theunit": "The Unit",
+        "vaults": "Vaults",
+        "candidates": "Candidates",
+        "oneunit": "One Unit",
+        "histories": "History"
+    },
+    "Web3": {
+        "connect-wallet": "Connect Wallet"
     }
 }
