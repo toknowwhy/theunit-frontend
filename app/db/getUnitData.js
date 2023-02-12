@@ -1,9 +1,18 @@
-import { coinLogoUrl } from "@/helpers/coinLogoUrl";
-import { getCoinsInfo, getUnitHistory } from "./helpers";
+import { getCoinsInfo, getStableCoins, getUnitHistory } from "./helpers";
 
-export default async function getUnitData(db) {
+export default async function getUnitData(db, isCandidate=false) {
     const ids = await getUnitHistory(db);
-    const data = await db.collection("coinhourlydatas").find({ coin_id: { $in: ids } }).sort({'time': -1}).limit(ids.length).toArray();
+    let data;
+    if (isCandidate) {
+        const stableCoins = await getStableCoins(db);
+        const mids = ids.concat(stableCoins);
+        const lastData = await db.collection("coinhourlydatas").find().sort({ "_id": -1 }).limit(1).toArray();
+        const lastTime = lastData[0].time;
+        const nowTime = new Date(lastTime.getTime() - 300000);
+        data = await db.collection("coinhourlydatas").find({ coin_id: { $nin: mids }, "time" : {"$gte": nowTime} }).sort({'market_cap': -1}).limit(ids.length).toArray();
+    } else {
+        data = await db.collection("coinhourlydatas").find({ coin_id: { $in: ids } }).sort({'time': -1}).limit(ids.length).toArray();
+    }
     const coinsData = await getCoinsInfo(db);
 
     data.sort((a, b) => {
@@ -27,7 +36,6 @@ export default async function getUnitData(db) {
             ...coin, 
             name: coinName, 
             symbol: coinSymbol,
-            image: coinLogoUrl(cid),
             key: cid,
             rank: (i+1)
         };

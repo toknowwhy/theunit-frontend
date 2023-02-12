@@ -15,6 +15,5 @@ export interface CoinData {
 }
 
 export interface CoinTableData extends CoinData {
-    rank: number,
-    image: string,
+    rank: number
 }

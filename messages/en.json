@@ -16,6 +16,7 @@
         "table-24": "24H",
         "table-marketcap": "Market Cap*",
         "table-volume": "24H Volume*",
+        "candidates": "Candidates",
         "candidates-notes": "Currencies with potential to be in The Unit"
     }
 }

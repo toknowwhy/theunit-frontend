@@ -61,3 +61,18 @@
     margin-right: 16px;
   }
 }
+
+.increased {
+  color: $green;
+}
+
+.dropped {
+  color: $red;
+}
+
+.increased, .dropped {
+  img {
+    vertical-align: middle;
+    margin-top: -3px;
+  }
+}

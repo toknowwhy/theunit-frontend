@@ -1,4 +1,4 @@
-export type CustomSize = "small" | "medium" | "large";
+import { CustomSize } from "@/helpers/types";
 
 export default function EmptySpace({
     size="small", 

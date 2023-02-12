@@ -7,12 +7,13 @@ import greenArrow from '@/public/green-arrow.svg';
 import { numberWithCommas } from "@/helpers/numberWithCommas";
 import styles from './Table.module.scss';
 import RowWrapper from "./RowWrapper";
+import CoinLogo from "../CoinLogo";
 
 export default function Table({ data, headers } : { data: CoinTableData[], headers: string[] }) {
 
     const renderPrice = (price: number) => 'Ø' + (price < 0.001 ? price.toFixed(6) : price.toFixed(3));
     const renderPriceChange = (priceChange: number) => {
-        const cname = priceChange < 0 ? 'dropped' : 'increased';
+        const cname = priceChange < 0 ? styles.dropped : styles.increased;
         const imgSrc = priceChange < 0 ? redArrow : greenArrow;
         const perc = priceChange.toFixed(3).replace('-', '') + '%';
         return <div className={cname}>
@@ -32,7 +33,7 @@ export default function Table({ data, headers } : { data: CoinTableData[], heade
             <RowWrapper coinId={d.coin_id} className={styles.bodyRow} key={d.coin_id}>
                 <div>{d.rank}</div>
                 <div className={styles.name}>
-                    <Image src={d.image} alt="logo" width={32} height={32} /> {d.name}
+                    <CoinLogo coinId={d.coin_id} /> {d.name}
                 </div>
                 <div>{renderPrice(d.price)}</div>
                 {renderPriceChange(d.price_change_percentage_24h)}
