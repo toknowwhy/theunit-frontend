@@ -18,5 +18,9 @@
         "table-volume": "24H Volume*",
         "candidates": "Candidates",
         "candidates-notes": "Currencies with potential to be in The Unit"
+    },
+    "Vault": {
+        "choose-vault": "Please Choose a Vault",
+        "vault": "Vault"
     }
 }

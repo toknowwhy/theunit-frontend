@@ -20,7 +20,7 @@ export default function Sidebar({
     return <div className={styles.sidebar}>
         <ul className={styles.menu}>
             {navLinks.map((link) => {
-                const active = pathname?.startsWith(link.link);
+                const active = pathname === link.link || pathname?.startsWith(link.link + '/');
                 return <li key={link.link} className={active ? styles.linkActive : ''}>
                 {active && <Image className={styles.menuLogo} src={menuLogo} alt="logo" />}
                 <Link href={`/${locale}${link.link}`}>{link.label}</Link> 

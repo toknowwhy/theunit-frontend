@@ -1,4 +1,4 @@
-import { coinLogoUrl } from "@/helpers/coinLogoUrl";
+import { coinLogoUrl } from "@/helpers/utils";
 import { CustomSize } from "@/helpers/types";
 import Image from "next/image";
 

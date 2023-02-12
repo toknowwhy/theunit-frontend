@@ -4,7 +4,7 @@ import { CoinTableData } from "@/app/db/types";
 import Image from "next/image";
 import redArrow from '@/public/red-arrow.svg';
 import greenArrow from '@/public/green-arrow.svg';
-import { numberWithCommas } from "@/helpers/numberWithCommas";
+import { numberWithCommas } from "@/helpers/utils";
 import styles from './Table.module.scss';
 import RowWrapper from "./RowWrapper";
 import CoinLogo from "../CoinLogo";
