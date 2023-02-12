@@ -1,0 +1,75 @@
+@import '@/styles/_variables.scss';
+
+.increased {
+    color: $green;
+    img {
+      width: 20px;
+    }
+  }
+  
+  .dropped {
+    color: $red;
+    img {
+      width: 20px;
+    }
+  }
+  
+  .table-wrapper {
+    font-weight: 800;
+    background: $heavier-grey;
+    border-radius: 16px;
+    padding: 16px;
+  }
+  
+  .ant-table {
+    background: transparent;
+  }
+  
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td {
+    background: transparent;
+    border-bottom: none;
+  }
+  
+  .ant-table-thead
+    > tr
+    > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+    display: none;
+  }
+  
+  .ant-table-tbody > tr.ant-table-row:hover {
+    cursor: pointer;
+  
+    & > td {
+      background: $heavy-grey;
+    }
+  }
+  
+  .ant-table-row {
+    .ant-table-cell:first-child {
+      border-top-left-radius: $normal-border-radius;
+      border-bottom-left-radius: $normal-border-radius;
+    }
+  
+    .ant-table-cell:last-child {
+      border-top-right-radius: $normal-border-radius;
+      border-bottom-right-radius: $normal-border-radius;
+    }
+  }
+  
+  .coin-logo,
+  .coin-logo-dark {
+    width: 32px;
+  }
+  
+  .coin-logo-dark {
+    background-color: #fff;
+    overflow: hidden;
+  }
+  
+  .ant-table-tbody > tr > td,
+  .ant-table-thead > tr > th {
+    padding-left: $small-padding;
+    padding-right: $small-padding;
+  }
+  

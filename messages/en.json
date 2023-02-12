@@ -1,12 +1,21 @@
 {
-    "Menu": {
-        "theunit": "The Unit",
-        "vaults": "Vaults",
-        "candidates": "Candidates",
-        "oneunit": "One Unit",
-        "histories": "History"
-    },
+    "theunit": "The Unit",
+    "vaults": "Vaults",
+    "candidates": "Candidates",
+    "oneunit": "One Unit",
+    "histories": "History",
     "Web3": {
         "connect-wallet": "Connect Wallet"
+    },
+    "TheUnit": {
+        "indexed-currencies": "Indexed Currencies",
+        "indexed-currencies-notes": "*Market Cap and 24h Volume are in millions of units",
+        "table-rank": "Rank",
+        "table-name": "Name",
+        "table-price": "Price",
+        "table-24": "24H",
+        "table-marketcap": "Market Cap*",
+        "table-volume": "24H Volume*",
+        "candidates-notes": "Currencies with potential to be in The Unit"
     }
 }

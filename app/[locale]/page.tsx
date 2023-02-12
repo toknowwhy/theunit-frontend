@@ -1,7 +1,22 @@
-import {useTranslations} from 'next-intl';
-import styles from './page.module.css'
+import UnitTable from '@/components/theunit/UnitTable';
+import getUnitData from "@/app/db/getUnitData";
+import clientPromise from "@/app/db/mongodb";
 
-export default function Home() {
-  const t = useTranslations('Menu');
-  return <div className='page-title'>{t('theunit')}</div>;
+async function getData() {
+    const client = await clientPromise;
+    const db = client.db();
+    const result = getUnitData(db);
+  
+    return result;
+  }
+
+export default async function Home() {
+  const data = await getData();
+  return <>
+    <UnitTable 
+      titleKey='indexed-currencies'
+      subtitleKey='indexed-currencies-notes'
+      data={data}
+    />
+  </>;
 }

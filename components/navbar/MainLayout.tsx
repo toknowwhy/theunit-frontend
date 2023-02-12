@@ -34,7 +34,7 @@ const navLinks: NavLink[] = [{
 
 export default function MainLayout({children} : {children: ReactNode}) {
     const locale = useLocale();
-    const t = useTranslations('Menu');
+    const t = useTranslations();
     const localizedLinks = navLinks.map((link) => { 
        return { ...link, label: t(link.i18n) }
     });

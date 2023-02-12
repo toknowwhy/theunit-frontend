@@ -3,5 +3,15 @@ const withNextIntl = require('next-intl/plugin')(
 );
 
 module.exports = withNextIntl({
-  experimental: {appDir: true}
+  experimental: {appDir: true},
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.20y.org',
+        port: '',
+        pathname: '/files/**',
+      },
+    ],
+  },
 });
