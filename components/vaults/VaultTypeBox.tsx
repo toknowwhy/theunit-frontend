@@ -1,6 +1,6 @@
 import { SUPPORTED_COINS, SUPPORTED_STABLE_COINS } from '@/helpers/constants';
 import { SupportedCoin } from '@/helpers/types';
-import { useTranslations } from 'next-intl';
+import { useTranslations, LocalizedLink } from 'next-intl';
 import CoinLogo from '../CoinLogo';
 import EmptySpace from '../EmptySpace';
 import styles from './VaultTypeBox.module.scss';
@@ -21,12 +21,12 @@ export default function VaultTypeBox() {
 function VaultType({coin}: {coin: SupportedCoin}) {
     const t = useTranslations('Vault')
 
-    return <div className={styles.vaultType}>
+    return <LocalizedLink href={"/vaults/"+coin.coinId} className={styles.vaultType}>
         <div>{coin.symbol}-U {t('vault')}</div>
         <div className={styles.logoWrapper}>
             <CoinLogo coinId={coin.coinId} />
         </div>
-    </div>
+    </LocalizedLink>
 }
 
 function VaultTypeList({isStable=true}: {isStable?: boolean}) {
