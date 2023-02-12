@@ -1,21 +1,31 @@
-import { CoinData } from "@/app/db/types"
+import { CoinTableData } from "@/app/db/types"
 import { useTranslations } from "next-intl"
-import ClientTable from "./ClientTable";
+import EmptySpace from "../EmptySpace";
+import Table from "./Table";
 
 export default function UnitTable({
     titleKey,
     subtitleKey,
     data
 } : {
-    titleKey: string,
-    subtitleKey: string,
-    data: CoinData[]
+    titleKey?: string,
+    subtitleKey?: string,
+    data: CoinTableData[]
 }) {
     const t = useTranslations("TheUnit");
+    const headers = [
+        t('table-rank'),
+        t('table-name'),
+        t('table-price'),
+        t('table-24'),
+        t('table-marketcap'),
+        t('table-volume'),
+    ]
 
     return <>
-        <div className="page-title">{t(titleKey)}</div>
-        <div className="page-subtitle">{t(subtitleKey)}</div>
-        <ClientTable data={data} />
+        {titleKey && <div className="page-title">{t(titleKey)}</div>}
+        {subtitleKey && <div className="page-subtitle">{t(subtitleKey)}</div>}
+        <EmptySpace size="medium" />
+        <Table data={data} headers={headers} />
     </>
 }

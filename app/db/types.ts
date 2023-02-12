@@ -11,8 +11,10 @@ export interface CoinData {
     low: number,
     name: string,
     symbol: string
+    time: Date,
 }
 
 export interface CoinTableData extends CoinData {
-    key: string;
+    rank: number,
+    image: string,
 }

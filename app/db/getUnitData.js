@@ -5,6 +5,10 @@ export default async function getUnitData(db) {
     const ids = await getUnitHistory(db);
     const data = await db.collection("coinhourlydatas").find({ coin_id: { $in: ids } }).sort({'time': -1}).limit(ids.length).toArray();
     const coinsData = await getCoinsInfo(db);
+
+    data.sort((a, b) => {
+        return b.market_cap - a.market_cap;
+    })
     
     let result = [];
     for (var i=0;i<data.length;i++) {
@@ -23,7 +27,9 @@ export default async function getUnitData(db) {
             ...coin, 
             name: coinName, 
             symbol: coinSymbol,
-            image: coinLogoUrl(cid)
+            image: coinLogoUrl(cid),
+            key: cid,
+            rank: (i+1)
         };
 
         // Remove the not keys that make coin not serializable
@@ -34,10 +40,6 @@ export default async function getUnitData(db) {
 
         result.push(resCoin);
     }
-
-    result.sort((a, b) => {
-        return b.market_cap - a.market_cap;
-    })
 
     return result;
 }
