@@ -1,6 +1,12 @@
+@import '@/styles/_variables.scss';
+
 .row {
     display: flex;
     column-gap: 100px;
     justify-content: center;
     align-items: center;
+    padding: 24px 0;
+    border-top: 1px solid $heavier-grey;
+    border-bottom: 1px solid $heavier-grey;
+    margin-top: 40px;
 }
