@@ -3,13 +3,9 @@ import { CustomSize } from "@/helpers/types";
 export default function EmptySpace({
     size="small", 
     isVertical = true,
-    background,
-    width = 1,
 } : {
     size?: CustomSize, 
     isVertical?: boolean,
-    background?: string,
-    width?: number
 }) {
     let gap;
     switch(size) { 
@@ -30,10 +26,8 @@ export default function EmptySpace({
             break; 
         } 
     } 
-    const w = `${width}px`;
     return <div style={{
-        width: isVertical ? w : gap, 
-        height: isVertical ? gap : w,
-        backgroundColor: background ?? 'none'
+        width: isVertical ? '1px' : gap, 
+        height: isVertical ? gap : '1px'
     }}></div>
 }

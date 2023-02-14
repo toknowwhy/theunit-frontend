@@ -2,7 +2,7 @@ import { SUPPORTED_COINS, SUPPORTED_STABLE_COINS } from '@/helpers/constants';
 import { SupportedCoin } from '@/helpers/types';
 import { useTranslations, LocalizedLink } from 'next-intl';
 import CoinLogo from '../CoinLogo';
-import EmptySpace from '../EmptySpace';
+import Divider from '../Divider';
 import styles from './VaultTypeBox.module.scss';
 
 export default function VaultTypeBox() {
@@ -12,7 +12,7 @@ export default function VaultTypeBox() {
         <div className={styles.title}>{t('choose-vault')}</div>
         <div className={styles.typeWrapper}>
             <VaultTypeList isStable={false} />
-            <EmptySpace size='full' background='#1D1D1F' />
+            <Divider />
             <VaultTypeList />
         </div>
     </div>

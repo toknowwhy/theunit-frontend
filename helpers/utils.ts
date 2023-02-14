@@ -13,12 +13,16 @@ export const coinLogoUrl = (coinId: string) => {
     return 'https://api.20y.org/files/logos/' + coinId + '.png';
 };
 
-export const isCoinSupported = (coinId: string) => {
+export const getCoinFromId = (coinId: string) => {
     const arr = SUPPORTED_COINS.concat(SUPPORTED_STABLE_COINS);
     for (let i=0; i<arr.length; i++) {
         if (arr[i].coinId === coinId) {
-            return true;
+            return arr[i];
         }
     }
-    return false;
+    return null;
+}
+
+export const getMinutesToNextHour = () => {
+    return Math.floor((3600000 - new Date().getTime() % 3600000) / 1000 / 60);
 }

@@ -3,7 +3,7 @@
 body {
   background-color: $black;
   margin: 0;
-  font-size: 18px;
+  font-size: $text-body;
   color: $white;
 }
 
@@ -25,9 +25,37 @@ li {
 }
 
 .page-title {
-  font-size: 36px;
+  font-size: $text-lg;
 }
 
-.page-subtitle {
+.grey {
   color: $grey;
+}
+
+.white {
+  color: $white;
+}
+
+.primary-color {
+  color: $primary-color;
+}
+
+.text-sm {
+  font-size: $text-sm;
+}
+
+.text-md {
+  font-size: $text-md;
+}
+
+.text-lg {
+  font-size: $text-lg;
+}
+
+.text-xl {
+  font-size: $text-xl;
+}
+
+.text-center {
+  text-align: center;
 }

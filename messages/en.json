@@ -21,6 +21,17 @@
     },
     "Vault": {
         "choose-vault": "Please Choose a Vault",
-        "vault": "Vault"
+        "vault": "Vault",
+        "vault-id": "Vault ID",
+        "vault-id-info": "A unique id of your vault in The Unit",
+        "stability-fee": "Stability Fee",
+        "stability-fee-info": "Currently it's free to use vaults in The Unit. Later we may collect the stability fee.",
+        "liquidation-fee": "Liquidation Fee",
+        "liquidation-fee-info": "Liquidation Fee",
+        "liquidation-ratio": "Liquidation Ratio",
+        "liquidation-ratio-info": "Liquidation Ratio",
+        "current-price": "Current Price",
+        "next-in": "Next in",
+        "mins": "mins"
     }
 }

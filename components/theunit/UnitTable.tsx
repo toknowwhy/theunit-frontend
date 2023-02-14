@@ -24,7 +24,7 @@ export default function UnitTable({
 
     return <>
         {titleKey && <div className="page-title">{t(titleKey)}</div>}
-        {subtitleKey && <div className="page-subtitle">{t(subtitleKey)}</div>}
+        {subtitleKey && <div className="grey">{t(subtitleKey)}</div>}
         <EmptySpace size="medium" />
         <Table data={data} headers={headers} />
     </>
