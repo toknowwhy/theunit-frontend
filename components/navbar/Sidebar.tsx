@@ -2,8 +2,6 @@
 
 import {useUnlocalizedPathname} from 'next-intl/client';
 import { NavLink } from './MainLayout';
-import menuLogo from '@/public/menu-logo.svg';
-import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Sidebar({ 

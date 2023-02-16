@@ -1,6 +1,5 @@
 import { CoinTableData } from "@/app/db/types"
 import { useTranslations } from "next-intl"
-import EmptySpace from "../EmptySpace";
 import Table from "./Table";
 
 export default function UnitTable({
@@ -8,8 +7,8 @@ export default function UnitTable({
     subtitleKey,
     data
 } : {
-    titleKey?: string,
-    subtitleKey?: string,
+    titleKey: string,
+    subtitleKey: string,
     data: CoinTableData[]
 }) {
     const t = useTranslations("TheUnit");
@@ -23,9 +22,8 @@ export default function UnitTable({
     ]
 
     return <>
-        {titleKey && <div className="page-title">{t(titleKey)}</div>}
-        {subtitleKey && <div className="grey">{t(subtitleKey)}</div>}
-        <EmptySpace size="medium" />
+        <div className="text-4xl">{t(titleKey)}</div>
+        <div className="text-gray mb-6">{t(subtitleKey)}</div>
         <Table data={data} headers={headers} />
     </>
 }

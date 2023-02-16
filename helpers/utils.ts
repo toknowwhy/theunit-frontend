@@ -26,3 +26,7 @@ export const getCoinFromId = (coinId: string) => {
 export const getMinutesToNextHour = () => {
     return Math.floor((3600000 - new Date().getTime() % 3600000) / 1000 / 60);
 }
+
+export const renderPrice = (price: number) => 'Ø' + (price < 0.001 ? price.toFixed(6) : price.toFixed(3));
+
+export const renderBigNumber = (num: number) => numberWithCommas((num / 1000000).toFixed(0))

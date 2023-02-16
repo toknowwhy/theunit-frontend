@@ -1,45 +1,28 @@
-'use client';
-
 import { CoinTableData } from "@/app/db/types";
-import Image from "next/image";
-import redArrow from '@/public/red-arrow.svg';
-import greenArrow from '@/public/green-arrow.svg';
-import { numberWithCommas } from "@/helpers/utils";
-import styles from './Table.module.scss';
-import RowWrapper from "./RowWrapper";
+import { renderPrice, renderBigNumber } from "@/helpers/utils";
 import CoinLogo from "../CoinLogo";
+import PriceChange from "./PriceChange";
+import { LocalizedLink } from "next-intl";
 
 export default function Table({ data, headers } : { data: CoinTableData[], headers: string[] }) {
 
-    const renderPrice = (price: number) => 'Ø' + (price < 0.001 ? price.toFixed(6) : price.toFixed(3));
-    const renderPriceChange = (priceChange: number) => {
-        const cname = priceChange < 0 ? styles.dropped : styles.increased;
-        const imgSrc = priceChange < 0 ? redArrow : greenArrow;
-        const perc = priceChange.toFixed(3).replace('-', '') + '%';
-        return <div className={cname}>
-            <Image src={imgSrc} alt={cname} /> {perc}
-        </div>
-    }
-    const renderBigNumber = (num: number) => numberWithCommas((num / 1000000).toFixed(0))
-    
-
-    return <div className={styles.table}>
-        <div className={styles.headerRow}>
-            {headers.map((h) => <div key={h}>
+    return <div className="grid grid-cols-[90px_2fr_repeat(4,minmax(100px,_1fr))] items-center bg-gray-darker p-4 rounded-lg shadow-2xl font-semibold">
+        <div className="contents text-gray font-normal">
+            {headers.map((h) => <div className="first:pl-6 h-16 leading-[4rem]" key={h}>
                 {h}
             </div>)}
         </div>
         {data.map((d) => (
-            <RowWrapper coinId={d.coin_id} className={styles.bodyRow} key={d.coin_id}>
-                <div>{d.rank}</div>
-                <div className={styles.name}>
+            <LocalizedLink href={`/coins/${d.coin_id}`} className="group contents hover:bg-gray-dark leading-[4rem]" key={d.coin_id}>
+                <div className="group-hover:bg-gray-dark h-16 pl-6 rounded-l-lg">{d.rank}</div>
+                <div className="group-hover:bg-gray-dark h-16 flex gap-4 items-center">
                     <CoinLogo coinId={d.coin_id} /> {d.name}
                 </div>
-                <div>{renderPrice(d.price)}</div>
-                {renderPriceChange(d.price_change_percentage_24h)}
-                <div>{renderBigNumber(d.market_cap)}</div>
-                <div>{renderBigNumber(d.volume)}</div>
-            </RowWrapper>
+                <div className="group-hover:bg-gray-dark h-16">{renderPrice(d.price)}</div>
+                <PriceChange className="group-hover:bg-gray-dark h-16" priceChange={d.price_change_percentage_24h} />
+                <div className="group-hover:bg-gray-dark h-16">{renderBigNumber(d.market_cap)}</div>
+                <div className="group-hover:bg-gray-dark h-16 rounded-r-lg">{renderBigNumber(d.volume)}</div>
+            </LocalizedLink>
         ))}
     </div>
 }
