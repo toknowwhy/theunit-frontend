@@ -4,7 +4,7 @@ import {ReactNode} from 'react';
 import localFont from '@next/font/local';
 import WalletProvider from '../context/wallet';
 import MainLayout from '@/components/navbar/MainLayout';
-import '@/styles/global.scss';
+import '@/styles/global.css';
 
 const avenirFont = localFont({
   src: [
@@ -43,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang={locale} className={avenirFont.className}>
       <head />
-      <body>
+      <body className="text-lg text-text m-0 bg-black-light">
         <WalletProvider>
           <MainLayout>
             {children}

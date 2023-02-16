@@ -1,7 +1,6 @@
 import {useLocale, useTranslations} from 'next-intl';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import styles from './MainLayout.module.scss';
 import { ReactNode } from 'react';
 
 export interface NavLink {
@@ -42,7 +41,7 @@ export default function MainLayout({children} : {children: ReactNode}) {
     return <>
         <Header />
         <Sidebar navLinks={localizedLinks} locale={locale} />
-        <div className={styles.body}>
+        <div className="ml-72 mt-16 px-12 py-14">
             {children}
         </div>
     </>
