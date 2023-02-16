@@ -1,5 +1,4 @@
 import VaultInfoTitle from './VaultInfoTitle';
-import styles from './VaultInfoBox.module.scss';
 
 interface VaultInfoParams {
   title: string;

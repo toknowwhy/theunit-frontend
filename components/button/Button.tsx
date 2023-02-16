@@ -2,7 +2,6 @@
 
 import { LoadingOutlined } from "@ant-design/icons";
 import { ReactNode } from "react";
-import styles from "./Button.module.scss";
 
 export interface ButtonProps {
     disabled?: boolean;
@@ -19,7 +18,7 @@ export default function Button({
 }: ButtonProps) {
     return (
         <div 
-            className={`${styles.button} ${loading && 'loading'} ${disabled && 'disabled'}`} 
+            className=""
             onClick={() => {
                 if (!disabled && !loading) {
                     onClick();

@@ -18,7 +18,8 @@ module.exports = {
       'gray-light': '#E3E4E7',
       'primary': '#4844FF',
       'green': '#15ffab',
-      'red': '#fd4438'
+      'red': '#fd4438',
+      'white': '#ffffff'
     },
   },
   plugins: [],

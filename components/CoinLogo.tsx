@@ -39,6 +39,6 @@ export default function CoinLogo({
                 width={width}
                 height={width}
                 alt={coinId}
-                style={{ backgroundColor: darkCoins.indexOf(coinId) > -1 ? '#fff' : 'transparent'}}
+                className={darkCoins.indexOf(coinId) > -1 ? 'bg-white' : 'bg-none'}
             />
 }

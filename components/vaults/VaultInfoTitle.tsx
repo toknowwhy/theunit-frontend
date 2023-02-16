@@ -10,12 +10,13 @@ export default function VaultInfoTitle({
     title: string,
     info?: string
 }) {
-    return <div className="text-sm grey">
+    return <div className="text-sm text-gray flex items-center">
         {title} {info && (
             <Popover 
-                content={<div className='white'>{info}</div>} 
-                title={<div className='white'>{title}</div>} 
+                content={<div className='text-text'>{info}</div>} 
+                title={<div className='text-text'>{title}</div>} 
                 color="#1D1D1F"
+                className="ml-1"
             >
                 <QuestionCircleOutlined />
             </Popover>
