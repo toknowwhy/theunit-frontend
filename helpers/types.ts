@@ -5,3 +5,9 @@ export interface SupportedCoin {
     name: string;
     symbol: string;
 }
+
+export type VaultActionType =
+ | 'deposit'
+ | 'withdraw'
+ | 'mint'
+ | 'burn'

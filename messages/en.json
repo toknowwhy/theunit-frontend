@@ -32,6 +32,14 @@
         "liquidation-ratio-info": "Liquidation Ratio",
         "current-price": "Current Price",
         "next-in": "Next in",
-        "mins": "mins"
+        "mins": "mins",
+        "deposit": "Deposit {symbol}",
+        "withdraw": "Withdraw {symbol}",
+        "mint": "Mint UNIT",
+        "burn": "Burn UNIT",
+        "create": "Create Vault",
+        "manage": "Manage Vault",
+        "info": "Info",
+        "update": "Update"
     }
 }

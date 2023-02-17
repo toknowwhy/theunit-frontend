@@ -1,4 +1,4 @@
-import { SupportedCoin } from "./types";
+import { SupportedCoin, VaultActionType } from "./types";
 
 export const SUPPORTED_COINS: SupportedCoin[] = [
     {
@@ -25,3 +25,13 @@ export const SUPPORTED_STABLE_COINS: SupportedCoin[] = [
         symbol: "USDT",
     },
 ];
+
+export const VAULT_COLLATERAL_ACTIONS: VaultActionType[] = [
+    "deposit",
+    "withdraw",
+]
+
+export const VAULT_UNIT_ACTIONS: VaultActionType[] = [
+    "mint",
+    "burn",
+]

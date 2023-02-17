@@ -13,10 +13,10 @@ export const coinLogoUrl = (coinId: string) => {
     return 'https://api.20y.org/files/logos/' + coinId + '.png';
 };
 
-export const getCoinFromId = (coinId: string) => {
+export const getCoinFromSymbol = (symbol: string) => {
     const arr = SUPPORTED_COINS.concat(SUPPORTED_STABLE_COINS);
     for (let i=0; i<arr.length; i++) {
-        if (arr[i].coinId === coinId) {
+        if (arr[i].symbol === symbol) {
             return arr[i];
         }
     }
@@ -30,3 +30,11 @@ export const getMinutesToNextHour = () => {
 export const renderPrice = (price: number) => 'Ø' + (price < 0.001 ? price.toFixed(6) : price.toFixed(3));
 
 export const renderBigNumber = (num: number) => numberWithCommas((num / 1000000).toFixed(0))
+
+export const getTranslations = (keys: string[], t: Function): Record<string, string> => {
+    const res: Record<string, string> = {};
+    for (let i=0; i<keys.length; i++) {
+        res[keys[i]] = t(keys[i]);
+    }
+    return res;
+}
