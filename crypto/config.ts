@@ -1,13 +1,18 @@
-import * as ERC20 from './abis/ERC20.json';
-import * as CollateralManager from './abis/CollateralManager.json';
-import * as UnitToken from './abis/UnitToken.json';
-import * as UnitRouterV1 from './abis/UnitRouterV1.json';
-import * as Vault from './abis/Vault.json';
+import { 
+    VaultABI, 
+    ERC20ABI, 
+    CollateralManagerABI, 
+    UnitRouterABI, 
+    UnitTokenABI 
+} from './abis';
 
 import { default as goerliAddresses } from './addresses/goerli.json'
 import { Abi, ContractDesc } from './types';
+import { goerli as goerliChain } from 'wagmi/chains';
 import { keyBy } from 'lodash'
 import { Dictionary } from 'ts-essentials';
+
+export const initialNetwork = goerliChain;
 
 export const supportedCollateralsGoerli = [,
     "USDT"
@@ -25,26 +30,28 @@ function getRpc(network: string): string {
 }
 
 const tokensGoerli = {
-    USDT: contractDesc(ERC20, goerliAddresses.USDT)
+    USDT: contractDesc(ERC20ABI, goerliAddresses.USDT)
 } as Dictionary<ContractDesc>
 
 const goerli = {
-    id: '5',
+    id: 5,
     name: 'goerli',
     label: 'Goerli test network',
     infuraUrl: getRpc('goerli'),
     safeConfirmations: 6,
     tokens: tokensGoerli,
-    collateralManager: contractDesc(CollateralManager, goerliAddresses.COLLATERAL_MANAGER),
-    unitToken: contractDesc(UnitToken, goerliAddresses.UNIT_TOKEN),
-    unitRouter: contractDesc(UnitRouterV1, goerliAddresses.UNIT_ROUTER_V1),
-    vault: contractDesc(Vault, goerliAddresses.VAULT),
+    collateralManager: contractDesc(CollateralManagerABI, goerliAddresses.COLLATERAL_MANAGER),
+    unitToken: contractDesc(UnitTokenABI, goerliAddresses.UNIT_TOKEN),
+    unitRouter: contractDesc(UnitRouterABI, goerliAddresses.UNIT_ROUTER_V1),
+    vault: contractDesc(VaultABI, goerliAddresses.VAULT),
     etherscan: {
         url: 'https://goerli.etherscan.io',
         apiUrl: 'https://api-goerli.etherscan.io/api',
         apiKey: etherscanAPIKey,
     },
 }
+
+export type Network = typeof goerli
 
 const supportedNetworks = [goerli];
 

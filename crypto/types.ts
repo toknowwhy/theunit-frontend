@@ -11,3 +11,9 @@ export interface ContractDesc {
     abi: Abi[];
     address: string;
 }
+
+export type TheUnitContracts = 
+| "collateralManager"
+| "unitToken"
+| "unitRouter"
+| "vault"

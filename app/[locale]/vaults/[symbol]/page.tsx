@@ -1,3 +1,4 @@
+import ManageVault from '@/components/vaults/ManageVault';
 import PriceRow from '@/components/vaults/PriceRow';
 import VaultForm from '@/components/vaults/VaultForm';
 import VaultHeader from '@/components/vaults/VaultHeader';
@@ -34,6 +35,7 @@ export default function ManageVaultPage({
     }
 
     return <>
+        <ManageVault />
         <VaultHeader coin={coin} />
         <PriceRow />
         <VaultForm 

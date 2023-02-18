@@ -11,6 +11,7 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { goerli } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { PropsWithChildren } from 'react';
+import { initialNetwork } from '@/crypto/config';
 
 const { chains, provider } = configureChains(
     [goerli],
@@ -36,7 +37,7 @@ export default function WalletProvider({ children } : PropsWithChildren<{}>) {
           accentColor: '#4844FF'
         })} 
         chains={chains}
-        initialChain={goerli}
+        initialChain={initialNetwork}
       >
         {children}
       </RainbowKitProvider>
