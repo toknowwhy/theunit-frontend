@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers'
 import { AbiInput, AbiItem } from 'web3-utils'
 
 export type Abi = Omit<AbiItem, 'type' | 'stateMutability' | 'inputs'> & {

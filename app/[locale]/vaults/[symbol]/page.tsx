@@ -35,7 +35,7 @@ export default function ManageVaultPage({
     }
 
     return <>
-        <ManageVault />
+        <ManageVault symbol={symbol} />
         <VaultHeader coin={coin} />
         <PriceRow />
         <VaultForm 

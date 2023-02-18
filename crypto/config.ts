@@ -30,7 +30,8 @@ function getRpc(network: string): string {
 }
 
 const tokensGoerli = {
-    USDT: contractDesc(ERC20ABI, goerliAddresses.USDT)
+    USDT: contractDesc(ERC20ABI, goerliAddresses.USDT),
+    ETH: contractDesc(ERC20ABI, goerliAddresses.WETH),
 } as Dictionary<ContractDesc>
 
 const goerli = {

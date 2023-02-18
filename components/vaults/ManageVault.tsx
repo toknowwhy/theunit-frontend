@@ -1,8 +1,12 @@
 'use client';
 
-import { useContractByType } from "@/crypto/hooks/useContractByType";
+import { useCollateralDetail } from "@/crypto/hooks/useCollateralDetail";
 
-export default function ManageVault() {
-    const vaultContract = useContractByType("vault");
-    return <>{vaultContract?.address ?? 'none'}</>
+export default function ManageVault({
+    symbol
+} : {
+    symbol: string
+}) {
+    const { data, isError, isLoading } = useCollateralDetail(symbol);
+    return <>AAAA: {isLoading} BBBB: {isError} CCCC: {data[0].toNumber()}</>
 }
