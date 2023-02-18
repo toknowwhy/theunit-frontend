@@ -1,21 +1,19 @@
 import VaultInfoTitle from './VaultInfoTitle';
 
-interface VaultInfoParams {
-  title: string;
-  info: string;
-  subtitle: string;
-  moreInfo: string;
-}
-
-const VaultInfo: React.FC<VaultInfoParams> = ({
+export default function VaultInfoBox({
   title,
   info,
-  subtitle,
-  moreInfo,
-}) => {
-  return <>
-    <VaultInfoTitle title={title} />
-  </>;
-};
-
-export default VaultInfo;
+  value,
+  moreInfo
+} : {
+  title: string;
+  info: string;
+  value: number;
+  moreInfo?: string;
+}) {
+  return <div className="min-h-[88px]">
+    <VaultInfoTitle title={title} info={info} />
+    <div className="font-bold text-3xl my-1">{value}</div>
+    {moreInfo && <div className="text-xs text-primary">{moreInfo}</div>}
+  </div>;
+}

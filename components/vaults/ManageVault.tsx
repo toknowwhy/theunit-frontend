@@ -31,9 +31,9 @@ export default function ManageVault({
     }
 
 
-    return <>
+    return <div>
         <VaultHeader { ...props } />
         <PriceRow { ...props } />
         <VaultForm { ...props } />
-    </>
+    </div>
 }

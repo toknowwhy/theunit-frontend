@@ -20,7 +20,8 @@ module.exports = {
       'green': '#15ffab',
       'red': '#fd4438',
       'white': '#ffffff',
-      'transparent': 'transparent'
+      'transparent': 'transparent',
+      'gray-border': '#29292F',
     },
   },
   plugins: [],
