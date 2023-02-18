@@ -13,6 +13,13 @@ export interface ContractDesc {
     address: string;
 }
 
+export interface TokenDesc extends ContractDesc {
+    coinId: string;
+    name: string;
+    symbol: string;
+    stable: boolean;
+}
+
 export type TheUnitContracts = 
 | "collateralManager"
 | "unitToken"

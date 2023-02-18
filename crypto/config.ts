@@ -7,10 +7,9 @@ import {
 } from './abis';
 
 import { default as goerliAddresses } from './addresses/goerli.json'
-import { Abi, ContractDesc } from './types';
+import { Abi, ContractDesc, TokenDesc } from './types';
 import { goerli as goerliChain } from 'wagmi/chains';
 import { keyBy } from 'lodash'
-import { Dictionary } from 'ts-essentials';
 
 export const initialNetwork = goerliChain;
 
@@ -22,6 +21,17 @@ export function contractDesc(abi: Abi[], address: string): ContractDesc {
     return { abi, address }
 }
 
+export function tokenDesc(
+    coinId: string, 
+    name: string, 
+    symbol: string, 
+    stable: boolean, 
+    abi: Abi[], 
+    address: string
+): TokenDesc {
+    return { coinId, name, symbol, stable, abi, address }
+}
+
 const infuraProjectId = process.env.INFURA_PROJECT_ID || ''
 const etherscanAPIKey = process.env.ETHERSCAN_API_KEY || ''
 
@@ -29,10 +39,10 @@ function getRpc(network: string): string {
     return `https://${network}.infura.io/v3/${infuraProjectId}`
 }
 
-const tokensGoerli = {
-    USDT: contractDesc(ERC20ABI, goerliAddresses.USDT),
-    ETH: contractDesc(ERC20ABI, goerliAddresses.WETH),
-} as Dictionary<ContractDesc>
+const tokensGoerli = [
+    tokenDesc('ethereum', 'Ethereum', 'ETH', false, ERC20ABI, goerliAddresses.USDT),
+    tokenDesc('usdt', 'Tether', 'USDT', false, ERC20ABI, goerliAddresses.USDT),
+] as Array<TokenDesc>
 
 const goerli = {
     id: 5,

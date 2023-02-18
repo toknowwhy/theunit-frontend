@@ -1,7 +1,5 @@
-import { SUPPORTED_COINS, SUPPORTED_STABLE_COINS } from '@/helpers/constants';
-import { SupportedCoin } from '@/helpers/types';
-import { useTranslations, LocalizedLink } from 'next-intl';
-import CoinLogo from '../CoinLogo';
+import { useTranslations } from 'next-intl';
+import VaultTypeList from './VaultTypeList';
 
 export default function VaultTypeBox() {
     const t = useTranslations('Vault')
@@ -14,25 +12,4 @@ export default function VaultTypeBox() {
             <VaultTypeList />
         </div>
     </div>
-}
-
-
-function VaultTypeList({isStable=true}: {isStable?: boolean}) {
-    
-    const list = isStable ? SUPPORTED_STABLE_COINS : SUPPORTED_COINS;
-    
-    return <div className="flex flex-col gap-8">
-        {list.map((l) => <VaultType key={l.coinId} coin={l} />)}
-    </div>
-}
-
-function VaultType({coin}: {coin: SupportedCoin}) {
-    const t = useTranslations('Vault')
-
-    return <LocalizedLink href={"/vaults/"+coin.symbol} className="flex items-center justify-between cursor-pointer px-3 py-2 text-xl rounded hover:bg-gray-dark">
-        <div>{coin.symbol}-U {t('vault')}</div>
-        <div className="w-8 h-8 bg-white p-1 rounded-3xl">
-            <CoinLogo coinId={coin.coinId} />
-        </div>
-    </LocalizedLink>
 }

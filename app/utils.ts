@@ -1,5 +1,3 @@
-import { SUPPORTED_COINS, SUPPORTED_STABLE_COINS } from "./constants";
-
 export const numberWithCommas = (x: string | undefined) => {
     if (x != undefined) {
         var parts = x.split('.');
@@ -12,16 +10,6 @@ export const numberWithCommas = (x: string | undefined) => {
 export const coinLogoUrl = (coinId: string) => {
     return 'https://api.20y.org/files/logos/' + coinId + '.png';
 };
-
-export const getCoinFromSymbol = (symbol: string) => {
-    const arr = SUPPORTED_COINS.concat(SUPPORTED_STABLE_COINS);
-    for (let i=0; i<arr.length; i++) {
-        if (arr[i].symbol === symbol) {
-            return arr[i];
-        }
-    }
-    return null;
-}
 
 export const getMinutesToNextHour = () => {
     return Math.floor((3600000 - new Date().getTime() % 3600000) / 1000 / 60);
