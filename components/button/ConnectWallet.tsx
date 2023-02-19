@@ -50,10 +50,10 @@ export default function ConnectWallet({ label } : { label?: string }) {
             }
 
             return (
-              <div style={{ display: 'flex', gap: 12 }}>
+              <div className="flex gap-0">
                 <button
                   onClick={openChainModal}
-                  style={{ display: 'flex', alignItems: 'center' }}
+                  className="flex items-center bg-gray-darker rounded-l-lg px-4 text-sm"
                   type="button"
                 >
                   {chain.hasIcon && (
@@ -80,11 +80,12 @@ export default function ConnectWallet({ label } : { label?: string }) {
                   {chain.name}
                 </button>
 
-                <button onClick={openAccountModal} type="button">
+                <button 
+                  className="border border-gray px-4 py-2 rounded-lg text-sm bg-gray-dark"
+                  onClick={openAccountModal} 
+                  type="button"
+                >
                   {account.displayName}
-                  {account.displayBalance
-                    ? ` (${account.displayBalance})`
-                    : ''}
                 </button>
               </div>
             );
