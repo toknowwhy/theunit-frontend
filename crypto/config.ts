@@ -41,7 +41,7 @@ function getRpc(network: string): string {
 
 export const basicTokens = [
     tokenDesc('ethereum', 'Ethereum', 'ETH', false, ERC20ABI, goerliAddresses.USDT),
-    tokenDesc('usdt', 'Tether', 'USDT', false, ERC20ABI, goerliAddresses.USDT),
+    tokenDesc('usdt', 'Tether', 'USDT', true, ERC20ABI, goerliAddresses.USDT),
 ] as Array<TokenDesc>
 
 const goerli = {
