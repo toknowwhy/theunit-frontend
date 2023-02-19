@@ -16,3 +16,8 @@ export interface VaultProp {
     price: number;
     liquidationRatio: number;
 }
+
+export interface ThumbChartDataType {
+    value: number;
+    time: string;
+}

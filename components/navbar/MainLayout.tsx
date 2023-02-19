@@ -23,7 +23,7 @@ const navLinks: NavLink[] = [{
     i18n: "candidates",
 }, {
     label: "One Unit",
-    link: "/one-unit",
+    link: "/unit",
     i18n: "oneunit",
 }, {
     label: "History",

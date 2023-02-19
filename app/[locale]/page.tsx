@@ -5,7 +5,7 @@ import clientPromise from "@/app/db/mongodb";
 async function getData() {
     const client = await clientPromise;
     const db = client.db();
-    const result = getUnitData(db);
+    const result = await getUnitData(db);
   
     return result;
   }
