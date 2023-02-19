@@ -1,4 +1,4 @@
-const thumbChartLimit = 100;
+const thumbChartLimit = 32;
 
 export async function getUnitDailyData(db, usd=false) {
     const lastData = await db.collection("dailydatas").find().sort({ "time": -1 }).limit(thumbChartLimit).toArray();

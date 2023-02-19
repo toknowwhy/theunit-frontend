@@ -11,6 +11,7 @@ module.exports = {
   theme: {
     colors: {
       'text': '#F5F5FF',
+      'text-light': '#F9F9F9',
       'black-light': '#0A0A0A',
       'gray': '#70707C',
       'gray-dark': '#1D1D1F',

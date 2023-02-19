@@ -21,3 +21,5 @@ export interface ThumbChartDataType {
     value: number;
     time: string;
 }
+
+export type CurrencyType = "BTC" | "ETH" | "USD"

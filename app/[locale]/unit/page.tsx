@@ -20,5 +20,5 @@ async function getData() {
 
 export default async function UnitPage() {
     const data = await getData();
-    return <ThumbChart data={data} />
+    return <ThumbChart data={data} currency="BTC" price={1234} />
 }
