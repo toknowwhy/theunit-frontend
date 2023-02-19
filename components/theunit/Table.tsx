@@ -1,8 +1,8 @@
 import { CoinTableData } from "@/app/db/types";
-import { renderPrice, renderBigNumber } from "@/helpers/utils";
+import { renderPrice, renderBigNumber } from "@/app/utils";
 import CoinLogo from "../CoinLogo";
 import PriceChange from "./PriceChange";
-import { LocalizedLink } from "next-intl";
+import { Link } from "next-intl";
 
 export default function Table({ data, headers } : { data: CoinTableData[], headers: string[] }) {
 
@@ -13,7 +13,7 @@ export default function Table({ data, headers } : { data: CoinTableData[], heade
             </div>)}
         </div>
         {data.map((d) => (
-            <LocalizedLink href={`/coins/${d.coin_id}`} className="group contents hover:bg-gray-dark leading-[4rem]" key={d.coin_id}>
+            <Link href={`/coins/${d.coin_id}`} className="group contents hover:bg-gray-dark leading-[4rem]" key={d.coin_id}>
                 <div className="group-hover:bg-gray-dark h-16 pl-6 rounded-l-lg">{d.rank}</div>
                 <div className="group-hover:bg-gray-dark h-16 flex gap-4 items-center">
                     <CoinLogo coinId={d.coin_id} /> {d.name}
@@ -22,7 +22,7 @@ export default function Table({ data, headers } : { data: CoinTableData[], heade
                 <PriceChange className="group-hover:bg-gray-dark h-16" priceChange={d.price_change_percentage_24h} />
                 <div className="group-hover:bg-gray-dark h-16">{renderBigNumber(d.market_cap)}</div>
                 <div className="group-hover:bg-gray-dark h-16 rounded-r-lg">{renderBigNumber(d.volume)}</div>
-            </LocalizedLink>
+            </Link>
         ))}
     </div>
 }

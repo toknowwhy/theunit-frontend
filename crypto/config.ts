@@ -39,7 +39,7 @@ function getRpc(network: string): string {
     return `https://${network}.infura.io/v3/${infuraProjectId}`
 }
 
-const tokensGoerli = [
+export const basicTokens = [
     tokenDesc('ethereum', 'Ethereum', 'ETH', false, ERC20ABI, goerliAddresses.USDT),
     tokenDesc('usdt', 'Tether', 'USDT', false, ERC20ABI, goerliAddresses.USDT),
 ] as Array<TokenDesc>
@@ -50,7 +50,7 @@ const goerli = {
     label: 'Goerli test network',
     infuraUrl: getRpc('goerli'),
     safeConfirmations: 6,
-    tokens: tokensGoerli,
+    tokens: [...basicTokens],
     collateralManager: contractDesc(CollateralManagerABI, goerliAddresses.COLLATERAL_MANAGER),
     unitToken: contractDesc(UnitTokenABI, goerliAddresses.UNIT_TOKEN),
     unitRouter: contractDesc(UnitRouterABI, goerliAddresses.UNIT_ROUTER_V1),

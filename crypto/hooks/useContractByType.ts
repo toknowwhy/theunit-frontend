@@ -4,7 +4,7 @@ import { useCurrentNetwork } from "./useCurrentNetwork"
 
 export const useContractDescByType = (type: TheUnitContracts) => {
     const currentNetwork = useCurrentNetwork();
-    return currentNetwork[type];
+    return currentNetwork ? currentNetwork[type] : null;
 }
 
 export const useContractByType = (type: TheUnitContracts) => {
