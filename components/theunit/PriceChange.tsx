@@ -11,7 +11,7 @@ export default function PriceChange({
 }) {
     const imgSrc = priceChange < 0 ? redArrow : greenArrow;
     const perc = priceChange.toFixed(3).replace('-', '') + '%';
-    return <div className={`flex items-center ${className}`}>
+    return <div className={`grid items-center grid-cols-[20px_1fr] ${className}`}>
         <Image src={imgSrc} alt="arrow" /> 
         <span className={priceChange < 0 ? "text-red" : "text-green"}>{perc}</span>
     </div>

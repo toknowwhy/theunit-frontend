@@ -8,18 +8,17 @@ import BTC from '@/public/btc.svg';
 import ETH from '@/public/eth.svg';
 import USD from '@/public/usd.svg';
 import PriceChange from '../theunit/PriceChange';
+import Link from 'next/link';
 
 
 export default function ThumbChart({
     data,
     active = false,
     currency,
-    price,
 } : {
     data: ThumbChartDataType[],
     active?: boolean,
     currency: CurrencyType,
-    price: number
 }) {
 
 	const chartContainerRef = useRef(null);
@@ -108,18 +107,22 @@ export default function ThumbChart({
     }
 
     const perc = initialValue > 0 ? (diff / initialValue) : 0;
+    const price = currency === 'ETH' ? endValue * 1000 : endValue;
 
-	return (<div className={"bg-black-light/40 backdrop-blur-sm rounded-2xl" + (active ? " shadow-xl shadow-white/10 border border-gray" : "")}>
+	return (<Link 
+                href={`/unit/${currency}`}
+                className={"bg-black-light/40 backdrop-blur-sm rounded-2xl p-6" + (active ? " shadow-lg shadow-white/20 border border-gray" : "")}
+            >
         <div className="flex justify-between items-center mb-4">
             <div>
                 <div className="text-text-light">The Unit (Ø) In {currency}</div>
-                <div className="text-2xl font-semibold">Ø1=6146.23 {unit}</div>
+                <div className="text-2xl font-semibold">Ø1={price.toFixed(3)} {unit}</div>
             </div>
             <Image src={icon} alt={currency} />
         </div>
-		<div className="flex justify-between items-end">
-            <div className="w-56" ref={chartContainerRef}></div>
+		<div className="grid grid-cols-[1fr_88px] items-end">
+            <div className="inline-block pointer-events-none" ref={chartContainerRef}></div>
             <PriceChange className="font-2xl font-semibold" priceChange={perc} />
         </div>
-    </div>);
+    </Link>);
 };
