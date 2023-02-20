@@ -4,8 +4,8 @@ import VaultInfoTitle from "./VaultInfoTitle";
 
 export default function VaultHeader({ collateral, t }: VaultProp) {
 
-    return <div className="flex items-center gap-8">
-        <span className="text-4xl">{collateral.symbol} {t['vault']}</span>
+    return <div className="flex flex-wrap items-center gap-8">
+        <div className="text-4xl">{collateral.symbol} {t['vault']}</div>
         <div className="inline-block w-24 h-20">
             <SplineAnim url="https://prod.spline.design/2XUmnjtG8jRU4zPR/scene.splinecode"  />
         </div>

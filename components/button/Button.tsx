@@ -1,6 +1,5 @@
 'use client';
 
-import { LoadingOutlined } from "@ant-design/icons";
 import { ReactNode } from "react";
 
 export interface ButtonProps {
@@ -25,7 +24,7 @@ export default function Button({
                 }
             }} 
         >
-            {children} {loading && <LoadingOutlined />}
+            {children} {loading && <>...</>}
         </div>
     )
 }
