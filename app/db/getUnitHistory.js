@@ -1,14 +1,14 @@
 import { getCoinsInfo } from "./helpers";
 
-const pageSize = 12;
+export const historyPageSize = 12;
 
 export async function getUnitHistories(db, page=1) {
     const coinData = await db
                             .collection('unitcoinshistories')
                             .find()
                             .sort({ "time": -1 })
-                            .skip( ( page - 1 ) * pageSize )
-                            .limit(pageSize)
+                            .skip( ( page - 1 ) * historyPageSize )
+                            .limit(historyPageSize)
                             .toArray();
     const coinInfo = await getCoinsInfo(db);
     const finalRes = [];
