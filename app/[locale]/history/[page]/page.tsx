@@ -46,6 +46,6 @@ export default async function HistoryPage({params} : {params: {page: string}}) {
     const data = await getData(p);
     const count = await getCount();
 
-    return <HistoryTable data={data} count={count} date={pageDate} />
+    return <HistoryTable page={p} data={data} count={count} date={pageDate} />
 
 }

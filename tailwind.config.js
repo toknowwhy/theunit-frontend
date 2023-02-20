@@ -25,6 +25,8 @@ module.exports = {
       'gray-border': '#29292F',
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide')
+  ]
 }
 
