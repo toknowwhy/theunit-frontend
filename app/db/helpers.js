@@ -2,7 +2,9 @@ const getCoinsDatasInfo = (coinsDatas) => {
     let resj = {};
     for (let i=0; i<coinsDatas.length; i++) {
         const cd = coinsDatas[i];
-        resj[cd["cid"]] = {
+        const cid = cd["cid"];
+        resj[cid] = {
+            id: cid,
             name: cd["name"],
             symbol: cd["symbol"]
         }

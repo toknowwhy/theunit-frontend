@@ -20,11 +20,11 @@ export default async function getUnitData(db, isCandidate=false) {
     })
     
     let result = [];
-    for (var i=0;i<data.length;i++) {
+    for (let i=0;i<data.length;i++) {
         const coin = data[i];
         const cid = coin.coin_id;
-        var coinName;
-        var coinSymbol;
+        let coinName;
+        let coinSymbol;
         if (coinsData[cid] === undefined) {
             coinName = cid;
             coinSymbol = cid;
@@ -32,7 +32,7 @@ export default async function getUnitData(db, isCandidate=false) {
             coinName = coinsData[cid]["name"];
             coinSymbol = coinsData[cid]["symbol"];
         }
-        var resCoin = {
+        let resCoin = {
             ...coin, 
             name: coinName, 
             symbol: coinSymbol,
