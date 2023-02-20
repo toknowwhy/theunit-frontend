@@ -23,3 +23,14 @@ export interface ThumbChartDataType {
 }
 
 export type CurrencyType = "BTC" | "ETH" | "USD"
+
+export interface CoinInfo {
+    id: string;
+    symbol: string;
+    name: string;
+}
+
+export interface HistoryInfo {
+    time: Date;
+    coins: CoinInfo[];
+}

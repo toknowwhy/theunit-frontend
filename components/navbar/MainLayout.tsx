@@ -27,7 +27,7 @@ const navLinks: NavLink[] = [{
     i18n: "oneunit",
 }, {
     label: "History",
-    link: "/histories",
+    link: "/history/1",
     i18n: "histories",
 }];
 

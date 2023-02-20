@@ -41,5 +41,14 @@
         "manage": "Manage Vault",
         "info": "Info",
         "update": "Update"
+    },
+    "History": {
+        "name": "Name",
+        "count": "Count",
+        "coins": "Coins",
+        "history": "History",
+        "filter-by-date": "Filter by date",
+        "go-to": "Go to",
+        "page": "Page"
     }
 }

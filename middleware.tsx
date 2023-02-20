@@ -10,5 +10,5 @@ export default createIntlMiddleware({
 
 export const config = {
   // Skip all non-content paths
-  matcher: ['/((?!api|_next|favicon.ico).*)']
+  matcher: ['/((?!api|_next|favicon.ico|charting_library|bgds).*)']
 };
