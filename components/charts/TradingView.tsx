@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { widget, version } from '@/public/charting_library';
+import { widget, version, ChartingLibraryWidgetOptions } from '@/public/charting_library';
 import { UnitDatafeed } from './datafeed';
 
 function getLanguageFromURL() {
@@ -31,14 +31,14 @@ export class TVChartContainer extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		const widgetOptions = {
+		const widgetOptions: ChartingLibraryWidgetOptions = {
 			symbol: this.props.symbol,
 			// BEWARE: no trailing slash is expected in feed URL
 			datafeed: new UnitDatafeed(),
 			interval: this.props.interval,
 			container: this.ref.current,
 			library_path: this.props.libraryPath,
-
+			theme: 'Dark',
 			locale: getLanguageFromURL() || 'en',
 			disabled_features: ['use_localstorage_for_settings'],
 			enabled_features: ['study_templates'],
