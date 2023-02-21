@@ -5,7 +5,8 @@ import {
 	ResolutionString, 
 	LanguageCode, 
 	AvailableSaveloadVersions, 
-	ThemeName 
+	ThemeName, 
+	ChartingLibraryWidgetOptions
 } from '@/public/charting_library';
 import { UnitDatafeed } from './datafeed';
 
@@ -36,10 +37,11 @@ const TVChartContainer = memo(function TVChartContainer({
 		fullscreen: false,
 		autosize: true,
 		studies_overrides: {},
+		custom_css_url: '/charting_library/custom.css',
 	};
 
 	useEffect(() => {
-		const options = {
+		const options: ChartingLibraryWidgetOptions = {
 			...widgetOptions,
 			container: ref!.current!,
 		}
