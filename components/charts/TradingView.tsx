@@ -1,54 +1,44 @@
 import * as React from 'react';
-import { widget, version, ChartingLibraryWidgetOptions } from '@/public/charting_library';
+import { widget, ChartingLibraryWidgetOptions, IChartingLibraryWidget, ResolutionString, LanguageCode } from '@/public/charting_library';
 import { UnitDatafeed } from './datafeed';
 
-function getLanguageFromURL() {
-	const regex = new RegExp('[\\?&]lang=([^&#]*)');
-	const results = regex.exec(window.location.search);
-	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
-}
-
 export class TVChartContainer extends React.PureComponent {
-	static defaultProps = {
+	static defaultProps: { symbol: string, locale: string } = {
 		symbol: 'UNITSATOSHI',
-		interval: 'D',
-		libraryPath: '/charting_library/',
-		chartsStorageUrl: 'https://saveload.tradingview.com',
-		chartsStorageApiVersion: '1.1',
-		clientId: 'tradingview.com',
-		userId: 'public_user_id',
-		fullscreen: false,
-		autosize: true,
-		studiesOverrides: {},
+		locale: 'en',
 	};
 
-	tvWidget = null;
+	tvWidget: IChartingLibraryWidget | null = null;
+	ref: React.LegacyRef<HTMLDivElement> | null = null;
 
-	constructor(props: any) {
+	constructor(props: { symbol: string, locale: string }) {
 		super(props);
 
-		this.ref = React.createRef();
+		this.ref = React.createRef<HTMLDivElement>();
 	}
 
 	componentDidMount() {
+
+		const containerRef = this.ref as React.LegacyRef<HTMLDivElement>;
+
 		const widgetOptions: ChartingLibraryWidgetOptions = {
-			symbol: this.props.symbol,
+			symbol: (this.props as { symbol: string, locale: string }).symbol,
 			// BEWARE: no trailing slash is expected in feed URL
 			datafeed: new UnitDatafeed(),
-			interval: this.props.interval,
-			container: this.ref.current,
-			library_path: this.props.libraryPath,
+			interval: 'D' as ResolutionString,
+			container: containerRef!.current,
+			library_path: '/charting_library/',
 			theme: 'Dark',
-			locale: getLanguageFromURL() || 'en',
+			locale: (this.props as { symbol: string, locale: string }).locale as LanguageCode,
 			disabled_features: ['use_localstorage_for_settings'],
 			enabled_features: ['study_templates'],
-			charts_storage_url: this.props.chartsStorageUrl,
-			charts_storage_api_version: this.props.chartsStorageApiVersion,
-			client_id: this.props.clientId,
-			user_id: this.props.userId,
-			fullscreen: this.props.fullscreen,
-			autosize: this.props.autosize,
-			studies_overrides: this.props.studiesOverrides,
+			charts_storage_url: 'https://saveload.tradingview.com',
+			charts_storage_api_version: '1.1',
+			client_id: 'tradingview.com',
+			user_id: 'public_user_id',
+			fullscreen: false,
+			autosize: true,
+			studies_overrides: {},
 		};
 
 		const tvWidget = new widget(widgetOptions);
@@ -81,7 +71,9 @@ export class TVChartContainer extends React.PureComponent {
 
 	render() {
 		return (	
-			<div className="h-[660px]" ref={this.ref} />
+			<div className="h-[660px]" ref={(element) => {
+				(this.ref as React.LegacyRef<HTMLDivElement>).current = element;
+			  }} />
 		);
 	}
 }
