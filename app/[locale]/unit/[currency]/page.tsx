@@ -39,6 +39,6 @@ export default async function UnitPage({
                     usdData={data.usd} 
                 />
         </div>
-        <ChartWrapper locale={locale} />
+        <ChartWrapper locale={locale} currency={currency} />
     </>
 }

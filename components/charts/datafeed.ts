@@ -14,7 +14,7 @@ import {
   SubscribeBarsCallback,
   Bar,
   HistoryMetadata,
-} from '@/charting_library/datafeed-api';
+} from '@/public/charting_library/datafeed-api';
 import { Dictionary } from 'ts-essentials';
 
 type PeriodParamsWithOptionalCountback = Omit<PeriodParams, 'countBack'> & {

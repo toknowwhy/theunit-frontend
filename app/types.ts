@@ -24,6 +24,8 @@ export interface ThumbChartDataType {
 
 export type CurrencyType = "BTC" | "ETH" | "USD"
 
+export type ChartSymbolType = "UNITSATOSHI" | "UNITFINNEY" | "UNITUSD"
+
 export interface CoinInfo {
     id: string;
     symbol: string;
