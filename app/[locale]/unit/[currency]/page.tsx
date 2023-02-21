@@ -26,7 +26,7 @@ export default async function UnitPage({
     const currency = params.currency;
     const data = await getData();
     return <>
-        <div className="relative">
+        <div className="relative mb-24">
             <Image 
                 src={bgd} 
                 alt="bgd" 

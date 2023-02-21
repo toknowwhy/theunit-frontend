@@ -81,7 +81,7 @@ export class TVChartContainer extends React.PureComponent {
 
 	render() {
 		return (	
-			<div ref={this.ref} />
+			<div className="h-[660px]" ref={this.ref} />
 		);
 	}
 }
