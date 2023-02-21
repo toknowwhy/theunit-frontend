@@ -15,6 +15,7 @@ import {
   Bar,
   HistoryMetadata,
 } from '@/charting_library/datafeed-api';
+import { Dictionary } from 'ts-essentials';
 
 type PeriodParamsWithOptionalCountback = Omit<PeriodParams, 'countBack'> & {
   countBack?: number;
@@ -157,6 +158,16 @@ export class UnitDatafeed implements IDatafeedChartApi {
     });
   }
 
+  private _objToQueryString(obj: Dictionary<string|number|undefined>) {
+    const keyValuePairs = [];
+    for (const key in obj) {
+      if (obj[key]) {
+        keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]!));
+      }
+    }
+    return keyValuePairs.join('&');
+  }
+
   private _getBars(
     symbolInfo: LibrarySymbolInfo,
     resolution: string,
@@ -178,7 +189,7 @@ export class UnitDatafeed implements IDatafeedChartApi {
         reject: (reason: string) => void,
       ) => {
         const data = {from, to, currency, coinId};
-        fetch('/api/allBars', {body: JSON.stringify(data)})
+        fetch('/api/allBars?'+this._objToQueryString(data))
           .then((response) => response.json())
           .then((allBars) => {
             if (allBars) {

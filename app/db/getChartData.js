@@ -3,7 +3,7 @@ import moment from 'moment';
 
 export async function getAllSymbols(db) {
     const coinsInfo = await getCoinsInfo(db);
-    return coinsInfo; 
+    return Object.values(coinsInfo); 
 }
 
 export async function allBars(db, from, to, currency='BTC', coinId) {
