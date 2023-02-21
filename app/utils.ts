@@ -1,3 +1,8 @@
+import { CurrencyType, PriceInfo, ThumbChartDataType } from "./types";
+import BTC from '@/public/btc.svg';
+import ETH from '@/public/eth.svg';
+import USD from '@/public/usd.svg';
+
 export const numberWithCommas = (x: string | undefined) => {
     if (x != undefined) {
         var parts = x.split('.');
@@ -25,4 +30,34 @@ export const getTranslations = (keys: string[], t: Function): Record<string, str
         res[keys[i]] = t(keys[i]);
     }
     return res;
+}
+
+export const getPriceInfo = (data: ThumbChartDataType[], currency: string): PriceInfo => {
+    const endValue = data[0].value;
+    const initialValue = data[data.length - 1].value;
+    const diff = endValue - initialValue;
+    const perc = initialValue > 0 ? (diff / initialValue) : 0;
+    const price = currency === 'ETH' ? endValue * 1000 : endValue;
+
+    return {
+        price: price,
+        change: diff,
+        changePercentage: perc
+    }
+}
+
+export const getCurrencyInfo = (currency: CurrencyType) => {
+    let unit;
+    let icon;
+    if (currency === 'BTC') {
+        unit = 'SATS';
+        icon = BTC;
+    } else if (currency === 'ETH') {
+        unit = 'FINNEYS';
+        icon = ETH;
+    } else {
+        unit = 'USD';
+        icon = USD;
+    }
+    return {unit, icon};
 }

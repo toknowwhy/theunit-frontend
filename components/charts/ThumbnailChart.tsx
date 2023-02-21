@@ -4,11 +4,9 @@ import React, { useEffect, useRef } from 'react';
 import { CurrencyType, ThumbChartDataType } from '@/app/types';
 import { ColorType, createChart } from 'lightweight-charts';
 import Image from 'next/image';
-import BTC from '@/public/btc.svg';
-import ETH from '@/public/eth.svg';
-import USD from '@/public/usd.svg';
 import PriceChange from '../theunit/PriceChange';
 import Link from 'next/link';
+import { getCurrencyInfo, getPriceInfo } from '@/app/utils';
 
 
 export default function ThumbChart({
@@ -22,10 +20,9 @@ export default function ThumbChart({
 }) {
 
 	const chartContainerRef = useRef(null);
-
-    const endValue = data[0].value;
-    const initialValue = data[data.length - 1].value;
-    const diff = endValue - initialValue;
+  const { price, change, changePercentage } = getPriceInfo(data, currency);
+  const { unit, icon } = getCurrencyInfo(currency);
+  
 
 	useEffect(
 		() => {
@@ -74,9 +71,9 @@ export default function ThumbChart({
 			chart.timeScale().fitContent();
 
 			const newSeries = chart.addAreaSeries({
-                topColor: diff < 0 ? 'rgba(253, 68, 56, 0.8)' : 'rgba(21, 255, 171, 0.8)',
-                lineColor: diff < 0 ? '#FD4438' : '#15FFAB',
-                bottomColor: diff < 0 ? 'rgba(253, 68, 56, 0)' : 'rgba(21, 255, 171, 0)',
+                topColor: change < 0 ? 'rgba(253, 68, 56, 0.8)' : 'rgba(21, 255, 171, 0.8)',
+                lineColor: change < 0 ? '#FD4438' : '#15FFAB',
+                bottomColor: change < 0 ? 'rgba(253, 68, 56, 0)' : 'rgba(21, 255, 171, 0)',
                 lineWidth: 2,
                 priceLineColor: 'transparent',
               });
@@ -90,24 +87,10 @@ export default function ThumbChart({
 				chart.remove();
 			};
 		},
-		[ data ]
+		[ data, change ]
 	);
 
-    let unit;
-    let icon;
-    if (currency === 'BTC') {
-        unit = 'SATS';
-        icon = BTC;
-    } else if (currency === 'ETH') {
-        unit = 'FINNEYS';
-        icon = ETH;
-    } else {
-        unit = 'USD';
-        icon = USD;
-    }
-
-    const perc = initialValue > 0 ? (diff / initialValue) : 0;
-    const price = currency === 'ETH' ? endValue * 1000 : endValue;
+    
 
 	return (<Link 
                 href={`/unit/${currency}`}
@@ -122,7 +105,7 @@ export default function ThumbChart({
         </div>
 		<div className="grid grid-cols-[1fr_88px] items-end">
             <div className="inline-block pointer-events-none" ref={chartContainerRef}></div>
-            <PriceChange className="font-2xl font-semibold" priceChange={perc} />
+            <PriceChange className="font-2xl font-semibold" priceChange={changePercentage} />
         </div>
     </Link>);
 };

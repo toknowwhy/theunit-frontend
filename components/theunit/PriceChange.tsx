@@ -5,14 +5,19 @@ import greenArrow from '@/public/green-arrow.svg';
 export default function PriceChange({
     priceChange,
     className,
+    diff,
 } : {
     priceChange: number,
-    className?: string
+    className?: string,
+    diff?: number,
 }) {
     const imgSrc = priceChange < 0 ? redArrow : greenArrow;
     const perc = priceChange.toFixed(3).replace('-', '') + '%';
-    return <div className={`grid items-center grid-cols-[20px_1fr] ${className}`}>
-        <Image src={imgSrc} alt="arrow" /> 
-        <span className={priceChange < 0 ? "text-red" : "text-green"}>{perc}</span>
+    const sign = priceChange < 0 ? '' : '+';
+    const color = priceChange < 0 ? "text-red" : "text-green";
+    return <div className={`${color} ${className}`}>
+        {diff && <span className="pr-4">{sign}{diff.toFixed(3)}</span>}
+        <Image className="inline-block -mt-[2px]" src={imgSrc} alt="arrow" /> 
+        <span>{perc}</span>
     </div>
 }

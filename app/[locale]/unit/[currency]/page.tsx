@@ -1,20 +1,26 @@
 import { getETHHourlyData, getUnitHourlyData } from "@/app/db/getUnitDailyData";
 import clientPromise from "@/app/db/mongodb";
-import { CurrencyType } from "@/app/types";
+import { CurrencyType, ThumbChartDataType } from "@/app/types";
 import ChartWrapper from "@/components/charts/ChartWrapper";
 import ThumbCharts from "@/components/charts/ThumbCharts";
+import TokenPriceInfo from "@/components/theunit/TokenPriceInfo";
 import bgd from '@/public/thumbs-bgd.svg';
 import { useLocale } from "next-intl";
 import Image from "next/image";
+import { Dictionary } from "ts-essentials";
 
-async function getData() {
+async function getData(): Promise<Dictionary<ThumbChartDataType[]>>  {
     const client = await clientPromise;
     const db = client.db();
     const btc = await getUnitHourlyData(db);
     const eth = await getETHHourlyData(db);
     const usd = await getUnitHourlyData(db, true);
   
-    return {btc, eth, usd};
+    return {
+        BTC: btc,
+        ETH: eth,
+        USD: usd,
+    };
 }
 
 export default async function UnitPage({
@@ -25,6 +31,7 @@ export default async function UnitPage({
     const locale = useLocale();
     const currency = params.currency;
     const data = await getData();
+
     return <>
         <div className="relative mb-24">
             <Image 
@@ -34,11 +41,13 @@ export default async function UnitPage({
             />
             <ThumbCharts
                     currency={currency} 
-                    btcData={data.btc} 
-                    ethData={data.eth} 
-                    usdData={data.usd} 
+                    btcData={data.BTC} 
+                    ethData={data.ETH} 
+                    usdData={data.USD} 
                 />
         </div>
+        <TokenPriceInfo data={data[currency]} currency={currency} />
+        <div className="mb-8"></div>
         <ChartWrapper locale={locale} currency={currency} />
     </>
 }

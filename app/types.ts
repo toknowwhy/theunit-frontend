@@ -36,3 +36,9 @@ export interface HistoryInfo {
     time: Date;
     coins: CoinInfo[];
 }
+
+export interface PriceInfo {
+    price: number;
+    change: number;
+    changePercentage: number;
+}

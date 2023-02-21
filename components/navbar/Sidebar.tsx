@@ -16,7 +16,7 @@ export default function Sidebar({
 
     const pathname = usePathname();
 
-    return <div className="fixed left-0 bottom-0 top-16 w-72 border-r border-gray-dark pt-14">
+    return <div className="fixed left-0 bottom-0 top-16 w-72 border-r border-gray-dark pt-14 z-50">
         <div className="m-0 flex flex-col pl-16 gap-y-14">
             {navLinks.map((link) => {
                 const active = pathname === link.link || pathname?.startsWith(link.link + '/');
