@@ -1,33 +1,60 @@
-'use client';
-
-import {usePathname} from 'next-intl/client';
-import { NavLink } from './MainLayout';
-import Link from 'next/link';
 import Image from 'next/image';
 import menuLogo from '@/public/menu-logo.svg';
+import LinkContainer from './LinkContainer';
+import { Link, useTranslations } from 'next-intl';
 
-export default function Sidebar({ 
-    navLinks,
-    locale
-} : { 
-    navLinks: NavLink[],
-    locale: string
-}) {
+export interface NavLink {
+    link: string;
+    i18n: string;
+    activeKeys: string[];
+}
 
-    const pathname = usePathname();
+export default function Sidebar() {
 
-    return <div className="fixed left-0 bottom-0 top-16 w-72 border-r border-gray-dark pt-14 z-50">
-        <div className="m-0 flex flex-col pl-16 gap-y-14">
-            {navLinks.map((link) => {
-                const active = pathname === link.link || pathname?.startsWith(link.link + '/');
-                return <Link 
+    const navLinks: NavLink[] = [{
+        link: "/",
+        i18n: "theunit",
+        activeKeys: ["/", "/coins"],
+    }, {
+        link: "/vaults",
+        i18n: "vaults",
+        activeKeys: ["/vaults"],
+    }, {
+        link: "/candidates",
+        i18n: "candidates",
+        activeKeys: ["/candidates"],
+    }, {
+        link: "/unit",
+        i18n: "oneunit",
+        activeKeys: ["/unit"],
+    }, {
+        link: "/history/1",
+        i18n: "histories",
+        activeKeys: ["/histories"],
+    }];
+
+    const t = useTranslations();
+
+    return <div className="fixed left-0 bottom-0 top-16 w-72 border-r border-gray-dark pt-14 z-50 pl-16">
+        {navLinks.map((link) => {
+            return <LinkContainer 
+                        className="mb-14 text-gray hover:text-text pl-[46px]"
+                        links={link.activeKeys} 
+                        key={link.i18n}
+                    >
+                <Link 
                     key={link.i18n}
-                    className={active ? 'text-text font-bold relative flex items-center gap-4' : 'text-gray hover:text-text pl-[46px]'}
-                    href={locale === 'en' ? link.link : `/${locale}${link.link}`}
+                    className='group-[.is-active]:font-semibold group-[.is-active]:text-text group-[.is-active]:relative'
+                    href={link.link}
                 >
-                    {active && <Image src={menuLogo} alt="logo" />} {link.label}
-                </Link> 
-            })}
-        </div>
+                    <Image 
+                        className="hidden absolute w-7 -left-11 group-[.is-active]:block" 
+                        src={menuLogo} 
+                        alt="logo" 
+                    />
+                    {t(link.i18n)}
+                </Link>
+            </LinkContainer>
+        })}
     </div>;
 }
