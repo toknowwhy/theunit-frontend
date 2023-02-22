@@ -1,15 +1,25 @@
 import { getCoinsInfo, getStableCoins, getUnitHistory } from "./helpers";
 
+export async function getCandidates(db, ids) {
+    const stableCoins = await getStableCoins(db);
+    const mids = ids.concat(stableCoins);
+    const lastData = await db.collection("coinhourlydatas").find().sort({ "_id": -1 }).limit(1).toArray();
+    const lastTime = lastData[0].time;
+    const nowTime = new Date(lastTime.getTime() - 300000);
+    const data = await db
+                        .collection("coinhourlydatas")
+                        .find({ coin_id: { $nin: mids }, "time" : {"$gte": nowTime} })
+                        .sort({'market_cap': -1})
+                        .limit(ids.length)
+                        .toArray();
+    return data;
+}
+
 export default async function getUnitData(db, isCandidate=false) {
     const ids = await getUnitHistory(db);
     let data;
     if (isCandidate) {
-        const stableCoins = await getStableCoins(db);
-        const mids = ids.concat(stableCoins);
-        const lastData = await db.collection("coinhourlydatas").find().sort({ "_id": -1 }).limit(1).toArray();
-        const lastTime = lastData[0].time;
-        const nowTime = new Date(lastTime.getTime() - 300000);
-        data = await db.collection("coinhourlydatas").find({ coin_id: { $nin: mids }, "time" : {"$gte": nowTime} }).sort({'market_cap': -1}).limit(ids.length).toArray();
+        data = await getCandidates(db, ids);
     } else {
         data = await db.collection("coinhourlydatas").find({ coin_id: { $in: ids } }).sort({'time': -1}).limit(ids.length).toArray();
     }

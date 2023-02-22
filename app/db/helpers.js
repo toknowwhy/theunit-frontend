@@ -1,3 +1,5 @@
+export const thumbChartLimit = 24;
+
 const getCoinsDatasInfo = (coinsDatas) => {
     let resj = {};
     for (let i=0; i<coinsDatas.length; i++) {
@@ -28,8 +30,8 @@ export async function getUnitHistory(db) {
     return idsData[0].coins
 }
 
-export async function getCoinsInfo(db) {
-    const coinsDatas = await db.collection("tokeninfos").find().toArray();
+export async function getCoinsInfo(db, cid) {
+    const coinsDatas = await db.collection("tokeninfos").find(cid ? {cid} : {}).toArray();
     return getCoinsDatasInfo(coinsDatas);
 }
 

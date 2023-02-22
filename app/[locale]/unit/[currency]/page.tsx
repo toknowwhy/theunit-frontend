@@ -1,6 +1,6 @@
 import { getETHHourlyData, getUnitHourlyData } from "@/app/db/getUnitDailyData";
 import clientPromise from "@/app/db/mongodb";
-import { CurrencyType, ThumbChartDataType } from "@/app/types";
+import { ChartSymbolType, CurrencyType, ThumbChartDataType } from "@/app/types";
 import ChartWrapper from "@/components/charts/ChartWrapper";
 import ThumbCharts from "@/components/charts/ThumbCharts";
 import TokenPriceInfo from "@/components/theunit/TokenPriceInfo";
@@ -32,6 +32,9 @@ export default async function UnitPage({
     const currency = params.currency;
     const data = await getData();
 
+    const symbol: ChartSymbolType = currency === 'BTC' ? 'UNITSATOSHI' : 
+        ( currency === 'ETH' ? 'UNITFINNEY' : 'UNITUSD')
+
     return <>
         <div className="relative mb-24">
             <Image 
@@ -48,6 +51,6 @@ export default async function UnitPage({
         </div>
         <TokenPriceInfo data={data[currency]} currency={currency} />
         <div className="mb-8"></div>
-        <ChartWrapper locale={locale} currency={currency} />
+        <ChartWrapper locale={locale} symbol={symbol} />
     </>
 }

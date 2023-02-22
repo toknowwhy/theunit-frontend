@@ -8,7 +8,7 @@ async function getData() {
     const result = await getUnitData(db);
   
     return result;
-  }
+}
 
 export default async function Home() {
   const data = await getData();

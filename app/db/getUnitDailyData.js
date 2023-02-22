@@ -1,4 +1,4 @@
-const thumbChartLimit = 24;
+import { thumbChartLimit } from './helpers';
 
 export async function getUnitHourlyData(db, usd=false) {
     const lastData = await db.collection(usd ? "hourlydatausds" : "hourlydatas").find().sort({ "time": -1 }).limit(thumbChartLimit).toArray();

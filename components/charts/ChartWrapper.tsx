@@ -1,18 +1,15 @@
 'use client';
 
-import { ChartSymbolType, CurrencyType } from '@/app/types';
 import dynamic from 'next/dynamic';
 
 const TVChartContainer = dynamic(() => import('./TradingView'), { ssr: false })
 
 export default function ChartWrapper({
     locale,
-    currency,
+    symbol,
 } : {
     locale: string,
-    currency: CurrencyType,
+    symbol: string,
 }) {
-    const symbol: ChartSymbolType = currency === 'BTC' ? 'UNITSATOSHI' : 
-        ( currency === 'ETH' ? 'UNITFINNEY' : 'UNITUSD')
     return <TVChartContainer locale={locale} symbol={symbol} />
 }
