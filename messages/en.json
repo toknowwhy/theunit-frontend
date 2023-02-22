@@ -10,14 +10,19 @@
     "TheUnit": {
         "indexed-currencies": "Indexed Currencies",
         "indexed-currencies-notes": "*Market Cap and 24h Volume are in millions of units",
-        "table-rank": "Rank",
-        "table-name": "Name",
-        "table-price": "Price",
-        "table-24": "24H",
-        "table-marketcap": "Market Cap*",
-        "table-volume": "24H Volume*",
+        "rank": "Rank",
+        "the-unit-rank": "The Unit Rank",
+        "name": "Name",
+        "price": "Price",
+        "info": "Info",
+        "h24": "24H",
+        "market-cap": "Market Cap",
+        "volume": "24H Volume",
         "candidates": "Candidates",
-        "candidates-notes": "Currencies with potential to be in The Unit"
+        "candidates-notes": "Currencies with potential to be in The Unit",
+        "available-supply": "Available Supply",
+        "dominance": "Dominance",
+        "total-supply": "Total Supply"
     },
     "Vault": {
         "choose-vault": "Please Choose a Vault",

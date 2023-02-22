@@ -13,12 +13,12 @@ export default function UnitTable({
 }) {
     const t = useTranslations("TheUnit");
     const headers = [
-        t('table-rank'),
-        t('table-name'),
-        t('table-price'),
-        t('table-24'),
-        t('table-marketcap'),
-        t('table-volume'),
+        t('rank'),
+        t('name'),
+        t('price'),
+        t('h24'),
+        t('market-cap') + '*',
+        t('volume') + '*',
     ]
 
     return <>

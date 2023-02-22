@@ -1,4 +1,6 @@
+import { averageLifeExpectancyInYears, currentWorldPopulation } from "@/app/constants";
 import { CoinTableData } from "@/app/db/types";
+import { numberWithCommas } from "@/app/utils";
 import { useTranslations } from "next-intl";
 
 export default function TokenInfo({
@@ -7,19 +9,25 @@ export default function TokenInfo({
     coin: CoinTableData
 }) {
 
-    const t = useTranslations('Unit');
+    const t = useTranslations('TheUnit');
+
+    const dominance = ((coin.market_cap / (averageLifeExpectancyInYears * currentWorldPopulation)) * 100).toFixed(3) + '%';
+
+    const infoStr = (value: number | null | undefined) => {
+        return value ? numberWithCommas(value.toFixed(0)) : 'NA';
+    }
 
     return <>
-        <div className="font-semibold text-2xl">
+        <div className="font-semibold text-2xl mt-12 mb-6">
             {coin.name} {t('info')}
         </div>
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-3 gap-y-10">
             <TokenInfoItem title={t('the-unit-rank')} value={coin.rank} />
-            <TokenInfoItem title={t('market-cap')} value={coin.market_cap} />
-            <TokenInfoItem title={t('available-supply')} value={coin.circulating_supply} />
-            <TokenInfoItem title={t('dominance')} value={coin.rank} />
-            <TokenInfoItem title={t('volume-24')} value={coin.volume} />
-            <TokenInfoItem title={t('total-supply')} value={coin.total_supply} />
+            <TokenInfoItem title={t('market-cap')} value={infoStr(coin.market_cap)} />
+            <TokenInfoItem title={t('available-supply')} value={infoStr(coin.circulating_supply)} />
+            <TokenInfoItem title={t('dominance')} value={dominance} />
+            <TokenInfoItem title={t('volume')} value={infoStr(coin.volume)} />
+            <TokenInfoItem title={t('total-supply')} value={infoStr(coin.total_supply)} />
         </div>
     </>
 }
