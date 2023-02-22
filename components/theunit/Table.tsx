@@ -4,7 +4,15 @@ import CoinLogo from "../CoinLogo";
 import PriceChange from "./PriceChange";
 import { Link } from "next-intl";
 
-export default function Table({ data, headers } : { data: CoinTableData[], headers: string[] }) {
+export default function Table({ 
+    data, 
+    headers,
+    isCandidate,
+ } : { 
+    data: CoinTableData[], 
+    headers: string[],
+    isCandidate: boolean 
+}) {
 
     return <div className="grid grid-cols-[90px_2fr_repeat(4,minmax(100px,_1fr))] items-center bg-gray-darker p-4 rounded-lg shadow-2xl font-semibold">
         <div className="contents text-gray font-normal">
@@ -13,7 +21,7 @@ export default function Table({ data, headers } : { data: CoinTableData[], heade
             </div>)}
         </div>
         {data.map((d) => (
-            <Link href={`/coins/${d.coin_id}`} className="group contents hover:bg-gray-dark leading-[4rem]" key={d.coin_id}>
+            <Link href={`${isCandidate ? '/candidates' : ''}/coins/${d.coin_id}`} className="group contents hover:bg-gray-dark leading-[4rem]" key={d.coin_id}>
                 <div className="group-hover:bg-gray-dark h-16 pl-6 rounded-l-lg">{d.rank}</div>
                 <div className="group-hover:bg-gray-dark h-16 flex gap-4 items-center">
                     <CoinLogo coinId={d.coin_id} /> {d.name}

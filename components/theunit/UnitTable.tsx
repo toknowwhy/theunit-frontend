@@ -5,11 +5,13 @@ import Table from "./Table";
 export default function UnitTable({
     titleKey,
     subtitleKey,
-    data
+    data,
+    isCandidate = false,
 } : {
     titleKey: string,
     subtitleKey: string,
-    data: CoinTableData[]
+    data: CoinTableData[],
+    isCandidate?: boolean,
 }) {
     const t = useTranslations("TheUnit");
     const headers = [
@@ -24,6 +26,6 @@ export default function UnitTable({
     return <>
         <div className="text-4xl">{t(titleKey)}</div>
         <div className="text-gray mb-6">{t(subtitleKey)}</div>
-        <Table data={data} headers={headers} />
+        <Table data={data} headers={headers} isCandidate={isCandidate} />
     </>
 }

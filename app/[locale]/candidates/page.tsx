@@ -17,6 +17,7 @@ export default async function Home() {
       titleKey='candidates'
       subtitleKey='candidates-notes'
       data={data}
+      isCandidate={true}
     />
   </>;
 }
