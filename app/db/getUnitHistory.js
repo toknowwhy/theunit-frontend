@@ -1,3 +1,4 @@
+import moment from "moment";
 import { getCoinsInfo } from "./helpers";
 
 export const historyPageSize = 12;
@@ -18,7 +19,7 @@ export async function getUnitHistories(db, page=1) {
             return { ...coinInfo[c] }
         })
         finalRes.push({
-            time: coinData[i].time,
+            time: moment(coinData[i].time).format('YYYY-MM-DD'),
             coins: res
         })
     }

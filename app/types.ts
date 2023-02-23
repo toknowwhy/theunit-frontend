@@ -33,7 +33,7 @@ export interface CoinInfo {
 }
 
 export interface HistoryInfo {
-    time: Date;
+    time: string;
     coins: CoinInfo[];
 }
 
