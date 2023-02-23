@@ -30,7 +30,7 @@ export default function Sidebar() {
     }, {
         link: "/history/1",
         i18n: "histories",
-        activeKeys: ["/histories"],
+        activeKeys: ["/history"],
     }];
 
     const t = useTranslations();
