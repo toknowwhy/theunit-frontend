@@ -23,28 +23,30 @@ export default function Pagination({
 
     const pageTotal = Math.ceil(total / historyPageSize);
 
-    return <div className='flex gap-7 items-center font-semibold'>
-        <Link href={page == 1 ? '#' : getPath(page-1)}>
-            <Image src={prev} alt="Previous" />
-        </Link>
-
-        {range(Math.max(1, page-2), Math.min(pageTotal, page+2)).map((p) => (
-            <Link href={getPath(p)} key={p} className={p == page ? 'bg-gray-light w-9 h-9 rounded-3xl text-black-light text-center leading-9' : ''}>
-                {p}
+    return <>
+        <div className='flex gap-7 items-center font-semibold mb-3'>
+            <Link href={page == 1 ? '#' : getPath(page-1)}>
+                <Image src={prev} alt="Previous" />
             </Link>
-        ))}
 
-        {page + 2 < pageTotal - 1 && <div>...</div>}
+            {range(Math.max(1, page-2), Math.min(pageTotal, page+2)).map((p) => (
+                <Link href={getPath(p)} key={p} className={p == page ? 'bg-gray-light w-9 h-9 rounded-3xl text-black-light text-center leading-9' : ''}>
+                    {p}
+                </Link>
+            ))}
 
-        {page + 2 < pageTotal && <Link href={getPath(pageTotal)}>
-            {pageTotal}
-        </Link>}
-        
+            {page + 2 < pageTotal - 1 && <div>...</div>}
 
-        <Link href={page == pageTotal ? '#' : getPath(page+1)}>
-            <Image src={next} alt="Next" />
-        </Link>
+            {page + 2 < pageTotal && <Link href={getPath(pageTotal)}>
+                {pageTotal}
+            </Link>}
+            
 
-        <GoToPage goto={t('go-to')} page={t('page')} path={path} />
-    </div>
+            <Link href={page == pageTotal ? '#' : getPath(page+1)}>
+                <Image src={next} alt="Next" />
+            </Link>
+            <div className='hidden md:block'><GoToPage goto={t('go-to')} page={t('page')} path={path} /></div>
+        </div>
+        <div className='block md:hidden'><GoToPage goto={t('go-to')} page={t('page')} path={path} /></div>
+    </>
 }

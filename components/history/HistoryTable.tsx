@@ -28,16 +28,16 @@ export default function HistoryTable({
     }
 
     return <>
-        <div className="bg-[url(/bgds/history.png)] text-4xl px-10 h-24 leading-[80px] bg-no-repeat bg-contain mb-5 relative">
+        <div className="bg-[url(/bgds/history.png)] text-4xl px-10 h-20 leading-[80px] bg-no-repeat bg-[size:100%_100%] mb-5 relative">
             {t('history')}
-            <Image className="absolute -right-4 -top-2" src={HistoryLogo} alt="" />
+            <Image className="absolute -right-4 -top-3" src={HistoryLogo} alt="" />
         </div>
         <HistoryDatePicker date={date} />
-        <div className="grid grid-cols-[200px_120px_1fr] my-8">
+        <div className="grid grid-cols-[120px_60px_1fr] md:grid-cols-[200px_120px_1fr] my-8">
             <div>
-                <div className="pl-6 text-gray mb-4">{t('name')}</div>
+                <div className="px-2 md:pl-6 text-gray mb-4">{t('name')}</div>
                 {data.map((history) => {
-                    return <div key={history.time} className="px-6 h-16 leading-[64px] border-b border-b-gray-dark">
+                    return <div key={history.time} className="px-2 md:px-6 h-16 leading-[64px] border-b border-b-gray-dark">
                         {history.time}
                     </div>
                 })}

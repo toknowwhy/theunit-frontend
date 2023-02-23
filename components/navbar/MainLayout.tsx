@@ -9,7 +9,7 @@ export default function MainLayout({children} : {children: ReactNode}) {
         <div className='fixed left-0 bottom-0 top-16 h-screen hidden lg:block'>
             <Sidebar />
         </div>
-        <div className="lg:ml-72 mt-16 px-12 py-14">
+        <div className="lg:ml-72 mt-16 px-4 lg:px-12 py-14">
             {children}
         </div>
     </>
