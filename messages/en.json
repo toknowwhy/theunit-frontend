@@ -4,6 +4,7 @@
     "candidates": "Candidates",
     "oneunit": "One Unit",
     "histories": "History",
+    "goto-theunit": "Go to theunit.one",
     "Web3": {
         "connect-wallet": "Connect Wallet"
     },

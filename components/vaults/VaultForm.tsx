@@ -21,7 +21,7 @@ export default function VaultForm({
     const [collateralValue, setCollateralValue] = useState<number | undefined>(0);
     const [unitValue, setUnitValue] = useState<number | undefined>();
 
-    return <div className="grid grid-cols-[2fr_3fr] gap-8 mt-10">
+    return <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] gap-8 mt-10">
         <div>
             <div className="text-2xl font-bold mb-6">
                 { isManage ? t['manage'] : t['create']}
