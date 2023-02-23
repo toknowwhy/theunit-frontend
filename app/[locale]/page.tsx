@@ -12,11 +12,9 @@ async function getData() {
 
 export default async function Home() {
   const data = await getData();
-  return <>
-    <UnitTable 
-      titleKey='indexed-currencies'
-      subtitleKey='indexed-currencies-notes'
-      data={data}
-    />
-  </>;
+  return <UnitTable 
+            titleKey='indexed-currencies'
+            subtitleKey='indexed-currencies-notes'
+            data={data}
+          />;
 }
