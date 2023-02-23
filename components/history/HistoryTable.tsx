@@ -1,9 +1,10 @@
 import { CoinInfo, HistoryInfo } from "@/app/types";
 import { useTranslations } from "next-intl";
-import { Fragment } from "react";
 import CoinLogo from "../CoinLogo";
 import HistoryDatePicker from "./DatePicker";
 import Pagination from "./Pagination";
+import Image from "next/image";
+import HistoryLogo from "@/public/history-logo.svg";
 
 export default function HistoryTable({
     data,
@@ -27,7 +28,10 @@ export default function HistoryTable({
     }
 
     return <>
-        <div className="bg-[url(/bgds/history.png)] text-4xl px-10 leading-[101px] bg-no-repeat bg-[size:100%_101px] mb-5">{t('history')}</div>
+        <div className="bg-[url(/bgds/history.png)] text-4xl px-10 h-24 leading-[80px] bg-no-repeat bg-contain mb-5 relative">
+            {t('history')}
+            <Image className="absolute -right-4 -top-2" src={HistoryLogo} alt="" />
+        </div>
         <HistoryDatePicker date={date} />
         <div className="grid grid-cols-[200px_120px_1fr] my-8">
             <div>
