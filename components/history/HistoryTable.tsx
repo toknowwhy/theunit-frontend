@@ -57,8 +57,11 @@ export default function HistoryTable({
                 </div>
                 {data.map((history) => {
                     return <div key={history.time} className="h-16 py-4 pr-6 border-b border-b-gray-dark whitespace-nowrap overflow-visible">
-                        {history.coins.map((coin) => <div key={coin.id} className="relative mr-6 inline-block">
+                        {history.coins.map((coin) => <div key={coin.id} className="relative mr-6 inline-block group">
                             <CoinLogo coinId={coin.id} />
+                            <div className="hidden absolute group-hover:block">
+                                {coin.name}
+                            </div>
                         </div>)}
                     </div>
                 })}
