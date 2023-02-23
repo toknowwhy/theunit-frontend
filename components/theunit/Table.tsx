@@ -14,7 +14,7 @@ export default function Table({
     isCandidate: boolean 
 }) {
 
-    return <div className="grid grid-cols-[90px_2fr_repeat(4,minmax(100px,_1fr))] items-center bg-gray-darker p-4 rounded-lg shadow-2xl font-semibold">
+    return <div className="grid grid-cols-[90px_minmax(240px,_2fr)_repeat(4,minmax(120px,_1fr))] items-center bg-gray-darker p-4 rounded-lg shadow-2xl font-semibold overflow-x-scroll">
         <div className="contents text-gray font-normal">
             {headers.map((h) => <div className="first:pl-6 h-16 leading-[4rem]" key={h}>
                 {h}

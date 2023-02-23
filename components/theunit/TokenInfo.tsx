@@ -21,7 +21,7 @@ export default function TokenInfo({
         <div className="font-semibold text-2xl mt-12 mb-6">
             {coin.name} {t('info')}
         </div>
-        <div className="grid grid-cols-3 gap-y-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-y-10">
             <TokenInfoItem title={t('the-unit-rank')} value={coin.rank} />
             <TokenInfoItem title={t('market-cap')} value={infoStr(coin.market_cap)} />
             <TokenInfoItem title={t('available-supply')} value={infoStr(coin.circulating_supply)} />
