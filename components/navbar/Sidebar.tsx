@@ -24,7 +24,7 @@ export default function Sidebar() {
         i18n: "candidates",
         activeKeys: ["/candidates"],
     }, {
-        link: "/unit",
+        link: "/unit/btc",
         i18n: "oneunit",
         activeKeys: ["/unit"],
     }, {
