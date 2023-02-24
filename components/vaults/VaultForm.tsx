@@ -14,6 +14,7 @@ export default function VaultForm({
 } : VaultProp) {
 
     const isManage = id != null;
+    const symbol = collateral.symbol;
 
     const t = useTranslations('Vault');
 
@@ -21,6 +22,7 @@ export default function VaultForm({
     const [unitAction, setUnitAction] = useState<VaultActionType>('mint');
     const [collateralValue, setCollateralValue] = useState<number | undefined>(0);
     const [unitValue, setUnitValue] = useState<number | undefined>();
+
 
     return <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] gap-8 mt-10">
         <div>
@@ -31,12 +33,12 @@ export default function VaultForm({
                 <div className="bg-gray-dark rounded-md p-1 inline-block min-w-[261px] mb-4">
                     <ActionTab 
                         active={collateralAction == 'deposit'} 
-                        title={t('deposit')} 
+                        title={t('deposit', {symbol})} 
                         onClick={() => { setCollateralAction('deposit') }} 
                     />
                     <ActionTab 
                         active={collateralAction == 'withdraw'} 
-                        title={t('withdraw')} 
+                        title={t('withdraw', {symbol})} 
                         onClick={() => { setCollateralAction('withdraw') }} 
                     />
                 </div>
@@ -77,34 +79,31 @@ export default function VaultForm({
             </div>
             <div className="py-10 px-8 bg-gray-darker rounded-lg border-r-8 border-r-gray-border border-b-8 border-b-gray-border grid grid-cols-3 gap-y-16">
                 <VaultInfoBox
-                    title="Liquidation Price"
+                    title={t('liquidation-price')}
                     value={0}
-                    info="The Liquidation Price is the price at which a Vault becomes vulnerable to liquidation."
+                    info={t('liquidation-price-info')}
                 />
                 <VaultInfoBox
-                    title="Liquidation Price"
+                    title={t('vault-unit-debt')}
                     value={0}
-                    info="The Liquidation Price is the price at which a Vault becomes vulnerable to liquidation."
                 />
                 <VaultInfoBox
-                    title="Liquidation Price"
+                    title={t('available-to-generate')}
                     value={0}
-                    info="The Liquidation Price is the price at which a Vault becomes vulnerable to liquidation."
                 />
                 <VaultInfoBox
-                    title="Liquidation Price"
+                    title={t('collateralization-ratio')}
                     value={0}
-                    info="The Liquidation Price is the price at which a Vault becomes vulnerable to liquidation."
+                    info={t('collateralization-ratio-info')}
                 />
                 <VaultInfoBox
-                    title="Liquidation Price"
+                    title={t('collateral-locked')}
                     value={0}
-                    info="The Liquidation Price is the price at which a Vault becomes vulnerable to liquidation."
+                    info={t('collateral-locked-info')}
                 />
                 <VaultInfoBox
-                    title="Liquidation Price"
+                    title={t('available-to-withdraw')}
                     value={0}
-                    info="The Liquidation Price is the price at which a Vault becomes vulnerable to liquidation."
                 />
             </div>
         </div>

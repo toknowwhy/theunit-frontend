@@ -1,3 +1,5 @@
+'use client';
+
 import VaultInfoTitle from './VaultInfoTitle';
 
 export default function VaultInfoBox({
@@ -7,7 +9,7 @@ export default function VaultInfoBox({
   moreInfo
 } : {
   title: string;
-  info: string;
+  info?: string;
   value: number;
   moreInfo?: string;
 }) {

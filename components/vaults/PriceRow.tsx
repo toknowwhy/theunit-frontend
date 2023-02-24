@@ -1,3 +1,5 @@
+'use client';
+
 import { VaultProp } from "@/app/types";
 import { getMinutesToNextHour } from "@/app/utils"
 import { useTranslations } from "next-intl";

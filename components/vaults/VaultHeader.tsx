@@ -1,3 +1,5 @@
+'use client';
+
 import { VaultProp } from "@/app/types";
 import { useTranslations } from "next-intl";
 import SplineAnim from "../SplineAnim";

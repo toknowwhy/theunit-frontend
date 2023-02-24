@@ -5,9 +5,6 @@
     "oneunit": "One Unit",
     "histories": "History",
     "goto-theunit": "Go to theunit.one",
-    "Web3": {
-        "connect-wallet": "Connect Wallet"
-    },
     "TheUnit": {
         "indexed-currencies": "Indexed Currencies",
         "indexed-currencies-notes": "*Market Cap and 24h Volume are in millions of units",
@@ -26,6 +23,8 @@
         "total-supply": "Total Supply"
     },
     "Vault": {
+        "connect-wallet": "Connect Wallet",
+        "switch-network": "Switch Network",
         "choose-vault": "Please Choose a Vault",
         "vault": "Vault",
         "vault-id": "Vault ID",
@@ -46,7 +45,16 @@
         "create": "Create Vault",
         "manage": "Manage Vault",
         "info": "Info",
-        "update": "Update"
+        "update": "Update",
+        "liquidation-price": "Liquidation Price",
+        "liquidation-price-info": "The Liquidation Price is the price at which a Vault becomes vulnerable to liquidation.",
+        "vault-unit-debt": "Vault UNIT Debt",
+        "available-to-generate": "Available to Generate",
+        "collateralization-ratio": "Collateralization Ratio",
+        "collateralization-ratio-info": "Your collateralization ratio is calculated by: value of your collateral / UNIT debt.",
+        "collateral-locked": "Collateral Locked",
+        "collateral-locked-info": "The total value in dollars of the collateral in your vault",
+        "available-to-withdraw": "Available to Withdraw"
     },
     "History": {
         "name": "Name",

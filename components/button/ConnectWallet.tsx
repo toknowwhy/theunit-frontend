@@ -3,7 +3,13 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import Image from 'next/image';
 
-export default function ConnectWallet({ label } : { label?: string }) {
+export default function ConnectWallet({ 
+  connectLabel,
+  networkLabel
+} : { 
+  connectLabel: string,
+  networkLabel: string,
+}) {
     return <ConnectButton.Custom>
     {({
       account,
@@ -36,7 +42,7 @@ export default function ConnectWallet({ label } : { label?: string }) {
             if (!connected) {
               return (
                 <button onClick={openConnectModal} type="button">
-                  Connect Wallet
+                  {connectLabel}
                 </button>
               );
             }
@@ -44,7 +50,7 @@ export default function ConnectWallet({ label } : { label?: string }) {
             if (chain.unsupported) {
               return (
                 <button onClick={openChainModal} type="button">
-                  Switch Network
+                  {networkLabel}
                 </button>
               );
             }

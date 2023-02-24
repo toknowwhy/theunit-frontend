@@ -26,9 +26,9 @@ export default function ManageVault({
         liquidationRatio: data ? data[0].toNumber() : 0
     }
 
-    return <div>
+    return <>
         <VaultHeader { ...props } />
         <PriceRow { ...props } />
         <VaultForm { ...props } />
-    </div>
+    </>
 }
