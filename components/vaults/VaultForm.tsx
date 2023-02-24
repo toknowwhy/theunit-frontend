@@ -1,6 +1,5 @@
 'use client';
 
-import { VAULT_COLLATERAL_ACTIONS, VAULT_UNIT_ACTIONS } from "@/app/constants";
 import { VaultActionType, VaultProp } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -18,24 +17,29 @@ export default function VaultForm({
 
     const t = useTranslations('Vault');
 
-    const [collateralAction, setCollateralAction] = useState<VaultActionType>(VAULT_COLLATERAL_ACTIONS[0]);
-    const [unitAction, setUnitAction] = useState<VaultActionType>(VAULT_UNIT_ACTIONS[0]);
+    const [collateralAction, setCollateralAction] = useState<VaultActionType>('deposit');
+    const [unitAction, setUnitAction] = useState<VaultActionType>('mint');
     const [collateralValue, setCollateralValue] = useState<number | undefined>(0);
     const [unitValue, setUnitValue] = useState<number | undefined>();
 
     return <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] gap-8 mt-10">
         <div>
             <div className="text-2xl font-bold mb-6">
-                { isManage ? t['manage'] : t['create']}
+                { isManage ? t('manage') : t('create')}
             </div>
             <div className="py-10 px-8 bg-gray-darker rounded-lg border-r-8 border-r-gray-border border-b-8 border-b-gray-border">
-                <ActionWrapper 
-                    actions={VAULT_COLLATERAL_ACTIONS}
-                    selectedAction={collateralAction}
-                    translations={t}
-                    onClick={setCollateralAction}
-                />
-                <div className="h-4"></div>
+                <div className="bg-gray-dark rounded-md p-1 inline-block min-w-[261px] mb-4">
+                    <ActionTab 
+                        active={collateralAction == 'deposit'} 
+                        title={t('deposit')} 
+                        onClick={() => { setCollateralAction('deposit') }} 
+                    />
+                    <ActionTab 
+                        active={collateralAction == 'withdraw'} 
+                        title={t('withdraw')} 
+                        onClick={() => { setCollateralAction('withdraw') }} 
+                    />
+                </div>
                 <VaultInput 
                     symbol={collateral.symbol} 
                     onChange={setCollateralValue} 
@@ -43,12 +47,18 @@ export default function VaultForm({
                     unitPrice={1280.0}
                 />
                 <div className="h-8"></div>
-                <ActionWrapper 
-                    actions={VAULT_UNIT_ACTIONS}
-                    selectedAction={unitAction}
-                    translations={t}
-                    onClick={setUnitAction}
-                />
+                <div className="bg-gray-dark rounded-md p-1 inline-block min-w-[261px] mb-4">
+                    <ActionTab 
+                        active={collateralAction == 'mint'} 
+                        title={t('mint')} 
+                        onClick={() => { setUnitAction('mint') }} 
+                    />
+                    <ActionTab 
+                        active={collateralAction == 'burn'} 
+                        title={t('burn')} 
+                        onClick={() => { setUnitAction('burn') }} 
+                    />
+                </div>
                 <div className="h-4"></div>
                 <VaultInput 
                     symbol="UNIT"
@@ -57,13 +67,13 @@ export default function VaultForm({
                 />
                 <div className="h-8"></div>
                 <Button onClick={() => {}}>
-                    { isManage ? t['update'] : t['create']}
+                    { isManage ? t('update') : t('create')}
                 </Button>
             </div>
         </div>
         <div>
             <div className="text-2xl font-bold mb-6">
-                {t['info']}
+                {t('info')}
             </div>
             <div className="py-10 px-8 bg-gray-darker rounded-lg border-r-8 border-r-gray-border border-b-8 border-b-gray-border grid grid-cols-3 gap-y-16">
                 <VaultInfoBox
@@ -98,27 +108,5 @@ export default function VaultForm({
                 />
             </div>
         </div>
-    </div>
-}
-
-function ActionWrapper({
-    actions,
-    selectedAction,
-    translations,
-    onClick
-} : {
-    actions: VaultActionType[],
-    selectedAction: VaultActionType,
-    translations: Record<string, string>,
-    onClick: (action: VaultActionType) => void;
-}) {
-    return <div className="bg-gray-dark rounded-md p-1 inline-block min-w-[261px]">
-        {actions.map((action) => <ActionTab 
-                                    key={action}
-                                    active={selectedAction == action} 
-                                    title={translations[action]} 
-                                    onClick={() => { onClick(action) }} 
-                                />
-        )}
     </div>
 }
