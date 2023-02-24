@@ -1,13 +1,13 @@
 'use client';
 
 import { VaultProp } from "@/app/types";
-import { useTranslations } from "next-intl";
+import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 import SplineAnim from "../SplineAnim";
 import VaultInfoTitle from "./VaultInfoTitle";
 
 export default function VaultHeader({ collateral }: VaultProp) {
 
-    const t = useTranslations('Vault');
+    const t = useVaultTranslations();
 
     return <div className="flex flex-wrap items-center gap-8">
         <div className="text-4xl">{collateral.symbol} {t('vault')}</div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { VaultActionType, VaultProp } from "@/app/types";
-import { useTranslations } from "next-intl";
+import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 import { useState } from "react";
 import Button from "../button/Button";
 import ActionTab from "./ActionTab";
@@ -16,7 +16,7 @@ export default function VaultForm({
     const isManage = id != null;
     const symbol = collateral.symbol;
 
-    const t = useTranslations('Vault');
+    const t = useVaultTranslations();
 
     const [collateralAction, setCollateralAction] = useState<VaultActionType>('deposit');
     const [unitAction, setUnitAction] = useState<VaultActionType>('mint');

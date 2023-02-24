@@ -1,12 +1,12 @@
 'use client';
 
 import { useIsCorrectNetwork } from '@/crypto/hooks/useIsCorrectNetwok';
-import { useTranslations } from 'next-intl';
+import { useVaultTranslations } from '@/crypto/hooks/useVaultTranslations';
 import ConnectWallet from '../button/ConnectWallet';
 
 export default function WithSupportedNetwork({ children } : {children: JSX.Element}) {
 
-    const t = useTranslations('Vault');
+    const t = useVaultTranslations();
 
     const isCorrectNetwork = useIsCorrectNetwork();
     if (isCorrectNetwork) {
