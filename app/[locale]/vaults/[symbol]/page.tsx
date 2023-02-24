@@ -1,6 +1,5 @@
 import ManageVault from '@/components/vaults/ManageVault';
 import { NextIntlClientProvider, useLocale } from 'next-intl';
-import WithSupportedNetwork from '@/components/vaults/WithSupportedNetwork';
 import { pick } from 'lodash';
 
 export default async function ManageVaultPage({
@@ -16,8 +15,6 @@ export default async function ManageVaultPage({
               locale={locale}
               messages={pick(messages, 'Vault')}
             >
-              <WithSupportedNetwork>
-                <ManageVault symbol={symbol} />
-              </WithSupportedNetwork>
+              <ManageVault symbol={symbol} />
            </NextIntlClientProvider>
 }

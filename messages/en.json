@@ -54,7 +54,9 @@
         "collateralization-ratio-info": "Your collateralization ratio is calculated by: value of your collateral / UNIT debt.",
         "collateral-locked": "Collateral Locked",
         "collateral-locked-info": "The total value in dollars of the collateral in your vault",
-        "available-to-withdraw": "Available to Withdraw"
+        "available-to-withdraw": "Available to Withdraw",
+        "not-enough-balance": "You cannot deposit more collateral than the amount in your wallet",
+        "not-enough-unit": "Minimum {num} UNIT need to be minted"
     },
     "History": {
         "name": "Name",

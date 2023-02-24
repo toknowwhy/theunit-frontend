@@ -2,6 +2,7 @@ import { CurrencyType, PriceInfo, ThumbChartDataType } from "./types";
 import BTC from '@/public/btc.svg';
 import ETH from '@/public/eth.svg';
 import USD from '@/public/usd.svg';
+import { ethers } from "ethers";
 
 export const numberWithCommas = (x: string | undefined) => {
     if (x != undefined) {
@@ -52,4 +53,8 @@ export const getCurrencyInfo = (currency: CurrencyType) => {
         icon = USD;
     }
     return {unit, icon};
+}
+
+export const getLiquidateRatio = (number: ethers.BigNumber) => {
+    return 1 / parseFloat(ethers.utils.formatEther(number)) / 100;
 }

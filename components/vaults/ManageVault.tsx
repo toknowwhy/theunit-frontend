@@ -1,12 +1,14 @@
-'use client';
+'use client'
 
 import { VaultProp } from '@/app/types';
+import { getLiquidateRatio } from '@/app/utils';
 import PriceRow from '@/components/vaults/PriceRow';
 import VaultForm from '@/components/vaults/VaultForm';
 import VaultHeader from '@/components/vaults/VaultHeader';
 import { useCollateralDetail } from "@/crypto/hooks/useCollateralDetail";
 import { useSupportedCollaterals } from '@/crypto/hooks/useSupportedCollaterals';
 import { keyBy } from 'lodash';
+import WithSupportedNetwork from './WithSupportedNetwork';
 
 export default function ManageVault({ 
     symbol 
@@ -17,18 +19,20 @@ export default function ManageVault({
     const collateralBySymbol = keyBy(supportedCollaterals, 'symbol');
     const collateral = collateralBySymbol[symbol];
     const { data, isError, isLoading } = useCollateralDetail(symbol);
-
+    
     const price =  1287.0;
-
+    
     const props: VaultProp = {
         collateral,
         price,
-        liquidationRatio: data ? data[0].toNumber() : 0
+        liquidationRatio: data ? getLiquidateRatio(data[0]) : 0
     }
 
-    return <>
-        <VaultHeader { ...props } />
-        <PriceRow { ...props } />
-        <VaultForm { ...props } />
-    </>
+    return <WithSupportedNetwork>
+        <>
+            <VaultHeader { ...props } />
+            <PriceRow { ...props } />
+            <VaultForm { ...props } />
+        </>
+    </WithSupportedNetwork>
 }

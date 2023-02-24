@@ -1,6 +1,8 @@
 'use client';
 
+import { minUnitToMint } from "@/app/constants";
 import { VaultActionType, VaultProp } from "@/app/types";
+import { useMyBalance } from "@/crypto/hooks/useMyBalance";
 import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 import { useState } from "react";
 import Button from "../button/Button";
@@ -11,6 +13,7 @@ import VaultInput from "./VaultInput";
 export default function VaultForm({
     id,
     collateral,
+    price,
 } : VaultProp) {
 
     const isManage = id != null;
@@ -20,8 +23,28 @@ export default function VaultForm({
 
     const [collateralAction, setCollateralAction] = useState<VaultActionType>('deposit');
     const [unitAction, setUnitAction] = useState<VaultActionType>('mint');
-    const [collateralValue, setCollateralValue] = useState<number | undefined>(0);
-    const [unitValue, setUnitValue] = useState<number | undefined>();
+    const [collateralValue, setCollateralValue] = useState<string>('');
+    const [unitValue, setUnitValue] = useState<string>('');
+    const [error, setError] = useState('');
+
+    const myBalance = useMyBalance();
+
+    const onUnitAmountChange = (value: string) => {
+        setUnitValue(value);
+    }
+
+    const onCollateralAmountChange = (value: string) => {
+        setCollateralValue(value);
+        const uv = price * parseFloat(value);
+        setUnitValue(`${uv}`);
+        if (parseFloat(value) > myBalance) {
+            setError(t('not-enough-balance'))
+        } else if (uv < minUnitToMint) {
+            setError(t('not-enough-unit', {num: minUnitToMint}))
+        } else {
+            setError('')
+        }
+    }
 
 
     return <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] gap-8 mt-10">
@@ -44,31 +67,31 @@ export default function VaultForm({
                 </div>
                 <VaultInput 
                     symbol={collateral.symbol} 
-                    onChange={setCollateralValue} 
+                    onChange={onCollateralAmountChange} 
                     value={collateralValue} 
                     unitPrice={1280.0}
                 />
                 <div className="h-8"></div>
                 <div className="bg-gray-dark rounded-md p-1 inline-block min-w-[261px] mb-4">
                     <ActionTab 
-                        active={collateralAction == 'mint'} 
+                        active={unitAction == 'mint'} 
                         title={t('mint')} 
                         onClick={() => { setUnitAction('mint') }} 
                     />
                     <ActionTab 
-                        active={collateralAction == 'burn'} 
+                        active={unitAction == 'burn'} 
                         title={t('burn')} 
                         onClick={() => { setUnitAction('burn') }} 
                     />
                 </div>
-                <div className="h-4"></div>
                 <VaultInput 
                     symbol="UNIT"
-                    onChange={setCollateralValue} 
-                    value={unitValue} 
+                    onChange={onUnitAmountChange} 
+                    value={unitValue}
                 />
                 <div className="h-8"></div>
-                <Button onClick={() => {}}>
+                {error && <div className="rounded-full bg-red/10 text-red px-8 py-3 mb-4 text-sm">{error}</div>}
+                <Button disabled={error.length > 0} onClick={() => {}}>
                     { isManage ? t('update') : t('create')}
                 </Button>
             </div>

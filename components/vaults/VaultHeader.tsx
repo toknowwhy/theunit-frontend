@@ -5,7 +5,7 @@ import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 import SplineAnim from "../SplineAnim";
 import VaultInfoTitle from "./VaultInfoTitle";
 
-export default function VaultHeader({ collateral }: VaultProp) {
+export default function VaultHeader({ collateral, liquidationRatio }: VaultProp) {
 
     const t = useVaultTranslations();
 
@@ -18,7 +18,11 @@ export default function VaultHeader({ collateral }: VaultProp) {
             <VaultInfo title={t('vault-id')} info={t('vault-id-info')} value="TBD" />
             <VaultInfo title={t('stability-fee')} info={t('stability-fee-info')} value="0.00%" />
             <VaultInfo title={t('liquidation-fee')} info={t('liquidation-fee-info')} value="17%" />
-            <VaultInfo title={t('liquidation-ratio')} info={t('liquidation-ratio-info')} value="120%" />
+            <VaultInfo 
+                title={t('liquidation-ratio')} 
+                info={t('liquidation-ratio-info')} 
+                value= {(liquidationRatio*100).toFixed(0)+'%'}
+            />
         </div>
     </div>
 }

@@ -17,7 +17,10 @@ export default function Button({
 }: ButtonProps) {
     return (
         <div 
-            className="cursor-pointer w-full bg-gray-dark text-gray rounded-xl py-3 text-center hover:text-text hover:bg-primary"
+            className={
+                "cursor-pointer w-full bg-gray-dark text-gray rounded-xl py-3 text-center" + 
+                (!disabled && !loading ? ' hover:text-text hover:bg-primary' : '')
+            }
             onClick={() => {
                 if (!disabled && !loading) {
                     onClick();
