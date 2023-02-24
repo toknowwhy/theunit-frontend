@@ -2,6 +2,7 @@
 
 import { VAULT_COLLATERAL_ACTIONS, VAULT_UNIT_ACTIONS } from "@/app/constants";
 import { VaultActionType, VaultProp } from "@/app/types";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import Button from "../button/Button";
 import ActionTab from "./ActionTab";
@@ -11,10 +12,11 @@ import VaultInput from "./VaultInput";
 export default function VaultForm({
     id,
     collateral,
-    t,
 } : VaultProp) {
 
     const isManage = id != null;
+
+    const t = useTranslations('Vault');
 
     const [collateralAction, setCollateralAction] = useState<VaultActionType>(VAULT_COLLATERAL_ACTIONS[0]);
     const [unitAction, setUnitAction] = useState<VaultActionType>(VAULT_UNIT_ACTIONS[0]);

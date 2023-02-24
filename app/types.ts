@@ -12,7 +12,6 @@ export type VaultActionType =
 export interface VaultProp {
     id?: string;
     collateral: TokenDesc;
-    t: Dictionary<string>;
     price: number;
     liquidationRatio: number;
 }

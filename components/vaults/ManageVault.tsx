@@ -7,13 +7,10 @@ import VaultHeader from '@/components/vaults/VaultHeader';
 import { useCollateralDetail } from "@/crypto/hooks/useCollateralDetail";
 import { useSupportedCollaterals } from '@/crypto/hooks/useSupportedCollaterals';
 import { keyBy } from 'lodash';
-import { Dictionary } from 'ts-essentials';
 
 export default function ManageVault({ 
-    translations, 
     symbol 
 } : { 
-    translations: Dictionary<string>, 
     symbol: string
 }) {
     const supportedCollaterals = useSupportedCollaterals();
@@ -26,10 +23,8 @@ export default function ManageVault({
     const props: VaultProp = {
         collateral,
         price,
-        t: translations,
         liquidationRatio: data ? data[0].toNumber() : 0
     }
-
 
     return <div>
         <VaultHeader { ...props } />

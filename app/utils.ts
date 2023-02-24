@@ -24,14 +24,6 @@ export const renderPrice = (price: number) => 'Ø' + (price < 0.001 ? price.toFi
 
 export const renderBigNumber = (num: number) => numberWithCommas((num / 1000000).toFixed(0))
 
-export const getTranslations = (keys: string[], t: Function): Record<string, string> => {
-    const res: Record<string, string> = {};
-    for (let i=0; i<keys.length; i++) {
-        res[keys[i]] = t(keys[i]);
-    }
-    return res;
-}
-
 export const getPriceInfo = (data: ThumbChartDataType[], currency: string): PriceInfo => {
     const endValue = data[0].value;
     const initialValue = data[data.length - 1].value;
