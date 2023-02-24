@@ -1,8 +1,8 @@
 import VaultTypeList from "@/components/vaults/VaultTypeList";
-import { useTranslations } from "next-intl";
+import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 
 export default function VaultPage() {
-    const t = useTranslations('Vault');
+    const t = useVaultTranslations();
 
     return <div className={"w-full max-w-2xl mx-auto bg-gray-darker border border-gray rounded-lg px-8 py-10 mt-24 relative"}>
                 <div className="mb-10 text-2xl">{t('choose-vault')}</div>

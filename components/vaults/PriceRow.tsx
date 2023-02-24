@@ -2,13 +2,13 @@
 
 import { VaultProp } from "@/app/types";
 import { getMinutesToNextHour } from "@/app/utils"
-import { useTranslations } from "next-intl";
+import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 import { ReactNode } from "react"
 
 export default function PriceRow(props: VaultProp) {
 
     const minutes = getMinutesToNextHour();
-    const t = useTranslations('Vault');
+    const t = useVaultTranslations();
     
     return <div className="flex gap-12 md:gap-24 justify-center items-center py-6 border-y border-y-gray-dark mt-10">
         <PriceColumn title={<>{t('current-price')}</>} price={1287.90} />
