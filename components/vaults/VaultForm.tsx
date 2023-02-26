@@ -14,6 +14,7 @@ export default function VaultForm({
     id,
     collateral,
     price,
+    liquidationRatio,
 } : VaultProp) {
 
     const isManage = id != null;
@@ -29,13 +30,17 @@ export default function VaultForm({
 
     const myBalance = useMyBalance();
 
+    const uvalue = parseFloat(unitValue);
+    const cvalue = parseFloat(collateralValue);
+    const ratio = uvalue / (cvalue * price);
+
     const onUnitAmountChange = (value: string) => {
         setUnitValue(value);
     }
 
     const onCollateralAmountChange = (value: string) => {
         setCollateralValue(value);
-        const uv = price * parseFloat(value);
+        const uv = price * parseFloat(value) * liquidationRatio;
         setUnitValue(`${uv}`);
         if (parseFloat(value) > myBalance) {
             setError(t('not-enough-balance'))
@@ -102,31 +107,40 @@ export default function VaultForm({
             </div>
             <div className="py-10 px-8 bg-gray-darker rounded-lg border-r-8 border-r-gray-border border-b-8 border-b-gray-border grid grid-cols-3 gap-y-16">
                 <VaultInfoBox
-                    title={t('liquidation-price')}
+                    title="liquidation-price"
                     value={0}
-                    info={t('liquidation-price-info')}
+                    info="liquidation-price-info"
+                    extraValue={uvalue / cvalue / liquidationRatio}
                 />
                 <VaultInfoBox
-                    title={t('vault-unit-debt')}
+                    title="vault-unit-debt"
                     value={0}
+                    extraValue={uvalue}
                 />
                 <VaultInfoBox
-                    title={t('available-to-generate')}
+                    title="available-to-generate"
                     value={0}
+                    extraValue={cvalue * price * liquidationRatio - uvalue}
                 />
                 <VaultInfoBox
-                    title={t('collateralization-ratio')}
+                    title="collateralization-ratio"
                     value={0}
-                    info={t('collateralization-ratio-info')}
+                    info="collateralization-ratio-info"
+                    extraValue={ratio}
+                    unit="%"
                 />
                 <VaultInfoBox
-                    title={t('collateral-locked')}
+                    title="collateral-locked"
                     value={0}
-                    info={t('collateral-locked-info')}
+                    info="collateral-locked-info"
+                    extraValue={cvalue}
+                    unit={symbol}
                 />
                 <VaultInfoBox
-                    title={t('available-to-withdraw')}
+                    title="available-to-withdraw"
                     value={0}
+                    extraValue={Math.max(0, (cvalue - uvalue / price / liquidationRatio))}
+                    unit={symbol}
                 />
             </div>
         </div>
