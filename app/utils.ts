@@ -58,3 +58,11 @@ export const getCurrencyInfo = (currency: CurrencyType) => {
 export const getLiquidateRatio = (number: ethers.BigNumber) => {
     return 1 / parseFloat(ethers.utils.formatEther(number)) / 100;
 }
+
+export const toFloat = (num: string) => {
+    const res = parseFloat(num);
+    if (isNaN(res)) {
+        return 0;
+    }
+    return res; 
+}

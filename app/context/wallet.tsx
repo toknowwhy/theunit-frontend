@@ -38,6 +38,7 @@ export default function WalletProvider({ children } : PropsWithChildren<{}>) {
         })} 
         chains={chains}
         initialChain={initialNetwork}
+        showRecentTransactions={true}
       >
         {children}
       </RainbowKitProvider>

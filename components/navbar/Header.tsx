@@ -2,7 +2,7 @@ import Image from 'next/image';
 import {Link} from 'next-intl';
 import logo from '@/public/logo.svg';
 import logoSmall from '@/public/logo-small.svg';
-import ConnectWallet from '../button/ConnectWallet';
+import ConnectWallet from '../web3/ConnectWallet';
 import MobileMenu from './MobileMenu';
 import Sidebar from './Sidebar';
 import { useVaultTranslations } from '@/crypto/hooks/useVaultTranslations';

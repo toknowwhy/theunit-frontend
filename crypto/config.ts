@@ -27,9 +27,10 @@ export function tokenDesc(
     symbol: string, 
     stable: boolean, 
     abi: Abi[], 
-    address: string
+    address: string,
+    decimals: number,
 ): TokenDesc {
-    return { coinId, name, symbol, stable, abi, address }
+    return { coinId, name, symbol, stable, abi, address, decimals }
 }
 
 const infuraProjectId = process.env.INFURA_PROJECT_ID || ''
@@ -40,8 +41,8 @@ function getRpc(network: string): string {
 }
 
 export const basicTokens = [
-    tokenDesc('ethereum', 'Ethereum', 'ETH', false, ERC20ABI, goerliAddresses.USDT),
-    tokenDesc('usdt', 'Tether', 'USDT', true, ERC20ABI, goerliAddresses.USDT),
+    tokenDesc('ethereum', 'Ethereum', 'ETH', false, ERC20ABI, goerliAddresses.USDT, 18),
+    tokenDesc('usdt', 'Tether', 'USDT', true, ERC20ABI, goerliAddresses.USDT, 18),
 ] as Array<TokenDesc>
 
 const goerli = {

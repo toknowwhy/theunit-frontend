@@ -2,13 +2,15 @@
 
 import { minUnitToMint } from "@/app/constants";
 import { VaultActionType, VaultProp } from "@/app/types";
-import { useMyBalance } from "@/crypto/hooks/useMyBalance";
 import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 import { useState } from "react";
 import Button from "../button/Button";
 import ActionTab from "./ActionTab";
 import VaultInfoBox from "./VaultInfoBox";
 import VaultInput from "./VaultInput";
+import GasEstimate from "../web3/GasEstimate";
+import { useCollateralBalance } from "@/crypto/hooks/useCollateralBalance";
+import { toFloat } from "@/app/utils";
 
 export default function VaultForm({
     id,
@@ -28,27 +30,45 @@ export default function VaultForm({
     const [unitValue, setUnitValue] = useState<string>('');
     const [error, setError] = useState('');
 
-    const myBalance = useMyBalance();
+    const { balance } = useCollateralBalance(collateral);
+    
+    const uvalue = toFloat(unitValue);
+    const cvalue = toFloat(collateralValue);
+    const ratio = cvalue == 0 ? 0 : (uvalue / (cvalue * price));
 
-    const uvalue = parseFloat(unitValue);
-    const cvalue = parseFloat(collateralValue);
-    const ratio = uvalue / (cvalue * price);
+    const checkError = (uv: string, cv: string) => {
+        const uval = toFloat(uv);
+        const cval = toFloat(cv);
+        if (uval < minUnitToMint) {
+            return t('not-enough-unit', {num: minUnitToMint});
+        } else if (toFloat(ratio.toFixed(2)) < liquidationRatio) {
+            return t('lower-than-ratio');
+        } else if (cval > balance) {
+            return t('not-enough-balance')
+        }
+        return '';
+    }
 
     const onUnitAmountChange = (value: string) => {
         setUnitValue(value);
+        setError(checkError(value, collateralValue));
     }
 
     const onCollateralAmountChange = (value: string) => {
         setCollateralValue(value);
-        const uv = price * parseFloat(value) * liquidationRatio;
-        setUnitValue(`${uv}`);
-        if (parseFloat(value) > myBalance) {
-            setError(t('not-enough-balance'))
-        } else if (uv < minUnitToMint) {
-            setError(t('not-enough-unit', {num: minUnitToMint}))
-        } else {
-            setError('')
+        const uv = (price * toFloat(value) * liquidationRatio).toString();
+        setUnitValue(uv);
+        setError(checkError(uv, value));
+    }
+
+    const createVault = async () => {
+        const error = checkError(unitValue, collateralValue);
+        if (error) {
+            setError(error);
+            return;
         }
+
+
     }
 
 
@@ -95,6 +115,7 @@ export default function VaultForm({
                     value={unitValue}
                 />
                 <div className="h-8"></div>
+                {(cvalue > 0) && !error && <GasEstimate />}
                 {error && <div className="rounded-full bg-red/10 text-red px-8 py-3 mb-4 text-sm">{error}</div>}
                 <Button disabled={error.length > 0} onClick={() => {}}>
                     { isManage ? t('update') : t('create')}

@@ -18,6 +18,7 @@ export interface TokenDesc extends ContractDesc {
     name: string;
     symbol: string;
     stable: boolean;
+    decimals: number;
 }
 
 export type TheUnitContracts = 

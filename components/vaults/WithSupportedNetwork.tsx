@@ -2,7 +2,7 @@
 
 import { useIsCorrectNetwork } from '@/crypto/hooks/useIsCorrectNetwok';
 import { useVaultTranslations } from '@/crypto/hooks/useVaultTranslations';
-import ConnectWallet from '../button/ConnectWallet';
+import ConnectWallet from '../web3/ConnectWallet';
 
 export default function WithSupportedNetwork({ children } : {children: JSX.Element}) {
 
