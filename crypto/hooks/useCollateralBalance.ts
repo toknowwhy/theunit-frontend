@@ -1,4 +1,4 @@
-import { formatEther, formatUnits, parseEther, parseUnits } from "ethers/lib/utils.js";
+import { formatUnits } from "ethers/lib/utils.js";
 import { useAccount, useContractRead } from "wagmi";
 import { TokenDesc } from "../types";
 

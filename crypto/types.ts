@@ -10,7 +10,7 @@ export type Abi = Omit<AbiItem, 'type' | 'stateMutability' | 'inputs'> & {
 
 export interface ContractDesc {
     abi: Abi[];
-    address: string;
+    address: `0x${string}`;
 }
 
 export interface TokenDesc extends ContractDesc {

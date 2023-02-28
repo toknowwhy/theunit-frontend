@@ -4,13 +4,13 @@ import { minUnitToMint } from "@/app/constants";
 import { VaultActionType, VaultProp } from "@/app/types";
 import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 import { useState } from "react";
-import Button from "../button/Button";
 import ActionTab from "./ActionTab";
 import VaultInfoBox from "./VaultInfoBox";
 import VaultInput from "./VaultInput";
 import GasEstimate from "../web3/GasEstimate";
 import { useCollateralBalance } from "@/crypto/hooks/useCollateralBalance";
 import { toFloat } from "@/app/utils";
+import VaultButton from "./VaultButton";
 
 export default function VaultForm({
     id,
@@ -30,7 +30,7 @@ export default function VaultForm({
     const [unitValue, setUnitValue] = useState<string>('');
     const [error, setError] = useState('');
 
-    const { balance } = useCollateralBalance(collateral);
+    const { account, balance } = useCollateralBalance(collateral);
     
     const uvalue = toFloat(unitValue);
     const cvalue = toFloat(collateralValue);
@@ -117,9 +117,14 @@ export default function VaultForm({
                 <div className="h-8"></div>
                 {(cvalue > 0) && !error && <GasEstimate />}
                 {error && <div className="rounded-full bg-red/10 text-red px-8 py-3 mb-4 text-sm">{error}</div>}
-                <Button disabled={error.length > 0} onClick={() => {}}>
-                    { isManage ? t('update') : t('create')}
-                </Button>
+                <VaultButton
+                    collateral={collateral}
+                    collateralAmount={collateralAction === 'deposit' ? cvalue : -cvalue}
+                    unitAmount={unitAction === 'mint' ? uvalue : -uvalue}
+                    disabled={error.length > 0 || uvalue == 0 || cvalue == 0}
+                    isManage={isManage}
+                    account={account}
+                />
             </div>
         </div>
         <div>

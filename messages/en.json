@@ -59,7 +59,8 @@
         "not-enough-unit": "Minimum {num} UNIT need to be minted",
         "lower-than-ratio": "The collateral ratio cannot be lower than the liquidation ratio",
         "after": " after",
-        "check-connection": "Please check your network connection and refresh to try again"
+        "check-connection": "Please check your network connection and refresh to try again",
+        "approve": "Approve"
     },
     "History": {
         "name": "Name",
