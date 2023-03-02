@@ -1,6 +1,7 @@
 'use client';
 
 import { ReactNode } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export interface ButtonProps {
     disabled?: boolean;
@@ -15,19 +16,29 @@ export default function Button({
     onClick, 
     children 
 }: ButtonProps) {
+    let names = "cursor-pointer w-full bg-primary text-text rounded-xl py-3 text-center";
+    if (disabled) {
+        names += " bg-gray-dark text-gray";
+    }
+    if (loading) {
+        names += " bg-primary/50 flex items-center justify-center gap-4";
+    }
+
     return (
         <div 
-            className={
-                "cursor-pointer w-full bg-gray-dark text-gray rounded-xl py-3 text-center" + 
-                (!disabled && !loading ? ' hover:text-text hover:bg-primary' : '')
-            }
+            className={names}
             onClick={() => {
                 if (!disabled && !loading) {
                     onClick();
                 }
             }} 
         >
-            {children} {loading && <>...</>}
+            {children} 
+            {loading && <ClipLoader
+                            color="#ffffff"
+                            size={20}
+                        />
+            }
         </div>
     )
 }

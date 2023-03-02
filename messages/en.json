@@ -60,7 +60,15 @@
         "lower-than-ratio": "The collateral ratio cannot be lower than the liquidation ratio",
         "after": " after",
         "check-connection": "Please check your network connection and refresh to try again",
-        "approve": "Approve"
+        "approve": "Approve",
+        "approving": "Approving",
+        "wallet-confirm": "Pending wallet confirmation",
+        "blockchain-confirm": "Pending blockchain confirmation",
+        "cancelled": "Cancelled",
+        "success": "Success",
+        "error": "Error",
+        "receipt": "Receipt",
+        "transaction-sent-receipt": "Transaction sent! Click to see it in Etherscan."
     },
     "History": {
         "name": "Name",

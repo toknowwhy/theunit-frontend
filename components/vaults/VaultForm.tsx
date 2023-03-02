@@ -11,6 +11,7 @@ import GasEstimate from "../web3/GasEstimate";
 import { useCollateralBalance } from "@/crypto/hooks/useCollateralBalance";
 import { toFloat } from "@/app/utils";
 import VaultButton from "./VaultButton";
+import useDebounce from "@/crypto/hooks/useDebounce";
 
 export default function VaultForm({
     id,
@@ -29,11 +30,13 @@ export default function VaultForm({
     const [collateralValue, setCollateralValue] = useState<string>('');
     const [unitValue, setUnitValue] = useState<string>('');
     const [error, setError] = useState('');
+    const debounceUnitValue = useDebounce(unitValue, 500);
+    const debounceCollateralValue = useDebounce(collateralValue, 500);
 
     const { account, balance } = useCollateralBalance(collateral);
     
-    const uvalue = toFloat(unitValue);
-    const cvalue = toFloat(collateralValue);
+    const uvalue = toFloat(debounceUnitValue);
+    const cvalue = toFloat(debounceCollateralValue);
     const ratio = cvalue == 0 ? 0 : (uvalue / (cvalue * price));
 
     const checkError = (uv: string, cv: string) => {
@@ -115,7 +118,6 @@ export default function VaultForm({
                     value={unitValue}
                 />
                 <div className="h-8"></div>
-                {(cvalue > 0) && !error && <GasEstimate />}
                 {error && <div className="rounded-full bg-red/10 text-red px-8 py-3 mb-4 text-sm">{error}</div>}
                 <VaultButton
                     collateral={collateral}

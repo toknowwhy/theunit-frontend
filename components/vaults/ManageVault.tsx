@@ -8,6 +8,7 @@ import VaultHeader from '@/components/vaults/VaultHeader';
 import { useCollateralDetail } from "@/crypto/hooks/useCollateralDetail";
 import { useSupportedCollaterals } from '@/crypto/hooks/useSupportedCollaterals';
 import { keyBy } from 'lodash';
+import { ToastContainer } from 'react-toastify';
 import WithSupportedNetwork from './WithSupportedNetwork';
 
 export default function ManageVault({ 
@@ -33,6 +34,10 @@ export default function ManageVault({
             <VaultHeader { ...props } />
             <PriceRow { ...props } />
             <VaultForm { ...props } />
+            <ToastContainer 
+                position="top-right"
+                theme='dark'
+            />
         </>
     </WithSupportedNetwork>
 }
