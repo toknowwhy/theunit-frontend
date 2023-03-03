@@ -27,7 +27,7 @@ const VaultButton = memo(function VaultButton(props: VaultButtonProps) {
     const t = useVaultTranslations();
     const { collateral, disabled, isManage } = props;
     if (disabled) {
-        return <Button disabled={disabled} onClick={() => {}}>
+        return <Button disabled>
                     { isManage ? t('update') : t('create')}
                 </Button>
     }
@@ -99,10 +99,35 @@ function ApproveButton(props : VaultButtonProps) {
             </Button>
 }
 
-function ConfirmBtn({ collateral } : VaultButtonProps) {
+function ConfirmBtn({ collateral, account, collateralAmount, isManage } : VaultButtonProps) {
     const t = useVaultTranslations();
-    return <Button onClick={() => {}}>
-        {t('confirm')}
+    const [loading, setLoading] = useState(false);
+    const sendTx = useTx();
+
+    const { refetch: getSigner } = useSigner();
+    const network = useCurrentNetwork();
+
+    const confirm = async () => {
+        const { data: signer } = await getSigner()
+        const callTransaction = buildTx(
+            network.unitRouter, 
+            "increaseCollateral", 
+            signer!,
+            [collateral.address, parseUnits(`${collateralAmount}`, collateral.decimals),  account]
+        )
+        setLoading(true);
+        await sendTx({
+            name: t('deposit', {symbol: collateral.symbol}),
+            callTransaction,
+            callbacks: {
+              
+            }
+        })
+        setLoading(false);
+    }
+
+    return <Button onClick={confirm} loading={loading}>
+        { isManage ? t('update') : t('create')}
     </Button>
 }
 

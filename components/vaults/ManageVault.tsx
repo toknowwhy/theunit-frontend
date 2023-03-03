@@ -21,7 +21,7 @@ export default function ManageVault({
     const collateral = collateralBySymbol[symbol];
     const { data, isError, isLoading } = useCollateralDetail(symbol);
     
-    const price =  1287.0;
+    const price =  0.9;
     
     const props: VaultProp = {
         collateral,

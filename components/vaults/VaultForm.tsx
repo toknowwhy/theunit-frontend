@@ -1,13 +1,12 @@
 'use client';
 
-import { minUnitToMint } from "@/app/constants";
+import { MIN_UNIT_TO_MINT, RECOMMENDED_COLLATERAL } from "@/app/constants";
 import { VaultActionType, VaultProp } from "@/app/types";
 import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 import { useState } from "react";
 import ActionTab from "./ActionTab";
 import VaultInfoBox from "./VaultInfoBox";
 import VaultInput from "./VaultInput";
-import GasEstimate from "../web3/GasEstimate";
 import { useCollateralBalance } from "@/crypto/hooks/useCollateralBalance";
 import { toFloat } from "@/app/utils";
 import VaultButton from "./VaultButton";
@@ -29,7 +28,6 @@ export default function VaultForm({
     const [unitAction, setUnitAction] = useState<VaultActionType>('mint');
     const [collateralValue, setCollateralValue] = useState<string>('');
     const [unitValue, setUnitValue] = useState<string>('');
-    const [error, setError] = useState('');
     const debounceUnitValue = useDebounce(unitValue, 500);
     const debounceCollateralValue = useDebounce(collateralValue, 500);
 
@@ -38,40 +36,25 @@ export default function VaultForm({
     const uvalue = toFloat(debounceUnitValue);
     const cvalue = toFloat(debounceCollateralValue);
     const ratio = cvalue == 0 ? 0 : (uvalue / (cvalue * price));
-
-    const checkError = (uv: string, cv: string) => {
-        const uval = toFloat(uv);
-        const cval = toFloat(cv);
-        if (uval < minUnitToMint) {
-            return t('not-enough-unit', {num: minUnitToMint});
-        } else if (toFloat(ratio.toFixed(2)) < liquidationRatio) {
-            return t('lower-than-ratio');
-        } else if (cval > balance) {
-            return t('not-enough-balance')
-        }
-        return '';
+    let error = '';
+    if (uvalue == 0 && cvalue == 0) {
+        error = '';
+    } else if (uvalue < MIN_UNIT_TO_MINT) {
+        error = t('not-enough-unit', {num: MIN_UNIT_TO_MINT});
+    } else if (ratio < liquidationRatio) {
+        error = t('lower-than-ratio');
+    } else if (cvalue > balance) {
+        error = t('not-enough-balance')
     }
 
     const onUnitAmountChange = (value: string) => {
         setUnitValue(value);
-        setError(checkError(value, collateralValue));
     }
 
     const onCollateralAmountChange = (value: string) => {
         setCollateralValue(value);
-        const uv = (price * toFloat(value) * liquidationRatio).toString();
+        const uv = (price * toFloat(value) * (liquidationRatio+RECOMMENDED_COLLATERAL)).toString();
         setUnitValue(uv);
-        setError(checkError(uv, value));
-    }
-
-    const createVault = async () => {
-        const error = checkError(unitValue, collateralValue);
-        if (error) {
-            setError(error);
-            return;
-        }
-
-
     }
 
 

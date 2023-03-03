@@ -15,7 +15,6 @@ export default function VaultHeader({ collateral, liquidationRatio }: VaultProp)
             <SplineAnim url="https://prod.spline.design/2XUmnjtG8jRU4zPR/scene.splinecode"  />
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 justify-evenly">
-            <VaultInfo title={t('vault-id')} info={t('vault-id-info')} value="TBD" />
             <VaultInfo title={t('stability-fee')} info={t('stability-fee-info')} value="0.00%" />
             <VaultInfo title={t('liquidation-fee')} info={t('liquidation-fee-info')} value="17%" />
             <VaultInfo 

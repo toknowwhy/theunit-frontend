@@ -68,6 +68,7 @@
         "success": "Success",
         "error": "Error",
         "receipt": "Receipt",
+        "confirm": "Confirm",
         "transaction-sent-receipt": "Transaction sent! Click to see it in Etherscan."
     },
     "History": {
