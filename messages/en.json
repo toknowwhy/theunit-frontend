@@ -45,7 +45,7 @@
         "create": "Create Vault",
         "manage": "Manage Vault",
         "info": "Info",
-        "update": "Update",
+        "update": "Update Vault",
         "liquidation-price": "Liquidation Price",
         "liquidation-price-info": "The Liquidation Price is the price at which a Vault becomes vulnerable to liquidation.",
         "vault-unit-debt": "Vault UNIT Debt",
@@ -69,6 +69,7 @@
         "error": "Error",
         "receipt": "Receipt",
         "confirm": "Confirm",
+        "less-than-0": "Cannot be less than 0",
         "transaction-sent-receipt": "Transaction sent! Click to see it in Etherscan."
     },
     "History": {

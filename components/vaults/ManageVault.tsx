@@ -62,5 +62,5 @@ export default function ManageVault({
                 theme='dark'
                 className='max-w-full'
             />
-    </WithSupportedNetwork>
+        </WithSupportedNetwork>
 }

@@ -11,7 +11,6 @@ export type VaultActionType =
  | 'burn'
 
 export interface VaultProp {
-    id?: string;
     collateral: TokenDesc;
     price: number;
     liquidationRatio: number;

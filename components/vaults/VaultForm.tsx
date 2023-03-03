@@ -10,9 +10,10 @@ import VaultInput from "./VaultInput";
 import { toFloat } from "@/app/utils";
 import VaultButton from "./VaultButton";
 import useDebounce from "@/crypto/hooks/useDebounce";
+import { formatEther, formatUnits } from "ethers/lib/utils.js";
+import VaultStats from "./VaultStats";
 
 export default function VaultForm({
-    id,
     collateral,
     price,
     liquidationRatio,
@@ -22,7 +23,9 @@ export default function VaultForm({
     vaultUnitDebt,
 } : VaultProp) {
 
-    const isManage = id != null;
+    const camount = vaultCollateralAmount ? parseFloat(formatUnits(vaultCollateralAmount, collateral.decimals)) : 0;
+    const uamount = vaultUnitDebt ? parseFloat(formatEther(vaultUnitDebt)) : 0;
+    const isManage = camount > 0;
     const symbol = collateral.symbol;
     
     const t = useVaultTranslations();
@@ -37,11 +40,17 @@ export default function VaultForm({
     
     const uvalue = toFloat(debounceUnitValue);
     const cvalue = toFloat(debounceCollateralValue);
-    const ratio = cvalue == 0 ? 0 : (uvalue / (cvalue * price));
+    const finalUnitValue = unitAction === 'mint' ? uvalue : -uvalue;
+    const finalCollateralValue = collateralAction === 'deposit' ? cvalue : -cvalue;
+    const unitValueAfter = finalUnitValue + uamount;
+    const collateralValueAfter = finalCollateralValue + camount;
+    const ratio = collateralValueAfter == 0 ? 0 : (collateralValueAfter * price / unitValueAfter);
     let error = '';
     if (uvalue == 0 && cvalue == 0) {
         error = '';
-    } else if (uvalue < MIN_UNIT_TO_MINT) {
+    } else if (uvalue < 0 || cvalue < 0) {
+        error = t('less-than-0');
+    } else if (unitAction === 'mint' && (uvalue < MIN_UNIT_TO_MINT)) {
         error = t('not-enough-unit', {num: MIN_UNIT_TO_MINT});
     } else if (ratio < liquidationRatio) {
         error = t('lower-than-ratio');
@@ -55,10 +64,18 @@ export default function VaultForm({
 
     const onCollateralAmountChange = (value: string) => {
         setCollateralValue(value);
-        const uv = (price * toFloat(value) * (liquidationRatio+RECOMMENDED_COLLATERAL)).toString();
+        const uv = (price * toFloat(value) / (liquidationRatio+RECOMMENDED_COLLATERAL)).toString();
         setUnitValue(uv);
     }
 
+    const statsProp = {
+        camount,
+        uamount,
+        unitValueAfter,
+        collateralValueAfter,
+        liquidationRatio,
+        price,
+    }
 
     return <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] gap-8 mt-10">
         <div>
@@ -82,7 +99,7 @@ export default function VaultForm({
                     symbol={collateral.symbol} 
                     onChange={onCollateralAmountChange} 
                     value={collateralValue} 
-                    unitPrice={1280.0}
+                    unitPrice={price}
                 />
                 <div className="h-8"></div>
                 <div className="bg-gray-dark rounded-md p-1 inline-block min-w-[261px] mb-4">
@@ -106,8 +123,8 @@ export default function VaultForm({
                 {error && <div className="rounded-full bg-red/10 text-red px-8 py-3 mb-4 text-sm">{error}</div>}
                 <VaultButton
                     collateral={collateral}
-                    collateralAmount={collateralAction === 'deposit' ? cvalue : -cvalue}
-                    unitAmount={unitAction === 'mint' ? uvalue : -uvalue}
+                    collateralAmount={finalCollateralValue}
+                    unitAmount={finalUnitValue}
                     disabled={error.length > 0 || uvalue == 0 || cvalue == 0}
                     isManage={isManage}
                     account={account}
@@ -118,44 +135,7 @@ export default function VaultForm({
             <div className="text-2xl font-bold mb-6">
                 {t('info')}
             </div>
-            <div className="py-10 px-8 bg-gray-darker rounded-lg border-r-8 border-r-gray-border border-b-8 border-b-gray-border grid grid-cols-3 gap-y-16">
-                <VaultInfoBox
-                    title="liquidation-price"
-                    value={0}
-                    info="liquidation-price-info"
-                    extraValue={uvalue / cvalue / liquidationRatio}
-                />
-                <VaultInfoBox
-                    title="vault-unit-debt"
-                    value={0}
-                    extraValue={uvalue}
-                />
-                <VaultInfoBox
-                    title="available-to-generate"
-                    value={0}
-                    extraValue={cvalue * price * liquidationRatio - uvalue}
-                />
-                <VaultInfoBox
-                    title="collateralization-ratio"
-                    value={0}
-                    info="collateralization-ratio-info"
-                    extraValue={ratio}
-                    unit="%"
-                />
-                <VaultInfoBox
-                    title="collateral-locked"
-                    value={0}
-                    info="collateral-locked-info"
-                    extraValue={cvalue}
-                    unit={symbol}
-                />
-                <VaultInfoBox
-                    title="available-to-withdraw"
-                    value={0}
-                    extraValue={Math.max(0, (cvalue - uvalue / price / liquidationRatio))}
-                    unit={symbol}
-                />
-            </div>
+            <VaultStats { ...statsProp } />
         </div>
     </div>
 }
