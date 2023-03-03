@@ -7,7 +7,6 @@ import { useState } from "react";
 import ActionTab from "./ActionTab";
 import VaultInfoBox from "./VaultInfoBox";
 import VaultInput from "./VaultInput";
-import { useCollateralBalance } from "@/crypto/hooks/useCollateralBalance";
 import { toFloat } from "@/app/utils";
 import VaultButton from "./VaultButton";
 import useDebounce from "@/crypto/hooks/useDebounce";
@@ -17,11 +16,15 @@ export default function VaultForm({
     collateral,
     price,
     liquidationRatio,
+    account,
+    balance,
+    vaultCollateralAmount,
+    vaultUnitDebt,
 } : VaultProp) {
 
     const isManage = id != null;
     const symbol = collateral.symbol;
-
+    
     const t = useVaultTranslations();
 
     const [collateralAction, setCollateralAction] = useState<VaultActionType>('deposit');
@@ -31,7 +34,6 @@ export default function VaultForm({
     const debounceUnitValue = useDebounce(unitValue, 500);
     const debounceCollateralValue = useDebounce(collateralValue, 500);
 
-    const { account, balance } = useCollateralBalance(collateral);
     
     const uvalue = toFloat(debounceUnitValue);
     const cvalue = toFloat(debounceCollateralValue);
@@ -43,7 +45,7 @@ export default function VaultForm({
         error = t('not-enough-unit', {num: MIN_UNIT_TO_MINT});
     } else if (ratio < liquidationRatio) {
         error = t('lower-than-ratio');
-    } else if (cvalue > balance) {
+    } else if (!balance || cvalue > balance) {
         error = t('not-enough-balance')
     }
 

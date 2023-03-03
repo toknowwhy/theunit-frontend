@@ -4,13 +4,13 @@ import { useIsCorrectNetwork } from '@/crypto/hooks/useIsCorrectNetwok';
 import { useVaultTranslations } from '@/crypto/hooks/useVaultTranslations';
 import ConnectWallet from '../web3/ConnectWallet';
 
-export default function WithSupportedNetwork({ children } : {children: JSX.Element}) {
+export default function WithSupportedNetwork({ children } : {children: JSX.Element[]}) {
 
     const t = useVaultTranslations();
 
     const isCorrectNetwork = useIsCorrectNetwork();
     if (isCorrectNetwork) {
-        return children;
+        return <>{children}</>;
     }
 
     return <div className='text-center'>

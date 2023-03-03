@@ -1,4 +1,5 @@
 import { TokenDesc } from "@/crypto/types";
+import { BigNumber } from "ethers";
 import { Dictionary } from "ts-essentials";
 
 export type CustomSize = "small" | "medium" | "large" | "full";
@@ -14,6 +15,10 @@ export interface VaultProp {
     collateral: TokenDesc;
     price: number;
     liquidationRatio: number;
+    account?: string;
+    balance?: number|string;
+    vaultCollateralAmount?: BigNumber;
+    vaultUnitDebt?: BigNumber;
 }
 
 export interface ThumbChartDataType {

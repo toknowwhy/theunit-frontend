@@ -1,16 +1,21 @@
 'use client';
 
-import { VaultProp } from "@/app/types";
 import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 import SplineAnim from "../SplineAnim";
 import VaultInfoTitle from "./VaultInfoTitle";
 
-export default function VaultHeader({ collateral, liquidationRatio }: VaultProp) {
+export default function VaultHeader({ 
+    symbol, 
+    liquidationRatio 
+}: {
+    symbol: string,
+    liquidationRatio: number
+}) {
 
     const t = useVaultTranslations();
 
     return <div className="flex flex-wrap items-center gap-8">
-        <div className="text-4xl">{collateral.symbol} {t('vault')}</div>
+        <div className="text-4xl">{symbol} {t('vault')}</div>
         <div className="inline-block w-24 h-20">
             <SplineAnim url="https://prod.spline.design/2XUmnjtG8jRU4zPR/scene.splinecode"  />
         </div>
