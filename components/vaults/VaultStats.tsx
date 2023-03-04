@@ -1,4 +1,4 @@
-import VaultInfoBox from "./VaultInfoBox";
+import VaultInfoBox, { VaultInfoBoxProps } from "./VaultInfoBox";
 
 export default function VaultStats({
     camount,
@@ -7,6 +7,7 @@ export default function VaultStats({
     collateralValueAfter,
     liquidationRatio,
     price,
+    error,
 }: {
     camount: number,
     uamount: number,
@@ -14,6 +15,7 @@ export default function VaultStats({
     collateralValueAfter: number,
     liquidationRatio: number,
     price: number,
+    error: string,
 }) {
     const ratio = collateralValueAfter == 0 ? 0 : (collateralValueAfter * price / unitValueAfter);
     
@@ -33,42 +35,52 @@ export default function VaultStats({
         collateralRatio = 'Infinity';
     }
 
+    let boxes: VaultInfoBoxProps[] = [
+        {
+            title: "liquidation-price",
+            value: `Ø${liquidationPrice}`,
+            info: "liquidation-price-info",
+            extraValue: `Ø${liquidationPriceAfter}`,
+        },
+        {
+            title: "vault-unit-debt",
+            value: uamount,
+            extraValue: unitValueAfter,
+        },
+        {
+            title: "available-to-generate",
+            value: (camount * price * liquidationRatio - uamount).toFixed(2),
+            extraValue: (collateralValueAfter * price * liquidationRatio - unitValueAfter).toFixed(2),
+        },
+        {
+            title: "collateralization-ratio",
+            value: collateralRatio + '%',
+            info: "collateralization-ratio-info",
+            extraValue: (ratio*100).toFixed(2) + '%',
+        },
+        {
+            title: "collateral-locked",
+            value: camount,
+            info: "collateral-locked-info",
+            extraValue: collateralValueAfter,
+        },
+        {
+            title: "available-to-withdraw",
+            value: Math.max(0, (camount - uamount / price / liquidationRatio)),
+            extraValue: Math.max(0, (collateralValueAfter - unitValueAfter / price / liquidationRatio)),
+        },
+    ];
+
+    if (error || (unitValueAfter === uamount && collateralValueAfter === camount)) {
+        boxes = boxes.map((box) => {
+            return { ...box, extraValue: undefined }
+        })
+    }
+
 
     return (
         <div className="py-10 px-8 bg-gray-darker rounded-lg border-r-8 border-r-gray-border border-b-8 border-b-gray-border grid grid-cols-3 gap-y-16">
-            <VaultInfoBox
-                title="liquidation-price"
-                value={`Ø${liquidationPrice}`}
-                info="liquidation-price-info"
-                extraValue={`Ø${liquidationPriceAfter}`}
-            />
-            <VaultInfoBox
-                title="vault-unit-debt"
-                value={uamount}
-                extraValue={unitValueAfter}
-            />
-            <VaultInfoBox
-                title="available-to-generate"
-                value={(camount * price * liquidationRatio - uamount).toFixed(2)}
-                extraValue={(collateralValueAfter * price * liquidationRatio - unitValueAfter).toFixed(2)}
-            />
-            <VaultInfoBox
-                title="collateralization-ratio"
-                value={collateralRatio + '%'}
-                info="collateralization-ratio-info"
-                extraValue={(ratio*100).toFixed(2) + '%'}
-            />
-            <VaultInfoBox
-                title="collateral-locked"
-                value={camount}
-                info="collateral-locked-info"
-                extraValue={collateralValueAfter}
-            />
-            <VaultInfoBox
-                title="available-to-withdraw"
-                value={Math.max(0, (camount - uamount / price / liquidationRatio))}
-                extraValue={Math.max(0, (collateralValueAfter - unitValueAfter / price / liquidationRatio))}
-            />
+            {boxes.map((box) => <VaultInfoBox key={box.title} { ...box } />)}
         </div>
     )
 }

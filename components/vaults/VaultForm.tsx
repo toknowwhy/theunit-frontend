@@ -54,12 +54,12 @@ export default function VaultForm({
         error = t('less-than-0');
     } else if (unitAction === 'mint' && (uvalue < MIN_UNIT_TO_MINT)) {
         error = t('not-enough-unit', {num: MIN_UNIT_TO_MINT});
+    } else if (unitAction === 'burn' && uvalue > (unitBalance ?? 0)) {
+        error = t('not-enough-unit-to-burn')
     } else if (ratio < liquidationRatio) {
         error = t('lower-than-ratio');
     } else if (!balance || cvalue > balance) {
         error = t('not-enough-balance')
-    } else if (unitAction === 'burn' && unitBalance && uvalue > unitBalance) {
-        error = t('not-enough-unit-to-burn')
     }
 
     const onUnitAmountChange = (value: string) => {
@@ -88,6 +88,7 @@ export default function VaultForm({
         collateralValueAfter,
         liquidationRatio,
         price,
+        error,
     }
 
     return <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] gap-8 mt-10">
