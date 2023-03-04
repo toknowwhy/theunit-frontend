@@ -6,13 +6,14 @@ import { useTx } from "@/crypto/hooks/useTx";
 import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 import { TokenDesc } from "@/crypto/types";
 import { BigNumber } from "ethers";
-import { formatUnits, parseUnits } from "ethers/lib/utils.js";
+import { formatUnits, parseEther, parseUnits } from "ethers/lib/utils.js";
 import { useContractRead, useSigner } from "wagmi";
 import Button from "../button/Button";
 import 'react-toastify/dist/ReactToastify.min.css';
 import { memo, useState } from "react";
 import { buildTx } from "@/crypto/utils/buildTx";
 import ClipLoader from "react-spinners/ClipLoader";
+import TxButton from "../web3/TxButton";
 
 export interface VaultButtonProps {
     collateral: TokenDesc;
@@ -99,9 +100,9 @@ function ApproveButton(props : VaultButtonProps) {
             </Button>
 }
 
-function ConfirmBtn({ collateral, account, collateralAmount, isManage } : VaultButtonProps) {
+function ConfirmBtn({ collateral, account, collateralAmount, isManage, unitAmount } : VaultButtonProps) {
     const t = useVaultTranslations();
-    const [loading, setLoading] = useState(false);
+    const [txId, setTxId] = useState('');
     const sendTx = useTx();
 
     const { refetch: getSigner } = useSigner();
@@ -115,20 +116,37 @@ function ConfirmBtn({ collateral, account, collateralAmount, isManage } : VaultB
             signer!,
             [collateral.address, parseUnits(`${collateralAmount}`, collateral.decimals),  account]
         )
-        setLoading(true);
-        await sendTx({
+        const txId = await sendTx({
             name: t('deposit', {symbol: collateral.symbol}),
+            callTransaction,
+            callbacks: {
+              onSuccess: mint
+            }
+        })
+        setTxId(txId);
+    }
+
+    const mint = async () => {
+        const { data: signer } = await getSigner()
+        const callTransaction = buildTx(
+            network.unitToken, 
+            "mint", 
+            signer!,
+            [account, parseEther(`${unitAmount}`), collateral.address]
+        )
+        const txId = await sendTx({
+            name: t('mint'),
             callTransaction,
             callbacks: {
               
             }
         })
-        setLoading(false);
+        setTxId(txId);
     }
 
-    return <Button onClick={confirm} loading={loading}>
+    return <TxButton txId={txId}  onClick={confirm}>
         { isManage ? t('update') : t('create')}
-    </Button>
+    </TxButton>
 }
 
 export default VaultButton;

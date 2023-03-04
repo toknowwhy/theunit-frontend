@@ -1,0 +1,23 @@
+import { useAtomTransaction } from "@/crypto/hooks/useAtomTransaction";
+import { TransactionState } from "@/crypto/types";
+import { ReactNode } from "react";
+import Button from "../button/Button";
+
+export default function TxButton({ 
+    txId,
+    loading = false,
+    onClick,
+    children,
+} : { 
+    txId: string,
+    loading?: boolean,
+    onClick: () => void,
+    children: ReactNode,
+}) {
+    const transaction = useAtomTransaction(txId);
+    const isLoading = loading || transaction?.state === TransactionState.pending
+
+    return <Button onClick={onClick} loading={isLoading}>
+        { children }
+    </Button>
+}
