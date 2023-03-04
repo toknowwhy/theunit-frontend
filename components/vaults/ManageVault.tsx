@@ -26,6 +26,7 @@ export default function ManageVault({
     const { data } = useCollateralDetail(symbol);
     const currentNetwork = useCurrentNetwork();
     const { account, balance } = useCollateralBalance(collateral);
+    const { balance: unitBalance } = useCollateralBalance(currentNetwork.unitToken);
     const enabled = Boolean(currentNetwork) && Boolean(account) && Boolean(collateral);
     const { data: vaultCollateralAmount } = useContractRead({
         ...currentNetwork.vault,
@@ -50,7 +51,8 @@ export default function ManageVault({
         account,
         balance,
         vaultCollateralAmount: vaultCollateralAmount as BigNumber,
-        vaultUnitDebt: vaultUnitDebt as BigNumber
+        vaultUnitDebt: vaultUnitDebt as BigNumber,
+        unitBalance,
     }
 
     return <WithSupportedNetwork>

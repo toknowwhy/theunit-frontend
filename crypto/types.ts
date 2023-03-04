@@ -25,6 +25,10 @@ export function instanceOfContractDesc(object: any): object is ContractDesc {
     return 'abi' in object && 'address' in object;
 }
 
+export function instanceOfTokenDesc(object: any): object is TokenDesc {
+    return 'decimals' in object;
+}
+
 export type TheUnitContracts = 
 | "collateralManager"
 | "unitToken"

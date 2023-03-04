@@ -11,6 +11,7 @@ import VaultButton from "./VaultButton";
 import useDebounce from "@/crypto/hooks/useDebounce";
 import { formatEther, formatUnits } from "ethers/lib/utils.js";
 import VaultStats from "./VaultStats";
+import TokenBalance from "./TokenBalance";
 
 export default function VaultForm({
     collateral,
@@ -20,6 +21,7 @@ export default function VaultForm({
     balance,
     vaultCollateralAmount,
     vaultUnitDebt,
+    unitBalance,
 } : VaultProp) {
 
     const camount = vaultCollateralAmount ? parseFloat(formatUnits(vaultCollateralAmount, collateral.decimals)) : 0;
@@ -56,6 +58,8 @@ export default function VaultForm({
         error = t('lower-than-ratio');
     } else if (!balance || cvalue > balance) {
         error = t('not-enough-balance')
+    } else if (unitAction === 'burn' && unitBalance && uvalue > unitBalance) {
+        error = t('not-enough-unit-to-burn')
     }
 
     const onUnitAmountChange = (value: string) => {
@@ -92,36 +96,42 @@ export default function VaultForm({
                 { isManage ? t('manage') : t('create')}
             </div>
             <div className="py-10 px-8 bg-gray-darker rounded-lg border-r-8 border-r-gray-border border-b-8 border-b-gray-border">
-                <div className="bg-gray-dark rounded-md p-1 inline-block min-w-[261px] mb-4">
-                    <ActionTab 
-                        active={collateralAction == 'deposit'} 
-                        title={t('deposit', {symbol})} 
-                        onClick={() => { onCollateralActionChange('deposit') }} 
-                    />
-                    <ActionTab 
-                        active={collateralAction == 'withdraw'} 
-                        title={t('withdraw', {symbol})} 
-                        onClick={() => { onCollateralActionChange('withdraw') }} 
-                    />
+                <div className="flex justify-between items-center mb-4">
+                    <div className="bg-gray-dark rounded-md p-1 inline-block min-w-[261px]">
+                        <ActionTab 
+                            active={collateralAction == 'deposit'} 
+                            title={t('deposit', {symbol})} 
+                            onClick={() => { onCollateralActionChange('deposit') }} 
+                        />
+                        <ActionTab 
+                            active={collateralAction == 'withdraw'} 
+                            title={t('withdraw', {symbol})} 
+                            onClick={() => { onCollateralActionChange('withdraw') }} 
+                        />
+                    </div>
+                    <TokenBalance balance={balance} />
                 </div>
+                
                 <VaultInput 
                     symbol={collateral.symbol} 
                     onChange={onCollateralAmountChange} 
                     value={collateralValue} 
                     unitPrice={price}
                 />
-                <div className="h-8"></div>
-                <div className="bg-gray-dark rounded-md p-1 inline-block min-w-[261px] mb-4">
-                    <ActionTab 
-                        active={unitAction == 'mint'} 
-                        title={t('mint')} 
-                        onClick={() => { setUnitAction('mint') }} 
-                    />
-                    <ActionTab 
-                        active={unitAction == 'burn'} 
-                        title={t('burn')} 
-                        onClick={() => { setUnitAction('burn') }} 
-                    />
+                <div className="flex justify-between items-center mb-4 mt-8">
+                    <div className="bg-gray-dark rounded-md p-1 inline-block min-w-[261px]">
+                        <ActionTab 
+                            active={unitAction == 'mint'} 
+                            title={t('mint')} 
+                            onClick={() => { setUnitAction('mint') }} 
+                        />
+                        <ActionTab 
+                            active={unitAction == 'burn'} 
+                            title={t('burn')} 
+                            onClick={() => { setUnitAction('burn') }} 
+                        />
+                    </div>
+                    <TokenBalance balance={unitBalance} />
                 </div>
                 <VaultInput 
                     symbol="UNIT"

@@ -1,8 +1,8 @@
 import { formatUnits } from "ethers/lib/utils.js";
 import { useAccount, useContractRead } from "wagmi";
-import { TokenDesc } from "../types";
+import { ContractDesc, instanceOfTokenDesc, TokenDesc } from "../types";
 
-export const useCollateralBalance = (collateral: TokenDesc) => {
+export const useCollateralBalance = (collateral: TokenDesc|ContractDesc) => {
     const { address } = useAccount();
     const { data, error } = useContractRead({
         address: collateral.address,
@@ -10,6 +10,7 @@ export const useCollateralBalance = (collateral: TokenDesc) => {
         functionName: 'balanceOf',
         args: [address]
     })
-    const balance = data ? formatUnits(data.toString(), collateral.decimals) : 0;
+    let decimals = instanceOfTokenDesc(collateral) ? collateral.decimals : 18;
+    const balance = data ? parseFloat(formatUnits(data.toString(), decimals)) : 0;
     return { account: address, balance };
 }

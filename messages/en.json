@@ -70,7 +70,8 @@
         "receipt": "Receipt",
         "confirm": "Confirm",
         "less-than-0": "Cannot be less than 0",
-        "transaction-sent-receipt": "Transaction sent! Click to see it in Etherscan."
+        "transaction-sent-receipt": "Transaction sent! Click to see it in Etherscan.",
+        "not-enough-unit-to-burn": "Not enough UNIT tokens to burn"
     },
     "History": {
         "name": "Name",

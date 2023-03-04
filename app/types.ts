@@ -15,9 +15,10 @@ export interface VaultProp {
     price: number;
     liquidationRatio: number;
     account?: string;
-    balance?: number|string;
+    balance?: number;
     vaultCollateralAmount?: BigNumber;
     vaultUnitDebt?: BigNumber;
+    unitBalance?: number;
 }
 
 export interface ThumbChartDataType {
