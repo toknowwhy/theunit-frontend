@@ -120,7 +120,11 @@ function ConfirmBtn({ collateral, account, collateralAmount, isManage, unitAmoun
             name: t('deposit', {symbol: collateral.symbol}),
             callTransaction,
             callbacks: {
-              onSuccess: mint
+              onSuccess: () => {
+                if (unitAmount != 0) {
+                    mint();
+                }
+              }
             }
         })
         setTxId(txId);
@@ -144,7 +148,15 @@ function ConfirmBtn({ collateral, account, collateralAmount, isManage, unitAmoun
         setTxId(txId);
     }
 
-    return <TxButton txId={txId}  onClick={confirm}>
+    const onClick = () => {
+        if (collateralAmount == 0) {
+            mint();
+        } else {
+            confirm();
+        }
+    }
+
+    return <TxButton txId={txId}  onClick={onClick}>
         { isManage ? t('update') : t('create')}
     </TxButton>
 }

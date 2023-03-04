@@ -5,7 +5,6 @@ import { VaultActionType, VaultProp } from "@/app/types";
 import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 import { useState } from "react";
 import ActionTab from "./ActionTab";
-import VaultInfoBox from "./VaultInfoBox";
 import VaultInput from "./VaultInput";
 import { toFloat } from "@/app/utils";
 import VaultButton from "./VaultButton";
@@ -45,6 +44,7 @@ export default function VaultForm({
     const unitValueAfter = finalUnitValue + uamount;
     const collateralValueAfter = finalCollateralValue + camount;
     const ratio = collateralValueAfter == 0 ? 0 : (collateralValueAfter * price / unitValueAfter);
+
     let error = '';
     if (uvalue == 0 && cvalue == 0) {
         error = '';
@@ -64,8 +64,17 @@ export default function VaultForm({
 
     const onCollateralAmountChange = (value: string) => {
         setCollateralValue(value);
-        const uv = (price * toFloat(value) / (liquidationRatio+RECOMMENDED_COLLATERAL)).toString();
-        setUnitValue(uv);
+        if (collateralAction === 'deposit') {
+            const uv = (price * toFloat(value) / (liquidationRatio+RECOMMENDED_COLLATERAL)).toString();
+            setUnitValue(uv);
+        }
+    }
+
+    const onCollateralActionChange = (action: VaultActionType) => {
+        setCollateralAction(action);
+        if (action === "withdraw") {
+            setUnitAction('burn');
+        }
     }
 
     const statsProp = {
@@ -87,12 +96,12 @@ export default function VaultForm({
                     <ActionTab 
                         active={collateralAction == 'deposit'} 
                         title={t('deposit', {symbol})} 
-                        onClick={() => { setCollateralAction('deposit') }} 
+                        onClick={() => { onCollateralActionChange('deposit') }} 
                     />
                     <ActionTab 
                         active={collateralAction == 'withdraw'} 
                         title={t('withdraw', {symbol})} 
-                        onClick={() => { setCollateralAction('withdraw') }} 
+                        onClick={() => { onCollateralActionChange('withdraw') }} 
                     />
                 </div>
                 <VaultInput 
@@ -125,7 +134,7 @@ export default function VaultForm({
                     collateral={collateral}
                     collateralAmount={finalCollateralValue}
                     unitAmount={finalUnitValue}
-                    disabled={error.length > 0 || uvalue == 0 || cvalue == 0}
+                    disabled={error.length > 0 || (uvalue == 0 && cvalue == 0)}
                     isManage={isManage}
                     account={account}
                 />
