@@ -3,7 +3,8 @@ import {
     ERC20ABI, 
     CollateralManagerABI, 
     UnitRouterABI, 
-    UnitTokenABI 
+    UnitTokenABI,
+    PriceFeedABI, 
 } from './abis';
 
 import { default as goerliAddresses } from './addresses/goerli.json'
@@ -56,6 +57,7 @@ const goerli = {
     unitToken: contractDesc(UnitTokenABI, goerliAddresses.UNIT_TOKEN),
     unitRouter: contractDesc(UnitRouterABI, goerliAddresses.UNIT_ROUTER_V1),
     vault: contractDesc(VaultABI, goerliAddresses.VAULT),
+    priceFeed: contractDesc(PriceFeedABI, goerliAddresses.PRICE_FEED),
     etherscan: {
         url: 'https://goerli.etherscan.io',
         apiUrl: 'https://api-goerli.etherscan.io/api',

@@ -25,6 +25,6 @@ function PriceColumn({
 }) {
     return <div>
         <div className="text-xl text-gray text-center mb-1">{title}</div>
-        <div className="text-4xl text-center">${price}</div>
+        <div className="text-4xl text-center">Ø{price.toFixed(3)}</div>
     </div>
 }

@@ -10,6 +10,7 @@ import { useCollateralDetail } from "@/crypto/hooks/useCollateralDetail";
 import { useCurrentNetwork } from '@/crypto/hooks/useCurrentNetwork';
 import { useSupportedCollaterals } from '@/crypto/hooks/useSupportedCollaterals';
 import { BigNumber } from 'ethers';
+import { formatEther, formatUnits, parseEther } from 'ethers/lib/utils.js';
 import { keyBy } from 'lodash';
 import { ToastContainer } from 'react-toastify';
 import { useContractRead } from 'wagmi';
@@ -40,8 +41,12 @@ export default function ManageVault({
         enabled,
         args: [account, collateral.address]
     })
-    
-    const price =  0.9;
+    const { data: unitPrice } = useContractRead({
+        ...currentNetwork.priceFeed,
+        functionName: "latestAnswer",
+        enabled
+    }) 
+    const price = unitPrice ? (1 / parseFloat(formatUnits((unitPrice as BigNumber).toString(), 6))) : 0;
     const liquidationRatio = data ? getLiquidateRatio(data[0]) : 0;
     
     const props: VaultProp = {

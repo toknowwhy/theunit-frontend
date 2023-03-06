@@ -34,6 +34,7 @@ export type TheUnitContracts =
 | "unitToken"
 | "unitRouter"
 | "vault"
+| "priceFeed"
 
 export type ContractFunc = 
 | "increaseCollateral"
