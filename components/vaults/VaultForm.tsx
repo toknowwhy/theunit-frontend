@@ -4,7 +4,7 @@ import { MIN_UNIT_TO_MINT, RECOMMENDED_COLLATERAL } from "@/app/constants";
 import { VaultActionType, VaultProp } from "@/app/types";
 import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 import { useCollateralBalance } from '@/crypto/hooks/useCollateralBalance';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ActionTab from "./ActionTab";
 import VaultInput from "./VaultInput";
 import { toFloat } from "@/app/utils";
@@ -35,11 +35,22 @@ export default function VaultForm({
     const [unitAction, setUnitAction] = useState<VaultActionType>('mint');
     const [collateralValue, setCollateralValue] = useState<string>('');
     const [unitValue, setUnitValue] = useState<string>('');
+    const [balance, setBalance] = useState(0);
+    const [unitBalance, setUnitBalance] = useState(0);
+
     const debounceUnitValue = useDebounce(unitValue, 500);
     const debounceCollateralValue = useDebounce(collateralValue, 500);
+    const { balance: cbal } = useCollateralBalance(collateral);
+    const { balance: ubal } = useCollateralBalance(unitToken);
 
-    const { balance } = useCollateralBalance(collateral);
-    const { balance: unitBalance } = useCollateralBalance(unitToken);
+    useEffect(() => {
+        if (cbal) {
+            setBalance(cbal);
+        }
+        if (ubal) {
+            setUnitBalance(ubal);
+        }
+    }, [cbal, ubal])
 
     
     const uvalue = toFloat(debounceUnitValue);

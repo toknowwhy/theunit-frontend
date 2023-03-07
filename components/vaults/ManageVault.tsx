@@ -10,6 +10,7 @@ import { useSupportedCollaterals } from '@/crypto/hooks/useSupportedCollaterals'
 import { BigNumber } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils.js';
 import { keyBy } from 'lodash';
+import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { useAccount, useContractReads } from 'wagmi';
 import WithSupportedNetwork from './WithSupportedNetwork';
@@ -24,9 +25,12 @@ export default function ManageVault({
     const collateral = collateralBySymbol[symbol];
     const currentNetwork = useCurrentNetwork();
     const { address: account } = useAccount();
+
+    const [contractReadDatas, setContractReadDatas] = useState();
+    const [priceDatas, setPriceDatas] = useState<BigNumber[][] | undefined>();
     
     const enabled = Boolean(currentNetwork) && Boolean(account);
-    const { data: contractDatas, isError, isLoading } = useContractReads({
+    const { data: contractDatas } = useContractReads({
         contracts: [
             {
                 ...currentNetwork.collateralManager,
@@ -53,10 +57,10 @@ export default function ManageVault({
         ],
     })
 
-    const liquidationRatio = contractDatas ? getLiquidateRatio((contractDatas[0] as any)[0]) : 0;
-    const roundId = contractDatas ? (contractDatas[3] as BigNumber).toNumber() : 0;
-    const vaultCollateralAmount = contractDatas ? (contractDatas[1] as BigNumber) : BigNumber.from(0);
-    const vaultUnitDebt = contractDatas ? (contractDatas[2] as BigNumber) : BigNumber.from(0);
+    const liquidationRatio = contractReadDatas ? getLiquidateRatio((contractReadDatas[0] as any)[0]) : 1;
+    const roundId = contractReadDatas ? (contractReadDatas[3] as BigNumber).toNumber() : 2;
+    const vaultCollateralAmount = contractReadDatas ? (contractReadDatas[1] as BigNumber) : BigNumber.from(0);
+    const vaultUnitDebt = contractReadDatas ? (contractReadDatas[2] as BigNumber) : BigNumber.from(0);
 
     const { data: roundDatas } = useContractReads({
         contracts: [
@@ -75,7 +79,16 @@ export default function ManageVault({
         ]
     })
 
-    const { currentPrice,  nextPrice } = getPrice(collateral.decimals, roundDatas);
+    const { currentPrice,  nextPrice } = getPrice(collateral.decimals, priceDatas);
+
+    useEffect(() => {
+        if (contractDatas) {
+            setContractReadDatas(contractDatas as any);
+        }
+        if (roundDatas) {
+            setPriceDatas(roundDatas as BigNumber[][]);
+        }
+    }, [contractDatas, roundDatas])
     
     const props: VaultProp = {
         collateral,

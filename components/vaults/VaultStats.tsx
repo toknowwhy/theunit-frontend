@@ -35,6 +35,13 @@ export default function VaultStats({
         collateralRatio = 'Infinity';
     }
 
+    let availableToWithdraw = 0;
+    let availableToWithdrawAfter = 0;
+    if (price > 0 && liquidationRatio > 0) {
+        availableToWithdraw = Math.max(0, (camount - uamount / price / liquidationRatio))
+        availableToWithdrawAfter = Math.max(0, (collateralValueAfter - unitValueAfter / price / liquidationRatio))
+    }
+
     let boxes: VaultInfoBoxProps[] = [
         {
             title: "liquidation-price",
@@ -66,8 +73,8 @@ export default function VaultStats({
         },
         {
             title: "available-to-withdraw",
-            value: Math.max(0, (camount - uamount / price / liquidationRatio)),
-            extraValue: Math.max(0, (collateralValueAfter - unitValueAfter / price / liquidationRatio)),
+            value: availableToWithdraw,
+            extraValue: availableToWithdrawAfter,
         },
     ];
 
