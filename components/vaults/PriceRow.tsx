@@ -4,7 +4,13 @@ import { getMinutesToNextHour } from "@/app/utils"
 import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
 import { ReactNode } from "react"
 
-export default function PriceRow({ price }: { price: number }) {
+export default function PriceRow({ 
+    price, 
+    nextPrice,
+}: { 
+    price: number,
+    nextPrice: number, 
+}) {
 
     const minutes = getMinutesToNextHour();
     const t = useVaultTranslations();
@@ -12,16 +18,16 @@ export default function PriceRow({ price }: { price: number }) {
     return <div className="flex gap-12 md:gap-24 justify-center items-center py-6 border-y border-y-gray-dark mt-10">
         <PriceColumn title={<>{t('current-price')}</>} price={price} />
         <div className="w-px h-11 bg-gray-dark"></div>
-        <PriceColumn title={<>{t('next-in')} <span className="text-primary font-semibold">{minutes}</span> {t('mins')}</>} price={price} />
+        <PriceColumn title={<>{t('next-in')} <span className="text-primary font-semibold">{minutes}</span> {t('mins')}</>} price={nextPrice} />
     </div>
 }
 
 function PriceColumn({
     title,
-    price
+    price,
 } : {
     title: ReactNode,
-    price: number
+    price: number,
 }) {
     return <div>
         <div className="text-xl text-gray text-center mb-1">{title}</div>

@@ -5,15 +5,13 @@ import { getLiquidateRatio } from '@/app/utils';
 import PriceRow from '@/components/vaults/PriceRow';
 import VaultForm from '@/components/vaults/VaultForm';
 import VaultHeader from '@/components/vaults/VaultHeader';
-import { useCollateralBalance } from '@/crypto/hooks/useCollateralBalance';
-import { useCollateralDetail } from "@/crypto/hooks/useCollateralDetail";
 import { useCurrentNetwork } from '@/crypto/hooks/useCurrentNetwork';
 import { useSupportedCollaterals } from '@/crypto/hooks/useSupportedCollaterals';
 import { BigNumber } from 'ethers';
-import { formatEther, formatUnits, parseEther } from 'ethers/lib/utils.js';
+import { formatUnits } from 'ethers/lib/utils.js';
 import { keyBy } from 'lodash';
 import { ToastContainer } from 'react-toastify';
-import { useContractRead } from 'wagmi';
+import { useAccount, useContractReads } from 'wagmi';
 import WithSupportedNetwork from './WithSupportedNetwork';
 
 export default function ManageVault({ 
@@ -24,45 +22,74 @@ export default function ManageVault({
     const supportedCollaterals = useSupportedCollaterals();
     const collateralBySymbol = keyBy(supportedCollaterals, 'symbol');
     const collateral = collateralBySymbol[symbol];
-    const { data } = useCollateralDetail(symbol);
     const currentNetwork = useCurrentNetwork();
-    const { account, balance } = useCollateralBalance(collateral);
-    const { balance: unitBalance } = useCollateralBalance(currentNetwork.unitToken);
-    const enabled = Boolean(currentNetwork) && Boolean(account) && Boolean(collateral);
-    const { data: vaultCollateralAmount } = useContractRead({
-        ...currentNetwork.vault,
-        functionName: "collateralAmount",
-        enabled,
-        args: [account, collateral.address]
+    const { address: account } = useAccount();
+    
+    const enabled = Boolean(currentNetwork) && Boolean(account);
+    const { data: contractDatas, isError, isLoading } = useContractReads({
+        contracts: [
+            {
+                ...currentNetwork.collateralManager,
+                functionName: 'collateralsDetail',
+                args: [collateral.address]
+            },
+            {
+                ...currentNetwork.vault,
+                functionName: "collateralAmount",
+                enabled,
+                args: [account, collateral.address]
+            },
+            {
+                ...currentNetwork.unitToken,
+                functionName: "unitDebt",
+                enabled,
+                args: [account, collateral.address]
+            },
+            {
+                ...currentNetwork.priceFeed,
+                functionName: "latestRound",
+                enabled
+            },
+        ],
     })
-    const { data: vaultUnitDebt } = useContractRead({
-        ...currentNetwork.unitToken,
-        functionName: "unitDebt",
-        enabled,
-        args: [account, collateral.address]
+
+    const liquidationRatio = contractDatas ? getLiquidateRatio((contractDatas[0] as any)[0]) : 0;
+    const roundId = contractDatas ? (contractDatas[3] as BigNumber).toNumber() : 0;
+    const vaultCollateralAmount = contractDatas ? (contractDatas[1] as BigNumber) : BigNumber.from(0);
+    const vaultUnitDebt = contractDatas ? (contractDatas[2] as BigNumber) : BigNumber.from(0);
+
+    const { data: roundDatas } = useContractReads({
+        contracts: [
+            {
+                ...currentNetwork.priceFeed,
+                functionName: "getRoundData",
+                enabled: enabled && Boolean(roundId),
+                args: [roundId-1]
+            },
+            {
+                ...currentNetwork.priceFeed,
+                functionName: "getRoundData",
+                enabled: enabled && Boolean(roundId),
+                args: [roundId]
+            }
+        ]
     })
-    const { data: unitPrice } = useContractRead({
-        ...currentNetwork.priceFeed,
-        functionName: "latestAnswer",
-        enabled
-    }) 
-    const price = unitPrice ? (1 / parseFloat(formatUnits((unitPrice as BigNumber).toString(), 6))) : 0;
-    const liquidationRatio = data ? getLiquidateRatio(data[0]) : 0;
+
+    const { currentPrice,  nextPrice } = getPrice(collateral.decimals, roundDatas);
     
     const props: VaultProp = {
         collateral,
-        price,
+        price: currentPrice,
         liquidationRatio,
         account,
-        balance,
-        vaultCollateralAmount: vaultCollateralAmount as BigNumber,
-        vaultUnitDebt: vaultUnitDebt as BigNumber,
-        unitBalance,
+        vaultCollateralAmount: vaultCollateralAmount,
+        vaultUnitDebt: vaultUnitDebt,
+        unitToken: currentNetwork.unitToken,
     }
 
     return <WithSupportedNetwork>
             <VaultHeader symbol={collateral.symbol} liquidationRatio={liquidationRatio} />
-            <PriceRow price={price} />
+            <PriceRow price={currentPrice} nextPrice={nextPrice} />
             <VaultForm { ...props } />
             <ToastContainer 
                 position="top-right"
@@ -70,4 +97,21 @@ export default function ManageVault({
                 className='max-w-full'
             />
         </WithSupportedNetwork>
+}
+
+const getPrice = (decimals: number, data?: unknown) => {
+    if (!data) {
+        return {
+            currentPrice: 0,
+            nextPrice: 0
+        }
+    }
+
+    const priceData = data as BigNumber[][];
+    const currentPriceData = formatUnits(priceData[0][1], decimals);
+    const nextPriceData = formatUnits(priceData[1][1], decimals);
+    return {
+        currentPrice: 1 / parseFloat(currentPriceData),
+        nextPrice: 1 / parseFloat(nextPriceData),
+    }
 }

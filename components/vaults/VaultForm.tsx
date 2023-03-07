@@ -3,6 +3,7 @@
 import { MIN_UNIT_TO_MINT, RECOMMENDED_COLLATERAL } from "@/app/constants";
 import { VaultActionType, VaultProp } from "@/app/types";
 import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
+import { useCollateralBalance } from '@/crypto/hooks/useCollateralBalance';
 import { useState } from "react";
 import ActionTab from "./ActionTab";
 import VaultInput from "./VaultInput";
@@ -18,10 +19,9 @@ export default function VaultForm({
     price,
     liquidationRatio,
     account,
-    balance,
     vaultCollateralAmount,
     vaultUnitDebt,
-    unitBalance,
+    unitToken,
 } : VaultProp) {
 
     const camount = vaultCollateralAmount ? parseFloat(formatUnits(vaultCollateralAmount, collateral.decimals)) : 0;
@@ -37,6 +37,9 @@ export default function VaultForm({
     const [unitValue, setUnitValue] = useState<string>('');
     const debounceUnitValue = useDebounce(unitValue, 500);
     const debounceCollateralValue = useDebounce(collateralValue, 500);
+
+    const { balance } = useCollateralBalance(collateral);
+    const { balance: unitBalance } = useCollateralBalance(unitToken);
 
     
     const uvalue = toFloat(debounceUnitValue);
