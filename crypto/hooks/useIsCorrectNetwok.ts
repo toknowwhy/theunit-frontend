@@ -5,5 +5,5 @@ export const useIsCorrectNetwork = () => {
     const { isConnected } = useAccount();
     const { chain } = useNetwork();
     const network = networkById[chain?.id ?? ""];
-    return isConnected && network;
+    return isConnected && Boolean(network);
 }
