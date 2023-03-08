@@ -15,12 +15,14 @@ export default function Header() {
             <div className='md:hidden'><Image src={logoSmall} alt="" /></div>
             <div className='hidden md:block'><Image src={logo} alt="" /></div>
         </Link>
-        <ConnectWallet connectLabel={t('connect-wallet')} networkLabel={t('switch-network')} />
-        <div className='lg:hidden'>
-            <MobileMenu>
-                <Sidebar />
-            </MobileMenu>
+        <div className='flex gap-4 items-center'>
+            <ConnectWallet connectLabel={t('connect-wallet')} networkLabel={t('switch-network')} />
+            <div className='lg:hidden'>
+                <MobileMenu>
+                    <Sidebar />
+                </MobileMenu>
+            </div>
+            <ThemeSwitch />
         </div>
-        <ThemeSwitch />
     </div>)
 }

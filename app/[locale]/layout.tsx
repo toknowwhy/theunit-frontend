@@ -5,6 +5,7 @@ import localFont from '@next/font/local';
 import Providers from '../context/providers';
 import MainLayout from '@/components/navbar/MainLayout';
 import '@/styles/global.css';
+import { ServerThemeProvider } from '@wits/next-themes';
 
 const avenirFont = localFont({
   src: [
@@ -41,15 +42,17 @@ export default function RootLayout({
   }
 
   return (
-    <html lang={locale} className={avenirFont.className}>
-      <head />
-      <body className="text-lg text-text m-0 bg-black-light">
-        <Providers>
-          <MainLayout>
-            {children}
-          </MainLayout>
-        </Providers>
-      </body>
-    </html>
+    <ServerThemeProvider>
+      <html lang={locale} className={avenirFont.className}>
+        <head />
+        <body className="text-lg text-text m-0 bg-black-light">
+            <Providers>
+              <MainLayout>
+                {children}
+              </MainLayout>
+            </Providers>
+        </body>
+      </html>
+    </ServerThemeProvider>
   )
 }
