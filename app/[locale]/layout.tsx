@@ -2,7 +2,7 @@ import {useLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import {ReactNode} from 'react';
 import localFont from '@next/font/local';
-import WalletProvider from '../context/wallet';
+import Providers from '../context/providers';
 import MainLayout from '@/components/navbar/MainLayout';
 import '@/styles/global.css';
 
@@ -44,11 +44,11 @@ export default function RootLayout({
     <html lang={locale} className={avenirFont.className}>
       <head />
       <body className="text-lg text-text m-0 bg-black-light">
-        <WalletProvider>
+        <Providers>
           <MainLayout>
             {children}
           </MainLayout>
-        </WalletProvider>
+        </Providers>
       </body>
     </html>
   )

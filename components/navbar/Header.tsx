@@ -6,6 +6,7 @@ import ConnectWallet from '../web3/ConnectWallet';
 import MobileMenu from './MobileMenu';
 import Sidebar from './Sidebar';
 import { useVaultTranslations } from '@/crypto/hooks/useVaultTranslations';
+import ThemeSwitch from './ThemeSwitch';
 
 export default function Header() {
     const t = useVaultTranslations();
@@ -20,5 +21,6 @@ export default function Header() {
                 <Sidebar />
             </MobileMenu>
         </div>
+        <ThemeSwitch />
     </div>)
 }

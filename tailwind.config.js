@@ -12,7 +12,7 @@ module.exports = {
     colors: {
       'text': '#F5F5FF',
       'text-light': '#F9F9F9',
-      'black-light': '#0A0A0A',
+      'black-light': 'var(--background-color)',
       'gray': '#70707C',
       'gray-dark': '#1D1D1F',
       'gray-darker': '#101011',

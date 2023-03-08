@@ -10,6 +10,7 @@ import {
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { goerli } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
+import { ThemeProvider } from 'next-themes'
 import { PropsWithChildren } from 'react';
 import { initialNetwork } from '@/crypto/config';
 
@@ -29,7 +30,7 @@ const { chains, provider } = configureChains(
     provider
   })
 
-export default function WalletProvider({ children } : PropsWithChildren<{}>) {
+export default function Providers({ children } : PropsWithChildren<{}>) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider 
@@ -40,7 +41,9 @@ export default function WalletProvider({ children } : PropsWithChildren<{}>) {
         initialChain={initialNetwork}
         showRecentTransactions={true}
       >
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );
