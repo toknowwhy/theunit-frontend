@@ -79,7 +79,8 @@ export default function ManageVault({
         ]
     })
 
-    const { currentPrice,  nextPrice } = getPrice(collateral.decimals, priceDatas);
+    //TODO: change to correct decimal
+    const { currentPrice,  nextPrice } = getPrice(6, priceDatas);
 
     useEffect(() => {
         if (contractDatas) {
