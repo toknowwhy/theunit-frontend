@@ -10,7 +10,7 @@ import ThemeSwitch from './ThemeSwitch';
 
 export default function Header() {
     const t = useVaultTranslations();
-    return (<div className="px-9 flex justify-between items-center backdrop-blur-md z-50 bg-[#090909]/90 border-b-gray-dark fixed top-0 left-0 right-0 h-16 border-b">
+    return (<div className="px-9 flex justify-between items-center backdrop-blur-md z-50 bg-header-bg border-b-gray-dark fixed top-0 left-0 right-0 h-16 border-b">
         <Link href="/">
             <div className='md:hidden'><Image src={logoSmall} alt="" /></div>
             <div className='hidden md:block'><Image src={logo} alt="" /></div>

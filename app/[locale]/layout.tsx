@@ -42,7 +42,7 @@ export default function RootLayout({
   }
 
   return (
-    <ServerThemeProvider>
+    <ServerThemeProvider defaultTheme = 'dark'>
       <html lang={locale} className={avenirFont.className}>
         <head />
         <body className="text-lg text-text m-0 bg-black-light">

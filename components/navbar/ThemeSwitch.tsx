@@ -7,29 +7,25 @@ import dark from '@/public/icons/dark.png';
 import { useEffect, useState } from 'react';
 
 export default function ThemeSwitch() {
+    const [mounted, setMounted] = useState(false)
     const { theme, setTheme } = useTheme()
-    const [isDark, setIsDark] = useState(false);
 
     useEffect(() => {
-        setIsDark(theme === 'dark');
-    }, [theme])
+        setMounted(true)
+    }, [])
 
-    const changeTheme = () => {
-        if (isDark) {
-            setTheme('light')
-        } else {
-            setTheme('dark')
-        }
+    if (!mounted) {
+        return null
     }
 
-  return <ThemeProvider>
-            <Image 
-                className="cursor-pointer"
-                src={isDark ? dark : light} 
-                alt="theme" 
-                width={32}
-                height={32}
-                onClick={changeTheme} 
-            />
-        </ThemeProvider>
+    return <ThemeProvider>
+                <Image 
+                        className="cursor-pointer"
+                        src={theme === 'dark' ? light : dark} 
+                        alt="theme" 
+                        width={32}
+                        height={32}
+                        onClick={() => { setTheme(theme === 'dark' ? 'light' : 'dark') }} 
+                />
+            </ThemeProvider>
 }
