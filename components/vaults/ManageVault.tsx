@@ -56,7 +56,7 @@ export default function ManageVault({
             },
         ],
     })
-
+    
     const liquidationRatio = contractReadDatas ? getLiquidateRatio((contractReadDatas[0] as any)[0]) : 1;
     const roundId = contractReadDatas ? (contractReadDatas[3] as BigNumber).toNumber() : 2;
     const vaultCollateralAmount = contractReadDatas ? (contractReadDatas[1] as BigNumber) : BigNumber.from(0);
@@ -79,8 +79,7 @@ export default function ManageVault({
         ]
     })
 
-    //TODO: change to correct decimal
-    const { currentPrice,  nextPrice } = getPrice(6, priceDatas);
+    const { currentPrice,  nextPrice } = getPrice(collateral.decimals, priceDatas);
 
     useEffect(() => {
         if (contractDatas) {

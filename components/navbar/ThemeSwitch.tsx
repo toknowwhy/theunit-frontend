@@ -12,20 +12,21 @@ export default function ThemeSwitch() {
 
     useEffect(() => {
         setMounted(true)
-    }, [])
+    }, [theme])
 
     if (!mounted) {
         return null
     }
 
     return <ThemeProvider>
-                <Image 
-                        className="cursor-pointer"
-                        src={theme === 'dark' ? light : dark} 
-                        alt="theme" 
-                        width={32}
-                        height={32}
-                        onClick={() => { setTheme(theme === 'dark' ? 'light' : 'dark') }} 
-                />
+                <button onClick={() => { setTheme(theme === 'dark' ? 'light' : 'dark') }} >
+                    <Image 
+                            className="cursor-pointer"
+                            src={theme === 'dark' ? light : dark} 
+                            alt="theme" 
+                            width={32}
+                            height={32}
+                    />
+                </button>
             </ThemeProvider>
 }
