@@ -11,7 +11,7 @@ import { toFloat } from "@/utils/functions";
 import VaultButton from "./VaultButton";
 import useDebounce from "@/utils/hooks/useDebounce";
 import { formatEther, formatUnits } from "ethers/lib/utils.js";
-import VaultStats from "./VaultStats";
+import VaultStats from "../info/VaultStats";
 import TokenBalance from "./TokenBalance";
 
 export default function VaultForm({

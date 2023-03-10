@@ -2,9 +2,9 @@
 
 import { VaultProp } from '@/utils/types';
 import { getLiquidateRatio } from '@/utils/functions';
-import PriceRow from '@/components/vaults/PriceRow';
-import VaultForm from '@/components/vaults/VaultForm';
-import VaultHeader from '@/components/vaults/VaultHeader';
+import PriceRow from './info/PriceRow';
+import VaultForm from './form/VaultForm';
+import VaultHeader from './info/VaultHeader';
 import { useCurrentNetwork } from '@/utils/hooks/useCurrentNetwork';
 import { useSupportedCollaterals } from '@/utils/hooks/useSupportedCollaterals';
 import { BigNumber } from 'ethers';

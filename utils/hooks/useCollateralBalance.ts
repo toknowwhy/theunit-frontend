@@ -4,7 +4,7 @@ import { ContractDesc, instanceOfTokenDesc, TokenDesc } from "@/utils/types";
 
 export const useCollateralBalance = (collateral: TokenDesc|ContractDesc) => {
     const { address } = useAccount();
-    const { data, error } = useContractRead({
+    const { data } = useContractRead({
         address: collateral.address,
         abi: collateral.abi,
         functionName: 'balanceOf',

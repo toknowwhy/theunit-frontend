@@ -1,7 +1,7 @@
 'use client';
 
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
-import SplineAnim from "../SplineAnim";
+import SplineAnim from "../../SplineAnim";
 import VaultInfoTitle from "./VaultInfoTitle";
 
 export default function VaultHeader({ 
