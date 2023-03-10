@@ -7,17 +7,17 @@ import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { BigNumber } from "ethers";
 import { formatUnits, parseUnits } from "ethers/lib/utils.js";
 import { useContractRead, useSigner } from "wagmi";
-import Button from "@/components/button/Button";
 import { useState } from "react";
 import { buildTx } from "@/utils/buildTx";
 import ClipLoader from "react-spinners/ClipLoader";
 import { VaultButtonProps } from "./VaultButton";
 import ConfirmBtn from "./ManageButton";
+import TxButton from "@/components/web3/TxButton";
 
 export default function ApproveButton(props : VaultButtonProps) {
     const { collateral, account, collateralAmount } = props
-    const [loading, setLoading] = useState(false);
     const [allowanceData, setAllowanceData] = useState<BigNumber>(BigNumber.from(0));
+    const [txId, setTxId] = useState('');
     const t = useVaultTranslations();
     const network = useCurrentNetwork();
     const { refetch: getSigner } = useSigner();
@@ -56,22 +56,18 @@ export default function ApproveButton(props : VaultButtonProps) {
             signer!, 
             [contractAddress, parseUnits(collateralAmount.toString(), collateral.decimals)]
         )
-        setLoading(true);
-        await sendTx({
+        const txId = await sendTx({
             name: `${t('approve')} ${collateral.symbol}`,
             callTransaction,
             callbacks: {
               refetch: refetchAllowance
             }
         })
-        setLoading(false);
+        setTxId(txId);
     }
 
 
-    return <Button 
-                onClick={approve} 
-                loading={loading || isRefetching}
-            >
-                {loading ? t('approving') : t('approve')} {collateral.symbol}
-            </Button>
+    return <TxButton txId={txId}  onClick={approve} loading={isRefetching}>
+                {t('approve')} {collateral.symbol}
+           </TxButton>
 }

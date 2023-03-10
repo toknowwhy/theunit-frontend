@@ -1,5 +1,5 @@
 import UnitTable from '@/components/theunit/UnitTable';
-import getUnitData from "@/app/db/getUnitData";
+import getUnitData from "@/utils/db/getUnitData";
 import clientPromise from "@/utils/db/mongodb";
 
 async function getData() {

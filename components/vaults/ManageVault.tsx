@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { useAccount, useContractReads } from 'wagmi';
 import WithSupportedNetwork from './WithSupportedNetwork';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 export default function ManageVault({ 
     symbol 

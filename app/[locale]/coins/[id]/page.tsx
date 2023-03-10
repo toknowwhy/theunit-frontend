@@ -1,4 +1,4 @@
-import { getCoinHourlyData } from "@/app/db/getCoinHourlyData";
+import { getCoinHourlyData } from "@/utils/db/getCoinHourlyData";
 import clientPromise from "@/utils/db/mongodb";
 import TokenPage from "@/components/theunit/TokenPage";
 import { notFound } from "next/navigation";

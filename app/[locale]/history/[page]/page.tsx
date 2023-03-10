@@ -1,4 +1,4 @@
-import { getHistoryCount, getUnitHistories, historyPageSize } from "@/app/db/getUnitHistory";
+import { getHistoryCount, getUnitHistories, historyPageSize } from "@/utils/db/getUnitHistory";
 import clientPromise from "@/utils/db/mongodb";
 import HistoryTable from "@/components/history/HistoryTable";
 import moment from "moment";

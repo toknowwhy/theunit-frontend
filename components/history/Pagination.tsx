@@ -3,7 +3,7 @@ import next from '@/public/icons/next.svg';
 import { Link, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { range } from 'lodash';
-import { historyPageSize } from '@/app/db/getUnitHistory';
+import { historyPageSize } from '@/utils/db/getUnitHistory';
 import GoToPage from './GoToPage';
 
 export default function Pagination({ 

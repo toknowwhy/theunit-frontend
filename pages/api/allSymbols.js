@@ -1,4 +1,4 @@
-import { getAllSymbols } from "@/app/db/getChartData";
+import { getAllSymbols } from "@/utils/db/getChartData";
 import clientPromise from "@/utils/db/mongodb";
 
 export default async function handler(req, res) {

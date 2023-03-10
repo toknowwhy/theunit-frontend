@@ -4,7 +4,6 @@ import { memo } from "react";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { TokenDesc } from "@/utils/types";
 import Button from "../../button/Button";
-import 'react-toastify/dist/ReactToastify.min.css';
 import ApproveButton from "./ApproveButton";
 import ConfirmBtn from "./ManageButton";
 
