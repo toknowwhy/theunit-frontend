@@ -8,11 +8,11 @@ import { useEffect, useState } from "react";
 import ActionTab from "./ActionTab";
 import VaultInput from "./VaultInput";
 import { toFloat } from "@/utils/functions";
-import VaultButton from "./VaultButton";
 import useDebounce from "@/utils/hooks/useDebounce";
 import { formatEther, formatUnits } from "ethers/lib/utils.js";
 import VaultStats from "../info/VaultStats";
 import TokenBalance from "./TokenBalance";
+import VaultButton from "./VaultButton";
 
 export default function VaultForm({
     collateral,
@@ -40,8 +40,8 @@ export default function VaultForm({
 
     const debounceUnitValue = useDebounce(unitValue, 500);
     const debounceCollateralValue = useDebounce(collateralValue, 500);
-    const { balance: cbal } = useCollateralBalance(collateral);
-    const { balance: ubal } = useCollateralBalance(unitToken);
+    const { balance: cbal, refetch: refetchCbal } = useCollateralBalance(collateral, account);
+    const { balance: ubal, refetch: refetchUbal } = useCollateralBalance(unitToken, account);
 
     useEffect(() => {
         if (cbal) {
@@ -66,7 +66,7 @@ export default function VaultForm({
         error = '';
     } else if (uvalue < 0 || cvalue < 0) {
         error = t('less-than-0');
-    } else if (unitAction === 'mint' && (uvalue < MIN_UNIT_TO_MINT)) {
+    } else if (unitAction === 'mint' && uvalue > 0 && uvalue < MIN_UNIT_TO_MINT) {
         error = t('not-enough-unit', {num: MIN_UNIT_TO_MINT});
     } else if (unitAction === 'burn' && uvalue > (unitBalance ?? 0)) {
         error = t('not-enough-unit-to-burn')
@@ -93,6 +93,13 @@ export default function VaultForm({
         if (action === "withdraw") {
             setUnitAction('burn');
         }
+    }
+
+    const resetForm = () => {
+        setUnitValue('');
+        setCollateralValue('');
+        refetchCbal();
+        refetchUbal();
     }
 
     const statsProp = {
@@ -162,6 +169,7 @@ export default function VaultForm({
                     disabled={error.length > 0 || (uvalue == 0 && cvalue == 0)}
                     isManage={isManage}
                     account={account}
+                    reset={resetForm}
                 />
             </div>
         </div>

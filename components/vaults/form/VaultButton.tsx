@@ -14,6 +14,7 @@ export interface VaultButtonProps {
     account?: string;
     disabled: boolean;
     isManage: boolean;
+    reset: () => void;
 }
 
 const VaultButton = memo(function VaultButton(props: VaultButtonProps) {

@@ -10,7 +10,14 @@ import { buildTx } from "@/utils/buildTx";
 import TxButton from "../../web3/TxButton";
 import { VaultButtonProps } from "./VaultButton";
 
-export default function ConfirmBtn({ collateral, account, collateralAmount, isManage, unitAmount } : VaultButtonProps) {
+export default function ConfirmBtn({ 
+    collateral, 
+    account, 
+    collateralAmount, 
+    isManage, 
+    unitAmount,
+    reset, 
+} : VaultButtonProps) {
     const t = useVaultTranslations();
     const [txId, setTxId] = useState('');
     const sendTx = useTx();
@@ -39,6 +46,8 @@ export default function ConfirmBtn({ collateral, account, collateralAmount, isMa
               onSuccess: () => {
                 if (unitAmount != 0) {
                     mint();
+                } else {
+                    reset();
                 }
               }
             }
@@ -58,7 +67,12 @@ export default function ConfirmBtn({ collateral, account, collateralAmount, isMa
             name: t('mint'),
             callTransaction,
             callbacks: {
-              
+              onSuccess: reset,
+              onError: () => {
+                if (collateralAmount != 0) {
+                    reset();
+                }
+              }
             }
         })
         setTxId(txId);
