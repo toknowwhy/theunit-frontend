@@ -54,7 +54,7 @@ export default function ApproveButton(props : VaultButtonProps) {
             collateral, 
             "approve", 
             signer!, 
-            [contractAddress, parseUnits(collateralAmount.toString(), collateral.decimals)]
+            [contractAddress, parseUnits(Number.MAX_SAFE_INTEGER.toString(), collateral.decimals)]
         )
         const txId = await sendTx({
             name: `${t('approve')} ${collateral.symbol}`,
