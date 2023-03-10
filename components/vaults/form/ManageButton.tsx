@@ -7,7 +7,7 @@ import { parseEther, parseUnits } from "ethers/lib/utils.js";
 import { useSigner } from "wagmi";
 import { useState } from "react";
 import { buildTx } from "@/utils/buildTx";
-import TxButton from "../../web3/TxButton";
+import TxButton from "@/components/web3/TxButton";
 import { VaultButtonProps } from "./VaultButton";
 
 export default function ConfirmBtn({ 
@@ -25,6 +25,10 @@ export default function ConfirmBtn({
     const { refetch: getSigner } = useSigner();
     const network = useCurrentNetwork();
 
+    const overrides = {
+        gasLimit: 120000
+    }
+
     const confirm = async () => {
         const { data: signer } = await getSigner()
         const isDeposit = collateralAmount > 0;
@@ -32,18 +36,18 @@ export default function ConfirmBtn({
             network.unitRouter, 
             "increaseCollateral", 
             signer!,
-            [collateral.address, parseUnits(`${collateralAmount}`, collateral.decimals),  account]
+            [collateral.address, parseUnits(`${collateralAmount}`, collateral.decimals),  account, overrides]
         ) : buildTx(
             network.vault, 
             "decreaseCollateral", 
             signer!,
-            [account, parseUnits(`${collateralAmount}`, collateral.decimals),  collateral.address]
+            [account, parseUnits(`${collateralAmount}`, collateral.decimals),  collateral.address, overrides]
         )
         const txId = await sendTx({
-            name: t('deposit', {symbol: collateral.symbol}),
+            name: t(isDeposit ? 'deposit' : 'withdraw', {symbol: collateral.symbol}),
             callTransaction,
             callbacks: {
-              onSuccess: () => {
+              onSuccess: (id) => {
                 if (unitAmount != 0) {
                     mint();
                 } else {
@@ -61,7 +65,7 @@ export default function ConfirmBtn({
             network.unitToken, 
             unitAmount > 0 ? "mint" : "burn", 
             signer!,
-            [account, parseEther(`${unitAmount}`), collateral.address]
+            [account, parseEther(`${unitAmount}`), collateral.address, overrides]
         )
         const txId = await sendTx({
             name: t('mint'),

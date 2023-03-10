@@ -8,7 +8,7 @@ import {
 } from './abis';
 
 import { default as goerliAddresses } from './addresses/goerli.json'
-import { Abi, Address, ContractDesc, TokenDesc } from './types';
+import { Abi, Address, ContractDesc, TokenDesc } from '@/utils/types';
 import { goerli as goerliChain } from 'wagmi/chains';
 import { keyBy } from 'lodash'
 
