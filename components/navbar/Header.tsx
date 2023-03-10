@@ -5,7 +5,7 @@ import logoSmall from '@/public/logo-small.svg';
 import ConnectWallet from '../web3/ConnectWallet';
 import MobileMenu from './MobileMenu';
 import Sidebar from './Sidebar';
-import { useVaultTranslations } from '@/crypto/hooks/useVaultTranslations';
+import { useVaultTranslations } from '@/utils/hooks/useVaultTranslations';
 import ThemeSwitch from './ThemeSwitch';
 
 export default function Header() {

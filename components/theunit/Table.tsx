@@ -1,5 +1,5 @@
-import { CoinTableData } from "@/app/db/types";
-import { renderPrice, renderBigNumber } from "@/app/utils";
+import { CoinTableData } from "@/utils/db/types";
+import { renderPrice, renderBigNumber } from "@/utils/functions";
 import CoinLogo from "../CoinLogo";
 import PriceChange from "./PriceChange";
 import { Link } from "next-intl";

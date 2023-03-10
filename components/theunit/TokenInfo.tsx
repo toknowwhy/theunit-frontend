@@ -1,6 +1,6 @@
-import { averageLifeExpectancyInYears, currentWorldPopulation } from "@/app/constants";
-import { CoinTableData } from "@/app/db/types";
-import { numberWithCommas } from "@/app/utils";
+import { averageLifeExpectancyInYears, currentWorldPopulation } from "@/utils/constants";
+import { CoinTableData } from "@/utils/db/types";
+import { numberWithCommas } from "@/utils/functions";
 import { useTranslations } from "next-intl";
 
 export default function TokenInfo({

@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers';
 import { Dictionary } from 'ts-essentials';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'
-import { ContractDesc, ContractFunc, instanceOfContractDesc, TheUnitContracts } from '../types';
+import { ContractDesc, ContractFunc, instanceOfContractDesc, TheUnitContracts } from '@/utils/types';
 import { useCurrentNetwork } from './useCurrentNetwork'
 
 export const useContractFunc = (

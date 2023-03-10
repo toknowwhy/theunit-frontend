@@ -1,7 +1,7 @@
 "use client"
 
-import { useCurrentNetwork } from "@/crypto/hooks/useCurrentNetwork"
-import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations"
+import { useCurrentNetwork } from "@/utils/hooks/useCurrentNetwork"
+import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations"
 import BlockExplorerLink from "./BlockExplorerLink"
 
 export enum TransactionToastStatus {

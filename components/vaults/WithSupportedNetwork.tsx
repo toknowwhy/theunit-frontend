@@ -1,7 +1,7 @@
 'use client';
 
-import { useIsCorrectNetwork } from '@/crypto/hooks/useIsCorrectNetwok';
-import { useVaultTranslations } from '@/crypto/hooks/useVaultTranslations';
+import { useIsCorrectNetwork } from '@/utils/hooks/useIsCorrectNetwok';
+import { useVaultTranslations } from '@/utils/hooks/useVaultTranslations';
 import { useEffect, useState } from 'react';
 import ConnectWallet from '../web3/ConnectWallet';
 

@@ -1,5 +1,5 @@
 import { Link } from 'next-intl';
-import { TokenDesc } from "@/crypto/types";
+import { TokenDesc } from "@/utils/types";
 import CoinLogo from '../CoinLogo';
 
 export default function VaultType({coin}: {coin: TokenDesc}) {

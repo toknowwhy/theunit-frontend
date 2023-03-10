@@ -1,5 +1,5 @@
-import { useAtomTransaction } from "@/crypto/hooks/useAtomTransaction";
-import { TransactionState } from "@/crypto/types";
+import { useAtomTransaction } from "@/utils/hooks/useAtomTransaction";
+import { TransactionState } from "@/utils/types";
 import { ReactNode } from "react";
 import Button from "../button/Button";
 

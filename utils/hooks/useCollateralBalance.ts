@@ -1,6 +1,6 @@
 import { formatUnits } from "ethers/lib/utils.js";
 import { useAccount, useContractRead } from "wagmi";
-import { ContractDesc, instanceOfTokenDesc, TokenDesc } from "../types";
+import { ContractDesc, instanceOfTokenDesc, TokenDesc } from "@/utils/types";
 
 export const useCollateralBalance = (collateral: TokenDesc|ContractDesc) => {
     const { address } = useAccount();

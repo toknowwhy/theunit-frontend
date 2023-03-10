@@ -1,5 +1,5 @@
-import { getCurrencyInfo, getPriceInfo } from "@/app/utils";
-import { CurrencyType, ThumbChartDataType } from "@/app/types";
+import { getCurrencyInfo, getPriceInfo } from "@/utils/functions";
+import { CurrencyType, ThumbChartDataType } from "@/utils/types";
 import PriceChange from "@/components/theunit/PriceChange";
 
 export default function TokenPriceInfo({

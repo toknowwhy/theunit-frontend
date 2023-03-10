@@ -1,6 +1,6 @@
 import { getETHHourlyData, getUnitHourlyData } from "@/app/db/getUnitDailyData";
-import clientPromise from "@/app/db/mongodb";
-import { ChartSymbolType, CurrencyType, ThumbChartDataType } from "@/app/types";
+import clientPromise from "@/utils/db/mongodb";
+import { ChartSymbolType, CurrencyType, ThumbChartDataType } from "@/utils/types";
 import ChartWrapper from "@/components/charts/ChartWrapper";
 import ThumbCharts from "@/components/charts/ThumbCharts";
 import TokenPriceInfo from "@/components/theunit/TokenPriceInfo";

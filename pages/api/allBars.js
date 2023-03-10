@@ -1,5 +1,5 @@
 import { allBars } from "@/app/db/getChartData";
-import clientPromise from "@/app/db/mongodb";
+import clientPromise from "@/utils/db/mongodb";
 
 export default async function handler(req, res) {
   try {

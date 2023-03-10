@@ -1,12 +1,12 @@
 'use client'
 
-import { VaultProp } from '@/app/types';
-import { getLiquidateRatio } from '@/app/utils';
+import { VaultProp } from '@/utils/types';
+import { getLiquidateRatio } from '@/utils/functions';
 import PriceRow from '@/components/vaults/PriceRow';
 import VaultForm from '@/components/vaults/VaultForm';
 import VaultHeader from '@/components/vaults/VaultHeader';
-import { useCurrentNetwork } from '@/crypto/hooks/useCurrentNetwork';
-import { useSupportedCollaterals } from '@/crypto/hooks/useSupportedCollaterals';
+import { useCurrentNetwork } from '@/utils/hooks/useCurrentNetwork';
+import { useSupportedCollaterals } from '@/utils/hooks/useSupportedCollaterals';
 import { BigNumber } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils.js';
 import { keyBy } from 'lodash';

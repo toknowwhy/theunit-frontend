@@ -1,5 +1,31 @@
+import { BigNumber } from "ethers";
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
 import { AbiInput, AbiItem } from 'web3-utils'
+
+/***************************** Database Types **********************************/
+
+export interface CoinData {
+    price: number,
+    coin_id: string,
+    market_cap: number,
+    volume: number,
+    price_change_24h: number,
+    price_change_percentage_24h: number,
+    circulating_supply: number,
+    total_supply: number,
+    high: number,
+    low: number,
+    name: string,
+    symbol: string
+    time: Date,
+}
+
+export interface CoinTableData extends CoinData {
+    rank: number
+}
+
+
+/***************************** Crypto Types **********************************/
 
 export type Abi = Omit<AbiItem, 'type' | 'stateMutability' | 'inputs'> & {
     internalType?: string
@@ -93,4 +119,52 @@ export interface SendTransactionOptions {
     name: string
     callTransaction: () => Promise<TransactionResponse>
     callbacks?: TransactionCallbacks
+}
+
+
+
+/***************************** Frontend Types **********************************/
+
+export type CustomSize = "small" | "medium" | "large" | "full";
+
+export type VaultActionType =
+ | 'deposit'
+ | 'withdraw'
+ | 'mint'
+ | 'burn'
+
+export interface VaultProp {
+    collateral: TokenDesc;
+    price: number;
+    liquidationRatio: number;
+    account?: string;
+    vaultCollateralAmount: BigNumber;
+    vaultUnitDebt: BigNumber;
+    unitToken: ContractDesc;
+}
+
+export interface ThumbChartDataType {
+    value: number;
+    time: string;
+}
+
+export type CurrencyType = "BTC" | "ETH" | "USD"
+
+export type ChartSymbolType = "UNITSATOSHI" | "UNITFINNEY" | "UNITUSD"
+
+export interface CoinInfo {
+    id: string;
+    symbol: string;
+    name: string;
+}
+
+export interface HistoryInfo {
+    time: string;
+    coins: CoinInfo[];
+}
+
+export interface PriceInfo {
+    price: number;
+    change: number;
+    changePercentage: number;
 }

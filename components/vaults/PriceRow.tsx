@@ -1,7 +1,7 @@
 'use client';
 
-import { getMinutesToNextHour } from "@/app/utils"
-import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
+import { getMinutesToNextHour } from "@/utils/functions"
+import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { ReactNode } from "react"
 
 export default function PriceRow({ 

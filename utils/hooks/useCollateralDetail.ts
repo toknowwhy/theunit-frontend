@@ -1,5 +1,5 @@
-import { useContractDescByType } from "@/crypto/hooks/useContractByType";
-import { useTokenDesc } from "@/crypto/hooks/useTokenDesc";
+import { useContractDescByType } from "@/utils/hooks/useContractByType";
+import { useTokenDesc } from "@/utils/hooks/useTokenDesc";
 import { BigNumber } from "ethers";
 import { useContractRead } from "wagmi";
 

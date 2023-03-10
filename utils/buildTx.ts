@@ -1,6 +1,6 @@
 import { TransactionResponse } from '@ethersproject/providers';
 import { Contract, ContractInterface } from 'ethers';
-import { ContractDesc, ContractFunc } from '../types';
+import { ContractDesc, ContractFunc } from './types';
 import { Signer } from "ethers"
 
 export const buildTx = (

@@ -1,6 +1,6 @@
 'use client';
 
-import { useVaultTranslations } from '@/crypto/hooks/useVaultTranslations';
+import { useVaultTranslations } from '@/utils/hooks/useVaultTranslations';
 import VaultInfoTitle from './VaultInfoTitle';
 
 export interface VaultInfoBoxProps {

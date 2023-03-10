@@ -1,5 +1,5 @@
 import VaultTypeList from "@/components/vaults/VaultTypeList";
-import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
+import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 
 export default function VaultPage() {
     const t = useVaultTranslations();

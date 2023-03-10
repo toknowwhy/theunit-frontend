@@ -1,15 +1,15 @@
 'use client';
 
-import { MIN_UNIT_TO_MINT, RECOMMENDED_COLLATERAL } from "@/app/constants";
-import { VaultActionType, VaultProp } from "@/app/types";
-import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
-import { useCollateralBalance } from '@/crypto/hooks/useCollateralBalance';
+import { MIN_UNIT_TO_MINT, RECOMMENDED_COLLATERAL } from "@/utils/constants";
+import { VaultActionType, VaultProp } from "@/utils/types";
+import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
+import { useCollateralBalance } from '@/utils/hooks/useCollateralBalance';
 import { useEffect, useState } from "react";
 import ActionTab from "./ActionTab";
 import VaultInput from "./VaultInput";
-import { toFloat } from "@/app/utils";
+import { toFloat } from "@/utils/functions";
 import VaultButton from "./VaultButton";
-import useDebounce from "@/crypto/hooks/useDebounce";
+import useDebounce from "@/utils/hooks/useDebounce";
 import { formatEther, formatUnits } from "ethers/lib/utils.js";
 import VaultStats from "./VaultStats";
 import TokenBalance from "./TokenBalance";

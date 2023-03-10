@@ -1,6 +1,6 @@
 import UnitTable from '@/components/theunit/UnitTable';
 import getUnitData from "@/app/db/getUnitData";
-import clientPromise from "@/app/db/mongodb";
+import clientPromise from "@/utils/db/mongodb";
 
 async function getData() {
     const client = await clientPromise;

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { toast, ToastContentProps } from "react-toastify";
 import { createTransactionsAtom, updateTransactionsAtom } from "../atoms";
 import { useCurrentNetwork } from "./useCurrentNetwork";
-import { SendTransactionOptions, TransactionCallbacks, TransactionState, TransactionStatus } from "../types";
+import { SendTransactionOptions, TransactionCallbacks, TransactionState, TransactionStatus } from "@/utils/types";
 import TransactionToast, { TransactionToastStatus } from "@/components/web3/TransactionToast";
 
 export const useTx = () => {

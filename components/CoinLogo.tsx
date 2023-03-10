@@ -1,5 +1,5 @@
-import { coinLogoUrl } from "@/app/utils";
-import { CustomSize } from "@/app/types";
+import { coinLogoUrl } from "@/utils/functions";
+import { CustomSize } from "@/utils/types";
 import Image from "next/image";
 
 export default function CoinLogo({

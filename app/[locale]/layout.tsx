@@ -2,7 +2,7 @@ import {useLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import {ReactNode} from 'react';
 import localFont from '@next/font/local';
-import Providers from '../context/providers';
+import Providers from '../providers';
 import MainLayout from '@/components/navbar/MainLayout';
 import '@/styles/global.css';
 import { ServerThemeProvider } from '@wits/next-themes';

@@ -1,17 +1,17 @@
 "use client"
 
-import { toFloat } from "@/app/utils";
-import { useCurrentNetwork } from "@/crypto/hooks/useCurrentNetwork";
-import { useTx } from "@/crypto/hooks/useTx";
-import { useVaultTranslations } from "@/crypto/hooks/useVaultTranslations";
-import { TokenDesc } from "@/crypto/types";
+import { toFloat } from "@/utils/functions";
+import { useCurrentNetwork } from "@/utils/hooks/useCurrentNetwork";
+import { useTx } from "@/utils/hooks/useTx";
+import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
+import { TokenDesc } from "@/utils/types";
 import { BigNumber } from "ethers";
 import { formatUnits, parseEther, parseUnits } from "ethers/lib/utils.js";
 import { useContractRead, useSigner } from "wagmi";
 import Button from "../button/Button";
 import 'react-toastify/dist/ReactToastify.min.css';
 import { memo, useState } from "react";
-import { buildTx } from "@/crypto/utils/buildTx";
+import { buildTx } from "@/utils/buildTx";
 import ClipLoader from "react-spinners/ClipLoader";
 import TxButton from "../web3/TxButton";
 

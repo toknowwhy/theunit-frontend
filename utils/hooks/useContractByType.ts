@@ -1,5 +1,5 @@
 import { useContract } from "wagmi";
-import { TheUnitContracts } from "../types"
+import { TheUnitContracts } from "@/utils/types"
 import { useCurrentNetwork } from "./useCurrentNetwork"
 
 export const useContractDescByType = (type: TheUnitContracts) => {

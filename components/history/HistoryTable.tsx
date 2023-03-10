@@ -1,4 +1,4 @@
-import { CoinInfo, HistoryInfo } from "@/app/types";
+import { CoinInfo, HistoryInfo } from "@/utils/types";
 import { useTranslations } from "next-intl";
 import CoinLogo from "../CoinLogo";
 import HistoryDatePicker from "./DatePicker";

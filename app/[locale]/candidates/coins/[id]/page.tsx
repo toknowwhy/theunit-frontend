@@ -1,5 +1,5 @@
 import { getCoinHourlyData } from "@/app/db/getCoinHourlyData";
-import clientPromise from "@/app/db/mongodb";
+import clientPromise from "@/utils/db/mongodb";
 import TokenPage from "@/components/theunit/TokenPage";
 import { notFound } from "next/navigation";
 

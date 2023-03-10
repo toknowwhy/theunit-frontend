@@ -1,4 +1,4 @@
-import { CurrencyType, ThumbChartDataType } from "@/app/types";
+import { CurrencyType, ThumbChartDataType } from "@/utils/types";
 import ThumbChart from "./ThumbnailChart";
 
 export default function ThumbCharts({

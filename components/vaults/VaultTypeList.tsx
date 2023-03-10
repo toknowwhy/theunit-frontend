@@ -1,5 +1,5 @@
 import { basicTokens } from "@/crypto/config";
-import { TokenDesc } from "@/crypto/types";
+import { TokenDesc } from "@/utils/types";
 import VaultType from "./VaultType";
 
 export default function VaultTypeList({isStable=true}: {isStable?: boolean}) {

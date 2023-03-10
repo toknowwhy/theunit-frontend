@@ -1,4 +1,4 @@
-import { basicTokens } from "../config";
+import { basicTokens } from "../../crypto/config";
 import { useCurrentNetwork } from "./useCurrentNetwork"
 
 export const useSupportedCollaterals = () => {
