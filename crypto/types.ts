@@ -42,6 +42,8 @@ export type ContractFunc =
 | "increaseCollateral"
 | "mint"
 | "approve"
+| "decreaseCollateral"
+| "burn"
 
 /**
  * A transaction is pending until it has either been cancelled, errored or succeeded.

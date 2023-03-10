@@ -110,11 +110,17 @@ function ConfirmBtn({ collateral, account, collateralAmount, isManage, unitAmoun
 
     const confirm = async () => {
         const { data: signer } = await getSigner()
-        const callTransaction = buildTx(
+        const isDeposit = collateralAmount > 0;
+        const callTransaction = isDeposit ? buildTx(
             network.unitRouter, 
             "increaseCollateral", 
             signer!,
             [collateral.address, parseUnits(`${collateralAmount}`, collateral.decimals),  account]
+        ) : buildTx(
+            network.vault, 
+            "decreaseCollateral", 
+            signer!,
+            [account, parseUnits(`${collateralAmount}`, collateral.decimals),  collateral.address]
         )
         const txId = await sendTx({
             name: t('deposit', {symbol: collateral.symbol}),
@@ -134,7 +140,7 @@ function ConfirmBtn({ collateral, account, collateralAmount, isManage, unitAmoun
         const { data: signer } = await getSigner()
         const callTransaction = buildTx(
             network.unitToken, 
-            "mint", 
+            unitAmount > 0 ? "mint" : "burn", 
             signer!,
             [account, parseEther(`${unitAmount}`), collateral.address]
         )
