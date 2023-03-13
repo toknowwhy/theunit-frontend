@@ -20,7 +20,8 @@
         "candidates-notes": "Currencies with potential to be in The Unit",
         "available-supply": "Available Supply",
         "dominance": "Dominance",
-        "total-supply": "Total Supply"
+        "total-supply": "Total Supply",
+        "tweet-chart": "Tweet this Chart"
     },
     "Vault": {
         "connect-wallet": "Connect Wallet",

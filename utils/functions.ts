@@ -26,6 +26,9 @@ export const renderPrice = (price: number) => 'Ø' + (price < 0.001 ? price.toFi
 export const renderBigNumber = (num: number) => numberWithCommas((num / 1000000).toFixed(0))
 
 export const getPriceInfo = (data: ThumbChartDataType[], currency: string): PriceInfo => {
+    if (!data) {
+        return { price:0, change:0, changePercentage:0 }
+    }
     const endValue = data[0].value;
     const initialValue = data[data.length - 1].value;
     const diff = endValue - initialValue;

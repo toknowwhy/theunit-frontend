@@ -48,8 +48,10 @@ export default async function UnitPage({
                     usdData={data.USD} 
                 />
         </div>
-        <TokenPriceInfo data={data[currency]} currency={currency} />
-        <div className="mb-8"></div>
+        <div className="flex justify-between items-end mb-8">
+            <TokenPriceInfo data={data[currency]} currency={currency} />
+            <div className="pr-4 text-sm">Tweet this chart 👇🏼</div>
+        </div>
         <ChartWrapper locale={locale} symbol={symbol} />
     </>
 }
