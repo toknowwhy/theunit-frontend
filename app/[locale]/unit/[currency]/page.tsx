@@ -28,7 +28,7 @@ export default async function UnitPage({
     params: { currency: CurrencyType }
 }) {
     const locale = useLocale();
-    const currency = params.currency;
+    const currency = params.currency.toUpperCase();
     const data = await getData();
 
     const symbol: ChartSymbolType = currency === 'BTC' ? 'UNITSATOSHI' : 

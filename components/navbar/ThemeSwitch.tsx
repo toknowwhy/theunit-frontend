@@ -24,8 +24,8 @@ export default function ThemeSwitch() {
                             className="cursor-pointer"
                             src={theme === 'dark' ? light : dark} 
                             alt="theme" 
-                            width={32}
-                            height={32}
+                            width={24}
+                            height={24}
                     />
                 </button>
             </ThemeProvider>
