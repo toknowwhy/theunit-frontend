@@ -1,4 +1,4 @@
-import { CoinTableData } from "@/utils/db/types"
+import { CoinTableData } from "@/utils/types"
 import { useTranslations } from "next-intl"
 import Table from "./Table";
 

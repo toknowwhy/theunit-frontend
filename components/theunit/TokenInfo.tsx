@@ -1,5 +1,5 @@
 import { averageLifeExpectancyInYears, currentWorldPopulation } from "@/utils/constants";
-import { CoinTableData } from "@/utils/db/types";
+import { CoinTableData } from "@/utils/types";
 import { numberWithCommas } from "@/utils/functions";
 import { useTranslations } from "next-intl";
 

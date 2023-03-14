@@ -4,7 +4,7 @@ import CoinLogo from "@/components/CoinLogo";
 import PriceChange from "@/components/theunit/PriceChange";
 import TokenInfo from "@/components/theunit/TokenInfo";
 import { useLocale } from "next-intl";
-import { CoinTableData } from "@/utils/db/types";
+import { CoinTableData } from "@/utils/types";
 
 
 export default function TokenPage({ data } : {data: CoinTableData[]}) {

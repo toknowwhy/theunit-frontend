@@ -1,4 +1,4 @@
-import { CoinTableData } from "@/utils/db/types";
+import { CoinTableData } from "@/utils/types";
 import { renderPrice, renderBigNumber } from "@/utils/functions";
 import CoinLogo from "../CoinLogo";
 import PriceChange from "./PriceChange";
