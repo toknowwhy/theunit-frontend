@@ -22,7 +22,7 @@ export default function Button({
     } else if (loading) {
         names += " bg-primary/50 flex items-center justify-center gap-4";
     } else {
-        names += " bg-primary text-text"
+        names += " bg-primary text-black-light dark:text-text"
     }
 
     return (

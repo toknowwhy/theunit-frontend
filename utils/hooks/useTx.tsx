@@ -7,10 +7,12 @@ import { createTransactionsAtom, updateTransactionsAtom } from "../atoms";
 import { useCurrentNetwork } from "./useCurrentNetwork";
 import { SendTransactionOptions, TransactionCallbacks, TransactionState, TransactionStatus } from "@/utils/types";
 import TransactionToast, { TransactionToastStatus } from "@/components/web3/TransactionToast";
+import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 
 export const useTx = () => {
     const { address: usersAddress } = useAccount();
     const { id: chainId } = useCurrentNetwork();
+    const addRecentTransaction = useAddRecentTransaction();
     const createTransaction = useSetAtom(createTransactionsAtom)
     const updateTransaction = useSetAtom(updateTransactionsAtom)
     let response: TransactionResponse
@@ -48,7 +50,12 @@ export const useTx = () => {
             // Transaction was confirmed in users wallet
             updateTransaction({ id, response, status: TransactionStatus.pendingBlockchainConfirmation })
             callbacks?.onConfirmedByUser?.(id)
-      
+            if (response.hash) {
+              addRecentTransaction({
+                hash: receipt.transactionHash,
+                description: name,
+              });
+            }
             const receiptPromise = response.wait()
             toast.promise(receiptPromise, {
               pending: {
