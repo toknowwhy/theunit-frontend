@@ -1,3 +1,5 @@
+'use client'
+
 import { memo, useEffect, useRef } from 'react';
 import { 
 	widget, 
@@ -9,6 +11,7 @@ import {
 	ChartingLibraryWidgetOptions
 } from '@/public/charting_library';
 import { UnitDatafeed } from './datafeed';
+import { useTheme } from '@wits/next-themes';
 
 
 const TVChartContainer = memo(function TVChartContainer({
@@ -19,6 +22,7 @@ const TVChartContainer = memo(function TVChartContainer({
 	locale?: string 
 }) {
 	const ref = useRef(null);
+	const { theme } = useTheme();
 
 	const widgetOptions = {
 		symbol: symbol,
@@ -26,7 +30,7 @@ const TVChartContainer = memo(function TVChartContainer({
 		datafeed: new UnitDatafeed(),
 		interval: 'D' as ResolutionString,
 		library_path: '/charting_library/',
-		theme: 'Dark' as ThemeName,
+		theme: (theme === 'dark' ? 'Dark' : 'Light') as ThemeName,
 		locale: locale as LanguageCode,
 		disabled_features: ['use_localstorage_for_settings'],
 		enabled_features: ['study_templates'],
