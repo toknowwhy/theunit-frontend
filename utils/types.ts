@@ -150,6 +150,10 @@ export interface ThumbChartDataType {
 
 export type CurrencyType = "BTC" | "ETH" | "USD"
 
+export function instanceOfCurrencyType(object: any): object is CurrencyType {
+    return object === "BTC" || object === "ETH" || object === "USD";
+} 
+
 export type ChartSymbolType = "UNITSATOSHI" | "UNITFINNEY" | "UNITUSD"
 
 export interface CoinInfo {

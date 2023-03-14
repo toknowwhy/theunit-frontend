@@ -1,12 +1,13 @@
 import { getETHHourlyData, getUnitHourlyData } from "@/utils/db/getUnitDailyData";
 import clientPromise from "@/utils/db/mongodb";
-import { ChartSymbolType, CurrencyType, ThumbChartDataType } from "@/utils/types";
+import { ChartSymbolType, instanceOfCurrencyType } from "@/utils/types";
 import ChartWrapper from "@/components/charts/ChartWrapper";
 import ThumbCharts from "@/components/charts/ThumbCharts";
 import TokenPriceInfo from "@/components/theunit/TokenPriceInfo";
 import bgd from '@/public/thumbs-bgd.svg';
 import { useLocale } from "next-intl";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 async function getData()  {
     const client = await clientPromise;
@@ -25,10 +26,15 @@ async function getData()  {
 export default async function UnitPage({
     params
 } : {
-    params: { currency: CurrencyType }
+    params: { currency: string }
 }) {
     const locale = useLocale();
+
     const currency = params.currency.toUpperCase();
+    if (!instanceOfCurrencyType(currency)) {
+        return notFound();
+    }
+
     const data = await getData();
 
     const symbol: ChartSymbolType = currency === 'BTC' ? 'UNITSATOSHI' : 
