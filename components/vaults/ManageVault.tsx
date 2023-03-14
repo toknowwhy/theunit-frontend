@@ -104,7 +104,7 @@ export default function ManageVault({
     return <WithSupportedNetwork>
             <VaultHeader symbol={collateral.symbol} liquidationRatio={liquidationRatio} />
             <PriceRow price={currentPrice} nextPrice={nextPrice} />
-            <VaultForm { ...props } />
+            {collateral && <VaultForm { ...props } />}
             <ToastContainer 
                 position="top-right"
                 theme='dark'
