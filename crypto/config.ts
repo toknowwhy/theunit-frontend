@@ -1,22 +1,16 @@
 import { 
     VaultABI, 
-    ERC20ABI, 
-    CollateralManagerABI, 
     UnitRouterABI, 
     UnitTokenABI,
     PriceFeedABI, 
 } from './abis';
 
-import { default as goerliAddresses } from './addresses/goerli.json'
+import { default as sepoliaAddresses } from './addresses/sepholia.json'
 import { Abi, Address, ContractDesc, TokenDesc } from '@/utils/types';
-import { goerli as goerliChain } from 'wagmi/chains';
+import { sepolia as sepoliaChain } from 'wagmi/chains';
 import { keyBy } from 'lodash'
 
-export const initialNetwork = goerliChain;
-
-export const supportedCollateralsGoerli = [,
-    "USDT"
-];
+export const initialNetwork = sepoliaChain;
 
 export function contractDesc(abi: Abi[], address: Address): ContractDesc {
     return { abi, address }
@@ -41,33 +35,26 @@ function getRpc(network: string): string {
     return `https://${network}.infura.io/v3/${infuraProjectId}`
 }
 
-export const basicTokens = [
-    tokenDesc('ethereum', 'Ethereum', 'ETH', false, ERC20ABI, goerliAddresses.USDT as Address, 18),
-    tokenDesc('usdt', 'Tether', 'USDT', true, ERC20ABI, goerliAddresses.USDT as Address, 6),
-] as Array<TokenDesc>
-
-const goerli = {
-    id: 5,
-    name: 'goerli',
-    label: 'Goerli test network',
-    infuraUrl: getRpc('goerli'),
+const sepolia = {
+    id: 11155111,
+    name: 'sepolia',
+    label: 'Sepolia test network',
+    infuraUrl: getRpc('sepolia'),
     safeConfirmations: 6,
-    tokens: [...basicTokens],
-    collateralManager: contractDesc(CollateralManagerABI, goerliAddresses.COLLATERAL_MANAGER as Address),
-    unitToken: contractDesc(UnitTokenABI, goerliAddresses.UNIT_TOKEN as Address),
-    unitRouter: contractDesc(UnitRouterABI, goerliAddresses.UNIT_ROUTER_V1 as Address),
-    vault: contractDesc(VaultABI, goerliAddresses.VAULT as Address),
-    priceFeed: contractDesc(PriceFeedABI, goerliAddresses.PRICE_FEED as Address),
+    unitToken: contractDesc(UnitTokenABI, sepoliaAddresses.UNIT_TOKEN as Address),
+    unitRouter: contractDesc(UnitRouterABI, sepoliaAddresses.UNIT_ROUTER_V1 as Address),
+    vault: contractDesc(VaultABI, sepoliaAddresses.VAULT as Address),
+    priceFeed: contractDesc(PriceFeedABI, sepoliaAddresses.PRICE_FEED as Address),
     etherscan: {
-        url: 'https://goerli.etherscan.io',
-        apiUrl: 'https://api-goerli.etherscan.io/api',
+        url: 'https://sepolia.etherscan.io',
+        apiUrl: 'https://api-sepolia.etherscan.io/api',
         apiKey: etherscanAPIKey,
     },
 }
 
-export type Network = typeof goerli
+export type Network = typeof sepolia
 
-const supportedNetworks = [goerli];
+const supportedNetworks = [sepolia];
 
 export const networkById = keyBy(supportedNetworks, 'id')
 export const networkByName = keyBy(supportedNetworks, 'name')

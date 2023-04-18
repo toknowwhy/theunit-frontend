@@ -8,13 +8,13 @@ import {
   darkTheme
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { goerli } from 'wagmi/chains';
+import { sepolia } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { PropsWithChildren } from 'react';
 import { initialNetwork } from '@/crypto/config';
 
 const { chains, provider } = configureChains(
-    [goerli],
+    [sepolia],
     [publicProvider()]
   );
   
