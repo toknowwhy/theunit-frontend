@@ -3,6 +3,7 @@ import {
     UnitRouterABI, 
     UnitTokenABI,
     PriceFeedABI, 
+    ERC20ABI,
 } from './abis';
 
 import { default as sepoliaAddresses } from './addresses/sepholia.json'
@@ -28,6 +29,10 @@ export function tokenDesc(
     return { coinId, name, symbol, stable, abi, address, decimals }
 }
 
+export const supportedCollaterals = [
+    tokenDesc('ethereum', 'Ethereum', 'ETH', false, ERC20ABI, sepoliaAddresses.WETH as Address, 18),
+] as Array<TokenDesc>
+
 const infuraProjectId = process.env.INFURA_PROJECT_ID || ''
 const etherscanAPIKey = process.env.ETHERSCAN_API_KEY || ''
 
@@ -45,6 +50,7 @@ const sepolia = {
     unitRouter: contractDesc(UnitRouterABI, sepoliaAddresses.UNIT_ROUTER_V1 as Address),
     vault: contractDesc(VaultABI, sepoliaAddresses.VAULT as Address),
     priceFeed: contractDesc(PriceFeedABI, sepoliaAddresses.PRICE_FEED as Address),
+    tokens: supportedCollaterals,
     etherscan: {
         url: 'https://sepolia.etherscan.io',
         apiUrl: 'https://api-sepolia.etherscan.io/api',

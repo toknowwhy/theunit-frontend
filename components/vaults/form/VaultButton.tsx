@@ -1,6 +1,6 @@
 "use client"
 
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { TokenDesc } from "@/utils/types";
 import Button from "../../button/Button";
@@ -24,7 +24,13 @@ const VaultButton = memo(function VaultButton(props: VaultButtonProps) {
     const { collateral, disabled, isManage, account } = props;
     const isCorrectNetwork = useIsCorrectNetwork()
 
-    if (!account || !isCorrectNetwork) {
+    const [isConnected, setIsConnected] = useState(false);
+
+    useEffect(() => {
+        setIsConnected(Boolean(account) && isCorrectNetwork)
+    }, [account, isCorrectNetwork])
+
+    if (!isConnected) {
         return <Button>
             <ConnectWallet connectLabel={t('connect-wallet')} networkLabel={t('switch-network')} notHeader />
         </Button>

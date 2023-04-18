@@ -33,19 +33,8 @@ export default function ManageVault({
     const { data: contractDatas } = useContractReads({
         contracts: [
             {
-                ...currentNetwork.collateralManager,
-                functionName: 'collateralsDetail',
-                args: [collateral.address]
-            },
-            {
                 ...currentNetwork.vault,
-                functionName: "collateralAmount",
-                enabled,
-                args: [account, collateral.address]
-            },
-            {
-                ...currentNetwork.unitToken,
-                functionName: "unitDebt",
+                functionName: "vaultOwnerAccount",
                 enabled,
                 args: [account, collateral.address]
             },
@@ -57,10 +46,11 @@ export default function ManageVault({
         ],
     })
     
-    const liquidationRatio = contractReadDatas ? getLiquidateRatio((contractReadDatas[0] as any)[0]) : 1;
-    const roundId = contractReadDatas ? (contractReadDatas[3] as BigNumber).toNumber() : 2;
-    const vaultCollateralAmount = contractReadDatas ? (contractReadDatas[1] as BigNumber) : BigNumber.from(0);
-    const vaultUnitDebt = contractReadDatas ? (contractReadDatas[2] as BigNumber) : BigNumber.from(0);
+    // const liquidationRatio = contractReadDatas ? getLiquidateRatio((contractReadDatas[0] as any)[0]) : 1;
+    const liquidationRatio = 1;
+    const roundId = contractReadDatas ? (contractReadDatas[1] as BigNumber).toNumber() : 2;
+    const vaultCollateralAmount = contractReadDatas ? (contractReadDatas[0][0] as BigNumber) : BigNumber.from(0);
+    const vaultUnitDebt = contractReadDatas ? (contractReadDatas[0][1] as BigNumber) : BigNumber.from(0);
 
     const { data: roundDatas } = useContractReads({
         contracts: [

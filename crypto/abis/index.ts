@@ -1,4 +1,3 @@
-export { CollateralManagerABI } from './CollateralManager';
 export { ERC20ABI } from './ERC20';
 export { UnitRouterABI } from './UnitRouterV1';
 export { UnitTokenABI } from './UnitToken';
