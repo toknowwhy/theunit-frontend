@@ -6,6 +6,8 @@ import { TokenDesc } from "@/utils/types";
 import Button from "../../button/Button";
 import ApproveButton from "./ApproveButton";
 import ConfirmBtn from "./ManageButton";
+import ConnectWallet from "@/components/web3/ConnectWallet";
+import { useIsCorrectNetwork } from "@/utils/hooks/useIsCorrectNetwok";
 
 export interface VaultButtonProps {
     collateral: TokenDesc;
@@ -19,7 +21,15 @@ export interface VaultButtonProps {
 
 const VaultButton = memo(function VaultButton(props: VaultButtonProps) {
     const t = useVaultTranslations();
-    const { collateral, disabled, isManage } = props;
+    const { collateral, disabled, isManage, account } = props;
+    const isCorrectNetwork = useIsCorrectNetwork()
+
+    if (!account || !isCorrectNetwork) {
+        return <Button>
+            <ConnectWallet connectLabel={t('connect-wallet')} networkLabel={t('switch-network')} notHeader />
+        </Button>
+    }
+
     if (disabled) {
         return <Button disabled>
                     { isManage ? t('update') : t('create')}

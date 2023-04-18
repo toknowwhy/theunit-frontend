@@ -121,6 +121,10 @@ export interface SendTransactionOptions {
     callbacks?: TransactionCallbacks
 }
 
+export interface AddressAndChain {
+    account: string|undefined;
+    chain: 4|undefined;
+}
 
 
 /***************************** Frontend Types **********************************/

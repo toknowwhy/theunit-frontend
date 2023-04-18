@@ -13,7 +13,6 @@ import { keyBy } from 'lodash';
 import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { useAccount, useContractReads } from 'wagmi';
-import WithSupportedNetwork from './WithSupportedNetwork';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 export default function ManageVault({ 
@@ -101,7 +100,7 @@ export default function ManageVault({
         unitToken: currentNetwork.unitToken,
     }
 
-    return <WithSupportedNetwork>
+    return <>
             <VaultHeader symbol={collateral.symbol} liquidationRatio={liquidationRatio} />
             <PriceRow price={currentPrice} nextPrice={nextPrice} />
             {collateral && <VaultForm { ...props } />}
@@ -110,7 +109,7 @@ export default function ManageVault({
                 theme='dark'
                 className='max-w-full'
             />
-        </WithSupportedNetwork>
+        </>
 }
 
 const getPrice = (decimals: number, data?: unknown) => {

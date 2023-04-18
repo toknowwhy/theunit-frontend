@@ -5,10 +5,12 @@ import Image from 'next/image';
 
 export default function ConnectWallet({ 
   connectLabel,
-  networkLabel
+  networkLabel,
+  notHeader = false,
 } : { 
   connectLabel: string,
   networkLabel: string,
+  notHeader?: boolean,
 }) {
     return <ConnectButton.Custom>
     {({
@@ -19,13 +21,13 @@ export default function ConnectWallet({
       openConnectModal,
       mounted,
     }) => {
-      // Note: If your app doesn't use authentication, you
-      // can remove all 'authenticationStatus' checks
       const ready = mounted;
       const connected =
         ready &&
         account &&
         chain;
+
+      const buttonClass = notHeader ? 'w-full h-full' : '';
 
       return (
         <div
@@ -41,7 +43,7 @@ export default function ConnectWallet({
           {(() => {
             if (!connected) {
               return (
-                <button onClick={openConnectModal} type="button">
+                <button onClick={openConnectModal} type="button" className={buttonClass}>
                   {connectLabel}
                 </button>
               );
@@ -49,7 +51,7 @@ export default function ConnectWallet({
 
             if (chain.unsupported) {
               return (
-                <button onClick={openChainModal} type="button">
+                <button onClick={openChainModal} type="button" className={buttonClass}>
                   {networkLabel}
                 </button>
               );
