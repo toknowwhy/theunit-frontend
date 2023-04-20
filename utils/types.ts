@@ -66,10 +66,14 @@ export type TheUnitContracts =
 
 export type ContractFunc = 
 | "increaseCollateral"
-| "mint"
+| "increaseCollateralETH"
+| "increaseCollateralAndMint"
 | "approve"
 | "decreaseCollateral"
-| "burn"
+| "decreaseCollateralETH"
+| "decreaseCollateralAndBurn"
+| "increaseETHAndMint"
+| "decreaseETHAndBurn"
 
 /**
  * A transaction is pending until it has either been cancelled, errored or succeeded.
@@ -141,7 +145,7 @@ export interface VaultProp {
     collateral: TokenDesc;
     price: number;
     liquidationRatio: number;
-    account?: string;
+    account?: `0x${string}`;
     vaultCollateralAmount: BigNumber;
     vaultUnitDebt: BigNumber;
     unitToken: ContractDesc;

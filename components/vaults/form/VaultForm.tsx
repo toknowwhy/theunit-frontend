@@ -13,6 +13,7 @@ import { formatEther, formatUnits } from "ethers/lib/utils.js";
 import VaultStats from "../info/VaultStats";
 import TokenBalance from "./TokenBalance";
 import VaultButton from "./VaultButton";
+import { useBalance } from "wagmi";
 
 export default function VaultForm({
     collateral,
@@ -28,6 +29,7 @@ export default function VaultForm({
     const uamount = vaultUnitDebt ? parseFloat(formatEther(vaultUnitDebt)) : 0;
     const isManage = camount > 0;
     const symbol = collateral.symbol;
+    const isETH = symbol === 'ETH';
     
     const t = useVaultTranslations();
 
@@ -40,17 +42,23 @@ export default function VaultForm({
 
     const debounceUnitValue = useDebounce(unitValue, 500);
     const debounceCollateralValue = useDebounce(collateralValue, 500);
-    const { balance: cbal, refetch: refetchCbal } = useCollateralBalance(collateral, account);
-    const { balance: ubal, refetch: refetchUbal } = useCollateralBalance(unitToken, account);
+    const { balance: cbal, refetch: refetchCbal } = useCollateralBalance(collateral, isETH, account);
+    const { balance: ubal, refetch: refetchUbal } = useCollateralBalance(unitToken, isETH, account);
+    const { data: ebal, refetch: refetchEbal } = useBalance({
+        address: account,
+        enabled: Boolean(account) && isETH
+    })
 
     useEffect(() => {
-        if (cbal) {
-            setBalance(cbal);
+        if (isETH && ebal) {
+            setBalance(parseFloat(ebal.formatted));
+        } else if (!isETH && cbal) {
+            setBalance(cbal)
         }
         if (ubal) {
             setUnitBalance(ubal);
         }
-    }, [cbal, ubal])
+    }, [cbal, ubal, ebal, isETH])
 
     
     const uvalue = toFloat(debounceUnitValue);

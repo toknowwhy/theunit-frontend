@@ -8,7 +8,7 @@ import VaultHeader from './info/VaultHeader';
 import { useCurrentNetwork } from '@/utils/hooks/useCurrentNetwork';
 import { useSupportedCollaterals } from '@/utils/hooks/useSupportedCollaterals';
 import { BigNumber } from 'ethers';
-import { formatUnits } from 'ethers/lib/utils.js';
+import { formatEther, formatUnits } from 'ethers/lib/utils.js';
 import { keyBy } from 'lodash';
 import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
@@ -39,6 +39,12 @@ export default function ManageVault({
                 args: [account, collateral.address]
             },
             {
+                ...currentNetwork.vault,
+                functionName: "liquidationFee",
+                enabled,
+                args: []
+            },
+            {
                 ...currentNetwork.priceFeed,
                 functionName: "latestRound",
                 enabled
@@ -48,7 +54,8 @@ export default function ManageVault({
     
     // const liquidationRatio = contractReadDatas ? getLiquidateRatio((contractReadDatas[0] as any)[0]) : 1;
     const liquidationRatio = 1;
-    const roundId = contractReadDatas ? (contractReadDatas[1] as BigNumber).toNumber() : 2;
+    const roundId = contractReadDatas ? (contractReadDatas[2] as BigNumber).toNumber() : 2;
+    const liquidationFee = contractReadDatas ? (contractReadDatas[1] as BigNumber).toNumber() : 2;
     const vaultCollateralAmount = contractReadDatas ? (contractReadDatas[0][0] as BigNumber) : BigNumber.from(0);
     const vaultUnitDebt = contractReadDatas ? (contractReadDatas[0][1] as BigNumber) : BigNumber.from(0);
 
@@ -103,6 +110,13 @@ export default function ManageVault({
 }
 
 const getPrice = (decimals: number, data?: unknown) => {
+    return {
+        currentPrice: 1020,
+        nextPrice: 1030
+    }
+
+
+
     if (!data) {
         return {
             currentPrice: 0,

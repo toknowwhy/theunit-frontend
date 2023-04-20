@@ -7,8 +7,10 @@ import { parseEther, parseUnits } from "ethers/lib/utils.js";
 import { useSigner } from "wagmi";
 import { useState } from "react";
 import { buildTx } from "@/utils/buildTx";
+import { toast } from "react-toastify";
 import TxButton from "@/components/web3/TxButton";
 import { VaultButtonProps } from "./VaultButton";
+import { ContractFunc } from "@/utils/types";
 
 export default function ConfirmBtn({ 
     collateral, 
@@ -24,73 +26,81 @@ export default function ConfirmBtn({
 
     const { refetch: getSigner } = useSigner();
     const network = useCurrentNetwork();
-
-    const overrides = {
-        gasLimit: 120000
-    }
+    const isETH = collateral.symbol === 'ETH';
 
     const confirm = async () => {
+        if (!isETH) {
+            toast.error(t('collateral-not-supported', {symbol: collateral.symbol}));
+            return;
+        }
         const { data: signer } = await getSigner()
-        const isDeposit = collateralAmount > 0;
-        const callTransaction = isDeposit ? buildTx(
+        let action: ContractFunc|undefined;
+        let params: any[] = [];
+        let msgValue: number = 0;
+        let transactionName: string = '';
+        if (collateralAmount > 0) {
+            if (unitAmount > 0) {
+                action = 'increaseETHAndMint'
+                params = [unitAmount, account]
+                transactionName = 'deposit-mint'
+            } else if (unitAmount == 0) {
+                action = 'increaseCollateralETH'
+                params = [account]
+                transactionName = 'deposit'
+            }
+            msgValue = collateralAmount;
+        } else if (collateralAmount == 0) {
+            if (unitAmount > 0) {
+                action = 'increaseETHAndMint'
+                params = [unitAmount, account]
+                transactionName = 'mint'
+            } else if (unitAmount < 0) {
+                action = 'decreaseETHAndBurn'
+                params = [0, -unitAmount, account]
+                transactionName = 'burn'
+            }
+        } else {
+            if (unitAmount < 0) {
+                action = 'decreaseETHAndBurn'
+                params = [-collateralAmount, -unitAmount, account]
+                transactionName = 'withdraw-burn'
+            } else if (unitAmount == 0) {
+                action = 'decreaseCollateralETH'
+                params = [-collateralAmount, account]
+                transactionName = 'withdraw'
+            }
+        }
+
+        if (!action) {
+            toast.error(t('action-not-supported'));
+            return;
+        }
+
+        params.push({
+            gasLimit: 120000,
+            value: parseEther(msgValue.toString())
+        })
+
+        const callTransaction = buildTx(
             network.unitRouter, 
-            "increaseCollateral", 
+            action,
             signer!,
-            [collateral.address, parseUnits(`${collateralAmount}`, collateral.decimals),  account, overrides]
-        ) : buildTx(
-            network.vault, 
-            "decreaseCollateral", 
-            signer!,
-            [account, parseUnits(`${collateralAmount}`, collateral.decimals),  collateral.address, overrides]
-        )
+            params
+        );
         const txId = await sendTx({
-            name: t(isDeposit ? 'deposit' : 'withdraw', {symbol: collateral.symbol}),
+            name: transactionName.startsWith('deposit') || transactionName.startsWith('withdraw') ? 
+                    t(transactionName, {symbol: collateral.symbol}) : t(transactionName),
             callTransaction,
             callbacks: {
               onSuccess: (id) => {
-                if (unitAmount != 0) {
-                    mint();
-                } else {
-                    reset();
-                }
+                reset()
               }
             }
         })
         setTxId(txId);
     }
 
-    const mint = async () => {
-        const { data: signer } = await getSigner()
-        const callTransaction = buildTx(
-            network.unitToken, 
-            unitAmount > 0 ? "mint" : "burn", 
-            signer!,
-            [account, parseEther(`${unitAmount}`), collateral.address, overrides]
-        )
-        const txId = await sendTx({
-            name: t('mint'),
-            callTransaction,
-            callbacks: {
-              onSuccess: reset,
-              onError: () => {
-                if (collateralAmount != 0) {
-                    reset();
-                }
-              }
-            }
-        })
-        setTxId(txId);
-    }
-
-    const onClick = () => {
-        if (collateralAmount == 0) {
-            mint();
-        } else {
-            confirm();
-        }
-    }
-
-    return <TxButton txId={txId}  onClick={onClick}>
+    return <TxButton txId={txId}  onClick={confirm}>
         { isManage ? t('update') : t('create')}
     </TxButton>
 }

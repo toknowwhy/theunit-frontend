@@ -3,5 +3,5 @@ import { useCurrentNetwork } from "./useCurrentNetwork"
 
 export const useSupportedCollaterals = () => {
     const currentNetwork = useCurrentNetwork();
-    return currentNetwork?.collaterals ?? supportedCollaterals;
+    return currentNetwork?.tokens ?? supportedCollaterals;
 }

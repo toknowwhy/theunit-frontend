@@ -41,6 +41,8 @@
         "mins": "mins",
         "deposit": "Deposit {symbol}",
         "withdraw": "Withdraw {symbol}",
+        "deposit-mint": "Deposit {symbol} and mint UNIT",
+        "withdraw-burn": "Withdraw {symbol} and burn UNIT",
         "mint": "Mint UNIT",
         "burn": "Burn UNIT",
         "create": "Create Vault",
@@ -72,7 +74,9 @@
         "confirm": "Confirm",
         "less-than-0": "Cannot be less than 0",
         "transaction-sent-receipt": "Transaction sent! Click to see it in Etherscan.",
-        "not-enough-unit-to-burn": "Not enough UNIT tokens to burn"
+        "not-enough-unit-to-burn": "Not enough UNIT tokens to burn",
+        "collateral-not-supported": "Collateral {symbol} is not supported yet",
+        "action-not-supported": "Action not supported! Please check your input"
     },
     "History": {
         "name": "Name",
