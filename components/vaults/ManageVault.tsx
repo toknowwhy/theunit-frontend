@@ -1,19 +1,17 @@
 'use client'
 
-import { VaultProp } from '@/utils/types';
-import { getLiquidateRatio } from '@/utils/functions';
+import { VaultInfoType } from '@/utils/types';
+import { useCurrentNetwork } from '@/utils/hooks/useCurrentNetwork';
+import { useSupportedCollaterals } from '@/utils/hooks/useSupportedCollaterals';
+import { keyBy } from 'lodash';
+import { useEffect, useState } from 'react';
+import { initialVaultInfo, useVaultInfo } from '@/utils/hooks/useVaultInfo';
+import { ToastContainer } from 'react-toastify';
+import { useAccount } from 'wagmi';
+import 'react-toastify/dist/ReactToastify.min.css';
 import PriceRow from './info/PriceRow';
 import VaultForm from './form/VaultForm';
 import VaultHeader from './info/VaultHeader';
-import { useCurrentNetwork } from '@/utils/hooks/useCurrentNetwork';
-import { useSupportedCollaterals } from '@/utils/hooks/useSupportedCollaterals';
-import { BigNumber } from 'ethers';
-import { formatEther, formatUnits } from 'ethers/lib/utils.js';
-import { keyBy } from 'lodash';
-import { useEffect, useState } from 'react';
-import { ToastContainer } from 'react-toastify';
-import { useAccount, useContractReads } from 'wagmi';
-import 'react-toastify/dist/ReactToastify.min.css';
 
 export default function ManageVault({ 
     symbol 
@@ -25,110 +23,28 @@ export default function ManageVault({
     const collateral = collateralBySymbol[symbol];
     const currentNetwork = useCurrentNetwork();
     const { address: account } = useAccount();
-
-    const [contractReadDatas, setContractReadDatas] = useState();
-    const [priceDatas, setPriceDatas] = useState<BigNumber[][] | undefined>();
-    
-    const enabled = Boolean(currentNetwork) && Boolean(account);
-    const { data: contractDatas } = useContractReads({
-        contracts: [
-            {
-                ...currentNetwork.vault,
-                functionName: "vaultOwnerAccount",
-                enabled,
-                args: [account, collateral.address]
-            },
-            {
-                ...currentNetwork.vault,
-                functionName: "liquidationFee",
-                enabled,
-                args: []
-            },
-            {
-                ...currentNetwork.priceFeed,
-                functionName: "latestRound",
-                enabled
-            },
-        ],
-    })
-    
-    // const liquidationRatio = contractReadDatas ? getLiquidateRatio((contractReadDatas[0] as any)[0]) : 1;
-    const liquidationRatio = 1;
-    const roundId = contractReadDatas ? (contractReadDatas[2] as BigNumber).toNumber() : 2;
-    const liquidationFee = contractReadDatas ? (contractReadDatas[1] as BigNumber).toNumber() : 2;
-    const vaultCollateralAmount = contractReadDatas ? (contractReadDatas[0][0] as BigNumber) : BigNumber.from(0);
-    const vaultUnitDebt = contractReadDatas ? (contractReadDatas[0][1] as BigNumber) : BigNumber.from(0);
-
-    const { data: roundDatas } = useContractReads({
-        contracts: [
-            {
-                ...currentNetwork.priceFeed,
-                functionName: "getRoundData",
-                enabled: enabled && Boolean(roundId),
-                args: [roundId-1]
-            },
-            {
-                ...currentNetwork.priceFeed,
-                functionName: "getRoundData",
-                enabled: enabled && Boolean(roundId),
-                args: [roundId]
-            }
-        ]
-    })
-
-    const { currentPrice,  nextPrice } = getPrice(collateral.decimals, priceDatas);
+    const [vaultInfo, setVaultInfo] = useState<VaultInfoType>(initialVaultInfo);
+    const myVaultInfo = useVaultInfo(collateral.address, currentNetwork, account);
 
     useEffect(() => {
-        if (contractDatas) {
-            setContractReadDatas(contractDatas as any);
-        }
-        if (roundDatas) {
-            setPriceDatas(roundDatas as BigNumber[][]);
-        }
-    }, [contractDatas, roundDatas])
-    
-    const props: VaultProp = {
-        collateral,
-        price: currentPrice,
-        liquidationRatio,
-        account,
-        vaultCollateralAmount: vaultCollateralAmount,
-        vaultUnitDebt: vaultUnitDebt,
-        unitToken: currentNetwork.unitToken,
-    }
+        setVaultInfo(myVaultInfo);
+    }, [myVaultInfo])
 
     return <>
-            <VaultHeader symbol={collateral.symbol} liquidationRatio={liquidationRatio} />
-            <PriceRow price={currentPrice} nextPrice={nextPrice} />
-            {collateral && <VaultForm { ...props } />}
+            <VaultHeader symbol={collateral.symbol} liquidationFee={vaultInfo.liquidationFee} />
+            <PriceRow price={vaultInfo.currentPrice} nextPrice={vaultInfo.nextPrice} />
+            {collateral && (
+                <VaultForm 
+                    account={account} 
+                    collateral={collateral} 
+                    vaultInfo={vaultInfo} 
+                    unitToken={currentNetwork.unitToken}
+                />
+            )}
             <ToastContainer 
                 position="top-right"
                 theme='dark'
                 className='max-w-full'
             />
         </>
-}
-
-const getPrice = (decimals: number, data?: unknown) => {
-    return {
-        currentPrice: 1020,
-        nextPrice: 1030
-    }
-
-
-
-    if (!data) {
-        return {
-            currentPrice: 0,
-            nextPrice: 0
-        }
-    }
-
-    const priceData = data as BigNumber[][];
-    const currentPriceData = formatUnits(priceData[0][1], decimals);
-    const nextPriceData = formatUnits(priceData[1][1], decimals);
-    return {
-        currentPrice: 1 / parseFloat(currentPriceData),
-        nextPrice: 1 / parseFloat(nextPriceData),
-    }
 }

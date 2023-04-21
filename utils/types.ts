@@ -141,16 +141,6 @@ export type VaultActionType =
  | 'mint'
  | 'burn'
 
-export interface VaultProp {
-    collateral: TokenDesc;
-    price: number;
-    liquidationRatio: number;
-    account?: `0x${string}`;
-    vaultCollateralAmount: BigNumber;
-    vaultUnitDebt: BigNumber;
-    unitToken: ContractDesc;
-}
-
 export interface ThumbChartDataType {
     value: number;
     time: string;
@@ -179,4 +169,13 @@ export interface PriceInfo {
     price: number;
     change: number;
     changePercentage: number;
+}
+
+export interface VaultInfoType {
+    liquidationFee: number;
+    minUnit: number;
+    collateralAmount: BigNumber;
+    unitAmount: BigNumber;
+    currentPrice: number;
+    nextPrice: number;
 }

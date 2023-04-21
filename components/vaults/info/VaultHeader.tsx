@@ -6,10 +6,10 @@ import VaultInfoTitle from "./VaultInfoTitle";
 
 export default function VaultHeader({ 
     symbol, 
-    liquidationRatio 
+    liquidationFee 
 }: {
     symbol: string,
-    liquidationRatio: number
+    liquidationFee: number
 }) {
 
     const t = useVaultTranslations();
@@ -25,7 +25,7 @@ export default function VaultHeader({
             <VaultInfo 
                 title={t('liquidation-ratio')} 
                 info={t('liquidation-ratio-info')} 
-                value= {(liquidationRatio*100).toFixed(0)+'%'}
+                value= {(liquidationFee*100).toFixed(0)+'%'}
             />
         </div>
     </div>

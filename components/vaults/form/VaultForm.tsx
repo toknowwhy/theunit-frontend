@@ -1,7 +1,7 @@
 'use client';
 
 import { MIN_UNIT_TO_MINT, RECOMMENDED_COLLATERAL } from "@/utils/constants";
-import { VaultActionType, VaultProp } from "@/utils/types";
+import { TokenDesc, VaultActionType, VaultInfoType } from "@/utils/types";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { useCollateralBalance } from '@/utils/hooks/useCollateralBalance';
 import { useEffect, useState } from "react";
@@ -17,13 +17,17 @@ import { useBalance } from "wagmi";
 
 export default function VaultForm({
     collateral,
-    price,
-    liquidationRatio,
+    vaultInfo,
     account,
-    vaultCollateralAmount,
-    vaultUnitDebt,
-    unitToken,
-} : VaultProp) {
+} : {
+    collateral: TokenDesc,
+    vaultInfo: VaultInfoType
+    account?: `0x${string}`,
+}) {
+
+    const {
+        
+    }
 
     const camount = vaultCollateralAmount ? parseFloat(formatUnits(vaultCollateralAmount, collateral.decimals)) : 0;
     const uamount = vaultUnitDebt ? parseFloat(formatEther(vaultUnitDebt)) : 0;
