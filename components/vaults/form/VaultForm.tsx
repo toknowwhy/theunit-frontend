@@ -1,7 +1,7 @@
 'use client';
 
-import { MIN_UNIT_TO_MINT, RECOMMENDED_COLLATERAL } from "@/utils/constants";
-import { TokenDesc, VaultActionType, VaultInfoType } from "@/utils/types";
+import { RECOMMENDED_COLLATERAL } from "@/utils/constants";
+import { ContractDesc, TokenDesc, VaultActionType, VaultInfoType } from "@/utils/types";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { useCollateralBalance } from '@/utils/hooks/useCollateralBalance';
 import { useEffect, useState } from "react";
@@ -18,16 +18,22 @@ import { useBalance } from "wagmi";
 export default function VaultForm({
     collateral,
     vaultInfo,
+    unitToken,
     account,
 } : {
     collateral: TokenDesc,
-    vaultInfo: VaultInfoType
+    vaultInfo: VaultInfoType,
+    unitToken: ContractDesc,
     account?: `0x${string}`,
 }) {
 
     const {
-        
-    }
+        currentPrice: price,
+        liquidationFee,
+        minUnit,
+        collateralAmount: vaultCollateralAmount,
+        unitAmount: vaultUnitDebt,
+    } = vaultInfo;
 
     const camount = vaultCollateralAmount ? parseFloat(formatUnits(vaultCollateralAmount, collateral.decimals)) : 0;
     const uamount = vaultUnitDebt ? parseFloat(formatEther(vaultUnitDebt)) : 0;
@@ -72,14 +78,15 @@ export default function VaultForm({
     const unitValueAfter = finalUnitValue + uamount;
     const collateralValueAfter = finalCollateralValue + camount;
     const ratio = collateralValueAfter == 0 ? 0 : (collateralValueAfter * price / unitValueAfter);
+    const liquidationRatio = 1 + liquidationFee;
 
     let error = '';
     if (uvalue == 0 && cvalue == 0) {
         error = '';
     } else if (uvalue < 0 || cvalue < 0) {
         error = t('less-than-0');
-    } else if (unitAction === 'mint' && uvalue > 0 && uvalue < MIN_UNIT_TO_MINT) {
-        error = t('not-enough-unit', {num: MIN_UNIT_TO_MINT});
+    } else if (unitAction === 'mint' && uvalue > 0 && uvalue < minUnit) {
+        error = t('not-enough-unit', {num: minUnit});
     } else if (unitAction === 'burn' && uvalue > (unitBalance ?? 0)) {
         error = t('not-enough-unit-to-burn')
     } else if (ratio < liquidationRatio) {

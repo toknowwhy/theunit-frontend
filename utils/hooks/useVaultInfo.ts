@@ -2,7 +2,7 @@ import { BigNumber } from 'ethers';
 import { useContractReads } from "wagmi"
 import { Network } from "@/crypto/config"
 import { VaultInfoType } from '../types';
-import { formatEther } from 'ethers/lib/utils.js';
+import { formatEther, parseEther } from 'ethers/lib/utils.js';
 
 export const initialVaultInfo: VaultInfoType = {
     liquidationFee: 0.15,
@@ -25,7 +25,7 @@ export const useVaultInfo = (collateralAddress: string, currentNetwork?: Network
             },
             {
                 ...currentNetwork!.vault,
-                functionName: "liquidationFee",
+                functionName: "liquidationRatio",
             },
             {
                 ...currentNetwork!.priceFeed,
@@ -37,14 +37,14 @@ export const useVaultInfo = (collateralAddress: string, currentNetwork?: Network
             },
         ],
     })
-    const roundId = contractDatas ? (contractDatas[2] as BigNumber).toNumber() : undefined; 
+    const roundId = contractDatas ? (contractDatas[2] as BigNumber) : undefined; 
     const { data: roundDatas } = useContractReads({
         contracts: [
             {
                 ...currentNetwork!.priceFeed,
                 functionName: "getRoundData",
                 enabled: enabled && Boolean(roundId),
-                args: [roundId!-1]
+                args: [roundId?.sub(BigNumber.from(1))]
             },
             {
                 ...currentNetwork!.priceFeed,
@@ -57,17 +57,17 @@ export const useVaultInfo = (collateralAddress: string, currentNetwork?: Network
 
     let defaultRes: VaultInfoType = initialVaultInfo
 
-    if (contractDatas) {
+    if (contractDatas?.length == 4) {
         defaultRes = {
             ...defaultRes,
             liquidationFee: (contractDatas[1] as BigNumber).toNumber(),
             collateralAmount: (contractDatas[0] as any)[0] as BigNumber,
             unitAmount: (contractDatas[0] as any)[1] as BigNumber,
-            minUnit: (contractDatas[3] as BigNumber).toNumber()
+            minUnit: parseFloat(formatEther(contractDatas[3] as BigNumber))
         }
     }
 
-    if (roundDatas) {
+    if (roundDatas?.length == 2) {
         defaultRes = {
             ...defaultRes,
             currentPrice: parseFloat(formatEther((roundDatas[0] as any)[1])),
