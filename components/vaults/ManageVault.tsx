@@ -26,14 +26,19 @@ export default function ManageVault({
     const [vaultInfo, setVaultInfo] = useState<VaultInfoType>(initialVaultInfo);
     const myVaultInfo = useVaultInfo(collateral.address, currentNetwork, account);
 
-    // useEffect(() => {
-    //     setVaultInfo(myVaultInfo);
-    // }, [myVaultInfo])
-
-    console.log('QQQQQQQ', myVaultInfo)
+    useEffect(() => {
+        if (JSON.stringify(myVaultInfo) !== JSON.stringify(vaultInfo)) {
+            setVaultInfo(myVaultInfo)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [myVaultInfo])
 
     return <>
-            <VaultHeader symbol={collateral.symbol} liquidationFee={vaultInfo.liquidationFee} />
+            <VaultHeader 
+                symbol={collateral.symbol} 
+                liquidationFee={vaultInfo.liquidationFee} 
+                minUnit={vaultInfo.minUnit}
+            />
             <PriceRow price={vaultInfo.currentPrice} nextPrice={vaultInfo.nextPrice} />
             {collateral && (
                 <VaultForm 

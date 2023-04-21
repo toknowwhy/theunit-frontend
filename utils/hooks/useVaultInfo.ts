@@ -60,7 +60,7 @@ export const useVaultInfo = (collateralAddress: string, currentNetwork?: Network
     if (contractDatas?.length == 4) {
         defaultRes = {
             ...defaultRes,
-            liquidationFee: (contractDatas[1] as BigNumber).toNumber(),
+            liquidationFee: ((contractDatas[1] as BigNumber).toNumber() / 1000 - 1),
             collateralAmount: (contractDatas[0] as any)[0] as BigNumber,
             unitAmount: (contractDatas[0] as any)[1] as BigNumber,
             minUnit: parseFloat(formatEther(contractDatas[3] as BigNumber))

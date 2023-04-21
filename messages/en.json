@@ -76,7 +76,9 @@
         "transaction-sent-receipt": "Transaction sent! Click to see it in Etherscan.",
         "not-enough-unit-to-burn": "Not enough UNIT tokens to burn",
         "collateral-not-supported": "Collateral {symbol} is not supported yet",
-        "action-not-supported": "Action not supported! Please check your input"
+        "action-not-supported": "Action not supported! Please check your input",
+        "unit-limit": "UNIT Limit",
+        "unit-limit-info": "Minimum UNIT needs to be minted"
     },
     "History": {
         "name": "Name",

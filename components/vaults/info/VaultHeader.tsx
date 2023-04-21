@@ -6,10 +6,12 @@ import VaultInfoTitle from "./VaultInfoTitle";
 
 export default function VaultHeader({ 
     symbol, 
-    liquidationFee 
+    liquidationFee,
+    minUnit, 
 }: {
     symbol: string,
-    liquidationFee: number
+    liquidationFee: number,
+    minUnit: number,
 }) {
 
     const t = useVaultTranslations();
@@ -21,11 +23,11 @@ export default function VaultHeader({
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 justify-evenly">
             <VaultInfo title={t('stability-fee')} info={t('stability-fee-info')} value="0.00%" />
-            <VaultInfo title={t('liquidation-fee')} info={t('liquidation-fee-info')} value="17%" />
+            <VaultInfo title={t('liquidation-fee')} info={t('liquidation-fee-info')} value={(liquidationFee*100).toFixed(0)+'%'} />
             <VaultInfo 
-                title={t('liquidation-ratio')} 
-                info={t('liquidation-ratio-info')} 
-                value= {(liquidationFee*100).toFixed(0)+'%'}
+                title={t('unit-limit')} 
+                info={t('unit-limit-info')} 
+                value={minUnit.toString()}
             />
         </div>
     </div>
