@@ -192,7 +192,7 @@ export default function VaultForm({
                 />
             </div>
         </div>
-        <div>
+        <div className={error ? 'group has-error' : ''}>
             <div className="text-2xl font-bold mb-6">
                 {t('info')}
             </div>

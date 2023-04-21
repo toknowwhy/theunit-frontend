@@ -20,7 +20,7 @@ export default function VaultInfoBox({
   return <div className="min-h-[88px]">
     <VaultInfoTitle title={t(title)} info={info ? t(info) : undefined} />
     <div className="font-bold text-3xl my-1">{value}</div>
-    {extraValue !== undefined && extraValue !== null && <div className="text-xs text-primary">
+    {extraValue !== undefined && extraValue !== null && <div className="text-xs text-primary group-[.has-error]:text-red">
       {extraValue} {t('after')}
     </div>}
   </div>;

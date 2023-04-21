@@ -78,7 +78,7 @@ export default function VaultStats({
         },
     ];
 
-    if (error || (unitValueAfter === uamount && collateralValueAfter === camount)) {
+    if (unitValueAfter === uamount && collateralValueAfter === camount) {
         boxes = boxes.map((box) => {
             return { ...box, extraValue: undefined }
         })
