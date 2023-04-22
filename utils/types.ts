@@ -66,11 +66,11 @@ export type TheUnitContracts =
 
 export type ContractFunc = 
 | "increaseCollateral"
-| "increaseCollateralETH"
+| "increaseETH"
 | "increaseCollateralAndMint"
 | "approve"
 | "decreaseCollateral"
-| "decreaseCollateralETH"
+| "decreaseETH"
 | "decreaseCollateralAndBurn"
 | "increaseETHAndMint"
 | "decreaseETHAndBurn"

@@ -8,6 +8,7 @@ export interface VaultInfoBoxProps {
   info?: string;
   value: number | string;
   extraValue?: number | string;
+  suffix?: string;
 }
 
 export default function VaultInfoBox({
@@ -15,13 +16,31 @@ export default function VaultInfoBox({
   info,
   value,
   extraValue,
+  suffix,
 } : VaultInfoBoxProps) {
   const t = useVaultTranslations();
+
+  const addSuffix = (val: string|number) => {
+    if (typeof val === 'string') {
+      return val;
+    }
+    let res = '';
+    if (!suffix) {
+      res += 'Ø'
+    }
+    res += (val as number).toFixed(3);
+    if (suffix) {
+      res += suffix;
+    }
+    return res;
+  }
+
+
   return <div className="min-h-[88px]">
     <VaultInfoTitle title={t(title)} info={info ? t(info) : undefined} />
-    <div className="font-bold text-3xl my-1">{value}</div>
+    <div className="font-bold text-2xl my-1">{addSuffix(value)}</div>
     {extraValue !== undefined && extraValue !== null && <div className="text-xs text-primary group-[.has-error]:text-red">
-      {extraValue} {t('after')}
+      {addSuffix(extraValue)} {t('after')}
     </div>}
   </div>;
 }

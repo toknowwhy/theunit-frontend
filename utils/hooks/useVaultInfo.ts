@@ -67,7 +67,7 @@ export const useVaultInfo = (collateralAddress: string, currentNetwork?: Network
         }
     }
 
-    if (roundDatas?.length == 2) {
+    if (roundDatas?.length == 2 && roundDatas[0] && roundDatas[1]) {
         defaultRes = {
             ...defaultRes,
             currentPrice: parseFloat(formatEther((roundDatas[0] as any)[1])),

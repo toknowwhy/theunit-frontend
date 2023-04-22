@@ -30,7 +30,7 @@ export default function VaultStats({
 
     let collateralRatio: string | number = 0;
     if (uamount > 0) {
-        collateralRatio = (camount * price / uamount * 100).toFixed(2);
+        collateralRatio = camount * price / uamount * 100;
     } else if (uamount == 0 && camount > 0) {
         collateralRatio = 'Infinity';
     }
@@ -45,9 +45,9 @@ export default function VaultStats({
     let boxes: VaultInfoBoxProps[] = [
         {
             title: "liquidation-price",
-            value: `Ø${liquidationPrice}`,
+            value: liquidationPrice,
             info: "liquidation-price-info",
-            extraValue: `Ø${liquidationPriceAfter}`,
+            extraValue: liquidationPriceAfter,
         },
         {
             title: "vault-unit-debt",
@@ -56,25 +56,28 @@ export default function VaultStats({
         },
         {
             title: "available-to-generate",
-            value: (camount * price * liquidationRatio - uamount).toFixed(2),
-            extraValue: (collateralValueAfter * price * liquidationRatio - unitValueAfter).toFixed(2),
+            value: camount * price * liquidationRatio - uamount,
+            extraValue: collateralValueAfter * price * liquidationRatio - unitValueAfter,
         },
         {
             title: "collateralization-ratio",
-            value: collateralRatio + '%',
+            value: collateralRatio,
             info: "collateralization-ratio-info",
-            extraValue: (ratio*100).toFixed(2) + '%',
+            extraValue: (ratio*100).toFixed(3) + '%',
+            suffix: '%'
         },
         {
             title: "collateral-locked",
             value: camount,
             info: "collateral-locked-info",
             extraValue: collateralValueAfter,
+            suffix: 'ETH'
         },
         {
             title: "available-to-withdraw",
             value: availableToWithdraw,
             extraValue: availableToWithdrawAfter,
+            suffix: 'ETH'
         },
     ];
 
