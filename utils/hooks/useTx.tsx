@@ -44,7 +44,7 @@ export const useTx = () => {
               }
             })
             response = await responsePromise;
-            if (response.chainId === 0) {
+            if (response.chainId == 0) {
               response.chainId = chainId
             }
             // Transaction was confirmed in users wallet
@@ -52,7 +52,7 @@ export const useTx = () => {
             callbacks?.onConfirmedByUser?.(id)
             if (response.hash) {
               addRecentTransaction({
-                hash: receipt.transactionHash,
+                hash: response.hash,
                 description: name,
               });
             }

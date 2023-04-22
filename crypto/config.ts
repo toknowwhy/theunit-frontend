@@ -46,7 +46,7 @@ const sepolia = {
     label: 'Sepolia test network',
     infuraUrl: getRpc('sepolia'),
     safeConfirmations: 6,
-    unitToken: contractDesc(UnitTokenABI, sepoliaAddresses.UNIT_TOKEN as Address),
+    unitToken: tokenDesc('unit', 'UNIT Token', 'UNIT', false, UnitTokenABI, sepoliaAddresses.UNIT_TOKEN as Address, 18),
     unitRouter: contractDesc(UnitRouterABI, sepoliaAddresses.UNIT_ROUTER_V1 as Address),
     vault: contractDesc(VaultABI, sepoliaAddresses.VAULT as Address),
     priceFeed: contractDesc(PriceFeedABI, sepoliaAddresses.PRICE_FEED as Address),

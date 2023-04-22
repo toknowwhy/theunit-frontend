@@ -21,7 +21,7 @@ export interface VaultButtonProps {
 
 const VaultButton = memo(function VaultButton(props: VaultButtonProps) {
     const t = useVaultTranslations();
-    const { collateral, disabled, isManage, account } = props;
+    const { unitAmount, disabled, isManage, account } = props;
     const isCorrectNetwork = useIsCorrectNetwork()
 
     const [isConnected, setIsConnected] = useState(false);
@@ -42,7 +42,7 @@ const VaultButton = memo(function VaultButton(props: VaultButtonProps) {
                 </Button>
     }
 
-    return collateral.stable ? 
+    return unitAmount < 0 ? 
             <ApproveButton { ...props } /> : 
             <ConfirmBtn { ...props } />
 })

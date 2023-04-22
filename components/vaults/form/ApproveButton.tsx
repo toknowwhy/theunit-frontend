@@ -15,7 +15,8 @@ import ConfirmBtn from "./ManageButton";
 import TxButton from "@/components/web3/TxButton";
 
 export default function ApproveButton(props : VaultButtonProps) {
-    const { collateral, account, collateralAmount } = props
+    const { unitAmount, account } = props
+    const uamount = Math.abs(unitAmount);
     const [allowanceData, setAllowanceData] = useState<BigNumber>(BigNumber.from(0));
     const [txId, setTxId] = useState('');
     const t = useVaultTranslations();
@@ -23,22 +24,23 @@ export default function ApproveButton(props : VaultButtonProps) {
     const { refetch: getSigner } = useSigner();
     const sendTx = useTx();
     const contractAddress = network.unitRouter.address;
+    const unitToken = network.unitToken;
     const { error, data: adata, refetch, isRefetching } = useContractRead({
-        address: collateral.address,
-        abi: collateral.abi,
+        address: unitToken.address,
+        abi: unitToken.abi,
         functionName: 'allowance',
         args: [account, contractAddress],
         onSuccess(data) {
             setAllowanceData(data as BigNumber)
         },
     })
-    const allowance = formatUnits(allowanceData as BigNumber, collateral.decimals);
-    const needToApprove = toFloat(allowance) < collateralAmount;
+    const allowance = formatUnits(allowanceData as BigNumber, unitToken.decimals);
+    const needToApprove = toFloat(allowance) < uamount;
     if (error) {
         return <div>{error.message}</div>
     }
     if (!adata) {
-        return <ClipLoader />
+        return <ClipLoader color="#cccccc" />
     }
     if (!needToApprove) {
         return <ConfirmBtn { ...props } />
@@ -51,13 +53,13 @@ export default function ApproveButton(props : VaultButtonProps) {
     const approve = async () => {
         const { data: signer } = await getSigner()
         const callTransaction = buildTx(
-            collateral, 
+            unitToken, 
             "approve", 
             signer!, 
-            [contractAddress, parseUnits(Number.MAX_SAFE_INTEGER.toString(), collateral.decimals)]
+            [contractAddress, parseUnits(Number.MAX_SAFE_INTEGER.toString(), unitToken.decimals)]
         )
         const txId = await sendTx({
-            name: `${t('approve')} ${collateral.symbol}`,
+            name: `${t('approve')} UNIT`,
             callTransaction,
             callbacks: {
               refetch: refetchAllowance
@@ -68,6 +70,6 @@ export default function ApproveButton(props : VaultButtonProps) {
 
 
     return <TxButton txId={txId}  onClick={approve} loading={isRefetching}>
-                {t('approve')} {collateral.symbol}
+                {t('approve')} UNIT
            </TxButton>
 }
