@@ -32,6 +32,7 @@
     "react-dom": "18.2.0",
     "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.1",
+    "sharp": "^0.32.0",
     "tailwind-scrollbar-hide": "^1.1.7",
     "ts-essentials": "^9.3.0",
     "typescript": "4.9.5",
