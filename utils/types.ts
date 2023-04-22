@@ -58,7 +58,6 @@ export function instanceOfTokenDesc(object: any): object is TokenDesc {
 }
 
 export type TheUnitContracts = 
-| "collateralManager"
 | "unitToken"
 | "unitRouter"
 | "vault"
