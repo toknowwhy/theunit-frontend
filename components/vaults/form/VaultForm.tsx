@@ -1,13 +1,13 @@
 'use client';
 
-import { RECOMMENDED_COLLATERAL } from "@/utils/constants";
+import { RECOMMENDED_COLLATERAL_RATIO } from "@/utils/constants";
 import { ContractDesc, TokenDesc, VaultActionType, VaultInfoType } from "@/utils/types";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { useCollateralBalance } from '@/utils/hooks/useCollateralBalance';
 import { useEffect, useState } from "react";
 import ActionTab from "./ActionTab";
 import VaultInput from "./VaultInput";
-import { toFloat } from "@/utils/functions";
+import { getRatioFromLiquidationFee, toFloat } from "@/utils/functions";
 import useDebounce from "@/utils/hooks/useDebounce";
 import { formatEther, formatUnits } from "ethers/lib/utils.js";
 import VaultStats from "../info/VaultStats";
@@ -52,23 +52,20 @@ export default function VaultForm({
 
     const debounceUnitValue = useDebounce(unitValue, 500);
     const debounceCollateralValue = useDebounce(collateralValue, 500);
-    const { balance: cbal, refetch: refetchCbal } = useCollateralBalance(collateral, isETH, account);
-    const { balance: ubal, refetch: refetchUbal } = useCollateralBalance(unitToken, isETH, account);
+    const { balance: ubal, refetch: refetchUbal } = useCollateralBalance(unitToken, false, account);
     const { data: ebal, refetch: refetchEbal } = useBalance({
         address: account,
         enabled: Boolean(account) && isETH
     })
 
     useEffect(() => {
-        if (isETH && ebal) {
+        if (ebal) {
             setBalance(parseFloat(ebal.formatted));
-        } else if (!isETH && cbal) {
-            setBalance(cbal)
         }
         if (ubal) {
             setUnitBalance(ubal);
         }
-    }, [cbal, ubal, ebal, isETH])
+    }, [ubal, ebal])
 
     
     const uvalue = toFloat(debounceUnitValue);
@@ -78,14 +75,14 @@ export default function VaultForm({
     const unitValueAfter = finalUnitValue + uamount;
     const collateralValueAfter = finalCollateralValue + camount;
     const ratio = collateralValueAfter == 0 ? 0 : (collateralValueAfter * price / unitValueAfter);
-    const liquidationRatio = 1 + liquidationFee;
+    const liquidationRatio = getRatioFromLiquidationFee(liquidationFee);
 
     let error = '';
     if (uvalue == 0 && cvalue == 0) {
         error = '';
     } else if (uvalue < 0 || cvalue < 0) {
         error = t('less-than-0');
-    } else if (unitAction === 'mint' && uvalue > 0 && uvalue < minUnit) {
+    } else if (unitAction === 'mint' && uvalue > 0 && unitValueAfter < minUnit) {
         error = t('not-enough-unit', {num: minUnit});
     } else if (unitAction === 'burn' && uvalue > (unitBalance ?? 0)) {
         error = t('not-enough-unit-to-burn')
@@ -102,7 +99,7 @@ export default function VaultForm({
     const onCollateralAmountChange = (value: string) => {
         setCollateralValue(value);
         if (collateralAction === 'deposit') {
-            const uv = (price * toFloat(value) / (liquidationRatio+RECOMMENDED_COLLATERAL)).toString();
+            const uv = (price * toFloat(value) / (liquidationRatio+RECOMMENDED_COLLATERAL_RATIO)).toString();
             setUnitValue(uv);
         }
     }
@@ -117,7 +114,7 @@ export default function VaultForm({
     const resetForm = () => {
         setUnitValue('');
         setCollateralValue('');
-        refetchCbal();
+        refetchEbal();
         refetchUbal();
     }
 

@@ -1,5 +1,7 @@
 'use client';
 
+import { LIQUIDATION_SAFE_RATIO } from "@/utils/constants";
+import { getRatioFromLiquidationFee } from "@/utils/functions";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import SplineAnim from "../../SplineAnim";
 import VaultInfoTitle from "./VaultInfoTitle";
@@ -22,8 +24,21 @@ export default function VaultHeader({
             <SplineAnim url="https://prod.spline.design/2XUmnjtG8jRU4zPR/scene.splinecode"  />
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 justify-evenly">
-            <VaultInfo title={t('stability-fee')} info={t('stability-fee-info')} value="0.00%" />
-            <VaultInfo title={t('liquidation-fee')} info={t('liquidation-fee-info')} value={(liquidationFee*100).toFixed(0)+'%'} />
+            <VaultInfo 
+                title={t('stability-fee')} 
+                info={t('stability-fee-info')} 
+                value="0.00%" 
+            />
+            <VaultInfo 
+                title={t('liquidation-fee')} 
+                info={t('liquidation-fee-info')} 
+                value={(getRatioFromLiquidationFee(liquidationFee, true)*100).toFixed(0)+'%'} 
+            />
+            <VaultInfo 
+                title={t('liquidation-ratio')} 
+                info={t('liquidation-ratio-info')} 
+                value={(getRatioFromLiquidationFee(liquidationFee)*100).toFixed(0)+'%'} 
+            />
             <VaultInfo 
                 title={t('unit-limit')} 
                 info={t('unit-limit-info')} 
