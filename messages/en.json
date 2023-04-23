@@ -64,6 +64,8 @@
         "after": " after",
         "check-connection": "Please check your network connection and refresh to try again",
         "approve": "Approve",
+        "approve-unit": "Approve UNIT",
+        "approve-vault": "Approve Vault",
         "approving": "Approving",
         "wallet-confirm": "Pending wallet confirmation",
         "blockchain-confirm": "Pending blockchain confirmation",

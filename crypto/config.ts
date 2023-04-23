@@ -51,6 +51,7 @@ const sepolia = {
     vault: contractDesc(VaultABI, sepoliaAddresses.VAULT as Address),
     priceFeed: contractDesc(PriceFeedABI, sepoliaAddresses.PRICE_FEED as Address),
     tokens: supportedCollaterals,
+    ETHAddress: sepoliaAddresses.WETH,
     etherscan: {
         url: 'https://sepolia.etherscan.io',
         apiUrl: 'https://api-sepolia.etherscan.io/api',
