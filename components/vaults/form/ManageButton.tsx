@@ -39,7 +39,7 @@ export default function ConfirmBtn({
         let transactionName: string = '';
         const collateralAmountInWei = parseEther(Math.abs(collateralAmount).toString());
         const unitAmountInWei = parseEther(Math.abs(unitAmount).toString());
-        let params: any[] = [collateralAmountInWei, unitAmountInWei, account];
+        let params: any[] = [unitAmountInWei, account];
         if (collateralAmount > 0) {
             if (unitAmount > 0) {
                 action = 'increaseETHAndMint'
@@ -57,11 +57,13 @@ export default function ConfirmBtn({
             } else if (unitAmount < 0) {
                 action = 'decreaseETHAndBurn'
                 transactionName = 'burn'
+                params = [collateralAmountInWei, unitAmountInWei, account]
             }
         } else {
             if (unitAmount < 0) {
                 action = 'decreaseETHAndBurn'
                 transactionName = 'withdraw-burn'
+                params = [collateralAmountInWei, unitAmountInWei, account]
             } else if (unitAmount == 0) {
                 action = 'decreaseETH'
                 params = [collateralAmountInWei, account]
