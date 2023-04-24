@@ -98,7 +98,7 @@ export default function VaultForm({
 
     const onCollateralAmountChange = (value: string) => {
         setCollateralValue(value);
-        if (collateralAction === 'deposit') {
+        if (collateralAction === 'deposit' && unitAction === 'mint') {
             const uv = (price * toFloat(value) / (liquidationRatio+RECOMMENDED_COLLATERAL_RATIO)).toString();
             setUnitValue(uv);
         }

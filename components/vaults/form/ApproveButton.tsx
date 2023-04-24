@@ -5,7 +5,7 @@ import { useCurrentNetwork } from "@/utils/hooks/useCurrentNetwork";
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { BigNumber } from "ethers";
-import { formatEther, formatUnits, parseUnits } from "ethers/lib/utils.js";
+import { formatUnits, parseUnits } from "ethers/lib/utils.js";
 import { useContractRead, useSigner } from "wagmi";
 import { useState } from "react";
 import { buildTx } from "@/utils/buildTx";
@@ -19,6 +19,7 @@ export default function ApproveButton(props : VaultButtonProps) {
     const uamount = Math.abs(unitAmount);
     const camount = Math.abs(collateralAmount);
     const [allowanceData, setAllowanceData] = useState<BigNumber>(BigNumber.from(0));
+    const [vaultAllow, setVaultAllow] = useState(false);
     const [txId, setTxId] = useState('');
     const t = useVaultTranslations();
     const network = useCurrentNetwork();
@@ -27,7 +28,7 @@ export default function ApproveButton(props : VaultButtonProps) {
     const contractAddress = network.unitRouter.address;
     const unitToken = network.unitToken;
     const vault = network.vault;
-    const { error, data: adata, isLoading, refetch, isRefetching } = useContractRead({
+    const { error, isLoading, refetch, isRefetching } = useContractRead({
         address: unitToken.address,
         abi: unitToken.abi,
         functionName: 'allowance',
@@ -39,7 +40,6 @@ export default function ApproveButton(props : VaultButtonProps) {
     })
     const { 
         error: vaultApproveError, 
-        data: vaultAllowanceData, 
         refetch: vaultAllowanceRefetch, 
         isLoading: isVaultLoading,
         isRefetching: vaultAllowanceIsRefetching, 
@@ -48,22 +48,23 @@ export default function ApproveButton(props : VaultButtonProps) {
         abi: vault.abi,
         functionName: 'allowances',
         enabled: collateralAmount < 0,
-        args: [account, network.ETHAddress],
+        args: [account, contractAddress],
         onSuccess(data) {
-            setAllowanceData(data as BigNumber)
+            setVaultAllow(data as boolean)
         },
     })
-    const allowance = formatUnits(allowanceData as BigNumber, unitToken.decimals);
-    const needToApprove = toFloat(allowance) < uamount;
-    const vaultAllowance = formatEther(vaultAllowanceData as BigNumber);
-    const needVaultApprove = toFloat(vaultAllowance) < camount;
+
     if (error || vaultApproveError) {
         return <div>{(error ?? vaultApproveError)!.message}</div>
     }
     if (isLoading || isVaultLoading) {
         return <Button loading={true} disabled={true}> </Button>
     }
-    if (!needToApprove && !needVaultApprove) {
+
+    const allowance = formatUnits(allowanceData as BigNumber, unitToken.decimals);
+    const needToApprove = toFloat(allowance) < uamount;
+
+    if (!needToApprove && vaultAllow) {
         return <ConfirmBtn { ...props } />
     }
 
@@ -96,12 +97,12 @@ export default function ApproveButton(props : VaultButtonProps) {
                 }
             })
         }
-        if (needVaultApprove) {
+        if (!vaultAllow) {
             const callTransaction = buildTx(
                 vault, 
                 "approve", 
                 signer!, 
-                [network.ETHAddress, true]
+                [contractAddress, true]
             )
             const txId = await sendTx({
                 name: t('approve-vault'),
