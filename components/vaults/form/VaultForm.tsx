@@ -20,11 +20,13 @@ export default function VaultForm({
     vaultInfo,
     unitToken,
     account,
+    refetchVaultInfo,
 } : {
     collateral: TokenDesc,
     vaultInfo: VaultInfoType,
     unitToken: ContractDesc,
     account?: `0x${string}`,
+    refetchVaultInfo: () => void,
 }) {
 
     const {
@@ -116,6 +118,7 @@ export default function VaultForm({
         setCollateralValue('');
         refetchEbal();
         refetchUbal();
+        refetchVaultInfo();
     }
 
     const statsProp = {

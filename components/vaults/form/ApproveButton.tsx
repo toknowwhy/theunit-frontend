@@ -19,7 +19,7 @@ export default function ApproveButton(props : VaultButtonProps) {
     const uamount = Math.abs(unitAmount);
     const camount = Math.abs(collateralAmount);
     const [allowanceData, setAllowanceData] = useState<BigNumber>(BigNumber.from(0));
-    const [vaultAllow, setVaultAllow] = useState(false);
+    const [vaultAllow, setVaultAllow] = useState(collateralAmount >= 0);
     const [txId, setTxId] = useState('');
     const t = useVaultTranslations();
     const network = useCurrentNetwork();

@@ -15,7 +15,7 @@ export const initialVaultInfo: VaultInfoType = {
 
 export const useVaultInfo = (collateralAddress: string, currentNetwork?: Network, account?: `0x${string}`) => {
     const enabled = Boolean(currentNetwork) && Boolean(account);
-    const { data: contractDatas } = useContractReads({
+    const { data: contractDatas, refetch } = useContractReads({
         enabled,
         contracts: [
             {
@@ -75,5 +75,5 @@ export const useVaultInfo = (collateralAddress: string, currentNetwork?: Network
         }
     }
 
-    return defaultRes;
+    return {vaultInfo: defaultRes, refetch};
 }

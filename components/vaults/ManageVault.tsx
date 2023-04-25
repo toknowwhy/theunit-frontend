@@ -24,7 +24,7 @@ export default function ManageVault({
     const currentNetwork = useCurrentNetwork();
     const { address: account } = useAccount();
     const [vaultInfo, setVaultInfo] = useState<VaultInfoType>(initialVaultInfo);
-    const myVaultInfo = useVaultInfo(collateral.address, currentNetwork, account);
+    const {vaultInfo: myVaultInfo, refetch: refetchVaultInfo} = useVaultInfo(collateral.address, currentNetwork, account);
 
     useEffect(() => {
         if (JSON.stringify(myVaultInfo) !== JSON.stringify(vaultInfo)) {
@@ -46,6 +46,7 @@ export default function ManageVault({
                     collateral={collateral} 
                     vaultInfo={vaultInfo} 
                     unitToken={currentNetwork.unitToken}
+                    refetchVaultInfo={refetchVaultInfo}
                 />
             )}
             <ToastContainer 
