@@ -177,4 +177,16 @@ export interface VaultInfoType {
     unitAmount: BigNumber;
     currentPrice: number;
     nextPrice: number;
+    gasPrice: number;
+}
+
+export interface VaultButtonProps {
+    collateral: TokenDesc;
+    collateralAmount: number;
+    unitAmount: number;
+    account?: string;
+    disabled: boolean;
+    isManage: boolean;
+    gasPrice: number;
+    reset: () => void;
 }

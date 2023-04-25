@@ -9,7 +9,7 @@ import { formatUnits, parseUnits } from "ethers/lib/utils.js";
 import { useContractRead, useSigner } from "wagmi";
 import { useState } from "react";
 import { buildTx } from "@/utils/buildTx";
-import { VaultButtonProps } from "./VaultButton";
+import { VaultButtonProps } from "@/utils/types";
 import ConfirmBtn from "./ManageButton";
 import TxButton from "@/components/web3/TxButton";
 import Button from "@/components/button/Button";

@@ -4,12 +4,12 @@ import { useCurrentNetwork } from "@/utils/hooks/useCurrentNetwork";
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { parseEther, parseUnits } from "ethers/lib/utils.js";
-import { useSigner } from "wagmi";
+import { usePrepareContractWrite, useSigner } from "wagmi";
 import { useState } from "react";
 import { buildTx } from "@/utils/buildTx";
 import { toast } from "react-toastify";
 import TxButton from "@/components/web3/TxButton";
-import { VaultButtonProps } from "./VaultButton";
+import { VaultButtonProps } from "@/utils/types";
 import { ContractFunc } from "@/utils/types";
 
 export default function ConfirmBtn({ 
@@ -18,6 +18,7 @@ export default function ConfirmBtn({
     collateralAmount, 
     isManage, 
     unitAmount,
+    gasPrice,
     reset, 
 } : VaultButtonProps) {
     const t = useVaultTranslations();
@@ -28,48 +29,57 @@ export default function ConfirmBtn({
     const network = useCurrentNetwork();
     const isETH = collateral.symbol === 'ETH';
 
+    let action: ContractFunc|undefined;
+    let msgValue: number = 0;
+    let transactionName: string = '';
+    const collateralAmountInWei = parseEther(Math.abs(collateralAmount).toString());
+    const unitAmountInWei = parseEther(Math.abs(unitAmount).toString());
+    let params: any[] = [unitAmountInWei, account];
+    if (collateralAmount > 0) {
+        if (unitAmount > 0) {
+            action = 'increaseETHAndMint'
+            transactionName = 'deposit-mint'
+        } else if (unitAmount == 0) {
+            action = 'increaseETH'
+            params = [account]
+            transactionName = 'deposit'
+        }
+        msgValue = collateralAmount;
+    } else if (collateralAmount == 0) {
+        if (unitAmount > 0) {
+            action = 'increaseETHAndMint'
+            transactionName = 'mint'
+        } else if (unitAmount < 0) {
+            action = 'decreaseETHAndBurn'
+            transactionName = 'burn'
+            params = [collateralAmountInWei, unitAmountInWei, account]
+        }
+    } else {
+        if (unitAmount < 0) {
+            action = 'decreaseETHAndBurn'
+            transactionName = 'withdraw-burn'
+            params = [collateralAmountInWei, unitAmountInWei, account]
+        } else if (unitAmount == 0) {
+            action = 'decreaseETH'
+            params = [collateralAmountInWei, account]
+            transactionName = 'withdraw'
+        }
+    }
+
+    const { config } = usePrepareContractWrite({
+        ...network.unitRouter,
+        functionName: action,
+        enabled: Boolean(action),
+        args: params
+    })
+    const gasLimit = config?.request?.gasLimit.toNumber() ?? 0;
+
     const confirm = async () => {
         if (!isETH) {
             toast.error(t('collateral-not-supported', {symbol: collateral.symbol}));
             return;
         }
         const { data: signer } = await getSigner()
-        let action: ContractFunc|undefined;
-        let msgValue: number = 0;
-        let transactionName: string = '';
-        const collateralAmountInWei = parseEther(Math.abs(collateralAmount).toString());
-        const unitAmountInWei = parseEther(Math.abs(unitAmount).toString());
-        let params: any[] = [unitAmountInWei, account];
-        if (collateralAmount > 0) {
-            if (unitAmount > 0) {
-                action = 'increaseETHAndMint'
-                transactionName = 'deposit-mint'
-            } else if (unitAmount == 0) {
-                action = 'increaseETH'
-                params = [account]
-                transactionName = 'deposit'
-            }
-            msgValue = collateralAmount;
-        } else if (collateralAmount == 0) {
-            if (unitAmount > 0) {
-                action = 'increaseETHAndMint'
-                transactionName = 'mint'
-            } else if (unitAmount < 0) {
-                action = 'decreaseETHAndBurn'
-                transactionName = 'burn'
-                params = [collateralAmountInWei, unitAmountInWei, account]
-            }
-        } else {
-            if (unitAmount < 0) {
-                action = 'decreaseETHAndBurn'
-                transactionName = 'withdraw-burn'
-                params = [collateralAmountInWei, unitAmountInWei, account]
-            } else if (unitAmount == 0) {
-                action = 'decreaseETH'
-                params = [collateralAmountInWei, account]
-                transactionName = 'withdraw'
-            }
-        }
 
         if (!action) {
             toast.error(t('action-not-supported'));
@@ -77,7 +87,7 @@ export default function ConfirmBtn({
         }
 
         params.push({
-            gasLimit: 800000,
+            gasLimit: gasLimit ? gasLimit : 800000,
             value: parseEther(msgValue.toString())
         })
 
@@ -100,7 +110,15 @@ export default function ConfirmBtn({
         setTxId(txId);
     }
 
-    return <TxButton txId={txId}  onClick={confirm}>
-        { isManage ? t('update') : t('create')}
-    </TxButton>
+    return <>
+        <TxButton txId={txId}  onClick={confirm}>
+            { isManage ? t('update') : t('create')}
+        </TxButton>
+        {Boolean(gasLimit) && Boolean(gasPrice) && (
+            <div className='flex justify-between text-gray text-sm mt-2'>
+                <div>{t('estimated-gas')}:</div>
+                <div>Ø{(gasLimit * gasPrice).toFixed(3)}</div>
+            </div>
+        )}
+    </>
 }

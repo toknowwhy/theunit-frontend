@@ -188,6 +188,7 @@ export default function VaultForm({
                     disabled={error.length > 0 || (uvalue == 0 && cvalue == 0)}
                     isManage={isManage}
                     account={account}
+                    gasPrice={vaultInfo.gasPrice * vaultInfo.currentPrice}
                     reset={resetForm}
                 />
             </div>

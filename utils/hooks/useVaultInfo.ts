@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers';
-import { useContractReads } from "wagmi"
+import { useContractReads, useFeeData } from "wagmi"
 import { Network } from "@/crypto/config"
 import { VaultInfoType } from '../types';
 import { formatEther, parseEther } from 'ethers/lib/utils.js';
@@ -11,9 +11,11 @@ export const initialVaultInfo: VaultInfoType = {
     unitAmount: BigNumber.from(0),
     currentPrice: 0,
     nextPrice: 0,
+    gasPrice: 0,
 }
 
 export const useVaultInfo = (collateralAddress: string, currentNetwork?: Network, account?: `0x${string}`) => {
+    const { data: feeData } = useFeeData()
     const enabled = Boolean(currentNetwork) && Boolean(account);
     const { data: contractDatas, refetch } = useContractReads({
         enabled,
@@ -56,6 +58,10 @@ export const useVaultInfo = (collateralAddress: string, currentNetwork?: Network
     })
 
     let defaultRes: VaultInfoType = initialVaultInfo
+
+    if (feeData?.gasPrice) {
+        defaultRes.gasPrice = parseFloat(formatEther(feeData.gasPrice))
+    }
 
     if (contractDatas?.length == 4) {
         defaultRes = {

@@ -80,7 +80,8 @@
         "collateral-not-supported": "Collateral {symbol} is not supported yet",
         "action-not-supported": "Action not supported! Please check your input",
         "unit-limit": "UNIT Limit",
-        "unit-limit-info": "Minimum UNIT needs to be minted"
+        "unit-limit-info": "Minimum UNIT needs to be minted",
+        "estimated-gas": "Estimated gas"
     },
     "History": {
         "name": "Name",
