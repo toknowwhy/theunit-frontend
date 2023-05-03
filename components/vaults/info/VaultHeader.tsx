@@ -1,6 +1,5 @@
 'use client';
 
-import { LIQUIDATION_SAFE_RATIO } from "@/utils/constants";
 import { getRatioFromLiquidationFee } from "@/utils/functions";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import SplineAnim from "../../SplineAnim";

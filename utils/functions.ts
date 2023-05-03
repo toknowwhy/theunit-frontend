@@ -3,7 +3,6 @@ import BTC from '@/public/btc.svg';
 import ETH from '@/public/eth.svg';
 import USD from '@/public/usd.svg';
 import { ethers } from "ethers";
-import { LIQUIDATION_SAFE_RATIO } from "./constants";
 
 export const numberWithCommas = (x: string | undefined) => {
     if (x != undefined) {
@@ -76,5 +75,5 @@ export const getRatioFromLiquidationFee = (liquidationFee: number, isFeeRatio = 
     if (isFeeRatio) {
         return feeRatio-1;
     }
-    return feeRatio + LIQUIDATION_SAFE_RATIO;
+    return feeRatio;
 }

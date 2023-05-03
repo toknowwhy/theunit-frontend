@@ -90,7 +90,7 @@ export default function VaultForm({
         error = t('not-enough-unit-to-burn')
     } else if (ratio < liquidationRatio) {
         error = t('lower-than-ratio');
-    } else if (!balance || cvalue > balance) {
+    } else if ((!balance || cvalue > balance) && collateralAction === 'deposit') {
         error = t('not-enough-balance')
     }
 
