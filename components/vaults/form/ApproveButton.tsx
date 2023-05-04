@@ -62,7 +62,7 @@ export default function ApproveButton(props : VaultButtonProps) {
     }
 
     const allowance = formatUnits(allowanceData as BigNumber, unitToken.decimals);
-    const needToApprove = toFloat(allowance) < uamount;
+    const needToApprove = toFloat(allowance) < uamount && unitAmount < 0;
 
     if (!needToApprove && vaultAllow) {
         return <ConfirmBtn { ...props } />
