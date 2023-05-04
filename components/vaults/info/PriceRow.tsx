@@ -1,6 +1,6 @@
 'use client';
 
-import { getMinutesToNextHour } from "@/utils/functions"
+import { getMinutesToNextHour, numberWithCommas } from "@/utils/functions"
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { ReactNode } from "react"
 
@@ -31,6 +31,6 @@ function PriceColumn({
 }) {
     return <div>
         <div className="text-xl text-gray text-center mb-1">{title}</div>
-        <div className="text-4xl text-center">Ø{price.toFixed(3)}</div>
+        <div className="text-4xl text-center">Ø{numberWithCommas(price.toFixed(3))}</div>
     </div>
 }

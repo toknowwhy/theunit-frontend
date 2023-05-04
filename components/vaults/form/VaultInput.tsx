@@ -1,5 +1,7 @@
 'use client';
 
+import { numberWithCommas } from "@/utils/functions";
+
 export default function VaultInput({
     value,
     onChange,
@@ -26,7 +28,7 @@ export default function VaultInput({
                 placeholder={`0 ${symbol}`} 
             />
             { unitPrice && <div className="text-gray text-xs">
-                    ~{value && !isNaN(parseFloat(value)) ? (unitPrice * parseFloat(value)).toString() : '0'} UNIT
+                    ~{value && !isNaN(parseFloat(value)) ? numberWithCommas((unitPrice * parseFloat(value)).toString()) : '0'} UNIT
                 </div>
             }
         </div>

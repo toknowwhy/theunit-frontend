@@ -33,7 +33,7 @@ export const getPriceInfo = (data: ThumbChartDataType[], currency: string): Pric
     const initialValue = data[data.length - 1].value;
     const diff = endValue - initialValue;
     const perc = initialValue > 0 ? (diff / initialValue) : 0;
-    const price = currency === 'ETH' ? endValue * 1000 : endValue;
+    const price = currency === 'ETH' ? initialValue * 1000 : initialValue;
 
     return {
         price: price,

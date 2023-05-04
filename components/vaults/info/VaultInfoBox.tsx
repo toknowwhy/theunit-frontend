@@ -1,5 +1,6 @@
 'use client';
 
+import { numberWithCommas } from '@/utils/functions';
 import { useVaultTranslations } from '@/utils/hooks/useVaultTranslations';
 import VaultInfoTitle from './VaultInfoTitle';
 
@@ -28,7 +29,7 @@ export default function VaultInfoBox({
     if (!suffix) {
       res += 'Ø'
     }
-    res += (val as number).toFixed(3);
+    res += numberWithCommas((val as number).toFixed(3));
     if (suffix) {
       res += suffix;
     }
