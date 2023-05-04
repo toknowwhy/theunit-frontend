@@ -73,6 +73,8 @@ export type ContractFunc =
 | "decreaseCollateralAndBurn"
 | "increaseETHAndMint"
 | "decreaseETHAndBurn"
+| "increaseETHAndBurn"
+| "decreaseETHAndMint"
 
 /**
  * A transaction is pending until it has either been cancelled, errored or succeeded.

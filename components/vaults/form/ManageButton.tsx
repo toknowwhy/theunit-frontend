@@ -43,6 +43,10 @@ export default function ConfirmBtn({
             action = 'increaseETH'
             params = [account]
             transactionName = 'deposit'
+        } else {
+            action = 'increaseETHAndBurn'
+            transactionName = 'deposit-burn'
+            params = [unitAmountInWei, account]
         }
         msgValue = collateralAmount;
     } else if (collateralAmount == 0) {
@@ -63,6 +67,10 @@ export default function ConfirmBtn({
             action = 'decreaseETH'
             params = [collateralAmountInWei, account]
             transactionName = 'withdraw'
+        } else {
+            action = 'decreaseETHAndMint'
+            params = [collateralAmountInWei, unitAmountInWei, account]
+            transactionName = 'withdraw-mint'
         }
     }
 
