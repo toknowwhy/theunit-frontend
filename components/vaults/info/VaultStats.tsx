@@ -38,9 +38,12 @@ export default function VaultStats({
     let availableToWithdraw = 0;
     let availableToWithdrawAfter = 0;
     if (price > 0 && liquidationRatio > 0) {
-        availableToWithdraw = Math.max(0, (camount - uamount / price / liquidationRatio))
-        availableToWithdrawAfter = Math.max(0, (collateralValueAfter - unitValueAfter / price / liquidationRatio))
+        availableToWithdraw = Math.max(0, (camount - liquidationRatio * uamount / price ))
+        availableToWithdrawAfter = Math.max(0, (collateralValueAfter - unitValueAfter * liquidationRatio / price))
     }
+
+    const availableToGenerate = camount * price * liquidationRatio - uamount;
+    const availableToGenerateAfter = collateralValueAfter * price * liquidationRatio - unitValueAfter;
 
     let boxes: VaultInfoBoxProps[] = [
         {
@@ -56,8 +59,8 @@ export default function VaultStats({
         },
         {
             title: "available-to-generate",
-            value: camount * price * liquidationRatio - uamount,
-            extraValue: collateralValueAfter * price * liquidationRatio - unitValueAfter,
+            value: Math.floor(availableToGenerate * 1000) / 1000,
+            extraValue: Math.floor(availableToGenerateAfter * 1000) / 1000,
         },
         {
             title: "collateralization-ratio",
@@ -75,8 +78,8 @@ export default function VaultStats({
         },
         {
             title: "available-to-withdraw",
-            value: availableToWithdraw,
-            extraValue: availableToWithdrawAfter,
+            value: Math.floor(availableToWithdraw * 1000) / 1000,
+            extraValue: Math.floor(availableToWithdrawAfter * 1000) / 1000,
             suffix: 'ETH'
         },
     ];
