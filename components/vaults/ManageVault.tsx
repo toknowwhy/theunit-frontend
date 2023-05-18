@@ -9,7 +9,6 @@ import { initialVaultInfo, useVaultInfo } from '@/utils/hooks/useVaultInfo';
 import { ToastContainer } from 'react-toastify';
 import { useAccount } from 'wagmi';
 import 'react-toastify/dist/ReactToastify.min.css';
-import PriceRow from './info/PriceRow';
 import VaultForm from './form/VaultForm';
 import VaultHeader from './info/VaultHeader';
 
@@ -38,8 +37,9 @@ export default function ManageVault({
                 symbol={collateral.symbol} 
                 liquidationFee={vaultInfo.liquidationFee} 
                 minUnit={vaultInfo.minUnit}
+                price={vaultInfo.currentPrice} 
+                nextPrice={vaultInfo.nextPrice}
             />
-            <PriceRow price={vaultInfo.currentPrice} nextPrice={vaultInfo.nextPrice} />
             {collateral && (
                 <VaultForm 
                     account={account} 

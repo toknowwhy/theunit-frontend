@@ -12,14 +12,13 @@
 
 :root {
   /* Your default theme */
-  --background-color: #0A0A0A;
-  --header-background-color: rgba(9, 9, 9, 0.6);
-  --gray: #70707C;
+  --background-color: #151718;
+  --gray: #A2A2A2;
   --gray-dark: #1D1D1F;
   --gray-darker: #101011;
   --gray-light: #E3E4E7;
   --gray-lighter: #aab0b8;
-  --text-color: #F5F5FF;
+  --text-color: #FFFFFF;
   --text-light: #F9F9F9;
   --white: #ffffff;
   --gray-border: #29292F;
@@ -27,7 +26,6 @@
 
 [data-theme='light'] {
   --background-color: #F5F5FF;
-  --header-background-color: rgba(246, 246, 246, 0.6);
   --gray: #8f8f83;
   --gray-dark: #cccccc;
   --gray-darker: #efefee;

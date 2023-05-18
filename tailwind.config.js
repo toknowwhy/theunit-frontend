@@ -24,7 +24,6 @@ module.exports = {
       'white': 'var(--white)',
       'transparent': 'transparent',
       'gray-border': 'var(--gray-border)',
-      'header-bg': 'var(--header-background-color)'
     },
   },
   plugins: [

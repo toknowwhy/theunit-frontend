@@ -12,7 +12,7 @@ export default function VaultInfoTitle({
 }) {
     const key = title.split(' ')[0].toLowerCase();
 
-    return <div className="text-sm text-gray flex items-center">
+    return <div className="text-base text-gray flex items-center">
         {title} {info && (<div className="relative ml-1">
             <Image className="peer cursor-pointer" src={questionMark} alt="info" />
             <div className="hidden absolute top-6 right-0 w-48 text-text peer-hover:block peer-hover:bg-gray-darker peer-hover:border peer-hover:border-gray peer-hover:rounded-lg peer-hover:p-3">
