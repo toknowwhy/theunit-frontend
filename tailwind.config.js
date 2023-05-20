@@ -25,7 +25,8 @@ module.exports = {
       'transparent': 'transparent',
       'gray-border': 'var(--gray-border)',
       'box': 'var(--box)',
-      'input': 'var(--input)'
+      'input': 'var(--input)',
+      'shadow': 'var(--shadow)'
     },
     backgroundImage: {
       'vault': 'url(/bgds/vault-bgd.png)'

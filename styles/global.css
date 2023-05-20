@@ -24,10 +24,11 @@
   --gray-border: #2D2D2D;
   --input: #222222;
   --box: rgba(29, 29, 31, 0.8);
+  --shadow: rgba(255, 255, 255, 0.2);
 }
 
 [data-theme='light'] {
-  --background-color: #F5F5FF;
+  --background-color: #FFFFFF;
   --gray: #1D1D1F;
   --gray-dark: #cccccc;
   --gray-darker: #efefee;
@@ -39,4 +40,5 @@
   --gray-border: #d6d6d0;
   --input: #E4E4E4;
   --box: rgba(239, 239, 239, 0.6);
+  --shadow: rgba(0, 0, 0, 0.2);
 }

@@ -14,8 +14,8 @@ export default function TokenPriceInfo({
     const { unit } = getCurrencyInfo(currency);
 
     return <div>
-        <div className="text-2xl text-primary mb-2">The Unit (Ø) In {currency}</div>
-        <div className="text-4xl mb-2">Ø1 = {price.toFixed(3)} {unit}</div>
+        <div className="text-2xl text-white mb-2">The Unit (Ø) In {currency}</div>
+        <div className="text-4xl text-primary font-bold mb-2">Ø1 = {price.toFixed(3)} <span className="text-xl">{unit}</span></div>
         <PriceChange priceChange={changePercentage} diff={change} />
     </div>
 }

@@ -7,6 +7,7 @@ import Image from 'next/image';
 import PriceChange from '../theunit/PriceChange';
 import Link from 'next/link';
 import { getCurrencyInfo, getPriceInfo } from '@/utils/functions';
+import BoxContainer from '../BoxContainer';
 
 
 export default function ThumbChart({
@@ -92,20 +93,24 @@ export default function ThumbChart({
 
     
 
-	return (<Link 
-                href={`/unit/${currency}`}
-                className={"bg-black-light/40 backdrop-blur-sm rounded-2xl p-6" + (active ? " shadow-lg shadow-white/20 border border-gray" : "")}
-            >
+	return (
+    <BoxContainer>
+      <Link 
+        href={`/unit/${currency}`}
+        className={"block p-6 rounded-xl hover:shadow-lg hover:shadow-shadow" + (active ? " shadow-lg shadow-shadow" : "")}
+      >
         <div className="flex justify-between items-center mb-4">
             <div>
                 <div className="text-text-light text-base 2xl:text-lg">The Unit (Ø) In {currency}</div>
-                <div className="2xl:text-2xl font-semibold">Ø1={price.toFixed(3)} {unit}</div>
+                <div className="2xl:text-2xl font-bold">Ø1={price.toFixed(3)} <span className='text-sm 2xl:text-base'>{unit}</span></div>
             </div>
             <Image src={icon} alt={currency} />
         </div>
-		<div className="grid grid-cols-[1fr_88px] items-end">
+		    <div className="grid grid-cols-[1fr_88px] items-end">
             <div className="inline-block pointer-events-none" ref={chartContainerRef}></div>
             <PriceChange className="font-2xl font-semibold" priceChange={changePercentage} />
         </div>
-    </Link>);
+      </Link>
+    </BoxContainer>
+  );
 };
