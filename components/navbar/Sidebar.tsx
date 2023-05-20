@@ -35,7 +35,7 @@ export default function Sidebar() {
 
     const t = useTranslations();
 
-    return <div className="w-72 border-r border-gray-dark pt-14 z-50 pl-16 h-full relative">
+    return <div className="w-72 border-r border-gray-border pt-14 z-50 pl-16 h-full relative">
         {navLinks.map((link) => {
             return <LinkContainer 
                         className="mb-14 text-gray hover:text-text pl-[46px]"

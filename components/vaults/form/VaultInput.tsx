@@ -18,7 +18,7 @@ export default function VaultInput({
         onChange(e.currentTarget.value);
     };
 
-    return <div className="px-4 bg-gray-dark h-16 flex flex-col justify-center rounded-lg">
+    return <div className="px-4 bg-input h-16 flex flex-col justify-center rounded-lg">
             <input 
                 value={value}
                 type="number"

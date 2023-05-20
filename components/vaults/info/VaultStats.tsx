@@ -1,3 +1,4 @@
+import BoxContainer from "@/components/BoxContainer";
 import VaultInfoBox, { VaultInfoBoxProps } from "./VaultInfoBox";
 
 export default function VaultStats({
@@ -92,8 +93,16 @@ export default function VaultStats({
 
 
     return (
-        <div className="py-10 px-8 bg-gray-darker rounded-lg border-r-8 border-r-gray-border border-b-8 border-b-gray-border grid grid-cols-3 gap-y-16">
-            {boxes.map((box) => <VaultInfoBox key={box.title} { ...box } />)}
-        </div>
+        <BoxContainer>
+            <div className="py-10 px-8">
+                <div className="grid grid-cols-3 divide-x group above">
+                    {boxes.slice(0, 3).map((box) => <VaultInfoBox key={box.title} { ...box } />)}
+                </div>
+                <div className="bg-gray-border w-full h-[1px]"></div>
+                <div className="grid grid-cols-3 divide-x group below">
+                    {boxes.slice(3).map((box) => <VaultInfoBox key={box.title} { ...box } />)}
+                </div>
+            </div>
+        </BoxContainer>
     )
 }

@@ -14,6 +14,7 @@ import VaultStats from "../info/VaultStats";
 import TokenBalance from "./TokenBalance";
 import VaultButton from "./VaultButton";
 import { useBalance } from "wagmi";
+import BoxContainer from "@/components/BoxContainer";
 
 export default function VaultForm({
     collateral,
@@ -136,62 +137,64 @@ export default function VaultForm({
             <div className="text-2xl font-bold mb-6">
                 { isManage ? t('manage') : t('create')}
             </div>
-            <div className="py-10 px-8 bg-gray-darker rounded-lg border-r-8 border-r-gray-border border-b-8 border-b-gray-border">
-                <div className="flex justify-between items-center mb-4">
-                    <div className="bg-gray-dark rounded-md p-1 inline-block min-w-[261px]">
-                        <ActionTab 
-                            active={collateralAction == 'deposit'} 
-                            title={t('deposit', {symbol})} 
-                            onClick={() => { onCollateralActionChange('deposit') }} 
-                        />
-                        <ActionTab 
-                            active={collateralAction == 'withdraw'} 
-                            title={t('withdraw', {symbol})} 
-                            onClick={() => { onCollateralActionChange('withdraw') }} 
-                        />
+            <BoxContainer>
+                <div className="py-10 px-8">
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="bg-input rounded-md p-1 inline-block min-w-[250px]">
+                            <ActionTab 
+                                active={collateralAction == 'deposit'} 
+                                title={t('deposit', {symbol})} 
+                                onClick={() => { onCollateralActionChange('deposit') }} 
+                            />
+                            <ActionTab 
+                                active={collateralAction == 'withdraw'} 
+                                title={t('withdraw', {symbol})} 
+                                onClick={() => { onCollateralActionChange('withdraw') }} 
+                            />
+                        </div>
+                        <TokenBalance balance={balance} />
                     </div>
-                    <TokenBalance balance={balance} />
-                </div>
-                
-                <VaultInput 
-                    symbol={collateral.symbol} 
-                    onChange={onCollateralAmountChange} 
-                    value={collateralValue} 
-                    unitPrice={price}
-                />
-                <div className="flex justify-between items-center mb-4 mt-8">
-                    <div className="bg-gray-dark rounded-md p-1 inline-block min-w-[261px]">
-                        <ActionTab 
-                            active={unitAction == 'mint'} 
-                            title={t('mint')} 
-                            onClick={() => { setUnitAction('mint') }} 
-                        />
-                        <ActionTab 
-                            active={unitAction == 'burn'} 
-                            title={t('burn')} 
-                            onClick={() => { setUnitAction('burn') }} 
-                        />
+                    
+                    <VaultInput 
+                        symbol={collateral.symbol} 
+                        onChange={onCollateralAmountChange} 
+                        value={collateralValue} 
+                        unitPrice={price}
+                    />
+                    <div className="flex justify-between items-center mb-4 mt-8">
+                        <div className="bg-input rounded-md p-1 inline-block min-w-[250px]">
+                            <ActionTab 
+                                active={unitAction == 'mint'} 
+                                title={t('mint')} 
+                                onClick={() => { setUnitAction('mint') }} 
+                            />
+                            <ActionTab 
+                                active={unitAction == 'burn'} 
+                                title={t('burn')} 
+                                onClick={() => { setUnitAction('burn') }} 
+                            />
+                        </div>
+                        <TokenBalance balance={unitBalance} />
                     </div>
-                    <TokenBalance balance={unitBalance} />
+                    <VaultInput 
+                        symbol="UNIT"
+                        onChange={onUnitAmountChange} 
+                        value={unitValue}
+                    />
+                    <div className="h-8"></div>
+                    {error && <div className="rounded-full bg-red/10 text-red px-8 py-3 mb-4 text-sm">{error}</div>}
+                    <VaultButton
+                        collateral={collateral}
+                        collateralAmount={finalCollateralValue}
+                        unitAmount={finalUnitValue}
+                        disabled={error.length > 0 || (uvalue == 0 && cvalue == 0)}
+                        isManage={isManage}
+                        account={account}
+                        gasPrice={vaultInfo.gasPrice * vaultInfo.currentPrice}
+                        reset={resetForm}
+                    />
                 </div>
-                <VaultInput 
-                    symbol="UNIT"
-                    onChange={onUnitAmountChange} 
-                    value={unitValue}
-                />
-                <div className="h-8"></div>
-                {error && <div className="rounded-full bg-red/10 text-red px-8 py-3 mb-4 text-sm">{error}</div>}
-                <VaultButton
-                    collateral={collateral}
-                    collateralAmount={finalCollateralValue}
-                    unitAmount={finalUnitValue}
-                    disabled={error.length > 0 || (uvalue == 0 && cvalue == 0)}
-                    isManage={isManage}
-                    account={account}
-                    gasPrice={vaultInfo.gasPrice * vaultInfo.currentPrice}
-                    reset={resetForm}
-                />
-            </div>
+            </BoxContainer>
         </div>
         <div className={error ? 'group has-error' : ''}>
             <div className="text-2xl font-bold mb-6">

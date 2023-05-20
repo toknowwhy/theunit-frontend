@@ -16,13 +16,13 @@ export default function Button({
     onClick, 
     children 
 }: ButtonProps) {
-    let names = "cursor-pointer w-full rounded-xl py-3 text-center";
+    let names = "font-bold text-xl cursor-pointer w-full rounded-xl py-3 text-center";
     if (disabled) {
-        names += " bg-gray-dark text-gray";
+        names += " bg-input text-white";
     } else if (loading) {
         names += " bg-primary/50 flex items-center justify-center gap-4";
     } else {
-        names += " bg-primary text-black-light dark:text-text"
+        names += " bg-primary text-black-light dark:text-white"
     }
 
     return (

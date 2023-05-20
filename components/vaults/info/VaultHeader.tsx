@@ -26,7 +26,7 @@ export default function VaultHeader({
     const t = useVaultTranslations();
     const minutes = getMinutesToNextHour();
 
-    return <div className="flex justify-between items-center">
+    return <div className="flex justify-between items-center border-b border-b-gray-border pb-8">
         <div className="flex items-center">
             <div className="text-4xl font-bold">{symbol} {t('vault')}</div>
             <div className="w-24 h-20">

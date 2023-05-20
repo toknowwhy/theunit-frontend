@@ -21,7 +21,9 @@
   --text-color: #FFFFFF;
   --text-light: #F9F9F9;
   --white: #ffffff;
-  --gray-border: #29292F;
+  --gray-border: #2D2D2D;
+  --input: #222222;
+  --box: rgba(29, 29, 31, 0.8);
 }
 
 [data-theme='light'] {
@@ -35,4 +37,6 @@
   --text-light: #060606;
   --white: #000000;
   --gray-border: #d6d6d0;
+  --input: #E4E4E4;
+  --box: rgba(239, 239, 239, 0.6);
 }

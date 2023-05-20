@@ -12,7 +12,7 @@ export default function ActionTab({
     const activeClass = active ? ' font-bold text-text bg-gray-darker' : '';
     return <div 
         onClick={onClick}
-        className={"w-[50%] py-1 inline-block text-center rounded cursor-pointer text-gray text-sm hover:text-text" + activeClass}
+        className={"w-[50%] py-1 inline-block text-center rounded cursor-pointer text-gray text-base hover:text-text" + activeClass}
     >
         { title }
     </div>

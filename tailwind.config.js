@@ -24,7 +24,12 @@ module.exports = {
       'white': 'var(--white)',
       'transparent': 'transparent',
       'gray-border': 'var(--gray-border)',
+      'box': 'var(--box)',
+      'input': 'var(--input)'
     },
+    backgroundImage: {
+      'vault': 'url(/bgds/vault-bgd.png)'
+    }
   },
   plugins: [
     require('tailwind-scrollbar-hide')
