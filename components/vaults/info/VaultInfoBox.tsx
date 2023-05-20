@@ -37,9 +37,9 @@ export default function VaultInfoBox({
   }
 
 
-  return <div className="min-h-[88px] border-gray-border first:pl-0 last:pr-0 px-11 group-[.above]:pb-10 group-[.below]:pt-10">
+  return <div className="min-h-[88px] border-gray-border first:pl-0 last:pr-0 px-4 sm:pr-6 sm:pl-11 group-[.above]:pb-6 group-[.below]:pt-6 sm:group-[.above]:pb-10 sm:group-[.below]:pt-10">
     <VaultInfoTitle title={t(title)} info={info ? t(info) : undefined} />
-    <div className="font-bold text-2xl my-1">{addSuffix(value)}</div>
+    <div className="font-bold text-base sm:text-2xl my-1">{addSuffix(value)}</div>
     {extraValue !== undefined && extraValue !== null && <div className="text-base text-primary group-[.has-error]:text-red">
       {addSuffix(extraValue)} {t('after')}
     </div>}

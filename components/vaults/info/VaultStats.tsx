@@ -94,7 +94,7 @@ export default function VaultStats({
 
     return (
         <BoxContainer>
-            <div className="py-10 px-8">
+            <div className="py-6 px-4 sm:py-10 sm:px-8">
                 <div className="grid grid-cols-3 divide-x group above">
                     {boxes.slice(0, 3).map((box) => <VaultInfoBox key={box.title} { ...box } />)}
                 </div>
