@@ -132,8 +132,8 @@ export default function VaultForm({
         error,
     }
 
-    return <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] gap-8 mt-10">
-        <div>
+    return <div className="pb-20 xl:grid xl:grid-cols-[2fr_3fr] xl:gap-8 mt-10">
+        <div className="mb-10">
             <div className="text-2xl font-bold mb-6">
                 { isManage ? t('manage') : t('create')}
             </div>

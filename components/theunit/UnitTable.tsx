@@ -24,8 +24,8 @@ export default function UnitTable({
     ]
 
     return <>
-        <div className="text-4xl">{t(titleKey)}</div>
-        <div className="text-gray mb-6">{t(subtitleKey)}</div>
+        <div className="text-4xl font-bold">{t(titleKey)}</div>
+        <div className="text-gray mb-6 text-lg">{t(subtitleKey)}</div>
         <Table data={data} headers={headers} isCandidate={isCandidate} />
     </>
 }

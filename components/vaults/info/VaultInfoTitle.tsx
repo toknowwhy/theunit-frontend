@@ -1,16 +1,16 @@
 'use client';
 
 import questionMark from '@/public/icons/question-mark.svg';
+import { TransType } from '@/utils/types';
 import Image from 'next/image';
 
 export default function VaultInfoTitle({
     title,
     info
 } : {
-    title: string,
+    title: TransType,
     info?: string
 }) {
-    const key = title.split(' ')[0].toLowerCase();
 
     return <div className="text-sm sm:text-base text-gray flex items-center">
         {title} {info && (<div className="relative ml-1 inline">

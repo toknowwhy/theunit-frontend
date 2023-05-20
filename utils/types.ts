@@ -1,6 +1,7 @@
 import { BigNumber } from "ethers";
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
 import { AbiInput, AbiItem } from 'web3-utils'
+import { ReactElement, ReactNodeArray } from "react";
 
 /***************************** Database Types **********************************/
 
@@ -192,3 +193,5 @@ export interface VaultButtonProps {
     gasPrice: number;
     reset: () => void;
 }
+
+export type TransType = string | ReactElement | ReactNodeArray

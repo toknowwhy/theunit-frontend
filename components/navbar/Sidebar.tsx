@@ -44,7 +44,7 @@ export default function Sidebar() {
                     >
                 <Link 
                     key={link.i18n}
-                    className='group-[.is-active]:font-semibold group-[.is-active]:text-text group-[.is-active]:relative'
+                    className='group-[.is-active]:font-bold group-[.is-active]:text-white group-[.is-active]:relative'
                     href={link.link}
                 >
                     <Image 
