@@ -30,7 +30,7 @@ export default function Pagination({
             </Link>
 
             {range(Math.max(1, page-2), Math.min(pageTotal, page+2)).map((p) => (
-                <Link href={getPath(p)} key={p} className={p == page ? 'bg-gray-light w-9 h-9 rounded-3xl text-black-light text-center leading-9' : ''}>
+                <Link href={getPath(p)} key={p} className={p == page ? 'bg-[#E4E4E4] w-9 h-9 rounded-3xl text-[#000000] text-center leading-9' : ''}>
                     {p}
                 </Link>
             ))}

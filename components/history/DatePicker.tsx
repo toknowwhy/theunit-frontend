@@ -16,8 +16,8 @@ export default function HistoryDatePicker({ date } : { date?: string }) {
 
     const selectedDate = date ? moment(date).toDate() : now;
 
-    return <div className="bg-gray-dark rounded-lg py-2 px-4 inline-block">
-        <span className="text-sm text-gray font-semibold mr-2">Filter by date:</span>
+    return <div className="bg-gray-dark text-white rounded-lg py-2 px-4 inline-block">
+        <span className="text-sm text-white font-semibold mr-2">Filter by date:</span>
         <DatePicker 
             selected={selectedDate} 
             onChange={onChange} 

@@ -1,7 +1,7 @@
 .react-datepicker__input-container input {
     background: none;
     font-size: 14px;
-    color: #E3E4E7;
+    color: var(--white);
 }
 
 .react-datepicker-wrapper {
