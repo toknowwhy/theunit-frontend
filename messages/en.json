@@ -84,7 +84,8 @@
         "action-not-supported": "Action not supported! Please check your input",
         "unit-limit": "UNIT Limit",
         "unit-limit-info": "Minimum UNIT needs to be minted",
-        "estimated-gas": "Estimated gas"
+        "estimated-gas": "Estimated gas",
+        "enter-vault": "Enter Vault"
     },
     "History": {
         "name": "Name",

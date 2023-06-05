@@ -16,7 +16,7 @@ export default function Sidebar() {
         i18n: "theunit",
         activeKeys: ["/", "/coins"],
     }, {
-        link: "/vaults/ETH",
+        link: "/vaults",
         i18n: "vaults",
         activeKeys: ["/vaults"],
     }, {
