@@ -7,7 +7,6 @@ import {
 } from "@/utils/functions";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { TransType } from "@/utils/types";
-import { ReactElement } from "react";
 import SplineAnim from "../../SplineAnim";
 import VaultInfoTitle from "./VaultInfoTitle";
 
@@ -58,7 +57,7 @@ export default function VaultHeader({
     </div>
 }
 
-function VaultInfo({
+export function VaultInfo({
     title,
     info,
     value,

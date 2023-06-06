@@ -7,7 +7,7 @@ import {
 } from './abis';
 
 import { default as sepoliaAddresses } from './addresses/sepholia.json'
-import { Abi, Address, ContractDesc, TokenDesc } from '@/utils/types';
+import { Abi, Address, CollateralDesc, ContractDesc, TokenDesc } from '@/utils/types';
 import { sepolia as sepoliaChain } from 'wagmi/chains';
 import { keyBy } from 'lodash'
 
@@ -26,12 +26,16 @@ export function tokenDesc(
     address: Address,
     decimals: number,
 ): TokenDesc {
-    return { coinId, name, symbol, stable, abi, address, decimals }
+    return { coinId, name, symbol, stable, abi, address, decimals, }
 }
 
 export const supportedCollaterals = [
-    tokenDesc('ethereum', 'Ethereum', 'ETH', false, ERC20ABI, sepoliaAddresses.WETH as Address, 18),
-] as Array<TokenDesc>
+    {
+        ...tokenDesc('ethereum', 'Ethereum', 'ETH', false, ERC20ABI, sepoliaAddresses.WETH as Address, 18),
+        liquidationRatio: 1.15,
+        dustLimit: 100
+    },
+] as Array<CollateralDesc>
 
 const infuraProjectId = process.env.INFURA_PROJECT_ID || ''
 const etherscanAPIKey = process.env.ETHERSCAN_API_KEY || ''

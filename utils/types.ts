@@ -50,6 +50,11 @@ export interface TokenDesc extends ContractDesc {
     decimals: number;
 }
 
+export interface CollateralDesc extends TokenDesc {
+    liquidationRatio: number;
+    dustLimit: number;
+}
+
 export function instanceOfContractDesc(object: any): object is ContractDesc {
     return 'abi' in object && 'address' in object;
 }
