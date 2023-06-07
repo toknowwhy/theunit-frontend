@@ -26,7 +26,7 @@ export default function TokenPage({ data } : {data: CoinTableData[]}) {
             <CoinLogo coinId={coinId} />
             {coin.name}
         </div>
-        <div className="text-4xl my-2 text-primary">
+        <div className="inline-block text-4xl my-2 text-gradient">
             Ø {price.toFixed(3)}
         </div>
         <PriceChange priceChange={changePercentage} diff={change} />

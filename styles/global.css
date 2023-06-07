@@ -16,7 +16,11 @@
   }
 
   .bgd-gradient {
-    @apply bg-gradient-to-r from-unit-blue to-unit-orange;
+    @apply bg-gradient-to-r from-unit-blue to-unit-orange text-[#ffffff];
+  }
+
+  .bgd-gradient-light {
+    @apply bg-gradient-to-r from-unit-blue/10 to-unit-orange/10;
   }
 }
 

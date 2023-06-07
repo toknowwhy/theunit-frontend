@@ -24,7 +24,7 @@ export default function Table({
                 </div>)}
             </div>
             {data.map((d) => (
-                <Link href={`${isCandidate ? '/candidates' : ''}/coins/${d.coin_id}`} className="group contents hover:bg-gray-border leading-[4rem]" key={d.coin_id}>
+                <Link href={`${isCandidate ? '/candidates' : ''}/coins/${d.coin_id}`} className="group contents leading-[4rem]" key={d.coin_id}>
                     <TableItem className="pl-6 rounded-l-lg">{d.rank}</TableItem>
                     <TableItem className="flex gap-4 items-center">
                         <CoinLogo coinId={d.coin_id} /> {d.name}

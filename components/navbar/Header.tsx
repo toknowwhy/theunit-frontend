@@ -18,7 +18,9 @@ export default function Header() {
                         <Sidebar />
                     </MobileMenu>
                 </div>
-                <LanguageSwitcher />
+                <div className='hidden lg:block'>
+                    <LanguageSwitcher />
+                </div>
                 <ThemeSwitch />
             </div>
         </div>
