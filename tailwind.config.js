@@ -34,6 +34,9 @@ module.exports = {
       },
       backgroundImage: {
         'vault': 'url(/bgds/vault-bgd.png)'
+      },
+      minHeight: {
+        'body': 'calc(100vh - theme(top.16))',
       }
     }
   },

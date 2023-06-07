@@ -32,7 +32,7 @@ export default function ManageVault({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [myVaultInfo])
 
-    return <div className='bg-vault bg-no-repeat bg-right bg-cover min-h-[1000px] absolute left-0 top-0 right-0 bottom-0 px-4 lg:px-12 py-14'>
+    return <>
             <VaultHeader 
                 symbol={collateral.symbol} 
                 liquidationFee={vaultInfo.liquidationFee} 
@@ -54,5 +54,5 @@ export default function ManageVault({
                 theme='dark'
                 className='max-w-full'
             />
-        </div>
+        </>
 }

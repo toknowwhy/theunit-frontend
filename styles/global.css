@@ -20,6 +20,10 @@
   }
 }
 
+.min-h-screen {
+  min-height: calc(100vh - theme(space.16))
+}
+
 :root {
   /* Your default theme */
   --background-color: #151718;
