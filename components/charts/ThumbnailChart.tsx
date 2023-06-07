@@ -72,9 +72,9 @@ export default function ThumbChart({
 			chart.timeScale().fitContent();
 
 			const newSeries = chart.addAreaSeries({
-                topColor: change < 0 ? 'rgba(253, 68, 56, 0.8)' : 'rgba(21, 255, 171, 0.8)',
-                lineColor: change < 0 ? '#FD4438' : '#15FFAB',
-                bottomColor: change < 0 ? 'rgba(253, 68, 56, 0)' : 'rgba(21, 255, 171, 0)',
+                topColor: change < 0 ? 'rgba(100, 149, 237, 0.8)' : 'rgba(255, 130, 67, 0.8)',
+                lineColor: change < 0 ? '#6495ED' : '#FF8243',
+                bottomColor: change < 0 ? 'rgba(100, 149, 237, 0)' : 'rgba(255, 130, 67, 0)',
                 lineWidth: 2,
                 priceLineColor: 'transparent',
               });

@@ -40,7 +40,10 @@ const TVChartContainer = memo(function TVChartContainer({
 		user_id: 'public_user_id',
 		fullscreen: false,
 		autosize: true,
-		studies_overrides: {},
+		studies_overrides: {
+			"volume.volume.color.0": "#FF8243",
+			"volume.volume.color.1": "#6495ED",
+		},
 		custom_css_url: '/charting_library/custom.css',
 	};
 
@@ -52,6 +55,20 @@ const TVChartContainer = memo(function TVChartContainer({
 
 		let tvWidget: null | IChartingLibraryWidget = new widget(options);
 		tvWidget.onChartReady(() => {
+			tvWidget?.chart().getSeries().setChartStyleProperties(1, {
+				"upColor": "#FF8243",
+				"downColor": "#6495ED",
+				"drawWick": true,
+				"drawBorder": true,
+				"borderColor": "#378658",
+				"borderUpColor": "#FF8243",
+				"borderDownColor": "#6495ED",
+				"wickColor": "#B5B5B8",
+				"wickUpColor": "#FF8243",
+				"wickDownColor": "#6495ED",
+				"barColorsOnPrevClose": false,
+				"drawBody": true
+			})
 			tvWidget!.headerReady().then(() => {
 				const button = tvWidget!.createButton();
 				button.setAttribute('title', 'Click to show a notification popup');
