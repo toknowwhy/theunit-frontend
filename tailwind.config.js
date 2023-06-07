@@ -25,6 +25,7 @@ module.exports = {
         'white': 'var(--white)',
         'transparent': 'transparent',
         'gray-border': 'var(--gray-border)',
+        'gray-medium': 'var(--gray-medium)',
         'box': 'var(--box)',
         'input': 'var(--input)',
         'shadow': 'var(--shadow)',

@@ -1,6 +1,7 @@
 'use client';
 
 import { 
+    formatRatio,
     getMinutesToNextHour, 
     getRatioFromLiquidationFee, 
     numberWithCommas 
@@ -47,7 +48,7 @@ export default function VaultHeader({
         <VaultInfo 
             title={t('liquidation-ratio')} 
             info={t('liquidation-ratio-info')} 
-            value={(getRatioFromLiquidationFee(liquidationFee)*100).toFixed(0)+'%'} 
+            value={formatRatio(getRatioFromLiquidationFee(liquidationFee))} 
         />
         <VaultInfo 
             title={t('unit-limit')} 

@@ -31,6 +31,7 @@
   --text-color: #FFFFFF;
   --text-light: #F9F9F9;
   --white: #ffffff;
+  --gray-medium: #565657;
   --gray-border: #2D2D2D;
   --input: #222222;
   --box: rgba(29, 29, 31, 0.8);
@@ -46,6 +47,7 @@
   --gray-lighter: #554f47;
   --text-color: #0a0a00;
   --text-light: #060606;
+  --gray-medium: #565657;
   --white: #000000;
   --gray-border: #d6d6d0;
   --input: #E4E4E4;

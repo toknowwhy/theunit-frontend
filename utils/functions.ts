@@ -58,10 +58,6 @@ export const getCurrencyInfo = (currency: CurrencyType) => {
     return {unit, icon};
 }
 
-export const getLiquidateRatio = (number: ethers.BigNumber) => {
-    return 1 / parseFloat(ethers.utils.formatEther(number)) / 100;
-}
-
 export const toFloat = (num: string) => {
     const res = parseFloat(num);
     if (isNaN(res)) {
@@ -76,4 +72,8 @@ export const getRatioFromLiquidationFee = (liquidationFee: number, isFeeRatio = 
         return feeRatio-1;
     }
     return feeRatio;
+}
+
+export const formatRatio = (ratio: number) => {
+    return (ratio*100).toFixed(0)+'%'
 }
