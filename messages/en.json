@@ -3,6 +3,7 @@
     "vaults": "Vaults",
     "candidates": "Candidates",
     "oneunit": "One Unit",
+    "farm": "Farm",
     "histories": "History",
     "goto-theunit": "Go to theunit.one",
     "TheUnit": {
@@ -85,7 +86,8 @@
         "unit-limit": "UNIT Limit",
         "unit-limit-info": "Minimum UNIT needs to be minted",
         "estimated-gas": "Estimated gas",
-        "enter-vault": "Enter Vault"
+        "enter-vault": "Enter Vault",
+        "start-farm": "Start Farm"
     },
     "History": {
         "name": "Name",
