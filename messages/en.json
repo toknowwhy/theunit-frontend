@@ -87,7 +87,9 @@
         "unit-limit-info": "Minimum UNIT needs to be minted",
         "estimated-gas": "Estimated gas",
         "enter-vault": "Enter Vault",
-        "start-farm": "Start Farm"
+        "start-farm": "Start Farm",
+        "farm": "Farm",
+        "lock-to-earn": "Lock {symbol} to Earn UN"
     },
     "History": {
         "name": "Name",
