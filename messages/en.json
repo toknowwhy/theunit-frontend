@@ -89,7 +89,11 @@
         "enter-vault": "Enter Vault",
         "start-farm": "Start Farm",
         "farm": "Farm",
-        "lock-to-earn": "Lock {symbol} to Earn UN"
+        "lock-to-earn": "Lock {symbol} to Earn UN",
+        "max": "MAX",
+        "lock-amount": "Lock Amount",
+        "lock": "Lock",
+        "months": "{num} months"
     },
     "History": {
         "name": "Name",

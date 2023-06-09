@@ -200,3 +200,8 @@ export interface VaultButtonProps {
 }
 
 export type TransType = string | ReactElement | ReactNodeArray
+
+export interface LockAPY {
+    months: number;
+    apy: number;
+}

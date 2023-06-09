@@ -42,6 +42,7 @@
   --gray-medium: #565657;
   --gray-border: #2D2D2D;
   --input: #222222;
+  --gray-border-light: #191A1C;
   --box: rgba(29, 29, 31, 0.8);
   --shadow: rgba(255, 255, 255, 0.2);
 }
@@ -59,6 +60,7 @@
   --white: #000000;
   --gray-border: #d6d6d0;
   --input: #E4E4E4;
+  --gray-border-light: #F5F5F5;
   --box: rgba(239, 239, 239, 0.6);
   --shadow: rgba(0, 0, 0, 0.2);
 }
