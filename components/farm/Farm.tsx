@@ -40,7 +40,7 @@ export default function Farm({symbol} : {symbol: string}) {
             {symbol} {t('farm')}
         </div>
 
-        <div className="grid grid-cols-2 gap-x-10 gap-y-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-x-10 gap-y-10">
             <FarmForm {...farmProps} />
             <TotalFarm {...farmProps} />
             <LPBox {...farmProps} isUNPool />

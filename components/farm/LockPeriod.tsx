@@ -17,7 +17,7 @@ export default function LockPeriods({
     const t = useVaultTranslations()
 
     return (
-        <div className="flex justify-stretch gap-4">
+        <div className="flex justify-stretch gap-4 flex-wrap">
             {apys.map((apy) => (
                 <GradientBorder 
                     key={apy.months} 
