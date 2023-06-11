@@ -2,7 +2,7 @@
 
 import { FARM_POOL_TINU_RATIO, FARM_POOL_UN_RATIO, FARM_VAULT_COLLATERAL_RATIO, FARM_VAULT_RATIO } from "@/utils/constants";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
-import { LockAPY } from "@/utils/types";
+import { FarmBoxProps, LockAPY } from "@/utils/types";
 import { useState } from "react";
 import Button from "../button/Button";
 import FarmBox from "./FarmBox";
@@ -10,16 +10,11 @@ import FarmInput from "./FarmInput";
 import LockPeriods from "./LockPeriod";
 import LPInfo from "./LPInfo";
 
-export default function FarmForm({
-    symbol,
-} : {
-    symbol: string,
-}) {
+export default function FarmForm(props: FarmBoxProps) {
+
+    const { ethToTinuPrice, ethToUnPrice, unToTinuPrice, symbol } = props;
 
     const t = useVaultTranslations()
-    const ethToTinuPrice = 1280;
-    const ethToUnPrice = 20000;
-    const unToTinuPrice = 0.05;
 
     const [ethAmount, setEthAmount] = useState('')
     const [period, setPeriod] = useState(6)

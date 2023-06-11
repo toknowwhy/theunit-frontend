@@ -93,7 +93,8 @@
         "max": "MAX",
         "lock-amount": "Lock Amount",
         "lock": "Lock",
-        "months": "{num} months"
+        "months": "{num} months",
+        "total-farm": "Total UN Farmed"
     },
     "History": {
         "name": "Name",

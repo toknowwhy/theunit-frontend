@@ -205,3 +205,23 @@ export interface LockAPY {
     months: number;
     apy: number;
 }
+
+export interface LockLP {
+    amount: number;
+    days: number;
+}
+
+export interface FarmBoxProps {
+    symbol: string;
+    ethToTinuPrice: number;
+    ethToUnPrice: number;
+    unToTinuPrice: number;
+    totalRewards: number;
+    accessibleRewards: number;
+    ethLP: number;
+    unLP: number;
+    ethLPLocked: number;
+    unLPLocked: number;
+    ethLockedLPs: LockLP[];
+    unLockedLPs: LockLP[];
+}
