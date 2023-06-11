@@ -17,11 +17,15 @@ export default function LockPeriods({
     const t = useVaultTranslations()
 
     return (
-        <div className="flex justify-evenly gap-4">
+        <div className="flex justify-stretch gap-4">
             {apys.map((apy) => (
-                <GradientBorder key={apy.months} active={selected == apy.months}>
+                <GradientBorder 
+                    key={apy.months} 
+                    active={selected == apy.months}
+                    className="flex-grow"
+                >
                     <div 
-                        className="py-4 px-6 cursor-pointer flex-1 text-center"
+                        className="py-4 px-2 cursor-pointer text-center"
                         onClick={() => { setSelected(apy.months) }}
                     >
                         <div className="inline-block text-gradient font-semibold">{(apy.apy * 100).toFixed(2)}%</div>

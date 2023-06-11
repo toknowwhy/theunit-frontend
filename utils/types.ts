@@ -225,3 +225,7 @@ export interface FarmBoxProps {
     ethLockedLPs: LockLP[];
     unLockedLPs: LockLP[];
 }
+
+export interface LPBoxProps extends FarmBoxProps {
+    isUNPool: boolean;
+}

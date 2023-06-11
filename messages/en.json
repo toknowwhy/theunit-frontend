@@ -94,7 +94,19 @@
         "lock-amount": "Lock Amount",
         "lock": "Lock",
         "months": "{num} months",
-        "total-farm": "Total UN Farmed"
+        "total-farm": "Total UN Farmed",
+        "total-rewards": "Total Rewards",
+        "accessible-rewards": "Accessible Rewards",
+        "claim": "Claim",
+        "compound": "Compound",
+        "lp-tokens": "LP Tokens",
+        "locked": "Locked",
+        "accessible": "Accessible",
+        "withdraw-word": "Withdraw",
+        "deposit-word": "Deposit",
+        "relock": "Relock",
+        "amount": "Amount",
+        "locked-days": "Locked Days"
     },
     "History": {
         "name": "Name",
