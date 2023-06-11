@@ -85,7 +85,7 @@ export async function allBars(db, from, to, currency='BTC', coinId) {
                                 .toArray();
     } else {
         const model = currency === "USD" ? 'dailydatausds' : 'dailydatas';
-        resDailyData = await db.collection(model).find({ "time" : {"$lte": startTime} }).sort({'time': 1});
+        resDailyData = await db.collection(model).find({ "time" : {"$lte": startTime} }).sort({'time': 1}).toArray();
     }
 
     let dailyRes = [];
