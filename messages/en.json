@@ -64,7 +64,7 @@
         "available-to-withdraw": "Available to Withdraw",
         "not-enough-balance": "You cannot deposit more collateral than the amount in your wallet",
         "not-enough-unit": "Minimum {num} TINU need to be minted",
-        "lower-than-ratio": "The collateral ratio cannot be lower than the liquidation ratio",
+        "lower-than-ratio": "The collateralization ratio cannot be lower than the liquidation ratio",
         "after": " after",
         "check-connection": "Please check your network connection and refresh to try again",
         "approve": "Approve",
