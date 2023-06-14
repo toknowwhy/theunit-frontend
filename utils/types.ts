@@ -212,7 +212,6 @@ export interface LockLP {
 }
 
 export interface FarmBoxProps {
-    symbol: string;
     ethToTinuPrice: number;
     ethToUnPrice: number;
     unToTinuPrice: number;
@@ -224,6 +223,8 @@ export interface FarmBoxProps {
     unLPLocked: number;
     ethLockedLPs: LockLP[];
     unLockedLPs: LockLP[];
+    collateral: CollateralDesc;
+    account?: Address;
 }
 
 export interface LPBoxProps extends FarmBoxProps {

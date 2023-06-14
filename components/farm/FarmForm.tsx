@@ -3,7 +3,8 @@
 import { FARM_POOL_TINU_RATIO, FARM_POOL_UN_RATIO, FARM_VAULT_COLLATERAL_RATIO, FARM_VAULT_RATIO } from "@/utils/constants";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { FarmBoxProps, LockAPY } from "@/utils/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useBalance } from "wagmi";
 import Button from "../button/Button";
 import FormInput from "../FormInput";
 import FarmBox from "./FarmBox";
@@ -12,12 +13,28 @@ import LPInfo from "./LPInfo";
 
 export default function FarmForm(props: FarmBoxProps) {
 
-    const { ethToTinuPrice, ethToUnPrice, unToTinuPrice, symbol } = props;
+    const { ethToTinuPrice, ethToUnPrice, unToTinuPrice, collateral, account } = props;
+    const { symbol } = collateral;
 
     const t = useVaultTranslations()
 
     const [ethAmount, setEthAmount] = useState('')
     const [period, setPeriod] = useState(6)
+    const [balance, setBalance] = useState(0);
+
+
+    const { data: ethBalance, refetch: refetchEbal } = useBalance({
+        address: account,
+        enabled: Boolean(account)
+    })
+
+    useEffect(() => {
+        if (ethBalance) {
+            setBalance(parseFloat(ethBalance.formatted));
+        }
+    }, [ethBalance])
+
+
     const ethValue = ethAmount ? parseFloat(ethAmount) : 0;
     const ethToOpenVault = ethValue * FARM_VAULT_RATIO;
     const tinuFromVault = ethToOpenVault * FARM_VAULT_COLLATERAL_RATIO * ethToTinuPrice;
@@ -33,7 +50,7 @@ export default function FarmForm(props: FarmBoxProps) {
     const unTinuTotalValue = unToUNTINUPool * unToTinuPrice + tinuToUNTINUPool;
 
     const onMax = () => {
-
+        setEthAmount(balance.toString())
     }
 
     const lockPeriods: LockAPY[] = [
@@ -70,6 +87,7 @@ export default function FarmForm(props: FarmBoxProps) {
                 onChange={setEthAmount}
                 onMax={onMax}
                 symbol={symbol}
+                balance={balance}
             />
 
             <div className="my-8">

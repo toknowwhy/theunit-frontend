@@ -1,7 +1,11 @@
 'use client'
 
+import { useCurrentNetwork } from "@/utils/hooks/useCurrentNetwork";
+import { useSupportedCollaterals } from "@/utils/hooks/useSupportedCollaterals";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { FarmBoxProps, LockLP } from "@/utils/types";
+import { keyBy } from "lodash";
+import { useAccount } from "wagmi";
 import FarmForm from "./FarmForm";
 import LPBox from "./LPBox";
 import TotalFarm from "./TotalFarm";
@@ -9,6 +13,13 @@ import TotalFarm from "./TotalFarm";
 export default function Farm({symbol} : {symbol: string}) {
 
     const t = useVaultTranslations();
+
+    const supportedCollaterals = useSupportedCollaterals();
+    const collateralBySymbol = keyBy(supportedCollaterals, 'symbol');
+    const collateral = collateralBySymbol[symbol];
+    const { address } = useAccount();
+
+
     const ethToTinuPrice = 1280;
     const ethToUnPrice = 20000;
     const unToTinuPrice = 0.05;
@@ -21,7 +32,6 @@ export default function Farm({symbol} : {symbol: string}) {
     const ethLockedLPs: LockLP[] = [];
     const unLockedLPs: LockLP[] = [];
     const farmProps: FarmBoxProps = {
-        symbol,
         ethToTinuPrice,
         ethToUnPrice,
         unToTinuPrice,
@@ -33,6 +43,8 @@ export default function Farm({symbol} : {symbol: string}) {
         unLPLocked,
         ethLockedLPs,
         unLockedLPs,
+        collateral,
+        account: address,
     }
 
     return <>

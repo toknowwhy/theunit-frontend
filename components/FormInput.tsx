@@ -2,6 +2,7 @@
 
 import { numberWithCommas } from "@/utils/functions";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
+import TokenBalance from "./vaults/form/TokenBalance";
 
 export default function FormInput({
     value,
@@ -9,12 +10,14 @@ export default function FormInput({
     onMax,
     unitPrice,
     symbol,
+    balance,
 } : {
     value: string,
     onChange: (value: string) => void;
     onMax?: () => void,
     unitPrice?: number,
     symbol: string,
+    balance?: number,
 }) {
 
     const t = useVaultTranslations()
@@ -39,5 +42,10 @@ export default function FormInput({
             {Boolean(onMax) && <div className="absolute top-0 right-4 bottom-0 cursor-pointer py-5 text-gray-medium text-xl" onClick={onMax}>
                 {t('max')}
             </div>}
+            {Boolean(balance) && (
+                <div className="absolute right-0 -top-8">
+                    <TokenBalance balance={balance} />
+                </div>
+            )}
         </div>
 }
