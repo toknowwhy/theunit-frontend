@@ -21,10 +21,6 @@ export default function Sidebar() {
         i18n: "vaults",
         activeKeys: ["/vaults"],
     }, {
-        link: "/farm",
-        i18n: "farm",
-        activeKeys: ["/farm"],
-    }, {
         link: "/candidates",
         i18n: "candidates",
         activeKeys: ["/candidates"],
@@ -37,6 +33,14 @@ export default function Sidebar() {
         i18n: "histories",
         activeKeys: ["/history"],
     }];
+
+    if (process.env.NODE_ENV === 'development') {
+        navLinks.push({
+            link: "/farm",
+            i18n: "farm",
+            activeKeys: ["/farm"],
+        });
+    }
 
     const t = useTranslations();
 
