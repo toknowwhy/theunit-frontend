@@ -31,7 +31,8 @@ module.exports = {
         'shadow': 'var(--shadow)',
         'unit-orange': '#FF8243',
         'unit-blue': '#6495ED',
-        'gray-border-light': 'var(--gray-border-light)'
+        'gray-border-light': 'var(--gray-border-light)',
+        'error': '#FD4438'
       },
       backgroundImage: {
         'vault': 'url(/bgds/vault-bgd.png)',

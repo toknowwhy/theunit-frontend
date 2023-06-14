@@ -187,7 +187,7 @@ export default function VaultForm({
                         value={unitValue}
                     />
                     <div className="h-8"></div>
-                    {error && <div className="rounded-full bg-red/10 text-red px-8 py-3 mb-4 text-sm">{error}</div>}
+                    {error && <div className="rounded-full bg-error/10 text-error px-8 py-3 mb-4 text-sm">{error}</div>}
                     <VaultButton
                         collateral={collateral}
                         collateralAmount={finalCollateralValue}
