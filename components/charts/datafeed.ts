@@ -188,7 +188,7 @@ export class UnitDatafeed implements IDatafeedChartApi {
         resolve: (result: GetBarsResult) => void,
         reject: (reason: string) => void,
       ) => {
-        const data = {from, to, currency, coinId};
+        const data = {from, to, currency, coinId, resolution};
         fetch('/api/allBars?'+this._objToQueryString(data))
           .then((response) => response.json())
           .then((allBars) => {
@@ -268,10 +268,12 @@ export class UnitDatafeed implements IDatafeedChartApi {
         listed_exchange: 'UNIT',
         timezone: 'America/New_York',
         format: 'price',
+        has_intraday: true,
         pricescale: sym === 'DOGEUNIT' || sym === 'SHIBUNIT' ? 1000000 : 1000,
         minmov: 1,
         unit_id: symbolInfo.coin_id,
         supported_resolutions: [
+          '4H' as ResolutionString,
           '1D' as ResolutionString,
           '1W' as ResolutionString,
           '1M' as ResolutionString,
@@ -288,7 +290,7 @@ export class UnitDatafeed implements IDatafeedChartApi {
     onError: ErrorCallback,
   ): void {
     if (!this._fetched) {
-      this._getBars(symbolInfo, resolution, 1391040000)
+      this._getBars(symbolInfo, resolution, resolution === '240' ? 1641114000 : 1391040000)
         .then((result: GetBarsResult) => {
           this._fetched = true;
           onResult(result.bars, result.meta);
@@ -328,6 +330,7 @@ export class UnitDatafeed implements IDatafeedChartApi {
 function defaultConfiguration(): DatafeedConfiguration {
   return {
     supported_resolutions: [
+      '4H' as ResolutionString,
       '1D' as ResolutionString,
       '1W' as ResolutionString,
       '1M' as ResolutionString,

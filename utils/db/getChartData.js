@@ -6,7 +6,15 @@ export async function getAllSymbols(db) {
     return Object.values(coinsInfo); 
 }
 
-export async function allBars(db, from, to, currency='BTC', coinId) {
+function getCorrectValue(data, isETH, cid) {
+    let val = cid ? data.price : data.value;
+    if (isETH) {
+        val = 1 / val * 1000;
+    }
+    return val;
+}
+
+export async function allBars(db, from, to, currency='BTC', coinId, resolution) {
     let resHourData;
     const isETH = currency === 'ETH';
     const cid = isETH ? 'ethereum' : coinId;
@@ -25,14 +33,34 @@ export async function allBars(db, from, to, currency='BTC', coinId) {
                                 .toArray();
     }
 
+    if (resolution === '240') {
+        const bars = []
+        let q = resHourData.length-1;
+        while (q > 2) {
+            const first = resHourData[q-3];
+            const last = resHourData[q];
+            const firstValue = getCorrectValue(first, isETH, cid);
+            const lastValue = getCorrectValue(last, isETH, cid);
+            const allValues = [firstValue, lastValue, getCorrectValue(resHourData[q-2], isETH, cid), getCorrectValue(resHourData[q-1], isETH, cid)]
+            const bar = {
+                time: moment(first.time).toDate(),
+                high: allValues.reduce((a, b) => Math.max(a, b), -Infinity),
+                low: allValues.reduce((a, b) => Math.min(a, b), Infinity),
+                open: q > 3 ? getCorrectValue(resHourData[q-4], isETH, cid) : firstValue,
+                close: lastValue,
+                volume: allValues.reduce((partialSum, a) => partialSum + a.volume, 0),
+            };
+            bars.push(bar);
+            q -= 4;
+        }
+        return bars.reverse();
+    }
+
     let res = {};
     let oldTimeStr = '';
     for (let j = 0; j < resHourData.length; j++) {
         const hdata = resHourData[j];
-        let val = cid ? hdata.price : hdata.value;
-        if (isETH) {
-            val = 1 / val * 1000;
-        }
+        const val = getCorrectValue(hdata, isETH, cid)
         const timeStr = moment(hdata.time).format('YYYY-MM-DD');
         if (!res[timeStr]) {
             const bar = {
@@ -91,10 +119,7 @@ export async function allBars(db, from, to, currency='BTC', coinId) {
     let dailyRes = [];
     for (let q = 0; q < resDailyData.length; q++) {
         const hdata = resDailyData[q];
-        let val = cid ? hdata.price : hdata.value;
-        if (currency === "eth") {
-            val = 1 / val * 1000
-        }
+        const val = getCorrectValue(hdata, isETH, cid)
         const bar = {
             time: hdata.time,
             high: val,
