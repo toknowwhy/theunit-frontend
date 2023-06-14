@@ -164,7 +164,7 @@ export default function VaultForm({
                         onChange={onCollateralAmountChange} 
                         value={collateralValue} 
                         unitPrice={price}
-                        onMax={onMax}
+                        onMax={collateralAction === 'deposit' ? onMax : undefined}
                     />
                     <div className="flex justify-between items-center mb-4 mt-8">
                         <div className="bg-input rounded-md p-1 inline-block min-w-[250px]">

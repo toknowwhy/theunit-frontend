@@ -3,10 +3,12 @@ import logo from "@/public/logo-small.svg"
 
 export default function Loading() {
     return (
-        <Image 
+       <div className="w-full text-center pt-52">
+         <Image 
             src={logo} 
-            className="block animate-spin"
+            className="inline-block animate-spin"
             alt="loading" 
         />
+       </div>
     )
 }
