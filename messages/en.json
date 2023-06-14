@@ -106,7 +106,8 @@
         "deposit-word": "Deposit",
         "relock": "Relock",
         "amount": "Amount",
-        "locked-days": "Locked Days"
+        "locked-days": "Locked Days",
+        "input-amount": "{symbol} Amount"
     },
     "History": {
         "name": "Name",

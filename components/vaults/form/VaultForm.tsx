@@ -6,7 +6,7 @@ import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { useCollateralBalance } from '@/utils/hooks/useCollateralBalance';
 import { useEffect, useState } from "react";
 import ActionTab from "./ActionTab";
-import VaultInput from "./VaultInput";
+import FormInput from "../../FormInput";
 import { getRatioFromLiquidationFee, toFloat } from "@/utils/functions";
 import useDebounce from "@/utils/hooks/useDebounce";
 import { formatEther, formatUnits } from "ethers/lib/utils.js";
@@ -132,6 +132,10 @@ export default function VaultForm({
         error,
     }
 
+    const onMax = () => {
+        setCollateralValue(balance.toString())
+    }
+
     return <div className="pb-20 xl:grid xl:grid-cols-[2fr_3fr] xl:gap-8 mt-10">
         <div className="mb-10">
             <div className="text-2xl font-bold mb-6">
@@ -155,11 +159,12 @@ export default function VaultForm({
                         <TokenBalance balance={balance} />
                     </div>
                     
-                    <VaultInput 
+                    <FormInput 
                         symbol={collateral.symbol} 
                         onChange={onCollateralAmountChange} 
                         value={collateralValue} 
                         unitPrice={price}
+                        onMax={onMax}
                     />
                     <div className="flex justify-between items-center mb-4 mt-8">
                         <div className="bg-input rounded-md p-1 inline-block min-w-[250px]">
@@ -176,7 +181,7 @@ export default function VaultForm({
                         </div>
                         <TokenBalance balance={unitBalance} />
                     </div>
-                    <VaultInput 
+                    <FormInput 
                         symbol="UNIT"
                         onChange={onUnitAmountChange} 
                         value={unitValue}

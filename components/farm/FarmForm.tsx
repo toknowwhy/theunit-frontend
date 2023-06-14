@@ -5,8 +5,8 @@ import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { FarmBoxProps, LockAPY } from "@/utils/types";
 import { useState } from "react";
 import Button from "../button/Button";
+import FormInput from "../FormInput";
 import FarmBox from "./FarmBox";
-import FarmInput from "./FarmInput";
 import LockPeriods from "./LockPeriod";
 import LPInfo from "./LPInfo";
 
@@ -65,10 +65,11 @@ export default function FarmForm(props: FarmBoxProps) {
 
             <div className="h-8"></div>
 
-            <FarmInput 
+            <FormInput 
                 value={ethAmount}
                 onChange={setEthAmount}
                 onMax={onMax}
+                symbol={symbol}
             />
 
             <div className="my-8">
