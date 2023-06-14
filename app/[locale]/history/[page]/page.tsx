@@ -3,6 +3,7 @@ import clientPromise from "@/utils/db/mongodb";
 import HistoryTable from "@/components/history/HistoryTable";
 import moment from "moment";
 import { notFound } from "next/navigation";
+import BodyContainer from "@/components/navbar/BodyContainer";
 
 async function getData(page: number) {
     const client = await clientPromise;
@@ -46,6 +47,10 @@ export default async function HistoryPage({params} : {params: {page: string}}) {
     const data = await getData(p);
     const count = await getCount();
 
-    return <HistoryTable page={p} data={data} count={count} date={pageDate} />
+    return (
+        <BodyContainer>
+            <HistoryTable page={p} data={data} count={count} date={pageDate} />
+        </BodyContainer>
+    )
 
 }

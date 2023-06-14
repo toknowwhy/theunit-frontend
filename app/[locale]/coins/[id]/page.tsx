@@ -2,6 +2,7 @@ import { getCoinHourlyData } from "@/utils/db/getCoinHourlyData";
 import clientPromise from "@/utils/db/mongodb";
 import TokenPage from "@/components/theunit/TokenPage";
 import { notFound } from "next/navigation";
+import BodyContainer from "@/components/navbar/BodyContainer";
 
 async function getData(id: string) {
     const client = await clientPromise;
@@ -21,5 +22,9 @@ export default async function CoinPage({
         return notFound();
     }
 
-    return <TokenPage data={data} />
+    return (
+        <BodyContainer>
+            <TokenPage data={data} />
+        </BodyContainer>
+    )
 }

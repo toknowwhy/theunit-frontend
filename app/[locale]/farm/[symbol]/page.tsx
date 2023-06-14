@@ -1,6 +1,7 @@
 import { NextIntlClientProvider, useLocale } from 'next-intl';
 import { pick } from 'lodash';
 import Farm from '@/components/farm/Farm';
+import BodyContainer from '@/components/navbar/BodyContainer';
 
 export default async function FarmPage({
     params,
@@ -15,6 +16,8 @@ export default async function FarmPage({
               locale={locale}
               messages={pick(messages, 'Vault')}
             >
-              <Farm symbol={symbol} />
+              <BodyContainer hasBgd>
+                <Farm symbol={symbol} />
+              </BodyContainer>
            </NextIntlClientProvider>
 }

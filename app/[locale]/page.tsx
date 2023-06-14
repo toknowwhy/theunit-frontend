@@ -1,3 +1,4 @@
+import BodyContainer from '@/components/navbar/BodyContainer';
 import UnitTable from '@/components/theunit/UnitTable';
 import getUnitData from "@/utils/db/getUnitData";
 import clientPromise from "@/utils/db/mongodb";
@@ -12,9 +13,13 @@ async function getData() {
 
 export default async function Home() {
   const data = await getData();
-  return <UnitTable 
-            titleKey='indexed-currencies'
-            subtitleKey='indexed-currencies-notes'
-            data={data}
-          />;
+  return (
+    <BodyContainer>
+      <UnitTable 
+          titleKey='indexed-currencies'
+          subtitleKey='indexed-currencies-notes'
+          data={data}
+      />
+    </BodyContainer>
+  );
 }

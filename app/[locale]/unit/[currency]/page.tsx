@@ -8,6 +8,7 @@ import bgd from '@/public/thumbs-bgd.svg';
 import { useLocale } from "next-intl";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import BodyContainer from "@/components/navbar/BodyContainer";
 
 async function getData()  {
     const client = await clientPromise;
@@ -40,7 +41,7 @@ export default async function UnitPage({
     const symbol: ChartSymbolType = currency === 'BTC' ? 'UNITSATOSHI' : 
         ( currency === 'ETH' ? 'UNITFINNEY' : 'UNITUSD')
 
-    return <>
+    return <BodyContainer>
         <div className="relative mb-24">
             <Image 
                 src={bgd} 
@@ -59,5 +60,5 @@ export default async function UnitPage({
             <div className="pr-4 text-sm">Tweet this chart 👇🏼</div>
         </div>
         <ChartWrapper locale={locale} symbol={symbol} />
-    </>
+    </BodyContainer>
 }
