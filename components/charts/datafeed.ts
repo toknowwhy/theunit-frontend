@@ -68,6 +68,7 @@ export class UnitDatafeed implements IDatafeedChartApi {
   private readonly _readyPromise: Promise<void>;
   private _symbolsList: SymbolItemInfo[] = [];
   private _fetched: boolean = false;
+  private _resolution: ResolutionString = '1D' as ResolutionString;
   private readonly _subscribers: DataSubscribers = {};
 
   private _getAllSymbols(): Promise<void> {
@@ -289,10 +290,11 @@ export class UnitDatafeed implements IDatafeedChartApi {
     onResult: HistoryCallback,
     onError: ErrorCallback,
   ): void {
-    if (!this._fetched) {
+    if (!this._fetched || resolution !== this._resolution) {
       this._getBars(symbolInfo, resolution, resolution === '240' ? 1641114000 : 1391040000)
         .then((result: GetBarsResult) => {
           this._fetched = true;
+          this._resolution = resolution;
           onResult(result.bars, result.meta);
         })
         .catch(onError);
