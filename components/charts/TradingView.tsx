@@ -24,6 +24,8 @@ const TVChartContainer = memo(function TVChartContainer({
 	const ref = useRef(null);
 	const { theme } = useTheme();
 
+	const mainColor = theme === 'dark' ? '#151718' : '#f5f5f5';
+
 	const widgetOptions = {
 		symbol: symbol,
 		// BEWARE: no trailing slash is expected in feed URL
@@ -40,9 +42,14 @@ const TVChartContainer = memo(function TVChartContainer({
 		user_id: 'public_user_id',
 		fullscreen: false,
 		autosize: true,
+		overrides: {
+			"paneProperties.background": mainColor,
+			"paneProperties.backgroundGradientStartColor": mainColor,
+			"paneProperties.backgroundGradientEndColor": mainColor
+		},
 		studies_overrides: {
-			"volume.volume.color.0": "#FF8243",
-			"volume.volume.color.1": "#6495ED",
+			"volume.volume.color.0": "#6495ED",
+			"volume.volume.color.1": "#FF8243",
 		},
 		custom_css_url: '/charting_library/custom.css',
 	};
