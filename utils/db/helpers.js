@@ -1,4 +1,4 @@
-export const thumbChartLimit = 24;
+export const thumbChartLimit = 25;
 
 const getCoinsDatasInfo = (coinsDatas) => {
     let resj = {};
@@ -28,6 +28,11 @@ const getCoinIdFromSymbol = (coinsData, symbol) => {
 export async function getUnitHistory(db) {
     const idsData = await db.collection("unitcoinshistories").find({}).sort({time: -1}).limit(1).toArray();
     return idsData[0].coins
+}
+
+export async function getUNITInUSD(db) {
+    const latestData = await db.collection("hourlydatausds").find({}).sort({time: -1}).limit(1).toArray();
+    return latestData[0].value
 }
 
 export async function getCoinsInfo(db, cid) {

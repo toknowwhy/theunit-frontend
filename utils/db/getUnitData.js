@@ -8,7 +8,7 @@ export async function getCandidates(db, ids) {
     const nowTime = new Date(lastTime.getTime() - 300000);
     const data = await db
                         .collection("coinhourlydatas")
-                        .find({ coin_id: { $nin: mids }, "time" : {"$gte": nowTime} })
+                        .find({ coin_id: { $nin: mids }, "time" : {"$gte": nowTime}, price: { $exists: true } })
                         .sort({'market_cap': -1})
                         .limit(ids.length)
                         .toArray();
@@ -21,7 +21,7 @@ export default async function getUnitData(db, isCandidate=false) {
     if (isCandidate) {
         data = await getCandidates(db, ids);
     } else {
-        data = await db.collection("coinhourlydatas").find({ coin_id: { $in: ids } }).sort({'time': -1}).limit(ids.length).toArray();
+        data = await db.collection("coinhourlydatas").find({ coin_id: { $in: ids }, price: { $exists: true } }).sort({'time': -1}).limit(ids.length).toArray();
     }
     const coinsData = await getCoinsInfo(db);
 

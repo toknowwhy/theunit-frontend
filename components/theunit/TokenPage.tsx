@@ -1,38 +1,35 @@
-import { getPriceInfo } from "@/utils/functions";
+import { notFound } from "next/navigation";
 import ChartWrapper from "@/components/charts/ChartWrapper";
 import CoinLogo from "@/components/CoinLogo";
 import PriceChange from "@/components/theunit/PriceChange";
 import TokenInfo from "@/components/theunit/TokenInfo";
 import { useLocale } from "next-intl";
 import { CoinTableData } from "@/utils/types";
+import BodyContainer from "../navbar/BodyContainer";
 
 
-export default function TokenPage({ data } : {data: CoinTableData[]}) {
+export default function TokenPage({ data } : {data: CoinTableData}) {
+
     const locale = useLocale();
-    const coin = data[0];
-    const coinId = coin.coin_id;
 
-    const priceData = data.map((d) => {
-        return {
-            value: d.price,
-            time: ''
-        }
-    });
+    if (!data ) {
+        return notFound();
+    }
 
-    const { price, change, changePercentage } = getPriceInfo(priceData, '');
+    const coinId = data.coin_id;
 
-    return <>
+    return <BodyContainer>
         <div className="flex items-center text-2xl gap-2">
             <CoinLogo coinId={coinId} />
-            {coin.name}
+            {data.name}
         </div>
         <div className="inline-block text-4xl my-2 text-gradient">
-            Ø {price.toFixed(3)}
+            Ø {data.price.toFixed(3)}
         </div>
-        <PriceChange priceChange={changePercentage} diff={change} />
+        <PriceChange priceChange={data.price_change_percentage_24h} diff={data.price_change_24h} />
         <div className="mb-8"></div>
-        <ChartWrapper locale={locale} symbol={coin.symbol.toUpperCase() + 'UNIT'} />
+        <ChartWrapper locale={locale} symbol={data.symbol.toUpperCase() + 'UNIT'} />
 
-        <TokenInfo coin={coin} />
-    </>
+        <TokenInfo coin={data} />
+    </BodyContainer>
 }
