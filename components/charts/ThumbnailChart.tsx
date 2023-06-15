@@ -78,7 +78,7 @@ export default function ThumbChart({
                 lineWidth: 2,
                 priceLineColor: 'transparent',
               });
-			newSeries.setData(data);
+			newSeries.setData(data.sort((a, b) => parseInt(a.time) - parseInt(b.time)));
 
 			window.addEventListener('resize', handleResize);
 
@@ -97,7 +97,7 @@ export default function ThumbChart({
     <BoxContainer>
       <Link 
         href={`/unit/${currency}`}
-        className={"block p-6 rounded-xl hover:shadow-lg hover:shadow-shadow" + (active ? " shadow-lg shadow-shadow" : "")}
+        className={"block p-4 rounded-xl hover:shadow-lg hover:shadow-shadow" + (active ? " shadow-lg shadow-shadow" : "")}
       >
         <div className="flex justify-between items-center mb-4">
             <div>
