@@ -10,7 +10,7 @@ import Button from "../button/Button";
 
 export default function LPBox(props: LPBoxProps) {
 
-    const { isUNPool, symbol, ethLP, unLP, ethLPLocked, unLPLocked, ethToTinuPrice, unToTinuPrice } = props;
+    const { isUNPool, ethLP, unLP, ethLPLocked, unLPLocked, ethToTinuPrice, unToTinuPrice, collateral } = props;
     const t = useVaultTranslations();
 
     const price = isUNPool ? unToTinuPrice : ethToTinuPrice;
@@ -21,7 +21,7 @@ export default function LPBox(props: LPBoxProps) {
         <FarmBox>
             <div className="mb-6 flex items-center gap-3 text-3xl font-semibold">
                 <Image src={eth} alt='eth' />
-                {isUNPool ? 'UN/TINU' : `${symbol}/TINU`} {t('lp-tokens')}
+                {isUNPool ? 'UN/TINU' : `${collateral.symbol}/TINU`} {t('lp-tokens')}
             </div>
             <div className="flex gap-20 mb-8">
                 <div className="flex-none flex flex-col gap-4">
