@@ -50,3 +50,18 @@ export async function getStableCoins(db) {
     }
     return stableCoins;
 }
+
+export async function getBitcoinChange(db) {
+    const lastData = await db
+                            .collection("coinhourlydatas")
+                            .find({coin_id: 'bitcoin'})
+                            .sort({ "time": -1 })
+                            .limit(thumbChartLimit)
+                            .toArray();
+    const endValue = lastData[0].price;
+    const startValue = lastData[lastData.length-1].price;
+    const change = endValue - startValue;
+    const changePerc = change / startValue * 100;
+    return { change, changePerc }
+
+}

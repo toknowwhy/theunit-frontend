@@ -1,4 +1,4 @@
-import { getCoinsInfo, getStableCoins, getUnitHistory } from "./helpers";
+import { getBitcoinChange, getCoinsInfo, getStableCoins, getUnitHistory } from "./helpers";
 
 export async function getCandidates(db, ids) {
     const stableCoins = await getStableCoins(db);
@@ -49,6 +49,12 @@ export default async function getUnitData(db, isCandidate=false) {
             key: cid,
             rank: (i+1)
         };
+
+        if (cid === 'bitcoin') {
+            const changes = await getBitcoinChange(db);
+            resCoin.price_change_24h = changes.change;
+            resCoin.price_change_percentage_24h = changes.changePerc;
+        }
 
         // Remove the not keys that make coin not serializable
         // to pass to client component

@@ -1,5 +1,6 @@
 import { getCandidates } from './getUnitData';
 import { 
+    getBitcoinChange,
     getCoinsInfo, 
     getUnitHistory,
     getUNITInUSD
@@ -31,12 +32,20 @@ export async function getCoinLatestData(db, coinId) {
     const d = lastData[0];
     const unitInUSD = await getUNITInUSD(db);
 
-    return {
+    const resObj = {
         ...d,
         value: d.price,
         price_change_24h: d.price_change_24h / unitInUSD,
         name: coinsInfo[coinId]?.name,
         symbol: coinsInfo[coinId]?.symbol,
         rank: (rank+1)
-    };
+    }
+
+    if (coinId === 'bitcoin') {
+        const changes = await getBitcoinChange(db);
+        resObj.price_change_24h = changes.change;
+        resObj.price_change_percentage_24h = changes.changePerc;
+    }
+
+    return resObj;
 }
