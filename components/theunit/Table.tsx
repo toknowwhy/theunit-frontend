@@ -47,7 +47,7 @@ function TableItem({
     children: ReactNode 
 }) {
     return (
-        <div className={"group-hover:bg-input dark:group-hover:bg-gray-border h-16 " + (className ?? "")}>
+        <div className={"border-b border-b-gray-border group-hover:bg-input dark:group-hover:bg-gray-border h-16 " + (className ?? "")}>
             {children}
         </div>
     )

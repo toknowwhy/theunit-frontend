@@ -70,7 +70,7 @@ export default function Sidebar() {
         </div>
         <Link 
             href="https://theunit.one"
-            className='text-center lg:absolute lg:bottom-24 lg:left-0 lg:right-0 text-gray'
+            className='text-center lg:absolute lg:bottom-24 lg:left-0 lg:right-0 text-gray hover:text-gradient inline-block'
         >
             {t('goto-theunit')}
         </Link>

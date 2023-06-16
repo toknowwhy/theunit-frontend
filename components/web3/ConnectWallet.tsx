@@ -27,7 +27,7 @@ export default function ConnectWallet({
         account &&
         chain;
 
-      const buttonClass = notHeader ? 'w-full h-full' : '';
+      const buttonClass = notHeader ? 'w-full h-full' : 'px-6 py-2 border border-gray-border rounded-lg hover:bgd-gradient';
 
       return (
         <div
@@ -89,7 +89,7 @@ export default function ConnectWallet({
                 </button>
 
                 <button 
-                  className="border border-gray px-4 py-2 rounded-lg text-sm bg-gray-dark"
+                  className="border border-gray px-4 py-2 rounded-lg text-sm bg-gray-dark hover:bgd-gradient"
                   onClick={openAccountModal} 
                   type="button"
                 >
