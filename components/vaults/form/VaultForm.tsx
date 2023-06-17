@@ -144,7 +144,7 @@ export default function VaultForm({
             <BoxContainer>
                 <div className="py-10 px-8">
                     <div className="flex justify-between items-center mb-4">
-                        <div className="bg-input rounded-md p-1 inline-block min-w-[250px]">
+                        <div className="bg-transparent border border-gray-border rounded-md p-1 inline-block min-w-[250px]">
                             <ActionTab 
                                 active={collateralAction == 'deposit'} 
                                 title={t('deposit', {symbol})} 
@@ -167,7 +167,7 @@ export default function VaultForm({
                         onMax={collateralAction === 'deposit' ? onMax : undefined}
                     />
                     <div className="flex justify-between items-center mb-4 mt-8">
-                        <div className="bg-input rounded-md p-1 inline-block min-w-[250px]">
+                    <div className="bg-transparent border border-gray-border rounded-md p-1 inline-block min-w-[250px]">
                             <ActionTab 
                                 active={unitAction == 'mint'} 
                                 title={t('mint')} 

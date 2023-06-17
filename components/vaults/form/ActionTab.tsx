@@ -9,10 +9,10 @@ export default function ActionTab({
     active: boolean,
     onClick: () => void,
 }) {
-    const activeClass = active ? ' font-bold text-text bg-gray-darker' : '';
+    const activeClass = active ? ' font-bold text-white bg-gray-border' : '';
     return <div 
         onClick={onClick}
-        className={"w-[50%] py-1 inline-block text-center rounded cursor-pointer text-gray text-base hover:text-text" + activeClass}
+        className={"w-[50%] py-1 inline-block text-center rounded cursor-pointer text-gray-medium text-base hover:text-text" + activeClass}
     >
         { title }
     </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
+import Spinner from "../Spinner";
 
 export interface ButtonProps {
     disabled?: boolean;
@@ -16,13 +16,13 @@ export default function Button({
     onClick, 
     children 
 }: ButtonProps) {
-    let names = "font-semibold text-xl cursor-pointer w-full rounded-xl py-3 text-center border border-gray-border ";
+    let names = "font-semibold text-xl cursor-pointer w-full rounded-xl py-3 text-center border border-gray-border text-white ";
     if (disabled) {
-        names += "bg-input text-gray";
+        names += "bg-gray-border cursor-not-allowed";
     } else if (loading) {
-        names += "bg-input flex items-center justify-center gap-4";
+        names += "flex items-center justify-center gap-4 bg-input cursor-not-allowed";
     } else {
-        names += "text-light hover:bgd-gradient"
+        names += "text-light hover:bg-input active:bgd-gradient"
     }
 
     return (
@@ -34,12 +34,8 @@ export default function Button({
                 }
             }} 
         >
+            {loading && <Spinner small /> }
             {children} 
-            {loading && <ClipLoader
-                            color="#ffffff"
-                            size={20}
-                        />
-            }
         </div>
     )
 }

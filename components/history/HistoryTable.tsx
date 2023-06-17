@@ -30,7 +30,10 @@ export default function HistoryTable({
 
     return <>
         <div className="mb-5 flex items-end justify-between">
-            <div className="text-4xl font-bold pb-6">{t('history')}</div>
+            <div>
+                <div className="text-4xl font-bold">{t('history')}</div>
+                <div className="text-gray">{t('history-info')}</div>
+            </div>
             <HistoryDatePicker date={date} />
         </div>
         <BoxContainer>

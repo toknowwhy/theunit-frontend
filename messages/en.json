@@ -116,6 +116,7 @@
         "history": "History",
         "filter-by-date": "Filter by date",
         "go-to": "Go to",
-        "page": "Page"
+        "page": "Page",
+        "history-info": "Placeholder"
     }
 }

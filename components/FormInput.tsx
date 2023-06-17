@@ -26,13 +26,13 @@ export default function FormInput({
         onChange(e.currentTarget.value);
     };
 
-    return <div className="relative px-4 bg-input h-16 flex flex-col justify-center rounded-lg">
+    return <div className="relative px-4 bg-gray-dark/60 h-16 flex flex-col justify-center rounded-lg border border-gray-border">
             <input 
                 value={value}
                 type="number"
                 min={0}
                 onChange={onInputChange}
-                className="pr-20 text-text text-xl border-none bg-transparent outline-none placeholder:text-gray placeholder:font-bold" 
+                className="pr-20 text-text text-xl border-none bg-transparent outline-none placeholder:text-gray placeholder:font-semibold" 
                 placeholder={t('input-amount', {symbol})} 
             />
             { unitPrice && <div className="text-gray text-xs">

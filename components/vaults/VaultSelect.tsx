@@ -51,10 +51,11 @@ function VaultChoice({
                 <VaultChoiceInfo title={t('liquidation-ratio')} info={formatRatio(collateral.liquidationRatio)} />
                 <VaultChoiceInfo title={t('unit-limit')} info={collateral.dustLimit.toString()} />
                 <VaultChoiceInfo title={t('stability-fee')} info='0.00%' />
-                <Link href={`/${isFarm ? 'farm' : 'vaults'}/${collateral.symbol}`} className="block mt-8" >
-                    <Button>
+                <Link 
+                    href={`/${isFarm ? 'farm' : 'vaults'}/${collateral.symbol}`} 
+                    className="block mt-8 py-3 rounded-lg bg-gray-border text-center font-semibold hover:bg-transparent border border-gray-border" 
+                >
                         {t(isFarm ? 'start-farm' : 'enter-vault')}
-                    </Button>
                 </Link>
             </div>
         </BoxContainer>
