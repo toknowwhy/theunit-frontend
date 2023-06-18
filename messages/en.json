@@ -6,6 +6,7 @@
     "farm": "Farms",
     "histories": "History",
     "goto-theunit": "Go to theunit.one",
+    "not-found": "Page Not Found",
     "TheUnit": {
         "indexed-currencies": "Components of The UNIT",
         "indexed-currencies-notes": "*Market Cap and Volume (24h) are in millions of units",
@@ -107,7 +108,8 @@
         "relock": "Relock",
         "amount": "Amount",
         "locked-days": "Locked Days",
-        "input-amount": "{symbol} Amount"
+        "input-amount": "{symbol} Amount",
+        "eth-vault-description": "This is our most popular vault"
     },
     "History": {
         "name": "Name",
@@ -117,6 +119,6 @@
         "filter-by-date": "Filter by date",
         "go-to": "Go to",
         "page": "Page",
-        "history-info": "Placeholder"
+        "history-info": "The history of the coins in The Unit"
     }
 }

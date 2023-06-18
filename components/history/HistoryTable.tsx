@@ -34,7 +34,7 @@ export default function HistoryTable({
                 <div className="text-4xl font-bold">{t('history')}</div>
                 <div className="text-gray">{t('history-info')}</div>
             </div>
-            <HistoryDatePicker date={date} />
+            <HistoryDatePicker date={date} title={t('filter-by-date')} />
         </div>
         <BoxContainer>
             <div className="grid grid-cols-[120px_60px_1fr] md:grid-cols-[200px_120px_1fr] py-8 px-10">
