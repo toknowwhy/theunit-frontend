@@ -6,6 +6,7 @@
     "farm": "Farms",
     "histories": "Historial",
     "goto-theunit": "Vuelve a theunit.one",
+    "not-found": "Página no encontrada",
     "TheUnit": {
         "indexed-currencies": "Componentes del UNIT",
         "indexed-currencies-notes": "*Cap. de Mercado y Volumen (24h) denominados en millones de unidades",
@@ -106,7 +107,9 @@
         "deposit-word": "Deposita",
         "relock": "Rebloquea",
         "amount": "Cantidad",
-        "locked-days": "Días bloqueado"
+        "locked-days": "Días bloqueado",
+        "input-amount": "Cantidad de {symbol}",
+        "eth-vault-description": "Esta es nuestra vault más popular"
     },
     "History": {
         "name": "Nombre",
@@ -115,6 +118,7 @@
         "history": "Historial",
         "filter-by-date": "Filtra por fecha",
         "go-to": "Ir a",
-        "page": "Página"
+        "page": "Página",
+        "history-info": "Historial diario de las monedas componentes de UNIT"
     }
 }
