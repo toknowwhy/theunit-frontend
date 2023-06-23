@@ -69,7 +69,7 @@ export default function Sidebar() {
             <AvailableLocales />
         </div>
         <Link 
-            href="https://theunit.one"
+            href="https://unitindex.org"
             className='text-center lg:absolute lg:bottom-24 lg:left-0 lg:right-0 text-gray hover:text-gradient inline-block'
         >
             {t('goto-theunit')}

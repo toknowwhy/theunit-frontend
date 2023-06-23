@@ -19,8 +19,8 @@ export default function UnitTable({
         t('name'),
         t('price'),
         t('h24'),
-        t('market-cap') + '*',
-        t('volume') + '*',
+        t('market-cap'),
+        t('volume'),
     ]
 
     return <>
