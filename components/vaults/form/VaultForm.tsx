@@ -182,7 +182,7 @@ export default function VaultForm({
                         <TokenBalance balance={unitBalance} />
                     </div>
                     <FormInput 
-                        symbol="UNIT"
+                        symbol="TINU"
                         onChange={onUnitAmountChange} 
                         value={unitValue}
                     />
