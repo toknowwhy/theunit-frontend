@@ -20,6 +20,9 @@ export default function ConfirmBtn({
     unitAmount,
     gasPrice,
     reset, 
+    isClosing,
+    unitBalance,
+    collateralBalance,
 } : VaultButtonProps) {
     const t = useVaultTranslations();
     const [txId, setTxId] = useState('');
@@ -56,7 +59,11 @@ export default function ConfirmBtn({
         } else if (unitAmount < 0) {
             action = 'decreaseETHAndBurn'
             transactionName = 'burn'
-            params = [collateralAmountInWei, unitAmountInWei, account]
+            if (isClosing) {
+                params = [collateralBalance, unitBalance, account]
+            } else {
+                params = [collateralAmountInWei, unitAmountInWei, account]
+            }
         }
     } else {
         if (unitAmount < 0) {

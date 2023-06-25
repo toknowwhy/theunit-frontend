@@ -27,7 +27,7 @@
     },
     "Vault": {
         "connect-wallet": "Connect Wallet",
-        "switch-network": "Switch Network",
+        "switch-network": "Wrong Network",
         "choose-vault": "Please Choose a Vault",
         "vault": "Vault",
         "vault-id": "Vault ID",
@@ -109,7 +109,8 @@
         "amount": "Amount",
         "locked-days": "Locked Days",
         "input-amount": "{symbol} Amount",
-        "eth-vault-description": "This is our most popular vault"
+        "eth-vault-description": "This is our most popular vault",
+        "not-enough-unit-burn": "Minimum {num} TINU need to be left in the vault, click MAX to payback all TINU"
     },
     "History": {
         "name": "Name",

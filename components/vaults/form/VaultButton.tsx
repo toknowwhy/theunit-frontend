@@ -11,7 +11,7 @@ import { useIsCorrectNetwork } from "@/utils/hooks/useIsCorrectNetwok";
 
 const VaultButton = memo(function VaultButton(props: VaultButtonProps) {
     const t = useVaultTranslations();
-    const { unitAmount, disabled, isManage, account, collateralAmount } = props;
+    const { unitAmount, disabled, isManage, account } = props;
     const isCorrectNetwork = useIsCorrectNetwork()
 
     const [isConnected, setIsConnected] = useState(false);
@@ -27,12 +27,10 @@ const VaultButton = memo(function VaultButton(props: VaultButtonProps) {
     }
 
     if (disabled) {
-        return <Button disabled>
-                    { isManage ? t('update') : t('create')}
-                </Button>
+        return <Button disabled>{ isManage ? t('update') : t('create')}</Button>
     }
 
-    return (unitAmount < 0 || collateralAmount < 0) ? 
+    return (unitAmount < 0 || !isManage) ? 
             <ApproveButton { ...props } /> : 
             <ConfirmBtn { ...props } />
 })

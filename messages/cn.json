@@ -27,7 +27,7 @@
     },
     "Vault": {
         "connect-wallet": "连接钱包",
-        "switch-network": "切换网络",
+        "switch-network": "网络不支持",
         "choose-vault": "请选择金库",
         "vault": "金库",
         "vault-id": "金库ID",

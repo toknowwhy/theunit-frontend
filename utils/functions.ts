@@ -1,8 +1,9 @@
-import { CurrencyType, PriceInfo, ThumbChartDataType } from "./types";
+import { ContractDesc, CurrencyType, instanceOfTokenDesc, PriceInfo, ThumbChartDataType, TokenDesc } from "./types";
+import { BigNumber } from "ethers";
+import { formatUnits } from "ethers/lib/utils.js";
 import BTC from '@/public/btc.svg';
 import ETH from '@/public/eth.svg';
 import USD from '@/public/usd.svg';
-import { ethers } from "ethers";
 
 export const numberWithCommas = (x: string | undefined) => {
     if (x != undefined) {
@@ -76,4 +77,10 @@ export const getRatioFromLiquidationFee = (liquidationFee: number, isFeeRatio = 
 
 export const formatRatio = (ratio: number) => {
     return (ratio*100).toFixed(0)+'%'
+}
+
+export const getBalanceFromBigNumber = (collateral: TokenDesc|ContractDesc, data?: BigNumber) => {
+    let decimals = collateral && instanceOfTokenDesc(collateral) ? collateral.decimals : 18;
+    const balance = data ? parseFloat(formatUnits(data.toString(), decimals)) : 0;
+    return balance
 }

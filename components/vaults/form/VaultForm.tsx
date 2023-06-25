@@ -7,7 +7,7 @@ import { useCollateralBalance } from '@/utils/hooks/useCollateralBalance';
 import { useEffect, useState } from "react";
 import ActionTab from "./ActionTab";
 import FormInput from "../../FormInput";
-import { getRatioFromLiquidationFee, toFloat } from "@/utils/functions";
+import { getBalanceFromBigNumber, getRatioFromLiquidationFee, toFloat } from "@/utils/functions";
 import useDebounce from "@/utils/hooks/useDebounce";
 import { formatEther, formatUnits } from "ethers/lib/utils.js";
 import VaultStats from "../info/VaultStats";
@@ -62,13 +62,13 @@ export default function VaultForm({
     })
 
     useEffect(() => {
-        if (ebal) {
+        if (ebal !== undefined) {
             setBalance(parseFloat(ebal.formatted));
         }
-        if (ubal) {
-            setUnitBalance(ubal);
+        if (ubal !== undefined) {
+            setUnitBalance(getBalanceFromBigNumber(unitToken, ubal));
         }
-    }, [ubal, ebal])
+    }, [ubal, ebal, unitToken])
 
     
     const uvalue = toFloat(debounceUnitValue);
@@ -80,13 +80,19 @@ export default function VaultForm({
     const ratio = collateralValueAfter == 0 ? 0 : (collateralValueAfter * price / unitValueAfter);
     const liquidationRatio = getRatioFromLiquidationFee(liquidationFee);
 
+    const isClosing = unitValueAfter == 0 && collateralValueAfter == 0 && isManage;
+
     let error = '';
-    if (uvalue == 0 && cvalue == 0) {
+    if ((uvalue == 0 && cvalue == 0) || isClosing) {
         error = '';
     } else if (uvalue < 0 || cvalue < 0) {
         error = t('less-than-0');
-    } else if (unitAction === 'mint' && uvalue > 0 && unitValueAfter < minUnit) {
-        error = t('not-enough-unit', {num: minUnit});
+    } else if (unitValueAfter < minUnit && unitValueAfter > 0) {
+        if (unitAction === 'burn') {
+            error = t('not-enough-unit-burn', {num: minUnit});
+        } else {
+            error = t('not-enough-unit', {num: minUnit});
+        }
     } else if (unitAction === 'burn' && uvalue > (unitBalance ?? 0)) {
         error = t('not-enough-unit-to-burn')
     } else if (ratio < liquidationRatio) {
@@ -134,6 +140,11 @@ export default function VaultForm({
 
     const onMax = () => {
         setCollateralValue(balance.toString())
+    }
+
+    const onMaxUnit = () => {
+        setUnitValue(unitBalance.toString())
+        setCollateralValue(camount.toString())
     }
 
     return <div className="pb-20 xl:grid xl:grid-cols-[2fr_3fr] xl:gap-8 mt-10">
@@ -185,6 +196,7 @@ export default function VaultForm({
                         symbol="TINU"
                         onChange={onUnitAmountChange} 
                         value={unitValue}
+                        onMax={unitAction === 'burn' ? onMaxUnit : undefined}
                     />
                     <div className="h-8"></div>
                     {error && <div className="rounded-full bg-error/10 text-error px-8 py-3 mb-4 text-sm">{error}</div>}
@@ -197,6 +209,9 @@ export default function VaultForm({
                         account={account}
                         gasPrice={vaultInfo.gasPrice * vaultInfo.currentPrice}
                         reset={resetForm}
+                        unitBalance={ubal}
+                        collateralBalance={vaultCollateralAmount}
+                        isClosing={isClosing}
                     />
                 </div>
             </BoxContainer>

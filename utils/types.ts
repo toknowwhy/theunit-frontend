@@ -196,6 +196,9 @@ export interface VaultButtonProps {
     disabled: boolean;
     isManage: boolean;
     gasPrice: number;
+    isClosing?: boolean;
+    collateralBalance?: BigNumber,
+    unitBalance?: BigNumber,
     reset: () => void;
 }
 

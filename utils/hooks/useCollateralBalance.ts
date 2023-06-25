@@ -1,6 +1,6 @@
-import { formatUnits } from "ethers/lib/utils.js";
 import { useContractRead } from "wagmi";
-import { ContractDesc, instanceOfTokenDesc, TokenDesc } from "@/utils/types";
+import { ContractDesc, TokenDesc } from "@/utils/types";
+import { BigNumber } from "ethers";
 
 export const useCollateralBalance = (collateral: TokenDesc|ContractDesc, isETH = true, account?: string) => {
 
@@ -11,7 +11,5 @@ export const useCollateralBalance = (collateral: TokenDesc|ContractDesc, isETH =
         args: [account],
         enabled: Boolean(account) && !isETH,
     })
-    let decimals = collateral && instanceOfTokenDesc(collateral) ? collateral.decimals : 18;
-    const balance = data ? parseFloat(formatUnits(data.toString(), decimals)) : 0;
-    return { balance, refetch };
+    return { balance: data as BigNumber|undefined, refetch };
 }

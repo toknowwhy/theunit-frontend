@@ -4,7 +4,7 @@ import { toFloat } from "@/utils/functions";
 import { useCurrentNetwork } from "@/utils/hooks/useCurrentNetwork";
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { formatUnits, parseUnits } from "ethers/lib/utils.js";
 import { useContractRead, useSigner } from "wagmi";
 import { useState } from "react";
@@ -15,11 +15,11 @@ import TxButton from "@/components/web3/TxButton";
 import Button from "@/components/button/Button";
 
 export default function ApproveButton(props : VaultButtonProps) {
-    const { unitAmount, account, collateralAmount } = props
+    const { unitAmount, account, collateralAmount, isManage } = props
     const uamount = Math.abs(unitAmount);
     const camount = Math.abs(collateralAmount);
     const [allowanceData, setAllowanceData] = useState<BigNumber>(BigNumber.from(0));
-    const [vaultAllow, setVaultAllow] = useState(collateralAmount >= 0);
+    const [vaultAllow, setVaultAllow] = useState(isManage);
     const [txId, setTxId] = useState('');
     const t = useVaultTranslations();
     const network = useCurrentNetwork();
@@ -47,7 +47,7 @@ export default function ApproveButton(props : VaultButtonProps) {
         address: vault.address,
         abi: vault.abi,
         functionName: 'allowances',
-        enabled: collateralAmount < 0,
+        enabled: !isManage,
         args: [account, contractAddress],
         onSuccess(data) {
             setVaultAllow(data as boolean)
@@ -80,23 +80,6 @@ export default function ApproveButton(props : VaultButtonProps) {
     const approve = async () => {
         const { data: signer } = await getSigner()
         let tid = '';
-        if (needToApprove) {
-            const callTransaction = buildTx(
-                unitToken, 
-                "approve", 
-                signer!, 
-                [contractAddress, parseUnits(Number.MAX_SAFE_INTEGER.toString(), unitToken.decimals)]
-            )
-            tid = await sendTx({
-                name: title,
-                callTransaction,
-                callbacks: {
-                  refetch: () => {
-                    refetchAllowance(true)
-                  }
-                }
-            })
-        }
         if (!vaultAllow) {
             const callTransaction = buildTx(
                 vault, 
@@ -116,6 +99,22 @@ export default function ApproveButton(props : VaultButtonProps) {
             if (!tid) {
                 tid = txId
             }
+        } else if (needToApprove) {
+            const callTransaction = buildTx(
+                unitToken, 
+                "approve", 
+                signer!, 
+                [contractAddress, parseUnits(Number.MAX_SAFE_INTEGER.toString(), unitToken.decimals)]
+            )
+            tid = await sendTx({
+                name: title,
+                callTransaction,
+                callbacks: {
+                  refetch: () => {
+                    refetchAllowance(true)
+                  }
+                }
+            })
         }
         setTxId(tid)
     }
