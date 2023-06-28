@@ -233,3 +233,8 @@ export interface FarmBoxProps {
 export interface LPBoxProps extends FarmBoxProps {
     isUNPool: boolean;
 }
+
+export interface SiteLocale {
+    locale: string;
+    title: string;
+}

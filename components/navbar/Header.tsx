@@ -4,7 +4,7 @@ import Sidebar from './Sidebar';
 import { useVaultTranslations } from '@/utils/hooks/useVaultTranslations';
 import ThemeSwitch from './ThemeSwitch';
 import Logo from './Logo';
-import LanguageSwitcher from '../LanguageSwitcher';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Header() {
     const t = useVaultTranslations();

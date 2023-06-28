@@ -3,7 +3,7 @@ import menuLogo from '@/public/menu-logo.svg';
 import LinkContainer from './LinkContainer';
 import { useTranslations } from 'next-intl';
 import Link from 'next-intl/link';
-import { AvailableLocales } from '../LanguageSwitcher';
+import AvailableLocales from './LanguageSwitcher';
 
 export interface NavLink {
     link: string;
