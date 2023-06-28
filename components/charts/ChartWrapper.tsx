@@ -11,5 +11,6 @@ export default function ChartWrapper({
     locale: string,
     symbol: string,
 }) {
-    return <TVChartContainer locale={locale} symbol={symbol} />
+    const loc = locale === 'cn' ? 'zh' : locale;
+    return <TVChartContainer locale={loc} symbol={symbol} />
 }

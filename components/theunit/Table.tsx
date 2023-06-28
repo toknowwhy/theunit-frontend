@@ -2,7 +2,7 @@ import { CoinTableData } from "@/utils/types";
 import { renderPrice, renderBigNumber } from "@/utils/functions";
 import CoinLogo from "../CoinLogo";
 import PriceChange from "./PriceChange";
-import { Link } from "next-intl";
+import Link from "next-intl/link";
 import BoxContainer from "../BoxContainer";
 import { ReactNode } from "react";
 

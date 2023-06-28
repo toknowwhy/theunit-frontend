@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import menuLogo from '@/public/menu-logo.svg';
 import LinkContainer from './LinkContainer';
-import { Link, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
+import Link from 'next-intl/link';
 import { AvailableLocales } from '../LanguageSwitcher';
 
 export interface NavLink {

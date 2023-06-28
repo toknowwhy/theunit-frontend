@@ -1,10 +1,10 @@
 import BoxContainer from "@/components/BoxContainer";
-import Button from "@/components/button/Button";
 import SplineAnim from "@/components/SplineAnim";
 import { supportedCollaterals } from "@/crypto/config";
 import { formatRatio } from "@/utils/functions";
 import { CollateralDesc } from "@/utils/types";
-import { Link, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
+import Link from "next-intl/link";
 
 export default function VaultsSelect({
     isFarm = false,

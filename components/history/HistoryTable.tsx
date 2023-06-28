@@ -3,8 +3,6 @@ import { useTranslations } from "next-intl";
 import CoinLogo from "../CoinLogo";
 import HistoryDatePicker from "./DatePicker";
 import Pagination from "./Pagination";
-import Image from "next/image";
-import HistoryLogo from "@/public/history-logo.svg";
 import BoxContainer from "../BoxContainer";
 
 export default function HistoryTable({

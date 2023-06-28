@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Link } from 'next-intl';
+import Link from 'next-intl/link';
 import earth from '@/public/icons/earth.svg'
 import earthBlack from '@/public/icons/earth-black.svg'
 
