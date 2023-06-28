@@ -7,7 +7,7 @@ import logoDark from '@/public/logo-dark.svg';
 import logoSmall from '@/public/logo-small.svg';
 import logoSmallDark from '@/public/logo-small-dark.svg';
 import { useEffect, useState } from 'react';
-import { useTheme } from '@wits/next-themes';
+import { useTheme } from 'next-themes';
 
 export default function Logo() {
 

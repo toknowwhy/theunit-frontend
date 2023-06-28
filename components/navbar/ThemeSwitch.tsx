@@ -1,6 +1,6 @@
 'use client';
 
-import { useTheme, ThemeProvider } from '@wits/next-themes'
+import { useTheme, ThemeProvider } from 'next-themes';
 import Image from 'next/image';
 import light from '@/public/icons/light.png';
 import dark from '@/public/icons/dark.png';

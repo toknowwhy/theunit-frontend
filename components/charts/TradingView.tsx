@@ -11,7 +11,7 @@ import {
 	ChartingLibraryWidgetOptions
 } from '@/public/charting_library';
 import { UnitDatafeed } from './datafeed';
-import { useTheme } from '@wits/next-themes';
+import { useTheme } from 'next-themes';
 
 
 const TVChartContainer = memo(function TVChartContainer({

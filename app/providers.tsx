@@ -7,6 +7,7 @@ import {
   RainbowKitProvider,
   darkTheme
 } from '@rainbow-me/rainbowkit';
+import { ThemeProvider } from 'next-themes';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
@@ -31,17 +32,19 @@ const { chains, provider } = configureChains(
 
 export default function Providers({ children } : PropsWithChildren<{}>) {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider 
-        theme={darkTheme({
-          accentColor: '#4844FF'
-        })} 
-        chains={chains}
-        initialChain={initialNetwork}
-        showRecentTransactions={true}
-      >
-          {children}
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <ThemeProvider>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider 
+          theme={darkTheme({
+            accentColor: '#4844FF'
+          })} 
+          chains={chains}
+          initialChain={initialNetwork}
+          showRecentTransactions={true}
+        >
+            {children}
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </ThemeProvider>
   );
 }
