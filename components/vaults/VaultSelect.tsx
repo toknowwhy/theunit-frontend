@@ -42,7 +42,7 @@ function VaultChoice({
                         <div className="text-4xl font-semibold">
                             {collateral.symbol.toUpperCase()}-TINU
                         </div>
-                        <div className="text-gray-medium leading-5">Here is some extra info about this vault</div>
+                        <div className="text-gray-medium leading-5">{t('eth-vault-description')}</div>
                     </div>
                     <div className="w-24 h-28">
                         <SplineAnim url="https://prod.spline.design/2XUmnjtG8jRU4zPR/scene.splinecode"  />
