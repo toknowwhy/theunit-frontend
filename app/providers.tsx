@@ -20,7 +20,7 @@ const { chains, provider } = configureChains(
   );
   
   const { connectors } = getDefaultWallets({
-    appName: 'The Unit',
+    appName: 'UNIT',
     chains
   });
   

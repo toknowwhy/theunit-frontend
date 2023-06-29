@@ -41,7 +41,7 @@ export default function RootLayout({
   }
 
   return (
-    <html lang={locale} className={avenirFont.className}>
+    <html suppressHydrationWarning lang={locale} className={avenirFont.className}>
       <head />
       <body className="text-lg text-text m-0 bg-black-light">
           <Providers>

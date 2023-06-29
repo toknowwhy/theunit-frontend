@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import menuLogo from '@/public/menu-logo.svg';
+import menuLogoDark from '@/public/icons/menu-logo-dark.svg';
 import LinkContainer from './LinkContainer';
 import { useTranslations } from 'next-intl';
 import Link from 'next-intl/link';
@@ -13,27 +14,33 @@ export interface NavLink {
 
 export default function Sidebar() {
 
-    const navLinks: NavLink[] = [{
-        link: "/",
-        i18n: "theunit",
-        activeKeys: ["/", "/coins"],
-    }, {
-        link: "/vaults",
-        i18n: "vaults",
-        activeKeys: ["/vaults"],
-    }, {
-        link: "/candidates",
-        i18n: "candidates",
-        activeKeys: ["/candidates"],
-    }, {
-        link: "/unit/btc",
-        i18n: "oneunit",
-        activeKeys: ["/unit"],
-    }, {
-        link: "/history/1",
-        i18n: "histories",
-        activeKeys: ["/history"],
-    }];
+    const navLinks: NavLink[] = [
+        {
+            link: "/",
+            i18n: "theunit",
+            activeKeys: ["/", "/coins"],
+        }, 
+        {
+            link: "/candidates",
+            i18n: "candidates",
+            activeKeys: ["/candidates"],
+        }, 
+        {
+            link: "/vaults",
+            i18n: "vaults",
+            activeKeys: ["/vaults"],
+        }, 
+        {
+            link: "/unit/btc",
+            i18n: "oneunit",
+            activeKeys: ["/unit"],
+        }, 
+        {
+            link: "/history/1",
+            i18n: "histories",
+            activeKeys: ["/history"],
+        },
+    ];
 
     if (process.env.NODE_ENV === 'development') {
         navLinks.push({
@@ -58,8 +65,13 @@ export default function Sidebar() {
                     href={link.link}
                 >
                     <Image 
-                        className="hidden absolute w-7 -left-11 lg:group-[.is-active]:block" 
+                        className="hidden absolute w-7 -left-11 lg:group-[.is-active.is-dark]:block" 
                         src={menuLogo} 
+                        alt="logo" 
+                    />
+                    <Image 
+                        className="hidden absolute w-7 -left-11 lg:group-[.is-active.is-light]:block" 
+                        src={menuLogoDark} 
                         alt="logo" 
                     />
                     {t(link.i18n)}

@@ -101,7 +101,7 @@ export default function ThumbChart({
       >
         <div className="flex justify-between items-center mb-4">
             <div>
-                <div className="text-text-light text-base 2xl:text-lg">The Unit (Ø) In {currency}</div>
+                <div className="text-text-light text-base 2xl:text-lg">UNIT (Ø) In {currency}</div>
                 <div className="2xl:text-2xl font-bold">Ø1={price.toFixed(3)} <span className='text-sm 2xl:text-base'>{unit}</span></div>
             </div>
             <Image src={icon} alt={currency} />
