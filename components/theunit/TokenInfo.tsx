@@ -23,12 +23,28 @@ export default function TokenInfo({
             {coin.name} {t('info')}
         </div>
         <BoxContainer>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-y-10 p-8">
+            <div className="grid grid-cols-[1fr_32px_1fr] md:grid-cols-[1fr_32px_1fr_32px_1fr] px-8 py-4">
                 <TokenInfoItem title={t('the-unit-rank')} value={coin.rank} />
+                <div className="w-[1px] h-full bg-gray-border" />
                 <TokenInfoItem title={t('market-cap')} value={infoStr(coin.market_cap)} />
+                <div className="block md:hidden h-[1px] w-full bg-gray-border" />
+                <div className="block md:hidden h-[1px] w-full bg-gray-border" />
+                <div className="block md:hidden h-[1px] w-full bg-gray-border" />
+                <div className="hidden md:block w-[1px] h-full bg-gray-border" />
                 <TokenInfoItem title={t('available-supply')} value={infoStr(coin.circulating_supply)} />
+                <div className="hidden md:block h-[1px] w-full bg-gray-border" />
+                <div className="hidden md:block h-[1px] w-full bg-gray-border" />
+                <div className="hidden md:block h-[1px] w-full bg-gray-border" />
+                <div className="hidden md:block h-[1px] w-full bg-gray-border" />
+                <div className="hidden md:block h-[1px] w-full bg-gray-border" />
+                <div className="block md:hidden w-[1px] h-full bg-gray-border" />
                 <TokenInfoItem title={t('dominance')} value={dominance} />
+                <div className="block md:hidden h-[1px] w-full bg-gray-border" />
+                <div className="block md:hidden h-[1px] w-full bg-gray-border" />
+                <div className="block md:hidden h-[1px] w-full bg-gray-border" />
+                <div className="hidden md:block w-[1px] h-full bg-gray-border" />
                 <TokenInfoItem title={t('volume')} value={infoStr(coin.volume)} />
+                <div className="w-[1px] h-full bg-gray-border" />
                 <TokenInfoItem title={t('total-supply')} value={infoStr(coin.total_supply)} />
             </div>
         </BoxContainer>
@@ -42,7 +58,7 @@ function TokenInfoItem ({
     title: string,
     value: string | number,
 }) { 
-    return <div>
+    return <div className="py-6">
         <div className="text-gray-lighter mb-2 text-sm">{title}</div>
         <div className="text-xl font-bold">{value}</div>
     </div>
