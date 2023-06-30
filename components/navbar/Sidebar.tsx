@@ -78,7 +78,7 @@ export default function Sidebar() {
                 </Link>
             </LinkContainer>
         })}
-        <div className='flex lg:hidden flex-col gap-10 mb-10 text-gray text-white'>
+        <div className='flex lg:hidden flex-col gap-10 mb-10 text-white'>
             <AvailableLocales />
         </div>
         <Link 

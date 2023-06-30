@@ -36,6 +36,11 @@ export default function VaultHeader({
             </div>
         </div>
         <VaultInfo 
+            title={t('liquidation-ratio')} 
+            info={t('liquidation-ratio-info')} 
+            value={formatRatio(getRatioFromLiquidationFee(liquidationFee))} 
+        />
+        <VaultInfo 
             title={t('current-price')} 
             info={t('current-price-info')} 
             value={`Ø${numberWithCommas(price.toFixed(3))}`}
@@ -44,11 +49,6 @@ export default function VaultHeader({
             title={t.rich('next-in', {mins: minutes, bold: (chunks) => <strong>&nbsp;{chunks}&nbsp;</strong>})} 
             info={t('next-in-info')} 
             value={`Ø${numberWithCommas(nextPrice.toFixed(3))}`}
-        />
-        <VaultInfo 
-            title={t('liquidation-ratio')} 
-            info={t('liquidation-ratio-info')} 
-            value={formatRatio(getRatioFromLiquidationFee(liquidationFee))} 
         />
         <VaultInfo 
             title={t('unit-limit')} 

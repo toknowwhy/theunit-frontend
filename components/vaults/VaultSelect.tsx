@@ -1,6 +1,6 @@
 import BoxContainer from "@/components/BoxContainer";
 import SplineAnim from "@/components/SplineAnim";
-import { supportedCollaterals } from "@/crypto/config";
+import { defaultSupportedCollaterals } from "@/crypto/config";
 import { formatRatio } from "@/utils/functions";
 import { CollateralDesc } from "@/utils/types";
 import { useTranslations } from "next-intl";
@@ -13,8 +13,8 @@ export default function VaultsSelect({
 }) {
 
     return (
-        <div className="grid grid-cols-3">
-            {supportedCollaterals.map((collateral) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3">
+            {defaultSupportedCollaterals.map((collateral) => (
                 <VaultChoice
                     key={collateral.symbol}
                     collateral={collateral}
