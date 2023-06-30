@@ -29,7 +29,7 @@ export function tokenDesc(
     return { coinId, name, symbol, stable, abi, address, decimals, }
 }
 
-export const supportedCollaterals = [
+export const defaultSupportedCollaterals = [
     {
         ...tokenDesc('ethereum', 'Ethereum', 'ETH', false, ERC20ABI, sepoliaAddresses.WETH as Address, 18),
         liquidationRatio: 1.15,
@@ -50,18 +50,17 @@ const sepolia = {
     label: 'Sepolia test network',
     infuraUrl: getRpc('sepolia'),
     safeConfirmations: 6,
-    unitToken: tokenDesc('unit', 'UNIT Token', 'UNIT', false, UnitTokenABI, sepoliaAddresses.UNIT_TOKEN as Address, 18),
+    unitToken: tokenDesc('tinu', 'TINU', 'TINU', false, UnitTokenABI, sepoliaAddresses.UNIT_TOKEN as Address, 18),
     unitRouter: contractDesc(UnitRouterABI, sepoliaAddresses.UNIT_ROUTER_V1 as Address),
     vault: contractDesc(VaultABI, sepoliaAddresses.VAULT as Address),
     priceFeed: contractDesc(PriceFeedABI, sepoliaAddresses.PRICE_FEED as Address),
-    tokens: supportedCollaterals,
+    tokens: defaultSupportedCollaterals,
     ETHAddress: sepoliaAddresses.WETH,
     etherscan: {
         url: 'https://sepolia.etherscan.io',
-        apiUrl: 'https://api-sepolia.etherscan.io/api',
-        apiKey: etherscanAPIKey,
     },
 }
+
 
 export type Network = typeof sepolia
 
