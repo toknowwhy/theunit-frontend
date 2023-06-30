@@ -13,7 +13,7 @@ export default function VaultsSelect({
 }) {
 
     return (
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3">
             {supportedCollaterals.map((collateral) => (
                 <VaultChoice
                     key={collateral.symbol}
