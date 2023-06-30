@@ -15,7 +15,7 @@ export default function Header() {
                 <ConnectWallet connectLabel={t('connect-wallet')} networkLabel={t('switch-network')} />
                 <div className='lg:hidden'>
                     <MobileMenu>
-                        <Sidebar />
+                            <Sidebar />
                     </MobileMenu>
                 </div>
                 <div className='hidden lg:block'>

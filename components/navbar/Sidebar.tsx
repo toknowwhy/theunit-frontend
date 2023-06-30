@@ -4,7 +4,7 @@ import menuLogoDark from '@/public/icons/menu-logo-dark.svg';
 import LinkContainer from './LinkContainer';
 import { useTranslations } from 'next-intl';
 import Link from 'next-intl/link';
-import AvailableLocales from './LanguageSwitcher';
+import AvailableLocales from './LocaleLinks';
 
 export interface NavLink {
     link: string;
@@ -78,7 +78,7 @@ export default function Sidebar() {
                 </Link>
             </LinkContainer>
         })}
-        <div className='flex lg:hidden flex-col gap-10 mb-10 text-gray'>
+        <div className='flex lg:hidden flex-col gap-10 mb-10 text-gray text-white'>
             <AvailableLocales />
         </div>
         <Link 
