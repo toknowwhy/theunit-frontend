@@ -274,8 +274,6 @@ export class UnitDatafeed implements IDatafeedChartApi {
         minmov: 1,
         unit_id: symbolInfo.coin_id,
         supported_resolutions: [
-          '15' as ResolutionString,
-          '1H' as ResolutionString,
           '4H' as ResolutionString,
           '1D' as ResolutionString,
           '1W' as ResolutionString,
@@ -293,7 +291,7 @@ export class UnitDatafeed implements IDatafeedChartApi {
     onError: ErrorCallback,
   ): void {
     if (!this._fetched || resolution !== this._resolution) {
-      this._getBars(symbolInfo, resolution, parseInt(resolution) > 1 ? 1688122200 : 1391040000)
+      this._getBars(symbolInfo, resolution, resolution === '240' ? 1641114000 : 1391040000)
         .then((result: GetBarsResult) => {
           this._fetched = true;
           this._resolution = resolution;
@@ -334,8 +332,6 @@ export class UnitDatafeed implements IDatafeedChartApi {
 function defaultConfiguration(): DatafeedConfiguration {
   return {
     supported_resolutions: [
-      '15' as ResolutionString,
-      '1H' as ResolutionString,
       '4H' as ResolutionString,
       '1D' as ResolutionString,
       '1W' as ResolutionString,
