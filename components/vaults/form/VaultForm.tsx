@@ -3,7 +3,6 @@
 import { RECOMMENDED_COLLATERAL_RATIO } from "@/utils/constants";
 import { ContractDesc, TokenDesc, VaultActionType, VaultInfoType } from "@/utils/types";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
-import { useCollateralBalance } from '@/utils/hooks/useCollateralBalance';
 import { useEffect, useState } from "react";
 import ActionTab from "./ActionTab";
 import FormInput from "../../FormInput";
@@ -15,17 +14,16 @@ import TokenBalance from "./TokenBalance";
 import VaultButton from "./VaultButton";
 import { useBalance } from "wagmi";
 import BoxContainer from "@/components/BoxContainer";
+import { useTinuBalance } from "@/utils/hooks/useTinuBalance";
 
 export default function VaultForm({
     collateral,
     vaultInfo,
-    unitToken,
     account,
     refetchVaultInfo,
 } : {
     collateral: TokenDesc,
     vaultInfo: VaultInfoType,
-    unitToken: ContractDesc,
     account?: `0x${string}`,
     refetchVaultInfo: () => void,
 }) {
@@ -55,7 +53,7 @@ export default function VaultForm({
 
     const debounceUnitValue = useDebounce(unitValue, 500);
     const debounceCollateralValue = useDebounce(collateralValue, 500);
-    const { balance: ubal, refetch: refetchUbal } = useCollateralBalance(unitToken, false, account);
+    const { balance: ubal, refetch: refetchUbal } = useTinuBalance(account);
     const { data: ebal, refetch: refetchEbal } = useBalance({
         address: account,
         enabled: Boolean(account) && isETH
@@ -66,9 +64,9 @@ export default function VaultForm({
             setBalance(parseFloat(ebal.formatted));
         }
         if (ubal !== undefined) {
-            setUnitBalance(getBalanceFromBigNumber(unitToken, ubal));
+            setUnitBalance(getBalanceFromBigNumber(ubal));
         }
-    }, [ubal, ebal, unitToken])
+    }, [ubal, ebal])
 
     
     const uvalue = toFloat(debounceUnitValue);

@@ -1,7 +1,7 @@
 "use client"
 
 import { toFloat } from "@/utils/functions";
-import { useCurrentNetwork } from "@/utils/hooks/useCurrentNetwork";
+import { useCurrentNetworkContracts } from "@/utils/hooks/useCurrentNetwork";
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { BigNumber, ethers } from "ethers";
@@ -22,7 +22,7 @@ export default function ApproveButton(props : VaultButtonProps) {
     const [vaultAllow, setVaultAllow] = useState(isManage);
     const [txId, setTxId] = useState('');
     const t = useVaultTranslations();
-    const network = useCurrentNetwork();
+    const network = useCurrentNetworkContracts();
     const { refetch: getSigner } = useSigner();
     const sendTx = useTx();
     const contractAddress = network.unitRouter.address;

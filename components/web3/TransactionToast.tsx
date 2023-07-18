@@ -1,6 +1,6 @@
 "use client"
 
-import { useCurrentNetwork } from "@/utils/hooks/useCurrentNetwork"
+import { useCurrentNetworkContracts } from "@/utils/hooks/useCurrentNetwork"
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations"
 import BlockExplorerLink from "./BlockExplorerLink"
 
@@ -24,7 +24,7 @@ export default function TransactionToast({
     hash?: string
 }) {
     const t = useVaultTranslations();
-    const network = useCurrentNetwork();
+    const network = useCurrentNetworkContracts();
   
     let _status;
 

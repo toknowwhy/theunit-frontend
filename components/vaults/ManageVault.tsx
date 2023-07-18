@@ -1,7 +1,7 @@
 'use client'
 
 import { VaultInfoType } from '@/utils/types';
-import { useCurrentNetwork } from '@/utils/hooks/useCurrentNetwork';
+import { useCurrentNetworkContracts } from '@/utils/hooks/useCurrentNetwork';
 import { useSupportedCollaterals } from '@/utils/hooks/useSupportedCollaterals';
 import { keyBy } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -20,10 +20,10 @@ export default function ManageVault({
     const supportedCollaterals = useSupportedCollaterals();
     const collateralBySymbol = keyBy(supportedCollaterals, 'symbol');
     const collateral = collateralBySymbol[symbol];
-    const currentNetwork = useCurrentNetwork();
+    const currentNetwork = useCurrentNetworkContracts();
     const { address: account } = useAccount();
     const [vaultInfo, setVaultInfo] = useState<VaultInfoType>(initialVaultInfo);
-    const {vaultInfo: myVaultInfo, refetch: refetchVaultInfo} = useVaultInfo(collateral.address, currentNetwork, account);
+    const {vaultInfo: myVaultInfo, refetch: refetchVaultInfo} = useVaultInfo(currentNetwork, account);
 
     useEffect(() => {
         if (JSON.stringify(myVaultInfo) !== JSON.stringify(vaultInfo)) {
@@ -45,7 +45,6 @@ export default function ManageVault({
                     account={account} 
                     collateral={collateral} 
                     vaultInfo={vaultInfo} 
-                    unitToken={currentNetwork.unitToken}
                     refetchVaultInfo={refetchVaultInfo}
                 />
             )}

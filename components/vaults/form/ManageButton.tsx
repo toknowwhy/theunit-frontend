@@ -1,6 +1,6 @@
 "use client"
 
-import { useCurrentNetwork } from "@/utils/hooks/useCurrentNetwork";
+import { useCurrentNetworkContracts } from "@/utils/hooks/useCurrentNetwork";
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { parseEther, parseUnits } from "ethers/lib/utils.js";
@@ -29,7 +29,7 @@ export default function ConfirmBtn({
     const sendTx = useTx();
 
     const { refetch: getSigner } = useSigner();
-    const network = useCurrentNetwork();
+    const network = useCurrentNetworkContracts();
     const isETH = collateral.symbol === 'ETH';
 
     let action: ContractFunc|undefined;

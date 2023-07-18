@@ -13,8 +13,7 @@ import LPInfo from "./LPInfo";
 
 export default function FarmForm(props: FarmBoxProps) {
 
-    const { ethToTinuPrice, ethToUnPrice, unToTinuPrice, collateral, account } = props;
-    const { symbol } = collateral;
+    const { ethToTinuPrice, ethToUnPrice, unToTinuPrice, collateral: symbol, account } = props;
 
     const t = useVaultTranslations()
 

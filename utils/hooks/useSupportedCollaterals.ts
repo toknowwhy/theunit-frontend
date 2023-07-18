@@ -1,7 +1,7 @@
 import { defaultSupportedCollaterals } from "../../crypto/config";
-import { useCurrentNetwork } from "./useCurrentNetwork"
+import { useCurrentNetworkContracts } from "./useCurrentNetwork"
 
 export const useSupportedCollaterals = () => {
-    const currentNetwork = useCurrentNetwork();
+    const currentNetwork = useCurrentNetworkContracts();
     return currentNetwork?.tokens ?? defaultSupportedCollaterals;
 }

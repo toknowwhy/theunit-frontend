@@ -1,8 +1,19 @@
-import { useNetwork } from "wagmi";
-import { initialNetwork, Network, networkById } from "../../crypto/config";
+import { Address, erc20ABI, useNetwork } from "wagmi";
+import { allNetworkContracts, wrappedNatives } from "../../crypto/config";
+import { Abi, NetworkInfo } from "../types";
 
-export const useCurrentNetwork = () : Network => {
+export const useCurrentNetworkContracts = () : NetworkInfo|undefined => {
     const { chain } = useNetwork();
-    const network = networkById[chain?.id ?? initialNetwork.id]
-    return network ?? initialNetwork;
+    const chainId = chain?.id ?? -1;
+    const contracts = allNetworkContracts[chainId];
+    return contracts && wrappedNatives[chainId] ? ({
+        ...contracts,
+        Wrapped: {
+            address: wrappedNatives[chainId] as Address, 
+            abi: erc20ABI as unknown as Abi[]
+        },
+        name: chain?.name ?? '',
+        id: chainId,
+        nativeSymbol: chain?.nativeCurrency.symbol ?? 'ETH',
+    }) : undefined;
 }

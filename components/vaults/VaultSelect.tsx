@@ -1,10 +1,12 @@
 import BoxContainer from "@/components/BoxContainer";
 import SplineAnim from "@/components/SplineAnim";
-import { defaultSupportedCollaterals } from "@/crypto/config";
-import { formatRatio } from "@/utils/functions";
-import { CollateralDesc } from "@/utils/types";
+import { allNetworkContracts, supportedNetworks } from "@/crypto/config";
+import {  NetworkContracts } from "@/utils/types";
+import { BigNumber, utils } from "ethers";
 import { useTranslations } from "next-intl";
 import Link from "next-intl/link";
+import { Chain } from "wagmi";
+import VaultContractInfo from "./info/VaultSelectContractInfo";
 
 export default function VaultsSelect({
     isFarm = false,
@@ -13,11 +15,12 @@ export default function VaultsSelect({
 }) {
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3">
-            {defaultSupportedCollaterals.map((collateral) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 2xl:grid-cols-3 2xl:gap-4">
+            {supportedNetworks.map((chain) => (
                 <VaultChoice
-                    key={collateral.symbol}
-                    collateral={collateral}
+                    key={chain.id}
+                    chain={chain}
+                    contracts={allNetworkContracts[chain.id]}
                     isFarm={isFarm}
                 />
             ))}
@@ -26,13 +29,16 @@ export default function VaultsSelect({
 }
 
 function VaultChoice({
-    collateral,
+    chain,
+    contracts,
     isFarm,
 } : {
-    collateral: CollateralDesc,
+    chain: Chain,
+    contracts: NetworkContracts,
     isFarm: boolean,
 }) {
     const t = useTranslations('Vault');
+    const symbol = chain.nativeCurrency.symbol;
 
     return (
         <BoxContainer>
@@ -40,7 +46,7 @@ function VaultChoice({
                 <div className="flex justify-between items-center mb-8 gap-8">
                     <div>
                         <div className="text-4xl font-semibold">
-                            {collateral.symbol.toUpperCase()}-TINU
+                            {symbol}-TINU
                         </div>
                         <div className="text-gray-medium leading-5">{t('eth-vault-description')}</div>
                     </div>
@@ -48,11 +54,20 @@ function VaultChoice({
                         <SplineAnim url="https://prod.spline.design/2XUmnjtG8jRU4zPR/scene.splinecode"  />
                     </div>
                 </div>
-                <VaultChoiceInfo title={t('liquidation-ratio')} info={formatRatio(collateral.liquidationRatio)} />
-                <VaultChoiceInfo title={t('unit-limit')} info={collateral.dustLimit.toString()} />
+                <VaultContractInfo 
+                    title={t('liquidation-ratio')} 
+                    contract={contracts.Vault}
+                    functionName='liquidationRatio'
+                />
+                <VaultContractInfo 
+                    title={t('unit-limit')} 
+                    contract={contracts.Vault}
+                    functionName='minimumCollateral'
+                    needFormat
+                />
                 <VaultChoiceInfo title={t('stability-fee')} info='0.00%' />
                 <Link 
-                    href={`/${isFarm ? 'farm' : 'vaults'}/${collateral.symbol}`} 
+                    href={`/${isFarm ? 'farm' : 'vaults'}/${symbol}`} 
                     className="block mt-8 py-3 rounded-lg bg-gray-border text-center font-semibold hover:bg-transparent border border-gray-border" 
                 >
                         {t(isFarm ? 'start-farm' : 'enter-vault')}

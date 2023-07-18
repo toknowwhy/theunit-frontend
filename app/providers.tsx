@@ -9,13 +9,12 @@ import {
 } from '@rainbow-me/rainbowkit';
 import { ThemeProvider } from 'next-themes';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { sepolia } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { PropsWithChildren } from 'react';
-import { initialNetwork } from '@/crypto/config';
+import { supportedNetworks } from '@/crypto/config';
 
 const { chains, provider } = configureChains(
-    [sepolia],
+    supportedNetworks,
     [publicProvider()]
   );
   
@@ -39,7 +38,7 @@ export default function Providers({ children } : PropsWithChildren<{}>) {
             accentColor: '#4844FF'
           })} 
           chains={chains}
-          initialChain={initialNetwork}
+          initialChain={supportedNetworks[0]}
           showRecentTransactions={true}
         >
             {children}

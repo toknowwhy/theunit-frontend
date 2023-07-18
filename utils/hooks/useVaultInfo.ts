@@ -1,8 +1,7 @@
 import { BigNumber } from 'ethers';
 import { useContractReads, useFeeData } from "wagmi"
-import { Network } from "@/crypto/config"
-import { VaultInfoType } from '../types';
-import { formatEther, parseEther } from 'ethers/lib/utils.js';
+import { NetworkInfo, VaultInfoType } from '../types';
+import { formatEther } from 'ethers/lib/utils.js';
 
 export const initialVaultInfo: VaultInfoType = {
     liquidationFee: 0.15,
@@ -14,27 +13,27 @@ export const initialVaultInfo: VaultInfoType = {
     gasPrice: 0,
 }
 
-export const useVaultInfo = (collateralAddress: string, currentNetwork?: Network, account?: `0x${string}`) => {
+export const useVaultInfo = (currentNetwork?: NetworkInfo, account?: `0x${string}`) => {
     const { data: feeData } = useFeeData()
     const enabled = Boolean(currentNetwork) && Boolean(account);
     const { data: contractDatas, refetch } = useContractReads({
         enabled,
         contracts: [
             {
-                ...currentNetwork!.vault,
+                ...currentNetwork!.Vault,
                 functionName: "vaultOwnerAccount",
-                args: [account, collateralAddress]
+                args: [account, currentNetwork!.Wrapped]
             },
             {
-                ...currentNetwork!.vault,
+                ...currentNetwork!.Vault,
                 functionName: "liquidationRatio",
             },
             {
-                ...currentNetwork!.priceFeed,
+                ...currentNetwork!.UnitPriceFeed,
                 functionName: "latestRound",
             },
             {
-                ...currentNetwork!.vault,
+                ...currentNetwork!.Vault,
                 functionName: "minimumCollateral",
             },
         ],
@@ -43,13 +42,13 @@ export const useVaultInfo = (collateralAddress: string, currentNetwork?: Network
     const { data: roundDatas } = useContractReads({
         contracts: [
             {
-                ...currentNetwork!.priceFeed,
+                ...currentNetwork!.UnitPriceFeed,
                 functionName: "getRoundData",
                 enabled: enabled && Boolean(roundId),
                 args: [roundId?.sub(BigNumber.from(1))]
             },
             {
-                ...currentNetwork!.priceFeed,
+                ...currentNetwork!.UnitPriceFeed,
                 functionName: "getRoundData",
                 enabled: enabled && Boolean(roundId),
                 args: [roundId]

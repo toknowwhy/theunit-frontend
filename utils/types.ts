@@ -1,7 +1,8 @@
 import { BigNumber } from "ethers";
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
 import { AbiInput, AbiItem } from 'web3-utils'
-import { ReactElement, ReactNodeArray } from "react";
+import { ReactElement, ReactNode } from "react";
+import { Address } from "wagmi";
 
 /***************************** Database Types **********************************/
 
@@ -25,7 +26,6 @@ export interface CoinTableData extends CoinData {
     rank: number
 }
 
-
 /***************************** Crypto Types **********************************/
 
 export type Abi = Omit<AbiItem, 'type' | 'stateMutability' | 'inputs'> & {
@@ -34,8 +34,6 @@ export type Abi = Omit<AbiItem, 'type' | 'stateMutability' | 'inputs'> & {
     stateMutability?: string // 'pure' | 'view' | 'nonpayable' | 'payable'
     inputs?: (AbiInput & { internalType?: string })[]
 }
-
-export type Address = `0x${string}`;
 
 export interface ContractDesc {
     abi: Abi[];
@@ -50,24 +48,24 @@ export interface TokenDesc extends ContractDesc {
     decimals: number;
 }
 
-export interface CollateralDesc extends TokenDesc {
-    liquidationRatio: number;
-    dustLimit: number;
+export interface NetworkContracts {
+    VaultPriceFeed: ContractDesc;
+    RouterV1: ContractDesc;
+    TinuToken: ContractDesc;
+    UnitPriceFeed: ContractDesc;
+    Vault: ContractDesc;
 }
 
-export function instanceOfContractDesc(object: any): object is ContractDesc {
-    return 'abi' in object && 'address' in object;
+export type AllContracts = {
+    [chain: string]: NetworkContracts
 }
 
-export function instanceOfTokenDesc(object: any): object is TokenDesc {
-    return 'decimals' in object;
+export interface NetworkInfo extends NetworkContracts {
+    Wrapped: ContractDesc;
+    name: string;
+    id: number;
+    nativeSymbol: string;
 }
-
-export type TheUnitContracts = 
-| "unitToken"
-| "unitRouter"
-| "vault"
-| "priceFeed"
 
 export type ContractFunc = 
 | "increaseCollateral"
@@ -202,7 +200,7 @@ export interface VaultButtonProps {
     reset: () => void;
 }
 
-export type TransType = string | ReactElement | ReactNodeArray
+export type TransType = string | ReactElement | ReactNode[]
 
 export interface LockAPY {
     months: number;
@@ -226,7 +224,7 @@ export interface FarmBoxProps {
     unLPLocked: number;
     ethLockedLPs: LockLP[];
     unLockedLPs: LockLP[];
-    collateral: CollateralDesc;
+    collateral: string;
     account?: Address;
 }
 
