@@ -26,7 +26,7 @@ export default function VaultContractInfo({
         <div className="flex items-center justify-between mb-2">
             <div className="text-gray-medium">{title}</div>
             { isError ? <div>NA</div> : (
-                isLoading ? <Spinner /> : (
+                isLoading ? <Spinner small /> : (
                     <div>{needFormat ? ethers.utils.formatEther(data as BigNumber) : (data as BigNumber).toString()}</div>
                 )
             )}

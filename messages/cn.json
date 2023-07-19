@@ -109,7 +109,9 @@
         "amount": "数量",
         "locked-days": "被锁定天数",
         "input-amount": "{symbol}数量",
-        "eth-vault-description": "这是我们最热门的金库"
+        "ethereum-vault-description": "这是我们最热门的金库",
+        "matic-network-vault-description": "Lower gas fee",
+        "not-enough-unit-burn": "Minimum {num} TINU need to be left in the vault, click MAX to payback all TINU"
     },
     "History": {
         "name": "名称",

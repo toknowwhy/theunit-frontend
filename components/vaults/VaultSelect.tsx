@@ -1,10 +1,11 @@
 import BoxContainer from "@/components/BoxContainer";
 import SplineAnim from "@/components/SplineAnim";
-import { allNetworkContracts, supportedNetworks } from "@/crypto/config";
+import { allNetworkContracts, networkConigs, supportedNetworks } from "@/crypto/config";
+import { coinLogoUrl } from "@/utils/functions";
 import {  NetworkContracts } from "@/utils/types";
-import { BigNumber, utils } from "ethers";
 import { useTranslations } from "next-intl";
 import Link from "next-intl/link";
+import Image from "next/image";
 import { Chain } from "wagmi";
 import VaultContractInfo from "./info/VaultSelectContractInfo";
 
@@ -48,10 +49,14 @@ function VaultChoice({
                         <div className="text-4xl font-semibold">
                             {symbol}-TINU
                         </div>
-                        <div className="text-gray-medium leading-5">{t('eth-vault-description')}</div>
+                        <div className="text-gray-medium leading-5">{t(networkConigs[chain.id].unitId+'-vault-description')}</div>
                     </div>
-                    <div className="w-24 h-28">
-                        <SplineAnim url="https://prod.spline.design/2XUmnjtG8jRU4zPR/scene.splinecode"  />
+                    <div className="w-24 h-28 flex items-center justify-center">
+                        {(symbol === 'ETH' || symbol === 'SEP') ? (
+                            <SplineAnim url="https://prod.spline.design/2XUmnjtG8jRU4zPR/scene.splinecode"  />
+                        ) : (
+                            <Image src={coinLogoUrl(networkConigs[chain.id].unitId)} width={60} height={60} alt={symbol} />
+                        )}
                     </div>
                 </div>
                 <VaultContractInfo 

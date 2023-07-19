@@ -6,9 +6,17 @@ import { AllContracts, NetworkContracts } from '@/utils/types';
 
 export const allNetworkContracts: AllContracts = allContracts.contracts as AllContracts;
 export const supportedNetworks = [sepolia, polygonMumbai];
-export const wrappedNatives = {
-    [sepolia.id]: '0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9',
-    [polygonMumbai.id]: '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'
+export const networkConigs = {
+    [sepolia.id]: {
+        wrappedNative: '0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9',
+        unitId: 'ethereum',
+        sloganKey: 'eth-vault-description', 
+    },
+    [polygonMumbai.id]: {
+        wrappedNative: '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889',
+        unitId: 'matic-network',
+        sloganKey: 'polygon-vault-description',
+    }
 }
 
 

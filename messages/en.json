@@ -109,7 +109,8 @@
         "amount": "Amount",
         "locked-days": "Locked Days",
         "input-amount": "{symbol} Amount",
-        "eth-vault-description": "This is our most popular vault",
+        "ethereum-vault-description": "This is our most popular vault",
+        "matic-network-vault-description": "Lower gas fee",
         "not-enough-unit-burn": "Minimum {num} TINU need to be left in the vault, click MAX to payback all TINU"
     },
     "History": {
