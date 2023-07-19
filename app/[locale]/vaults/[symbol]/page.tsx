@@ -4,12 +4,7 @@ import { pick } from 'lodash';
 import BodyContainer from '@/components/navbar/BodyContainer';
 import VaultNetworkProvider from '@/components/vaults/VaultNetworkProvider';
 
-export default async function ManageVaultPage({
-    params,
-  }: {
-    params: { symbol: string };
-  }) {
-    const symbol = params.symbol;
+export default async function ManageVaultPage() {
     const locale = useLocale();
     const messages = (await import(`@/messages/${locale}.json`)).default;
 
@@ -19,7 +14,7 @@ export default async function ManageVaultPage({
             >
               <BodyContainer hasBgd>
                 <VaultNetworkProvider>
-                  <ManageVault symbol={symbol} />
+                  <ManageVault />
                 </VaultNetworkProvider>
               </BodyContainer>
            </NextIntlClientProvider>

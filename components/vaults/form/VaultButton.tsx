@@ -1,5 +1,3 @@
-"use client"
-
 import { memo, useEffect, useState } from "react";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { VaultButtonProps } from "@/utils/types";

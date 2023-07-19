@@ -1,6 +1,3 @@
-"use client"
-
-import { useCurrentNetworkContracts } from "@/utils/hooks/useCurrentNetwork";
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { parseEther, parseUnits } from "ethers/lib/utils.js";
@@ -11,6 +8,7 @@ import { toast } from "react-toastify";
 import TxButton from "@/components/web3/TxButton";
 import { VaultButtonProps } from "@/utils/types";
 import { ContractFunc } from "@/utils/types";
+import { useVaultContracts } from "../VaultNetworkProvider";
 
 export default function ConfirmBtn({ 
     collateral, 
@@ -29,8 +27,8 @@ export default function ConfirmBtn({
     const sendTx = useTx();
 
     const { refetch: getSigner } = useSigner();
-    const network = useCurrentNetworkContracts();
-    const isETH = collateral.symbol === 'ETH';
+    const network = useVaultContracts();
+    const isETH = collateral === 'ETH';
 
     let action: ContractFunc|undefined;
     let msgValue: number = 0;
@@ -82,7 +80,7 @@ export default function ConfirmBtn({
     }
 
     const { config } = usePrepareContractWrite({
-        ...network.unitRouter,
+        ...network!.RouterV1,
         functionName: action,
         enabled: Boolean(action),
         args: params
@@ -91,7 +89,7 @@ export default function ConfirmBtn({
 
     const confirm = async () => {
         if (!isETH) {
-            toast.error(t('collateral-not-supported', {symbol: collateral.symbol}));
+            toast.error(t('collateral-not-supported', {symbol: collateral}));
             return;
         }
         const { data: signer } = await getSigner()
@@ -107,14 +105,14 @@ export default function ConfirmBtn({
         })
 
         const callTransaction = buildTx(
-            network.unitRouter, 
+            network!.RouterV1, 
             action,
             signer!,
             params
         );
         const txId = await sendTx({
             name: transactionName.startsWith('deposit') || transactionName.startsWith('withdraw') ? 
-                    t(transactionName, {symbol: collateral.symbol}) : t(transactionName),
+                    t(transactionName, {symbol: collateral}) : t(transactionName),
             callTransaction,
             callbacks: {
               onSuccess: (id) => {

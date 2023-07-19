@@ -1,9 +1,6 @@
 'use client'
 
 import { VaultInfoType } from '@/utils/types';
-import { useCurrentNetworkContracts } from '@/utils/hooks/useCurrentNetwork';
-import { useSupportedCollaterals } from '@/utils/hooks/useSupportedCollaterals';
-import { keyBy } from 'lodash';
 import { useEffect, useState } from 'react';
 import { initialVaultInfo, useVaultInfo } from '@/utils/hooks/useVaultInfo';
 import { ToastContainer } from 'react-toastify';
@@ -11,16 +8,11 @@ import { useAccount } from 'wagmi';
 import 'react-toastify/dist/ReactToastify.min.css';
 import VaultForm from './form/VaultForm';
 import VaultHeader from './info/VaultHeader';
+import { useVaultContracts } from './VaultNetworkProvider';
 
-export default function ManageVault({ 
-    symbol 
-} : { 
-    symbol: string
-}) {
-    const supportedCollaterals = useSupportedCollaterals();
-    const collateralBySymbol = keyBy(supportedCollaterals, 'symbol');
-    const collateral = collateralBySymbol[symbol];
-    const currentNetwork = useCurrentNetworkContracts();
+export default function ManageVault() {
+    
+    const currentNetwork = useVaultContracts();
     const { address: account } = useAccount();
     const [vaultInfo, setVaultInfo] = useState<VaultInfoType>(initialVaultInfo);
     const {vaultInfo: myVaultInfo, refetch: refetchVaultInfo} = useVaultInfo(currentNetwork, account);
@@ -34,17 +26,17 @@ export default function ManageVault({
 
     return <>
             <VaultHeader 
-                symbol={collateral.symbol} 
+                symbol={currentNetwork?.nativeSymbol ?? 'ETH'} 
                 liquidationFee={vaultInfo.liquidationFee} 
                 minUnit={vaultInfo.minUnit}
                 price={vaultInfo.currentPrice} 
                 nextPrice={vaultInfo.nextPrice}
             />
-            {collateral && (
+            {currentNetwork && (
                 <VaultForm 
                     account={account} 
-                    collateral={collateral} 
                     vaultInfo={vaultInfo} 
+                    networkInfo={currentNetwork}
                     refetchVaultInfo={refetchVaultInfo}
                 />
             )}

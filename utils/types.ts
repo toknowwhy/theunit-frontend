@@ -187,7 +187,7 @@ export interface VaultInfoType {
 }
 
 export interface VaultButtonProps {
-    collateral: TokenDesc;
+    collateral: string;
     collateralAmount: number;
     unitAmount: number;
     account?: string;

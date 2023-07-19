@@ -1,7 +1,5 @@
-'use client';
-
 import { RECOMMENDED_COLLATERAL_RATIO } from "@/utils/constants";
-import { ContractDesc, TokenDesc, VaultActionType, VaultInfoType } from "@/utils/types";
+import { NetworkInfo, VaultActionType, VaultInfoType } from "@/utils/types";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { useEffect, useState } from "react";
 import ActionTab from "./ActionTab";
@@ -17,14 +15,14 @@ import BoxContainer from "@/components/BoxContainer";
 import { useTinuBalance } from "@/utils/hooks/useTinuBalance";
 
 export default function VaultForm({
-    collateral,
-    vaultInfo,
     account,
+    networkInfo,
+    vaultInfo,
     refetchVaultInfo,
 } : {
-    collateral: TokenDesc,
-    vaultInfo: VaultInfoType,
     account?: `0x${string}`,
+    networkInfo: NetworkInfo,
+    vaultInfo: VaultInfoType,
     refetchVaultInfo: () => void,
 }) {
 
@@ -36,10 +34,10 @@ export default function VaultForm({
         unitAmount: vaultUnitDebt,
     } = vaultInfo;
 
-    const camount = vaultCollateralAmount ? parseFloat(formatUnits(vaultCollateralAmount, collateral.decimals)) : 0;
+    const camount = vaultCollateralAmount ? parseFloat(formatEther(vaultCollateralAmount)) : 0;
     const uamount = vaultUnitDebt ? parseFloat(formatEther(vaultUnitDebt)) : 0;
     const isManage = camount > 0;
-    const symbol = collateral.symbol;
+    const symbol = networkInfo.nativeSymbol;
     const isETH = symbol === 'ETH';
     
     const t = useVaultTranslations();
@@ -169,7 +167,7 @@ export default function VaultForm({
                     </div>
                     
                     <FormInput 
-                        symbol={collateral.symbol} 
+                        symbol={symbol} 
                         onChange={onCollateralAmountChange} 
                         value={collateralValue} 
                         unitPrice={price}
@@ -199,7 +197,7 @@ export default function VaultForm({
                     <div className="h-8"></div>
                     {error && <div className="rounded-full bg-error/10 text-error px-8 py-3 mb-4 text-sm">{error}</div>}
                     <VaultButton
-                        collateral={collateral}
+                        collateral={symbol}
                         collateralAmount={finalCollateralValue}
                         unitAmount={finalUnitValue}
                         disabled={error.length > 0 || (uvalue == 0 && cvalue == 0)}

@@ -1,11 +1,9 @@
-"use client"
-
 import { toFloat } from "@/utils/functions";
 import { useCurrentNetworkContracts } from "@/utils/hooks/useCurrentNetwork";
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
-import { BigNumber, ethers } from "ethers";
-import { formatUnits, parseUnits } from "ethers/lib/utils.js";
+import { BigNumber } from "ethers";
+import { formatEther, parseEther } from "ethers/lib/utils.js";
 import { useContractRead, useSigner } from "wagmi";
 import { useState } from "react";
 import { buildTx } from "@/utils/buildTx";
@@ -25,9 +23,9 @@ export default function ApproveButton(props : VaultButtonProps) {
     const network = useCurrentNetworkContracts();
     const { refetch: getSigner } = useSigner();
     const sendTx = useTx();
-    const contractAddress = network.unitRouter.address;
-    const unitToken = network.unitToken;
-    const vault = network.vault;
+    const unitToken = network!.TinuToken;
+    const contractAddress = network?.RouterV1.address;
+    const vault = network!.Vault;
     const { error, isLoading, refetch, isRefetching } = useContractRead({
         address: unitToken.address,
         abi: unitToken.abi,
@@ -61,7 +59,7 @@ export default function ApproveButton(props : VaultButtonProps) {
         return <Button loading={true} disabled={true}> </Button>
     }
 
-    const allowance = formatUnits(allowanceData as BigNumber, unitToken.decimals);
+    const allowance = formatEther(allowanceData as BigNumber);
     const needToApprove = toFloat(allowance) < uamount && unitAmount < 0;
 
     if (!needToApprove && vaultAllow) {
@@ -104,7 +102,7 @@ export default function ApproveButton(props : VaultButtonProps) {
                 unitToken, 
                 "approve", 
                 signer!, 
-                [contractAddress, parseUnits(Number.MAX_SAFE_INTEGER.toString(), unitToken.decimals)]
+                [contractAddress, parseEther(Number.MAX_SAFE_INTEGER.toString())]
             )
             tid = await sendTx({
                 name: title,
