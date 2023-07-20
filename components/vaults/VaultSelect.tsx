@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 import Link from "next-intl/link";
 import Image from "next/image";
 import { Chain } from "wagmi";
-import VaultContractInfo from "./info/VaultSelectContractInfo";
 
 export default function VaultsSelect({
     isFarm = false,
@@ -40,6 +39,7 @@ function VaultChoice({
 }) {
     const t = useTranslations('Vault');
     const symbol = chain.nativeCurrency.symbol;
+    const networkConfig = networkConigs[chain.id];
 
     return (
         <BoxContainer>
@@ -49,28 +49,18 @@ function VaultChoice({
                         <div className="text-4xl font-semibold">
                             {symbol}-TINU
                         </div>
-                        <div className="text-gray-medium leading-5">{t(networkConigs[chain.id].unitId+'-vault-description')}</div>
+                        <div className="text-gray-medium leading-5">{t(networkConfig.unitId+'-vault-description')}</div>
                     </div>
                     <div className="w-24 h-28 flex items-center justify-center">
                         {(symbol === 'ETH' || symbol === 'SEP') ? (
                             <SplineAnim url="https://prod.spline.design/2XUmnjtG8jRU4zPR/scene.splinecode"  />
                         ) : (
-                            <Image src={coinLogoUrl(networkConigs[chain.id].unitId)} width={60} height={60} alt={symbol} />
+                            <Image src={coinLogoUrl(networkConfig.unitId)} width={60} height={60} alt={symbol} />
                         )}
                     </div>
                 </div>
-                <VaultContractInfo 
-                    title={t('liquidation-ratio')} 
-                    contract={contracts.Vault}
-                    functionName='liquidationRatio'
-                    type='liqiuidationRatio'
-                />
-                <VaultContractInfo 
-                    title={t('unit-limit')} 
-                    contract={contracts.Vault}
-                    functionName='minimumCollateral'
-                    type='dustLimit'
-                />
+                <VaultChoiceInfo title={t('unit-limit')} info={networkConfig.dustLimit.toString()} />
+                <VaultChoiceInfo title={t('liquidation-ratio')} info={(networkConfig.liquidationRatio * 100).toFixed(0) + '%'} />
                 <VaultChoiceInfo title={t('stability-fee')} info='0.00%' />
                 <Link 
                     href={`/${isFarm ? 'farm' : 'vaults'}/${symbol}`} 
