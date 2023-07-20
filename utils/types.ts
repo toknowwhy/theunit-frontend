@@ -159,6 +159,8 @@ export function instanceOfCurrencyType(object: any): object is CurrencyType {
 
 export type ChartSymbolType = "UNITSATOSHI" | "UNITFINNEY" | "UNITUSD"
 
+export type VaultContractInfoType = "liqiuidationRatio" | "dustLimit"
+
 export interface CoinInfo {
     id: string;
     symbol: string;

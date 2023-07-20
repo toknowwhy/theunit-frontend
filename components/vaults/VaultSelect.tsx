@@ -63,12 +63,13 @@ function VaultChoice({
                     title={t('liquidation-ratio')} 
                     contract={contracts.Vault}
                     functionName='liquidationRatio'
+                    type='liqiuidationRatio'
                 />
                 <VaultContractInfo 
                     title={t('unit-limit')} 
                     contract={contracts.Vault}
                     functionName='minimumCollateral'
-                    needFormat
+                    type='dustLimit'
                 />
                 <VaultChoiceInfo title={t('stability-fee')} info='0.00%' />
                 <Link 
