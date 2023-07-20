@@ -18,25 +18,20 @@ export default function VaultContractInfo({
     type: VaultContractInfoType,
 }) {
 
-    const [contractData, setContractData] = useState<{
-        data: BigNumber, 
-        isError: boolean, 
-        isLoading: boolean
-    }>({data: BigNumber.from(0), isError: false, isLoading: true})
+    const [mounted, setMounted] = useState(false)
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
     const networkInfoData = useContractRead({
         ...contract,
         functionName,
     })
-
-    const { data, isError, isLoading } = contractData;
-
-    useEffect(() => {
-        if (networkInfoData && !contractData) {
-            setContractData(networkInfoData as any)
-        }
-    }, [networkInfoData, contractData])
-
+    const { data, isError, isLoading } = mounted ? networkInfoData : {
+        data: BigNumber.from(0),
+        isError: false,
+        isLoading: true
+    };
     let resData = 'NA';
     if (data) {
         if (type === 'dustLimit') {

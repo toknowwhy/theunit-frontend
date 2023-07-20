@@ -1,5 +1,6 @@
 'use client';
 
+import Loading from '@/app/[locale]/loading';
 import { useCurrentNetworkContracts } from '@/utils/hooks/useCurrentNetwork';
 import { useVaultTranslations } from '@/utils/hooks/useVaultTranslations';
 import { NetworkInfo } from '@/utils/types';
@@ -16,18 +17,20 @@ export default function VaultNetworkProvider({ children } : {children: JSX.Eleme
 
     const t = useVaultTranslations();
 
-    const [networkInfo, setNetworkInfo] = useState<NetworkInfo|undefined>()
+    const [mounted, setMounted] = useState(false)
     const network = useCurrentNetworkContracts();
 
     useEffect(() => {
-        if (network) {
-            setNetworkInfo(network);
-        }
-    }, [network])
+        setMounted(true)
+    }, [])
+
+    if (!mounted) {
+        return <Loading />
+    }
 
     if (network) {
         return (
-            <VaultNetworkContext.Provider value={networkInfo}>
+            <VaultNetworkContext.Provider value={network}>
                 {children}
             </VaultNetworkContext.Provider>
         )

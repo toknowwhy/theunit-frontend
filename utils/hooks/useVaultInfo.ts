@@ -66,8 +66,8 @@ export const useVaultInfo = (currentNetwork?: NetworkInfo, account?: `0x${string
         defaultRes = {
             ...defaultRes,
             liquidationFee: (contractDatas[1] as BigNumber).toNumber(),
-            collateralAmount: (contractDatas[0] as any)[0] as BigNumber,
-            unitAmount: (contractDatas[0] as any)[1] as BigNumber,
+            collateralAmount: contractDatas[0] ? ((contractDatas[0] as any)[0] as BigNumber) : BigNumber.from(0),
+            unitAmount: contractDatas[0] ? ((contractDatas[0] as any)[1] as BigNumber) : BigNumber.from(0),
             minUnit: parseFloat(formatEther(contractDatas[3] as BigNumber))
         }
     }

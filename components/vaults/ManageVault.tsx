@@ -9,20 +9,22 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import VaultForm from './form/VaultForm';
 import VaultHeader from './info/VaultHeader';
 import { useVaultContracts } from './VaultNetworkProvider';
+import Loading from '@/app/[locale]/loading';
 
 export default function ManageVault() {
     
     const currentNetwork = useVaultContracts();
     const { address: account } = useAccount();
-    const [vaultInfo, setVaultInfo] = useState<VaultInfoType>(initialVaultInfo);
-    const {vaultInfo: myVaultInfo, refetch: refetchVaultInfo} = useVaultInfo(currentNetwork, account);
+    const [mounted, setMounted] = useState(false);
+    const {vaultInfo, refetch: refetchVaultInfo} = useVaultInfo(currentNetwork, account);
 
     useEffect(() => {
-        if (JSON.stringify(myVaultInfo) !== JSON.stringify(vaultInfo)) {
-            setVaultInfo(myVaultInfo)
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [myVaultInfo])
+        setMounted(true)
+    }, [])
+
+    if (!mounted) {
+        return <Loading />
+    }
 
     return <>
             <VaultHeader 
