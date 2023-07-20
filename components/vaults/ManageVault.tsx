@@ -1,8 +1,7 @@
 'use client'
 
-import { VaultInfoType } from '@/utils/types';
 import { useEffect, useState } from 'react';
-import { initialVaultInfo, useVaultInfo } from '@/utils/hooks/useVaultInfo';
+import { useVaultInfo } from '@/utils/hooks/useVaultInfo';
 import { ToastContainer } from 'react-toastify';
 import { useAccount } from 'wagmi';
 import 'react-toastify/dist/ReactToastify.min.css';

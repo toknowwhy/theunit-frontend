@@ -202,7 +202,7 @@ export interface VaultButtonProps {
     reset: () => void;
 }
 
-export type TransType = string | ReactElement | ReactNode[]
+export type TransType = string | ReactElement | ReactNode
 
 export interface LockAPY {
     months: number;
