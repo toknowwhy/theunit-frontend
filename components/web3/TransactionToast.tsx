@@ -1,7 +1,7 @@
 "use client"
 
-import { useCurrentNetworkContracts } from "@/utils/hooks/useCurrentNetwork"
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations"
+import { useVaultContracts } from "../vaults/VaultNetworkProvider"
 import BlockExplorerLink from "./BlockExplorerLink"
 
 export enum TransactionToastStatus {
@@ -24,7 +24,7 @@ export default function TransactionToast({
     hash?: string
 }) {
     const t = useVaultTranslations();
-    const network = useCurrentNetworkContracts();
+    const network = useVaultContracts();
   
     let _status;
 
@@ -48,7 +48,7 @@ export default function TransactionToast({
           {hash && (
             <>
               <div className='text-xs'>|</div>
-              <BlockExplorerLink className='text-xs' txHash={hash} network={network} >
+              <BlockExplorerLink className='text-xs' txHash={hash} network={network!} >
                 {t('receipt')}
               </BlockExplorerLink>
             </>

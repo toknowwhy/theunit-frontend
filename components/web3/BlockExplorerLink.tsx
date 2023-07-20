@@ -1,4 +1,4 @@
-import { Network } from "@/crypto/config"
+import { NetworkInfo } from "@/utils/types";
 
 export default function BlockExplorerLink({
     network,
@@ -6,9 +6,9 @@ export default function BlockExplorerLink({
     txHash,
     children,
 } : {
-    network: Network
-    txHash: string
-    children?: React.ReactNode
+    network: NetworkInfo,
+    txHash: string,
+    children?: React.ReactNode,
     className?: string
 }) {
     let etherscanNetwork = "";

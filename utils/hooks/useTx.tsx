@@ -4,14 +4,15 @@ import { TransactionReceipt, TransactionResponse } from '@ethersproject/provider
 import { v4 as uuidv4 } from 'uuid';
 import { toast, ToastContentProps } from "react-toastify";
 import { createTransactionsAtom, updateTransactionsAtom } from "../atoms";
-import { useCurrentNetworkContracts } from "./useCurrentNetwork";
 import { SendTransactionOptions, TransactionCallbacks, TransactionState, TransactionStatus } from "@/utils/types";
 import TransactionToast, { TransactionToastStatus } from "@/components/web3/TransactionToast";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+import { useVaultContracts } from "@/components/vaults/VaultNetworkProvider";
 
 export const useTx = () => {
     const { address: usersAddress } = useAccount();
-    const { id: chainId } = useCurrentNetworkContracts();
+    const vaultNetwork = useVaultContracts();
+    const chainId = vaultNetwork!.id;
     const addRecentTransaction = useAddRecentTransaction();
     const createTransaction = useSetAtom(createTransactionsAtom)
     const updateTransaction = useSetAtom(updateTransactionsAtom)

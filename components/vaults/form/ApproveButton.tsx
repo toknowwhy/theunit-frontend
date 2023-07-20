@@ -1,5 +1,4 @@
 import { toFloat } from "@/utils/functions";
-import { useCurrentNetworkContracts } from "@/utils/hooks/useCurrentNetwork";
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { BigNumber } from "ethers";
@@ -11,6 +10,7 @@ import { VaultButtonProps } from "@/utils/types";
 import ConfirmBtn from "./ManageButton";
 import TxButton from "@/components/web3/TxButton";
 import Button from "@/components/button/Button";
+import { useVaultContracts } from "../VaultNetworkProvider";
 
 export default function ApproveButton(props : VaultButtonProps) {
     const { unitAmount, account, collateralAmount, isManage } = props
@@ -20,7 +20,7 @@ export default function ApproveButton(props : VaultButtonProps) {
     const [vaultAllow, setVaultAllow] = useState(isManage);
     const [txId, setTxId] = useState('');
     const t = useVaultTranslations();
-    const network = useCurrentNetworkContracts();
+    const network = useVaultContracts();
     const { refetch: getSigner } = useSigner();
     const sendTx = useTx();
     const unitToken = network!.TinuToken;
