@@ -22,7 +22,7 @@ export const useVaultInfo = (currentNetwork?: NetworkInfo, account?: `0x${string
             {
                 ...currentNetwork!.Vault,
                 functionName: "vaultOwnerAccount",
-                args: [account, currentNetwork!.Wrapped]
+                args: [account, currentNetwork!.Wrapped.address]
             },
             {
                 ...currentNetwork!.Vault,
@@ -62,6 +62,7 @@ export const useVaultInfo = (currentNetwork?: NetworkInfo, account?: `0x${string
         defaultRes.gasPrice = parseFloat(formatEther(feeData.gasPrice))
     }
 
+    
     if (contractDatas?.length == 4) {
         defaultRes = {
             ...defaultRes,

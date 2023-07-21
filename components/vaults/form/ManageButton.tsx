@@ -28,7 +28,6 @@ export default function ConfirmBtn({
 
     const { refetch: getSigner } = useSigner();
     const network = useVaultContracts();
-    const isETH = collateral === 'ETH';
 
     let action: ContractFunc|undefined;
     let msgValue: number = 0;
@@ -88,10 +87,6 @@ export default function ConfirmBtn({
     const gasLimit = config?.request?.gasLimit.toNumber() ?? 0;
 
     const confirm = async () => {
-        if (!isETH) {
-            toast.error(t('collateral-not-supported', {symbol: collateral}));
-            return;
-        }
         const { data: signer } = await getSigner()
 
         if (!action) {

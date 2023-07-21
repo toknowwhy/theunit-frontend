@@ -38,7 +38,6 @@ export default function VaultForm({
     const uamount = vaultUnitDebt ? parseFloat(formatEther(vaultUnitDebt)) : 0;
     const isManage = camount > 0;
     const symbol = networkInfo.nativeSymbol;
-    const isETH = symbol === 'ETH';
     
     const t = useVaultTranslations();
 
@@ -54,7 +53,7 @@ export default function VaultForm({
     const { balance: ubal, refetch: refetchUbal } = useTinuBalance(account);
     const { data: ebal, refetch: refetchEbal } = useBalance({
         address: account,
-        enabled: Boolean(account) && isETH
+        enabled: Boolean(account)
     })
 
     useEffect(() => {
@@ -131,7 +130,7 @@ export default function VaultForm({
         collateralValueAfter,
         liquidationRatio,
         price,
-        error,
+        symbol,
     }
 
     const onMax = () => {
