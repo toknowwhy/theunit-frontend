@@ -1,8 +1,7 @@
-import { BigNumber } from "ethers";
-import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
-import { AbiInput, AbiItem } from 'web3-utils'
 import { ReactElement, ReactNode } from "react";
 import { Address } from "wagmi";
+import { Abi, Hex, TransactionReceipt } from "viem";
+import { supportedChainIds } from "@/crypto/config";
 
 /***************************** Database Types **********************************/
 
@@ -28,15 +27,8 @@ export interface CoinTableData extends CoinData {
 
 /***************************** Crypto Types **********************************/
 
-export type Abi = Omit<AbiItem, 'type' | 'stateMutability' | 'inputs'> & {
-    internalType?: string
-    type: string // 'function' | 'constructor' | 'event' | 'fallback'
-    stateMutability?: string // 'pure' | 'view' | 'nonpayable' | 'payable'
-    inputs?: (AbiInput & { internalType?: string })[]
-}
-
 export interface ContractDesc {
-    abi: Abi[];
+    abi: Abi;
     address: Address;
 }
 
@@ -123,10 +115,17 @@ export interface TransactionCallbacks {
     onComplete?: (id: string) => void
     onError?: (id: string) => void
 }
+
+export interface TransactionResponse {
+    hash: string;
+    chainId: number;
+}
+
+export type WriteResponse = () => Promise<{hash: Hex}>
   
 export interface SendTransactionOptions {
     name: string
-    callTransaction: () => Promise<TransactionResponse>
+    callTransaction: WriteResponse
     callbacks?: TransactionCallbacks
 }
 
@@ -134,6 +133,8 @@ export interface AddressAndChain {
     account: string|undefined;
     chain: 4|undefined;
 }
+
+export type SupportedChainId = typeof supportedChainIds[number]
 
 
 /***************************** Frontend Types **********************************/
@@ -181,8 +182,8 @@ export interface PriceInfo {
 export interface VaultInfoType {
     liquidationFee: number;
     minUnit: number;
-    collateralAmount: BigNumber;
-    unitAmount: BigNumber;
+    collateralAmount: bigint;
+    unitAmount: bigint;
     currentPrice: number;
     nextPrice: number;
     gasPrice: number;
@@ -197,8 +198,8 @@ export interface VaultButtonProps {
     isManage: boolean;
     gasPrice: number;
     isClosing?: boolean;
-    collateralBalance?: BigNumber,
-    unitBalance?: BigNumber,
+    collateralBalance?: bigint,
+    unitBalance?: bigint,
     reset: () => void;
 }
 

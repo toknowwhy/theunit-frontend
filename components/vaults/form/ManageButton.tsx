@@ -1,14 +1,13 @@
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
-import { parseEther, parseUnits } from "ethers/lib/utils.js";
-import { usePrepareContractWrite, useSigner } from "wagmi";
+import { useContractWrite, usePrepareContractWrite } from "wagmi";
 import { useState } from "react";
-import { buildTx } from "@/utils/buildTx";
 import { toast } from "react-toastify";
 import TxButton from "@/components/web3/TxButton";
-import { VaultButtonProps } from "@/utils/types";
+import { VaultButtonProps, WriteResponse } from "@/utils/types";
 import { ContractFunc } from "@/utils/types";
 import { useVaultContracts } from "../VaultNetworkProvider";
+import { parseEther } from "viem";
 
 export default function ConfirmBtn({ 
     collateral, 
@@ -25,8 +24,6 @@ export default function ConfirmBtn({
     const t = useVaultTranslations();
     const [txId, setTxId] = useState('');
     const sendTx = useTx();
-
-    const { refetch: getSigner } = useSigner();
     const network = useVaultContracts();
 
     let action: ContractFunc|undefined;
@@ -78,16 +75,19 @@ export default function ConfirmBtn({
         }
     }
 
+
+
     const { config } = usePrepareContractWrite({
         ...network!.RouterV1,
         functionName: action,
         enabled: Boolean(action),
         args: params
     })
-    const gasLimit = config?.request?.gasLimit.toNumber() ?? 0;
+    const { writeAsync } = useContractWrite(config);
+    //TODO: estimate the gas
+    const gasLimit = 0;
 
     const confirm = async () => {
-        const { data: signer } = await getSigner()
 
         if (!action) {
             toast.error(t('action-not-supported'));
@@ -99,16 +99,10 @@ export default function ConfirmBtn({
             value: parseEther(msgValue.toString())
         })
 
-        const callTransaction = buildTx(
-            network!.RouterV1, 
-            action,
-            signer!,
-            params
-        );
         const txId = await sendTx({
             name: transactionName.startsWith('deposit') || transactionName.startsWith('withdraw') ? 
                     t(transactionName, {symbol: collateral}) : t(transactionName),
-            callTransaction,
+            callTransaction: writeAsync as WriteResponse,
             callbacks: {
               onSuccess: (id) => {
                 reset()

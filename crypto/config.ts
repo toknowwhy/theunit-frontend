@@ -1,12 +1,12 @@
 import { default as allContracts } from './contracts.json'
-import { erc20ABI, Address } from 'wagmi';
 import { sepolia, polygonMumbai } from 'wagmi/chains';
-import { keyBy } from 'lodash'
-import { AllContracts, NetworkContracts } from '@/utils/types';
+import { AllContracts, SupportedChainId } from '@/utils/types';
+import { Dictionary } from 'ts-essentials';
 
 export const allNetworkContracts: AllContracts = allContracts.contracts as AllContracts;
 export const supportedNetworks = [sepolia, polygonMumbai];
-export const networkConigs = {
+export const supportedChainIds: number[] = supportedNetworks.map((sn) => sn.id);
+export const networkConigs: Dictionary<any, SupportedChainId> = {
     [sepolia.id]: {
         wrappedNative: '0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9',
         unitId: 'ethereum',
@@ -22,35 +22,3 @@ export const networkConigs = {
         dustLimit: 1000,
     }
 }
-
-
-
-const infuraProjectId = process.env.INFURA_PROJECT_ID || ''
-const etherscanAPIKey = process.env.ETHERSCAN_API_KEY || ''
-
-function getRpc(network: string): string {
-    return `https://${network}.infura.io/v3/${infuraProjectId}`
-}
-
-// const sepolia = {
-//     id: 11155111,
-//     name: 'sepolia',
-//     label: 'Sepolia test network',
-//     infuraUrl: getRpc('sepolia'),
-//     safeConfirmations: 6,
-//     unitToken: tokenDesc('tinu', 'TINU', 'TINU', false, UnitTokenABI, sepoliaAddresses.UNIT_TOKEN as Address, 18),
-//     unitRouter: contractDesc(UnitRouterABI, sepoliaAddresses.UNIT_ROUTER_V1 as Address),
-//     vault: contractDesc(VaultABI, sepoliaAddresses.VAULT as Address),
-//     priceFeed: contractDesc(PriceFeedABI, sepoliaAddresses.PRICE_FEED as Address),
-//     tokens: defaultSupportedCollaterals,
-//     ETHAddress: sepoliaAddresses.WETH,
-//     etherscan: {
-//         url: 'https://sepolia.etherscan.io',
-//     },
-// }
-
-
-export type Network = typeof sepolia
-
-export const networkById = keyBy(supportedNetworks, 'id')
-export const networkByName = keyBy(supportedNetworks, 'name')

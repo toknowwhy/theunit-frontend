@@ -3,36 +3,30 @@
 import '@rainbow-me/rainbowkit/styles.css';
 
 import {
-  getDefaultWallets,
   RainbowKitProvider,
   darkTheme
 } from '@rainbow-me/rainbowkit';
 import { ThemeProvider } from 'next-themes';
-import { configureChains, createClient, WagmiConfig } from 'wagmi';
+import { configureChains, WagmiConfig, createConfig } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 import { PropsWithChildren } from 'react';
 import { supportedNetworks } from '@/crypto/config';
 
-const { chains, provider } = configureChains(
-    supportedNetworks,
-    [publicProvider()]
-  );
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  supportedNetworks,
+  [publicProvider()],
+)
   
-  const { connectors } = getDefaultWallets({
-    appName: 'UNIT',
-    chains
-  });
-  
-  const wagmiClient = createClient({
-    autoConnect: true,
-    connectors,
-    provider
-  })
+const config = createConfig({
+  autoConnect: true,
+  publicClient,
+  webSocketPublicClient,
+})
 
 export default function Providers({ children } : PropsWithChildren<{}>) {
   return (
     <ThemeProvider>
-      <WagmiConfig client={wagmiClient}>
+      <WagmiConfig config={config}>
         <RainbowKitProvider 
           theme={darkTheme({
             accentColor: '#4844FF'

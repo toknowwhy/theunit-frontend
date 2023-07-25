@@ -1,9 +1,8 @@
-import { ContractDesc, CurrencyType, PriceInfo, ThumbChartDataType, TokenDesc } from "./types";
-import { BigNumber } from "ethers";
-import { formatEther, formatUnits } from "ethers/lib/utils.js";
+import { CurrencyType, PriceInfo, ThumbChartDataType } from "./types";
 import BTC from '@/public/btc.svg';
 import ETH from '@/public/eth.svg';
 import USD from '@/public/usd.svg';
+import { formatEther } from "viem";
 
 export const numberWithCommas = (x: string | undefined) => {
     if (x != undefined) {
@@ -79,7 +78,7 @@ export const formatRatio = (ratio: number) => {
     return (ratio*100).toFixed(0)+'%'
 }
 
-export const getBalanceFromBigNumber = (data?: BigNumber) => {
-    const balance = data ? parseFloat(formatEther(data.toString())) : 0;
+export const getBalanceFromBigNumber = (data?: bigint) => {
+    const balance = data ? parseFloat(formatEther(data)) : 0;
     return balance
 }

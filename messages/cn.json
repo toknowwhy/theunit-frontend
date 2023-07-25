@@ -111,7 +111,8 @@
         "input-amount": "{symbol}数量",
         "ethereum-vault-description": "这是我们最热门的金库",
         "matic-network-vault-description": "Lower gas fee",
-        "not-enough-unit-burn": "Minimum {num} TINU need to be left in the vault, click MAX to payback all TINU"
+        "not-enough-unit-burn": "Minimum {num} TINU need to be left in the vault, click MAX to payback all TINU",
+        "cannot-send-transaction": "Unable to send transaction now, please check your wallet connection"
     },
     "History": {
         "name": "名称",

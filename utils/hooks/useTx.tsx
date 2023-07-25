@@ -1,16 +1,24 @@
 import { useSetAtom } from "jotai";
-import { useAccount } from "wagmi";
-import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
+import { useAccount, usePublicClient } from "wagmi";
 import { v4 as uuidv4 } from 'uuid';
 import { toast, ToastContentProps } from "react-toastify";
 import { createTransactionsAtom, updateTransactionsAtom } from "../atoms";
-import { SendTransactionOptions, TransactionCallbacks, TransactionState, TransactionStatus } from "@/utils/types";
+import { 
+  SendTransactionOptions, 
+  TransactionCallbacks, 
+  TransactionResponse, 
+  TransactionState, 
+  TransactionStatus, 
+  WriteResponse 
+} from "@/utils/types";
 import TransactionToast, { TransactionToastStatus } from "@/components/web3/TransactionToast";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { useVaultContracts } from "@/components/vaults/VaultNetworkProvider";
+import { Hash, TransactionReceipt } from "viem";
 
 export const useTx = () => {
     const { address: usersAddress } = useAccount();
+    const publicClient = usePublicClient();
     const vaultNetwork = useVaultContracts();
     const chainId = vaultNetwork!.id;
     const addRecentTransaction = useAddRecentTransaction();
@@ -23,7 +31,7 @@ export const useTx = () => {
         id: string,
         name: string,
         chainId: number,
-        callTransaction: () => Promise<TransactionResponse>,
+        callTransaction: WriteResponse,
         callbacks?: TransactionCallbacks
     ) => {
 
@@ -44,10 +52,10 @@ export const useTx = () => {
                 }
               }
             })
-            response = await responsePromise;
-            if (response.chainId == 0) {
-              response.chainId = chainId
-            }
+            const contractWriteRes = await responsePromise;
+            response.hash = contractWriteRes.hash;
+            response.chainId = chainId
+
             // Transaction was confirmed in users wallet
             updateTransaction({ id, response, status: TransactionStatus.pendingBlockchainConfirmation })
             callbacks?.onConfirmedByUser?.(id)
@@ -57,7 +65,7 @@ export const useTx = () => {
                 description: name,
               });
             }
-            const receiptPromise = response.wait()
+            const receiptPromise = publicClient.waitForTransactionReceipt({ hash: response.hash as Hash })
             toast.promise(receiptPromise, {
               pending: {
                 icon: true,
@@ -105,7 +113,7 @@ export const useTx = () => {
             // Transaction was confirmed on chain
             callbacks?.onComplete?.(id)
             const status =
-              !!receipt.status && receipt.status === 1
+              !!receipt.status && receipt.status === 'success'
                 ? TransactionStatus.success
                 : TransactionStatus.error
             updateTransaction({ id, receipt, status, state: TransactionState.complete })

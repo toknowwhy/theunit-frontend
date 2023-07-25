@@ -1,27 +1,24 @@
 import { toFloat } from "@/utils/functions";
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
-import { BigNumber } from "ethers";
-import { formatEther, parseEther } from "ethers/lib/utils.js";
-import { useContractRead, useSigner } from "wagmi";
+import { useContractRead, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { useState } from "react";
-import { buildTx } from "@/utils/buildTx";
-import { VaultButtonProps } from "@/utils/types";
+import { VaultButtonProps, WriteResponse } from "@/utils/types";
 import ConfirmBtn from "./ManageButton";
 import TxButton from "@/components/web3/TxButton";
 import Button from "@/components/button/Button";
 import { useVaultContracts } from "../VaultNetworkProvider";
+import { formatEther, parseEther } from "viem";
+import { toast } from "react-toastify";
 
 export default function ApproveButton(props : VaultButtonProps) {
-    const { unitAmount, account, collateralAmount, isManage } = props
+    const { unitAmount, account, isManage } = props
     const uamount = Math.abs(unitAmount);
-    const camount = Math.abs(collateralAmount);
-    const [allowanceData, setAllowanceData] = useState<BigNumber>(BigNumber.from(0));
+    const [allowanceData, setAllowanceData] = useState<bigint>(BigInt(0));
     const [vaultAllow, setVaultAllow] = useState(isManage);
     const [txId, setTxId] = useState('');
     const t = useVaultTranslations();
     const network = useVaultContracts();
-    const { refetch: getSigner } = useSigner();
     const sendTx = useTx();
     const unitToken = network!.TinuToken;
     const contractAddress = network?.RouterV1.address;
@@ -33,7 +30,7 @@ export default function ApproveButton(props : VaultButtonProps) {
         enabled: unitAmount < 0,
         args: [account, contractAddress],
         onSuccess(data) {
-            setAllowanceData(data as BigNumber)
+            setAllowanceData(data as bigint)
         },
     })
     const { 
@@ -51,19 +48,34 @@ export default function ApproveButton(props : VaultButtonProps) {
             setVaultAllow(data as boolean)
         },
     })
+    const allowance = formatEther(allowanceData);
+    const tinuNeedApproval = toFloat(allowance) < uamount && unitAmount < 0;
+    const toPrepareContract = tinuNeedApproval ? unitToken : vault;
+    const title = tinuNeedApproval ? t('approve-unit') : t('approve-vault');
+    const needToApprove = !vaultAllow || tinuNeedApproval;
+    
+    const { config, error: prepareError } = usePrepareContractWrite({
+        ...toPrepareContract,
+        functionName: 'approve',
+        enabled: needToApprove,
+        args: !vaultAllow ? [contractAddress, true] : 
+            [contractAddress, parseEther(Number.MAX_SAFE_INTEGER.toString())]
+    })
+    const { writeAsync } = useContractWrite(config)    
 
-    if (error || vaultApproveError) {
-        return <div>{(error ?? vaultApproveError)!.message}</div>
+    if (!needToApprove) {
+        return <ConfirmBtn { ...props } />
     }
     if (isLoading || isVaultLoading) {
         return <Button loading={true} disabled={true}> </Button>
     }
-
-    const allowance = formatEther(allowanceData as BigNumber);
-    const needToApprove = toFloat(allowance) < uamount && unitAmount < 0;
-
-    if (!needToApprove && vaultAllow) {
-        return <ConfirmBtn { ...props } />
+    if (error || vaultApproveError || prepareError) {
+        return <>
+            <Button disabled={true}>{title}</Button>
+            <div className='max-w-full whitespace-break-spaces'>
+                {(error ?? vaultApproveError ?? prepareError)!.message}
+            </div>
+        </>
     }
 
     const refetchAllowance = (isUnit = true) => {
@@ -74,42 +86,18 @@ export default function ApproveButton(props : VaultButtonProps) {
         }
     }
 
-    const title = needToApprove ? t('approve-unit') : t('approve-vault');
     const approve = async () => {
-        const { data: signer } = await getSigner()
+        if (!writeAsync) {
+            toast.error(t('cannot-send-transaction'))
+        }
         let tid = '';
-        if (!vaultAllow) {
-            const callTransaction = buildTx(
-                vault, 
-                "approve", 
-                signer!, 
-                [contractAddress, true]
-            )
+        if (needToApprove) {
             const txId = await sendTx({
-                name: t('approve-vault'),
-                callTransaction,
-                callbacks: {
-                  refetch: () => {
-                    refetchAllowance(false)
-                  }
-                }
-            })
-            if (!tid) {
-                tid = txId
-            }
-        } else if (needToApprove) {
-            const callTransaction = buildTx(
-                unitToken, 
-                "approve", 
-                signer!, 
-                [contractAddress, parseEther(Number.MAX_SAFE_INTEGER.toString())]
-            )
-            tid = await sendTx({
                 name: title,
-                callTransaction,
+                callTransaction: writeAsync as WriteResponse,
                 callbacks: {
                   refetch: () => {
-                    refetchAllowance(true)
+                    refetchAllowance(vaultAllow)
                   }
                 }
             })

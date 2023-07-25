@@ -6,13 +6,13 @@ import ActionTab from "./ActionTab";
 import FormInput from "../../FormInput";
 import { getBalanceFromBigNumber, getRatioFromLiquidationFee, toFloat } from "@/utils/functions";
 import useDebounce from "@/utils/hooks/useDebounce";
-import { formatEther, formatUnits } from "ethers/lib/utils.js";
 import VaultStats from "../info/VaultStats";
 import TokenBalance from "./TokenBalance";
 import VaultButton from "./VaultButton";
 import { useBalance } from "wagmi";
 import BoxContainer from "@/components/BoxContainer";
 import { useTinuBalance } from "@/utils/hooks/useTinuBalance";
+import { formatEther } from "viem";
 
 export default function VaultForm({
     account,

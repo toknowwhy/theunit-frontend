@@ -1,5 +1,4 @@
 import { useContractRead } from "wagmi";
-import { BigNumber } from "ethers";
 import { useVaultContracts } from "@/components/vaults/VaultNetworkProvider";
 
 export const useTinuBalance = (account?: string) => {
@@ -12,5 +11,5 @@ export const useTinuBalance = (account?: string) => {
         args: [account],
         enabled: Boolean(account) && Boolean(contracts),
     })
-    return { balance: data as BigNumber|undefined, refetch };
+    return { balance: data as bigint|undefined, refetch };
 }

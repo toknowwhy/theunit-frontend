@@ -1,7 +1,7 @@
-import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
 import { atom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
-import { TransactionState, TransactionStatus, Transaction } from './types'
+import { TransactionReceipt } from 'viem'
+import { TransactionState, TransactionStatus, Transaction, TransactionResponse } from './types'
 
 export const transactionsAtom = atomWithStorage<Transaction[]>('theunit-transactions', [])
 
@@ -43,7 +43,7 @@ export const updateTransactionsAtom = atom(null, (get, set, transactionUpdate: {
 }) => {
   const { id, state, status, response, receipt } = transactionUpdate
   if (!!receipt) receipt.logs = []
-  if (!!response) response.data = ''
+  if (!!response) response.hash = ''
   const transactions = [...get(transactionsAtom)]
   const index = transactions.findIndex((transaction) => transaction.id === id)
   transactions[index] = {
