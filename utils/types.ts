@@ -1,7 +1,6 @@
 import { ReactElement, ReactNode } from "react";
-import { Address } from "wagmi";
+import { Address, Chain } from "wagmi";
 import { Abi, Hex, TransactionReceipt } from "viem";
-import { supportedChainIds } from "@/crypto/config";
 
 /***************************** Database Types **********************************/
 
@@ -38,6 +37,16 @@ export interface TokenDesc extends ContractDesc {
     symbol: string;
     stable: boolean;
     decimals: number;
+}
+
+export interface NetworkConfig {
+    chain: Chain,
+    wrappedNative: Address,
+    unitId: string,
+    sloganKey: string,
+    liquidationRatio: number,
+    dustLimit: number,
+    nativeSymbol: string,
 }
 
 export interface NetworkContracts {
@@ -133,8 +142,6 @@ export interface AddressAndChain {
     account: string|undefined;
     chain: 4|undefined;
 }
-
-export type SupportedChainId = typeof supportedChainIds[number]
 
 
 /***************************** Frontend Types **********************************/

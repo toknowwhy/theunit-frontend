@@ -1,26 +1,25 @@
 import BoxContainer from "@/components/BoxContainer";
 import SplineAnim from "@/components/SplineAnim";
-import { allNetworkContracts, networkConigs, supportedNetworks } from "@/crypto/config";
+import { supportedNetworks } from "@/crypto/config";
 import { coinLogoUrl } from "@/utils/functions";
-import {  NetworkContracts } from "@/utils/types";
+import {  NetworkConfig } from "@/utils/types";
 import { useTranslations } from "next-intl";
 import Link from "next-intl/link";
 import Image from "next/image";
-import { Chain } from "wagmi";
 
 export default function VaultsSelect({
     isFarm = false,
 } : {
     isFarm?: boolean,
 }) {
+    const supportedChainIds = Object.keys(supportedNetworks);
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 2xl:grid-cols-3 2xl:gap-4">
-            {supportedNetworks.map((chain) => (
+            {supportedChainIds.map((chainId) => (
                 <VaultChoice
-                    key={chain.id}
-                    chain={chain}
-                    contracts={allNetworkContracts[chain.id]}
+                    key={chainId}
+                    networkConfig={supportedNetworks[chainId]}
                     isFarm={isFarm}
                 />
             ))}
@@ -29,17 +28,14 @@ export default function VaultsSelect({
 }
 
 function VaultChoice({
-    chain,
-    contracts,
+    networkConfig,
     isFarm,
 } : {
-    chain: Chain,
-    contracts: NetworkContracts,
+    networkConfig: NetworkConfig,
     isFarm: boolean,
 }) {
     const t = useTranslations('Vault');
-    const symbol = chain.nativeCurrency.symbol;
-    const networkConfig = networkConigs[chain.id];
+    const symbol = networkConfig.nativeSymbol;
 
     return (
         <BoxContainer>

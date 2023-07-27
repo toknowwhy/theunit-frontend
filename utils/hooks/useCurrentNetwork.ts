@@ -1,19 +1,19 @@
 import { Abi } from "viem";
 import { Address, erc20ABI, useNetwork } from "wagmi";
-import { allNetworkContracts, networkConigs, supportedChainIds } from "../../crypto/config";
-import { NetworkInfo, SupportedChainId } from "../types";
+import { allNetworkContracts, supportedNetworks } from "../../crypto/config";
+import { NetworkInfo } from "../types";
 
 export const useCurrentNetworkContracts = () : NetworkInfo|undefined => {
     const { chain } = useNetwork();
-    if (!chain || supportedChainIds.indexOf(chain.id) == -1) {
+    if (!chain || !supportedNetworks[chain.id]) {
         return undefined;
     }
-    const chainId = chain.id as SupportedChainId;
+    const chainId = chain.id;
     const contracts = allNetworkContracts[chainId];
-    return Boolean(contracts) && networkConigs[chainId] ? ({
+    return Boolean(contracts) ? ({
         ...contracts!,
         Wrapped: {
-            address: networkConigs[chainId].wrappedNative as Address, 
+            address: supportedNetworks[chainId].wrappedNative as Address, 
             abi: erc20ABI as unknown as Abi
         },
         name: chain?.name ?? '',
