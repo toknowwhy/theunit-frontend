@@ -44,7 +44,7 @@ export const useVaultInfo = (currentNetwork?: NetworkInfo, account?: `0x${string
             {
                 ...currentNetwork!.UnitPriceFeed,
                 functionName: "getRoundData",
-                args: [roundId! - BigInt(1)]
+                args: [roundId ? (roundId! - BigInt(1)) : BigInt(1)]
             },
             {
                 ...currentNetwork!.UnitPriceFeed,
