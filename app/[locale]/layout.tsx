@@ -40,11 +40,13 @@ export default function RootLayout({
     notFound();
   }
 
+  const projectId = process.env.WALLET_CONNECT_ID ?? ''
+
   return (
     <html suppressHydrationWarning lang={locale} className={avenirFont.className}>
       <head />
       <body className="text-lg text-text m-0 bg-black-light">
-          <Providers>
+          <Providers walletConnectId={projectId}>
             <MainLayout>
               {children}
             </MainLayout>

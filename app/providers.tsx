@@ -5,38 +5,48 @@ import '@rainbow-me/rainbowkit/styles.css';
 import {
   RainbowKitProvider,
   darkTheme,
+  getDefaultWallets,
+  connectorsForWallets,
 } from '@rainbow-me/rainbowkit';
 import { ThemeProvider } from 'next-themes';
 import { configureChains, WagmiConfig, createConfig } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
-import { PropsWithChildren } from 'react';
+import { ReactNode } from 'react';
 import { supportedNetworks as networks } from '@/crypto/config';
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 
 const supportedNetworks = Object.values(networks).map((n) => n.chain);
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   supportedNetworks,
   [publicProvider()],
 )
-  
-const config = createConfig({
-  autoConnect: true,
-  publicClient,
-  connectors: [
-    new WalletConnectConnector({
-      chains,
-      options: {
-        projectId: process.env.WALLET_CONNECT_ID ?? '',
-      },
-    }),
-  ],
-  webSocketPublicClient,
-})
 
-export default function Providers({ children } : PropsWithChildren<{}>) {
+export default function Providers({ 
+  walletConnectId, 
+  children 
+} : { 
+  walletConnectId: string, 
+  children: ReactNode 
+}) {
+
+  const { wallets } = getDefaultWallets({
+    appName: 'UNIT APP',
+    projectId: walletConnectId,
+    chains,
+  });
+  
+  const connectors = connectorsForWallets([
+    ...wallets,
+  ]);
+  
+  const wagmiConfig = createConfig({
+    autoConnect: true,
+    connectors,
+    publicClient,
+    webSocketPublicClient,
+  });
   return (
     <ThemeProvider>
-      <WagmiConfig config={config}>
+      <WagmiConfig config={wagmiConfig}>
         <RainbowKitProvider 
           theme={darkTheme({
             accentColor: '#4844FF'
