@@ -53,19 +53,21 @@ export const useTx = () => {
               }
             })
             const contractWriteRes = await responsePromise;
-            response.hash = contractWriteRes.hash;
-            response.chainId = chainId
-
+            const hash = contractWriteRes.hash;
+            response = {
+              hash,
+              chainId
+            }
             // Transaction was confirmed in users wallet
             updateTransaction({ id, response, status: TransactionStatus.pendingBlockchainConfirmation })
             callbacks?.onConfirmedByUser?.(id)
-            if (response.hash) {
+            if (hash) {
               addRecentTransaction({
-                hash: response.hash,
+                hash,
                 description: name,
               });
             }
-            const receiptPromise = publicClient.waitForTransactionReceipt({ hash: response.hash as Hash })
+            const receiptPromise = publicClient.waitForTransactionReceipt({ hash: hash as `0x${string}` })
             toast.promise(receiptPromise, {
               pending: {
                 icon: true,
@@ -131,7 +133,7 @@ export const useTx = () => {
                 status: TransactionStatus.cancelled,
                 state: TransactionState.complete
               })
-              toast.error(
+              toast.info(
                 <TransactionToast
                   message={name}
                   chainId={chainId}

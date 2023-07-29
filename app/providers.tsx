@@ -20,10 +20,12 @@ const supportedNetworks = Object.values(networks).map((n) => n.chain);
 export default function Providers({ 
   walletConnectId, 
   infuraKey,
+  alchemyKey,
   children 
 } : { 
   walletConnectId: string, 
   infuraKey: string,
+  alchemyKey: string,
   children: ReactNode 
 }) {
   

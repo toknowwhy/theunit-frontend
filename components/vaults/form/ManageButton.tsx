@@ -94,6 +94,11 @@ export default function ConfirmBtn({
             return;
         }
 
+        if (!writeAsync) {
+            toast.error(t('cannot-send-transaction'));
+            return;
+        }
+
         params.push({
             gasLimit: gasLimit ? gasLimit : 800000,
             value: parseEther(msgValue.toString())

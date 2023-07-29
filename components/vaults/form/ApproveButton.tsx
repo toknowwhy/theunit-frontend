@@ -59,7 +59,7 @@ export default function ApproveButton(props : VaultButtonProps) {
         functionName: 'approve',
         enabled: needToApprove,
         args: !vaultAllow ? [contractAddress, true] : 
-            [contractAddress, parseEther(Number.MAX_SAFE_INTEGER.toString())]
+            [contractAddress, parseEther(uamount.toString())]
     })
     const { writeAsync } = useContractWrite(config)    
 
@@ -72,8 +72,8 @@ export default function ApproveButton(props : VaultButtonProps) {
     if (error || vaultApproveError || prepareError) {
         return <>
             <Button disabled={true}>{title}</Button>
-            <div className='max-w-full whitespace-break-spaces'>
-                {(error ?? vaultApproveError ?? prepareError)!.message}
+            <div className="rounded-full bg-error/10 text-error px-8 py-3 mb-4 text-sm mt-4">
+                {t('cannot-send-transaction')}
             </div>
         </>
     }

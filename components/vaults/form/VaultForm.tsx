@@ -152,17 +152,17 @@ export default function VaultForm({
                     <div className="flex justify-between items-center mb-4">
                         <div className="bg-transparent border border-gray-border rounded-md p-1 inline-block min-w-[300px]">
                             <ActionTab 
-                                active={collateralAction == 'deposit'} 
+                                active={collateralAction === 'deposit'} 
                                 title={t('deposit', {symbol})} 
                                 onClick={() => { onCollateralActionChange('deposit') }} 
                             />
                             <ActionTab 
-                                active={collateralAction == 'withdraw'} 
+                                active={collateralAction === 'withdraw'} 
                                 title={t('withdraw', {symbol})} 
                                 onClick={() => { onCollateralActionChange('withdraw') }} 
                             />
                         </div>
-                        <TokenBalance balance={balance} />
+                        <TokenBalance balance={collateralAction === 'withdraw' ? camount : balance} />
                     </div>
                     
                     <FormInput 
@@ -175,12 +175,12 @@ export default function VaultForm({
                     <div className="flex justify-between items-center mb-4 mt-8">
                     <div className="bg-transparent border border-gray-border rounded-md p-1 inline-block min-w-[250px]">
                             <ActionTab 
-                                active={unitAction == 'mint'} 
+                                active={unitAction === 'mint'} 
                                 title={t('mint')} 
                                 onClick={() => { setUnitAction('mint') }} 
                             />
                             <ActionTab 
-                                active={unitAction == 'burn'} 
+                                active={unitAction === 'burn'} 
                                 title={t('burn')} 
                                 onClick={() => { setUnitAction('burn') }} 
                             />
