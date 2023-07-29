@@ -112,7 +112,8 @@
         "ethereum-vault-description": "Esta es nuestra vault más popular",
         "matic-network-vault-description": "Lower gas fee",
         "not-enough-unit-burn": "Minimum {num} TINU need to be left in the vault, click MAX to payback all TINU",
-        "cannot-send-transaction": "Unable to send transaction now, please check your wallet connection"
+        "cannot-send-transaction": "Unable to send transaction now, please check your wallet connection",
+        "wrong-network": "Switch to {network}"
     },
     "History": {
         "name": "Nombre",

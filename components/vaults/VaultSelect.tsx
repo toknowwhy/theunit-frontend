@@ -59,7 +59,7 @@ function VaultChoice({
                 <VaultChoiceInfo title={t('liquidation-ratio')} info={(networkConfig.liquidationRatio * 100).toFixed(0) + '%'} />
                 <VaultChoiceInfo title={t('stability-fee')} info='0.00%' />
                 <Link 
-                    href={`/${isFarm ? 'farm' : 'vaults'}/${symbol}`} 
+                    href={`/${isFarm ? 'farm' : 'vaults'}/${networkConfig.unitId}`} 
                     className="block mt-8 py-3 rounded-lg bg-gray-border text-center font-semibold hover:bg-transparent border border-gray-border" 
                 >
                         {t(isFarm ? 'start-farm' : 'enter-vault')}

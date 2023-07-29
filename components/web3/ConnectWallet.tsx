@@ -6,10 +6,12 @@ import Image from 'next/image';
 export default function ConnectWallet({ 
   connectLabel,
   networkLabel,
+  chainId,
   notHeader = false,
 } : { 
   connectLabel: string,
   networkLabel: string,
+  chainId?: string,
   notHeader?: boolean,
 }) {
     return <ConnectButton.Custom>
@@ -49,7 +51,7 @@ export default function ConnectWallet({
               );
             }
 
-            if (chain.unsupported) {
+            if (chain.unsupported || (chainId && chain.id.toString() !== chainId)) {
               return (
                 <button onClick={openChainModal} type="button" className={buttonClass}>
                   {networkLabel}

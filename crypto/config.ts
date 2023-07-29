@@ -2,6 +2,7 @@ import { default as allContracts } from './contracts.json'
 import { sepolia, polygonMumbai } from 'wagmi/chains';
 import { AllContracts, NetworkConfig } from '@/utils/types';
 import { Dictionary } from 'ts-essentials';
+import { keyBy } from 'lodash';
 
 export const allNetworkContracts: AllContracts = allContracts.contracts as AllContracts;
 // The reason of hard coding chain ids is reading chains from wagmi
@@ -26,3 +27,4 @@ export const supportedNetworks: Dictionary<NetworkConfig> = {
         nativeSymbol: 'MATIC'
     },
 };
+export const networkByUnitId = keyBy(Object.values(supportedNetworks), 'unitId')
