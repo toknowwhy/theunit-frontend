@@ -41,12 +41,13 @@ export default function RootLayout({
   }
 
   const projectId = process.env.WALLET_CONNECT_ID ?? ''
+  const infuraKey = process.env.INFURA_PROJECT_ID ?? ''
 
   return (
     <html suppressHydrationWarning lang={locale} className={avenirFont.className}>
       <head />
       <body className="text-lg text-text m-0 bg-black-light">
-          <Providers walletConnectId={projectId}>
+          <Providers walletConnectId={projectId} infuraKey={infuraKey}>
             <MainLayout>
               {children}
             </MainLayout>

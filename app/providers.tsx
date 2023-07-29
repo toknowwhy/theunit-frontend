@@ -10,24 +10,27 @@ import {
 } from '@rainbow-me/rainbowkit';
 import { ThemeProvider } from 'next-themes';
 import { configureChains, WagmiConfig, createConfig } from 'wagmi';
+import { infuraProvider } from 'wagmi/providers/infura';
 import { publicProvider } from 'wagmi/providers/public';
 import { ReactNode } from 'react';
 import { supportedNetworks as networks } from '@/crypto/config';
 
 const supportedNetworks = Object.values(networks).map((n) => n.chain);
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  supportedNetworks,
-  [publicProvider()],
-)
 
 export default function Providers({ 
   walletConnectId, 
+  infuraKey,
   children 
 } : { 
   walletConnectId: string, 
+  infuraKey: string,
   children: ReactNode 
 }) {
-
+  
+  const { chains, publicClient, webSocketPublicClient } = configureChains(
+    supportedNetworks,
+    [infuraProvider({ apiKey: infuraKey }), publicProvider()],
+  )
   const { wallets } = getDefaultWallets({
     appName: 'UNIT APP',
     projectId: walletConnectId,
