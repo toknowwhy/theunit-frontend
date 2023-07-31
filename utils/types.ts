@@ -47,6 +47,7 @@ export interface NetworkConfig {
     liquidationRatio: number,
     dustLimit: number,
     nativeSymbol: string,
+    subgraphUrl: string,
 }
 
 export interface NetworkContracts {
@@ -246,3 +247,11 @@ export interface SiteLocale {
     locale: string;
     title: string;
 }
+
+export interface TabItem<T> {
+    title: string;
+    value: T;
+    icon?: string;
+}
+
+export type DiscoverRank = 'risk' | 'debt'

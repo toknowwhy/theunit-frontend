@@ -6,7 +6,7 @@ import { useState } from "react";
 import { VaultButtonProps, WriteResponse } from "@/utils/types";
 import ConfirmBtn from "./ManageButton";
 import TxButton from "@/components/web3/TxButton";
-import Button from "@/components/button/Button";
+import Button from "@/components/form/Button";
 import { useVaultContracts } from "../VaultNetworkProvider";
 import { formatEther, parseEther } from "viem";
 import { toast } from "react-toastify";

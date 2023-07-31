@@ -5,7 +5,7 @@ import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { FarmBoxProps, LockAPY } from "@/utils/types";
 import { useEffect, useState } from "react";
 import { useBalance } from "wagmi";
-import Button from "../button/Button";
+import Button from "../form/Button";
 import FormInput from "../FormInput";
 import FarmBox from "./FarmBox";
 import LockPeriods from "./LockPeriod";

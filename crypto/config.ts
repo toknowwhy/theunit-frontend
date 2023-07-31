@@ -15,7 +15,8 @@ export const supportedNetworks: Dictionary<NetworkConfig> = {
         sloganKey: 'eth-vault-description', 
         liquidationRatio: 1.15,
         dustLimit: 1000,
-        nativeSymbol: 'ETH'
+        nativeSymbol: 'ETH',
+        subgraphUrl: 'https://api.studio.thegraph.com/proxy/49276/tinu-vault-sepolia/v0.0.1',
     },
     '80001': {
         chain: polygonMumbai,
@@ -24,7 +25,8 @@ export const supportedNetworks: Dictionary<NetworkConfig> = {
         sloganKey: 'polygon-vault-description',
         liquidationRatio: 1.15,
         dustLimit: 1000,
-        nativeSymbol: 'MATIC'
+        nativeSymbol: 'MATIC',
+        subgraphUrl: 'https://api.studio.thegraph.com/proxy/49276/tinu-vault-sepolia/v0.0.1',
     },
 };
 export const networkByUnitId = keyBy(Object.values(supportedNetworks), 'unitId')

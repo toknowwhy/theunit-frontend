@@ -113,7 +113,15 @@
         "matic-network-vault-description": "Lower gas fee",
         "not-enough-unit-burn": "Minimum {num} TINU need to be left in the vault, click MAX to payback all TINU",
         "cannot-send-transaction": "Unable to send transaction now, please check your wallet connection",
-        "wrong-network": "Switch to {network}"
+        "wrong-network": "Switch to {network}",
+        "vault-list": "Vaults List",
+        "highest-risk": "🚨 Highest Risk",
+        "largest-debt": "💎 Largest Debt",
+        "tinu-debt": "TINU Debt",
+        "status": "Status",
+        "action": "Action",
+        "next-price": "Next Price",
+        "vault-type": "Vault Type"
     },
     "History": {
         "name": "Name",

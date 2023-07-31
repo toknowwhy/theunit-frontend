@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { VaultButtonProps } from "@/utils/types";
-import Button from "../../button/Button";
+import Button from "../../form/Button";
 import ApproveButton from "./ApproveButton";
 import ConfirmBtn from "./ManageButton";
 

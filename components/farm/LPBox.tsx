@@ -6,7 +6,7 @@ import FarmBox from "./FarmBox";
 import eth from "@/public/icons/eth.svg"
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import FarmInfo from "./FarmInfo";
-import Button from "../button/Button";
+import Button from "../form/Button";
 
 export default function LPBox(props: LPBoxProps) {
 
