@@ -1,11 +1,12 @@
 import BodyContainer from "@/components/navbar/BodyContainer";
-import DiscoverList from "@/components/vaults/discover/DiscoverList";
+import Discover from "@/components/vaults/discover/Discover";
 import { supportedNetworks } from "@/crypto/config";
 import { coinLogoUrl } from "@/utils/functions";
 import { DiscoverRank, TabItem } from "@/utils/types";
 import { useTranslations } from "next-intl";
 
 export default function DiscoverPage() {
+
     const t = useTranslations('Vault')
     
     const rankTabs: TabItem<DiscoverRank>[] = [
@@ -26,7 +27,6 @@ export default function DiscoverPage() {
     }))
 
     const headers = [
-        t('vault'),
         t('liquidation-price'),
         t('next-price'),
         t('tinu-debt'),
@@ -38,7 +38,7 @@ export default function DiscoverPage() {
         <div className="font-bold text-4xl">
             {t('vault-list')}
         </div>
-        <DiscoverList 
+        <Discover 
             tabs={rankTabs} 
             headers={headers} 
             networks={networkItems}
