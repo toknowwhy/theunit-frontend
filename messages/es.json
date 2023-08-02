@@ -1,5 +1,5 @@
 {
-    "theunit": "Componentes",
+    "theunit": "Monedas",
     "vaults": "Vaults",
     "candidates": "Candidatas",
     "oneunit": "Otros Datos",
@@ -8,10 +8,10 @@
     "goto-theunit": "Vuelve a unitindex.org",
     "not-found": "Página no encontrada",
     "TheUnit": {
-        "indexed-currencies": "Componentes del UNIT",
+        "indexed-currencies": "Monedas en la UNIT",
         "indexed-currencies-notes": "*Cap. de Mercado y Volumen (24h) denominados en millones de unidades",
         "rank": "Puesto",
-        "the-unit-rank": "Clasificación del UNIT",
+        "the-unit-rank": "Clasificación de la UNIT",
         "name": "Nombre",
         "price": "Precio",
         "info": "Inf.",

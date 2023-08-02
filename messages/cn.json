@@ -1,5 +1,5 @@
 {
-    "theunit": "组成者",
+    "theunit": "代币",
     "vaults": "金库",
     "candidates": "候选者",
     "oneunit": "其它数据",
@@ -8,7 +8,7 @@
     "goto-theunit": "回到unitindex.org网站",
     "not-found": "找不到页面",
     "TheUnit": {
-        "indexed-currencies": "UNIT组成者",
+        "indexed-currencies": "UNIT中的代币",
         "indexed-currencies-notes": "*市值和24小时交易量以百万单位计算",
         "rank": "排名",
         "the-unit-rank": "UNIT排名",
