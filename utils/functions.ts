@@ -82,3 +82,9 @@ export const getBalanceFromBigNumber = (data?: bigint) => {
     const balance = data ? parseFloat(formatEther(data)) : 0;
     return balance
 }
+
+export const shortenAddress = (address: string) => {
+    if (address.startsWith('0x')) {
+        return `${address.substring(0, 6)}...${address.substring(address.length-4)}`
+    }
+}

@@ -12,10 +12,14 @@ export default function Discover({
     tabs,
     headers,
     networks,
+    untilText,
+    viewText,
 } : {
     tabs: TabItem<DiscoverRank>[],
     headers: string[],
     networks: TabItem<string>[],
+    untilText: string,
+    viewText: string,
 }) {
 
     const [rank, setRank] = useState<DiscoverRank>('risk')
@@ -44,7 +48,13 @@ export default function Discover({
                 />
             </div>
             <DiscoverProvider subgraphUrl={supportedNetworks[network.value].subgraphUrl}>
-                <DiscoverList headers={headers} rank={rank} chainId={network.value} />
+                <DiscoverList 
+                    headers={headers} 
+                    rank={rank} 
+                    chainId={network.value} 
+                    viewText={viewText}
+                    untilText={untilText}
+                />
             </DiscoverProvider>
         </div>
     )

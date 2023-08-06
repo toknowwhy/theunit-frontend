@@ -121,7 +121,10 @@
         "status": "Status",
         "action": "Action",
         "next-price": "Next Price",
-        "vault-type": "Vault Type"
+        "vault-type": "Vault Type",
+        "owner": "Owner",
+        "until-liquidate": "Until Liquidation",
+        "view": "View"
     },
     "History": {
         "name": "Name",

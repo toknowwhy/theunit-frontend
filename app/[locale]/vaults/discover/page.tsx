@@ -27,6 +27,7 @@ export default function DiscoverPage() {
     }))
 
     const headers = [
+        t('owner'),
         t('liquidation-price'),
         t('next-price'),
         t('tinu-debt'),
@@ -42,6 +43,8 @@ export default function DiscoverPage() {
             tabs={rankTabs} 
             headers={headers} 
             networks={networkItems}
+            viewText={t('view')}
+            untilText={t('until-liquidate')}
         />
     </BodyContainer>
 }

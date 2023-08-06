@@ -14,17 +14,19 @@ export default function DropDown<T>({
 }) {
 
     const [show, setShow] = useState(false);
-    const onItemSelect = (value: TabItem<T>) => {
-        setShow(!show);
-    }
 
     return (
         <div className="relative">
-            <div className="inline-flex border border-gray-border p-1 pr-4 rounded-lg cursor-pointer items-center justify-between">
+            <div 
+                onClick={() => {
+                    setShow(!show);
+                }}
+                className="inline-flex border border-gray-border p-1 pr-4 rounded-lg cursor-pointer items-center justify-between"
+            >
                 <div className="min-w-[160px]">
                     <DropDownItem<T>
                         item={selected}
-                        onSelect={onItemSelect}
+                        onSelect={() => {}}
                     />
                 </div>
                 <Image 

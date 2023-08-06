@@ -144,6 +144,15 @@ export interface AddressAndChain {
     chain: 4|undefined;
 }
 
+export interface VaultEvent {
+    id: string
+    owner: string
+    name: string
+    unitDebt: bigint
+    collateralToken: string
+    liquidationPrice: bigint
+}
+
 
 /***************************** Frontend Types **********************************/
 
