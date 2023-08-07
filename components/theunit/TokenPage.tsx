@@ -4,29 +4,16 @@ import CoinLogo from "@/components/CoinLogo";
 import PriceChange from "@/components/theunit/PriceChange";
 import TokenInfo from "@/components/theunit/TokenInfo";
 import { useLocale } from "next-intl";
+import { CoinTableData } from "@/utils/types";
 import BodyContainer from "../navbar/BodyContainer";
 import { displayTokenPrice } from "@/utils/functions";
-import { getCoinLatestData } from "@/utils/db/getCoinLatestData";
-import clientPromise from "@/utils/db/mongodb";
-
-async function getTokenData(id: string) {
-    const client = await clientPromise;
-    const db = client.db();
-    const result = await getCoinLatestData(db, id);
-  
-    return result;
-}
-
-export const preloadToken = (id: string) => {
-    void getTokenData(id)
-}
+import { Suspense } from "react";
+import Spinner from "../Spinner";
 
 
-export default async function TokenPage({ id }: { id: string }) {
+export default function TokenPage({ data } : {data: CoinTableData}) {
 
     const locale = useLocale();
-
-    const data = await getTokenData(id)
 
     if (!data ) {
         return notFound();
@@ -44,7 +31,9 @@ export default async function TokenPage({ id }: { id: string }) {
         </div>
         <PriceChange priceChange={data.price_change_percentage_24h} diff={data.price_change_24h} />
         <div className="mb-8"></div>
-        <ChartWrapper locale={locale} symbol={data.symbol.toUpperCase() + 'UNIT'} />
+        <Suspense fallback={<Spinner />}>
+            <ChartWrapper locale={locale} symbol={data.symbol.toUpperCase() + 'UNIT'} />
+        </Suspense>
 
         <TokenInfo coin={data} />
     </BodyContainer>

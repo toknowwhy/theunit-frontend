@@ -1,17 +1,21 @@
-import { Suspense } from "react";
-import Spinner from "@/components/Spinner";
-import TokenPage, { preloadToken } from "@/components/theunit/TokenPage";
+import { getCoinLatestData } from "@/utils/db/getCoinLatestData";
+import clientPromise from "@/utils/db/mongodb";
+import TokenPage from "@/components/theunit/TokenPage";
 
+async function getData(id: string) {
+    const client = await clientPromise;
+    const db = client.db();
+    const result = await getCoinLatestData(db, id);
+  
+    return result;
+}
 
 export default async function CoinPage({
     params,
 } : {
     params: { id: string }
 }) {
-    preloadToken(params.id);
+    const data = await getData(params.id);
     
-    return <Suspense fallback={<Spinner />}>
-        {/* @ts-ignore */}
-            <TokenPage id={params.id} />
-        </Suspense>
+    return <TokenPage data={data} />
 }
