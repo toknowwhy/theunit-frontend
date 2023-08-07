@@ -18,7 +18,7 @@ module.exports = withNextIntl({
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'api.20y.org',
+        hostname: 'api.unitindex.org',
         port: '',
         pathname: '/files/**',
       },

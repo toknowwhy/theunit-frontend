@@ -12,6 +12,7 @@ import {
 } from '@/public/charting_library';
 import { UnitDatafeed } from './datafeed';
 import { useTheme } from 'next-themes';
+import { displayTokenPrice } from '@/utils/functions';
 
 
 const TVChartContainer = memo(function TVChartContainer({
@@ -76,6 +77,7 @@ const TVChartContainer = memo(function TVChartContainer({
 				"barColorsOnPrevClose": false,
 				"drawBody": true
 			})
+			tvWidget!.mainSeriesPriceFormatter().format = (value: number) => displayTokenPrice(value, symbol);
 			tvWidget!.headerReady().then(() => {
 				const button = tvWidget!.createButton();
 				button.setAttribute('title', 'Click to show a notification popup');

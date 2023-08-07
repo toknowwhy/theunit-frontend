@@ -1,8 +1,6 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-
-const TVChartContainer = dynamic(() => import('./TradingView'), { ssr: false })
+import TVChartContainer from "./TradingView";
 
 export default function ChartWrapper({
     locale,

@@ -14,7 +14,7 @@ export const numberWithCommas = (x: string | undefined) => {
 };
 
 export const coinLogoUrl = (coinId: string) => {
-    return 'https://api.20y.org/files/logos/' + coinId + '.png';
+    return 'https://api.unitindex.org/files/logos/' + coinId + '.png';
 };
 
 export const getMinutesToNextHour = () => {
@@ -87,4 +87,12 @@ export const shortenAddress = (address: string) => {
     if (address.startsWith('0x')) {
         return `${address.substring(0, 6)}...${address.substring(address.length-4)}`
     }
+}
+
+export const displayTokenPrice = (price: number, coinInfo?: string) => {
+    let digits = 3;
+    if (coinInfo && coinInfo.toLowerCase().indexOf('shib') > -1) {
+        digits = 9;
+    }
+    return price.toFixed(digits);
 }
