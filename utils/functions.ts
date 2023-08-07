@@ -15,7 +15,7 @@ export const numberWithCommas = (x: string | undefined) => {
 };
 
 export const coinLogoUrl = (coinId: string) => {
-    return 'https://api.20y.org/files/logos/' + coinId + '.png';
+    return 'https://api.unitindex.org/files/logos/' + coinId + '.png';
 };
 
 export const getMinutesToNextHour = () => {
