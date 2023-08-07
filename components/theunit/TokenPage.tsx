@@ -6,6 +6,7 @@ import TokenInfo from "@/components/theunit/TokenInfo";
 import { useLocale } from "next-intl";
 import { CoinTableData } from "@/utils/types";
 import BodyContainer from "../navbar/BodyContainer";
+import { displayTokenPrice } from "@/utils/functions";
 
 
 export default function TokenPage({ data } : {data: CoinTableData}) {
@@ -24,7 +25,7 @@ export default function TokenPage({ data } : {data: CoinTableData}) {
             {data.name}
         </div>
         <div className="inline-block text-4xl my-2 text-gradient">
-            Ø {data.price.toFixed(3)}
+            Ø {displayTokenPrice(data.price, coinId)}
         </div>
         <PriceChange priceChange={data.price_change_percentage_24h} diff={data.price_change_24h} />
         <div className="mb-8"></div>

@@ -38,3 +38,5 @@ next-env.d.ts
 #tradingview
 /charting_library
 /public/charting_library
+
+localScripts.js

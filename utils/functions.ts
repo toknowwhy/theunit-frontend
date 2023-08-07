@@ -84,3 +84,11 @@ export const getBalanceFromBigNumber = (collateral: TokenDesc|ContractDesc, data
     const balance = data ? parseFloat(formatUnits(data.toString(), decimals)) : 0;
     return balance
 }
+
+export const displayTokenPrice = (price: number, coinInfo?: string) => {
+    let digits = 3;
+    if (coinInfo && coinInfo.toLowerCase().indexOf('shib') > -1) {
+        digits = 9;
+    }
+    return price.toFixed(digits);
+}
