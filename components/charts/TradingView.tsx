@@ -46,7 +46,8 @@ const TVChartContainer = memo(function TVChartContainer({
 		overrides: {
 			"paneProperties.background": mainColor,
 			"paneProperties.backgroundGradientStartColor": mainColor,
-			"paneProperties.backgroundGradientEndColor": mainColor
+			"paneProperties.backgroundGradientEndColor": mainColor,
+			"mainSeriesProperties.minTick": symbol.toLowerCase().indexOf('shib') > -1 ? "1000000000,1,false" : "1000,1,false"
 		},
 		studies_overrides: {
 			"volume.volume.color.0": "#6495ED",
@@ -77,7 +78,6 @@ const TVChartContainer = memo(function TVChartContainer({
 				"barColorsOnPrevClose": false,
 				"drawBody": true
 			})
-			tvWidget!.mainSeriesPriceFormatter().format = (value: number) => displayTokenPrice(value, symbol);
 			tvWidget!.headerReady().then(() => {
 				const button = tvWidget!.createButton();
 				button.setAttribute('title', 'Click to show a notification popup');

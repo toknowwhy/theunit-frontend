@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import Spinner from "@/components/Spinner";
 import TokenPage, { preloadToken } from "@/components/theunit/TokenPage";
+import Loading from "../../loading";
 
 
 export default async function CoinPage({
@@ -10,7 +10,7 @@ export default async function CoinPage({
 }) {
     preloadToken(params.id);
     
-    return <Suspense fallback={<Spinner />}>
+    return <Suspense fallback={<Loading />}>
             <TokenPage id={params.id} />
         </Suspense>
 }

@@ -3,7 +3,6 @@ import ChartWrapper from "@/components/charts/ChartWrapper";
 import CoinLogo from "@/components/CoinLogo";
 import PriceChange from "@/components/theunit/PriceChange";
 import TokenInfo from "@/components/theunit/TokenInfo";
-import { useLocale } from "next-intl";
 import BodyContainer from "../navbar/BodyContainer";
 import { displayTokenPrice } from "@/utils/functions";
 import { getCoinLatestData } from "@/utils/db/getCoinLatestData";
@@ -24,8 +23,6 @@ export const preloadToken = (id: string) => {
 
 export default async function TokenPage({ id }: { id: string }) {
 
-    const locale = useLocale();
-
     const data = await getTokenData(id)
 
     if (!data ) {
@@ -44,7 +41,7 @@ export default async function TokenPage({ id }: { id: string }) {
         </div>
         <PriceChange priceChange={data.price_change_percentage_24h} diff={data.price_change_24h} />
         <div className="mb-8"></div>
-        <ChartWrapper locale={locale} symbol={data.symbol.toUpperCase() + 'UNIT'} />
+        <ChartWrapper symbol={data.symbol.toUpperCase() + 'UNIT'} />
 
         <TokenInfo coin={data} />
     </BodyContainer>
