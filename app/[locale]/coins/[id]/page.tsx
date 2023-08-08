@@ -11,7 +11,6 @@ export default async function CoinPage({
     preloadToken(params.id);
     
     return <Suspense fallback={<Spinner />}>
-        {/* @ts-expect-error */}
             <TokenPage id={params.id} />
         </Suspense>
 }
