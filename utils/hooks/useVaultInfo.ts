@@ -55,11 +55,6 @@ export const useVaultInfo = (currentNetwork?: NetworkInfo, account?: `0x${string
     })
 
     let defaultRes: VaultInfoType = initialVaultInfo
-
-    if (feeData?.gasPrice) {
-        defaultRes.gasPrice = parseFloat(formatEther(feeData.gasPrice))
-    }
-
     
     if (contractDatas?.length == 4) {
         defaultRes = {
@@ -72,10 +67,15 @@ export const useVaultInfo = (currentNetwork?: NetworkInfo, account?: `0x${string
     }
 
     if (roundDatas?.length == 2 && roundDatas[0] && roundDatas[1]) {
+        const currPrice = parseFloat(formatEther((roundDatas[0].result as any)[1]));
         defaultRes = {
             ...defaultRes,
-            currentPrice: parseFloat(formatEther((roundDatas[0].result as any)[1])),
+            currentPrice: currPrice,
             nextPrice: parseFloat(formatEther((roundDatas[1].result as any)[1]))
+        }
+
+        if (feeData?.formatted.gasPrice) {
+            defaultRes.gasPrice = parseFloat(feeData.formatted.gasPrice) * currPrice;
         }
     }
 

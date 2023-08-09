@@ -1,13 +1,13 @@
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { usePublicClient, useWalletClient } from "wagmi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import TxButton from "@/components/web3/TxButton";
 import { VaultButtonProps, WriteResponse } from "@/utils/types";
 import { ContractFunc } from "@/utils/types";
 import { useVaultContracts } from "../VaultNetworkProvider";
-import { parseEther } from "viem";
+import { formatEther, parseEther } from "viem";
 import buildTx from "@/utils/buildTx";
 
 export default function ConfirmBtn({ 
@@ -24,6 +24,8 @@ export default function ConfirmBtn({
 } : VaultButtonProps) {
     const t = useVaultTranslations();
     const [txId, setTxId] = useState('');
+    const [preparing, setPreparing] = useState(false);
+    const [gas, setGas] = useState<number>(0);
     const sendTx = useTx();
     const network = useVaultContracts();
     const publicClient = usePublicClient();
@@ -78,8 +80,21 @@ export default function ConfirmBtn({
         }
     }
 
-    //TODO: estimate the gas
-    const gasLimit = 0;
+    useEffect(() => {
+        (async function estimateGas() {
+            if (action) {
+                const gas = await publicClient.estimateContractGas({
+                    account: account!,
+                    ...network!.RouterV1,
+                    functionName: action,
+                    args: params,
+                    value: msgValue ? parseEther(msgValue.toString()) : undefined
+                })
+                setGas(parseFloat(formatEther(gas)))
+            }
+        })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [action, collateralAmountInWei, unitAmountInWei])
 
     const confirm = async () => {
 
@@ -87,6 +102,7 @@ export default function ConfirmBtn({
             toast.error(t('action-not-supported'));
             return;
         }
+        setPreparing(true)
         const callTransaction = await buildTx({
             publicClient,
             walletClient: walletClient,
@@ -97,8 +113,10 @@ export default function ConfirmBtn({
             functionName: action,
             errMsg: t('cannot-send-transaction')
         })
+        setPreparing(false)
 
         if (callTransaction) {
+
             const txId = await sendTx({
                 name: transactionName.startsWith('deposit') || transactionName.startsWith('withdraw') ? 
                         t(transactionName, {symbol: collateral}) : t(transactionName),
@@ -115,13 +133,13 @@ export default function ConfirmBtn({
     }
 
     return <>
-        <TxButton txId={txId}  onClick={confirm}>
+        <TxButton txId={txId}  onClick={confirm} loading={preparing}>
             { isManage ? t('update') : t('create')}
         </TxButton>
-        {Boolean(gasLimit) && Boolean(gasPrice) && (
+        {Boolean(gasPrice) && Boolean(gas) && (
             <div className='flex justify-between text-gray text-sm mt-2'>
                 <div>{t('estimated-gas')}:</div>
-                <div>Ø{(gasLimit * gasPrice).toFixed(3)}</div>
+                <div>Ø{(gasPrice * gas).toFixed(8)}</div>
             </div>
         )}
     </>

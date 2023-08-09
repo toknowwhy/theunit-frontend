@@ -1,4 +1,4 @@
-import { Address, BaseError, ContractFunctionRevertedError, PublicClient, parseEther } from "viem"
+import { Address, BaseError, ContractFunctionRevertedError, PublicClient, formatEther, parseEther } from "viem"
 import { ContractDesc } from "./types"
 import { toast } from "react-toastify"
 
@@ -23,29 +23,29 @@ export default async function buildTx({
 }) {
 
     try {
-            const { request } = await publicClient.simulateContract({
-                account,
-                ...contract,
-                functionName,
-                args,
-                value: value ? parseEther(value.toString()) : undefined
-            })
+        const { request } = await publicClient.simulateContract({
+          account: account!,
+          ...contract,
+          functionName,
+          args,
+          value: value ? parseEther(value.toString()) : undefined
+      })
 
-            const callTransaction = () => { return walletClient!.writeContract(request) }
-            return callTransaction;
+        const callTransaction = () => { return walletClient!.writeContract(request) }
+        return callTransaction;
 
-        } catch (err) {
-            if (err instanceof BaseError) {
-              const revertError = err.walk(err => err instanceof ContractFunctionRevertedError)
-              if (revertError instanceof ContractFunctionRevertedError) {
-                const errorName = revertError.data?.errorName ?? ''
-                toast.error(errorName);
-              } else {
-                toast.error(errMsg)
-              }
-            } else {
-                toast.error(errMsg)
-            }
-            return null;
+    } catch (err) {
+        if (err instanceof BaseError) {
+          const revertError = err.walk(err => err instanceof ContractFunctionRevertedError)
+          if (revertError instanceof ContractFunctionRevertedError) {
+            const errorName = revertError.data?.errorName ?? ''
+            toast.error(errorName);
+          } else {
+            toast.error(errMsg)
+          }
+        } else {
+            toast.error(errMsg)
         }
+        return null;
+    }
 }

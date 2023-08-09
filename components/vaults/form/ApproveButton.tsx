@@ -16,6 +16,8 @@ export default function ApproveButton(props : VaultButtonProps) {
     const uamount = Math.abs(unitAmount);
     const [allowanceData, setAllowanceData] = useState<bigint>(BigInt(0));
     const [vaultAllow, setVaultAllow] = useState(isManage);
+    const [preparing, setPreparing] = useState(false);
+    const [gas, setGas] = useState<number>(0);
     const [txId, setTxId] = useState('');
     const t = useVaultTranslations();
     const network = useVaultContracts();
@@ -81,6 +83,7 @@ export default function ApproveButton(props : VaultButtonProps) {
 
     const approve = async () => {
 
+        setPreparing(true)
         const callTransaction = await buildTx({
             publicClient,
             walletClient,
@@ -92,16 +95,18 @@ export default function ApproveButton(props : VaultButtonProps) {
             functionName: 'approve',
             errMsg: t('cannot-send-transaction'),
         })
+        setPreparing(false)
         if (callTransaction) {
+            setGas(gas)
             let tid = '';
             if (needToApprove) {
                 tid = await sendTx({
                     name: title,
                     callTransaction,
                     callbacks: {
-                    refetch: () => {
-                        refetchAllowance(vaultAllow)
-                    }
+                        refetch: () => {
+                            refetchAllowance(vaultAllow)
+                        }
                     }
                 })
             }
@@ -109,7 +114,11 @@ export default function ApproveButton(props : VaultButtonProps) {
         }
     }
 
-    return <TxButton txId={txId}  onClick={approve} loading={isRefetching || vaultAllowanceIsRefetching || isLoading || isVaultLoading}>
+    return <TxButton 
+                txId={txId}  
+                onClick={approve} 
+                loading={isRefetching || vaultAllowanceIsRefetching || isLoading || isVaultLoading || preparing}
+            >
                 {title}
            </TxButton>
 }
