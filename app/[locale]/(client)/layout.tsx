@@ -7,7 +7,7 @@ export default function ClientSideLayout({ children } : { children: ReactNode })
     const locale = useLocale();
     const messages = useMessages();
 
-    <NextIntlClientProvider
+    return <NextIntlClientProvider
         locale={locale}
         messages={pick(messages!, 'Vault')}
     >

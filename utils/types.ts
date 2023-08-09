@@ -1,6 +1,6 @@
 import { ReactElement, ReactNode } from "react";
 import { Address, Chain } from "wagmi";
-import { Abi, Hex, TransactionReceipt } from "viem";
+import { Abi, Hex } from "viem";
 
 /***************************** Database Types **********************************/
 
@@ -112,7 +112,7 @@ export interface Transaction {
     status: TransactionStatus
     state: TransactionState
     response?: TransactionResponse
-    receipt?: TransactionReceipt
+    receipt?: SimpleReceipt
     callbacks?: TransactionCallbacks
 }
 
@@ -131,7 +131,7 @@ export interface TransactionResponse {
     chainId: number;
 }
 
-export type WriteResponse = () => Promise<{hash: Hex}>
+export type WriteResponse = () => Promise<`0x${string}`>
   
 export interface SendTransactionOptions {
     name: string
@@ -151,6 +151,12 @@ export interface VaultEvent {
     unitDebt: bigint
     collateralToken: string
     liquidationPrice: bigint
+}
+
+export interface SimpleReceipt {
+    transactionHash: string;
+    status: string;
+    logs: any[];
 }
 
 
@@ -210,7 +216,7 @@ export interface VaultButtonProps {
     collateral: string;
     collateralAmount: number;
     unitAmount: number;
-    account?: string;
+    account?: Address;
     disabled: boolean;
     isManage: boolean;
     gasPrice: number;

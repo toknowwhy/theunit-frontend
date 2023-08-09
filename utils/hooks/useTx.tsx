@@ -5,6 +5,7 @@ import { toast, ToastContentProps } from "react-toastify";
 import { createTransactionsAtom, updateTransactionsAtom } from "../atoms";
 import { 
   SendTransactionOptions, 
+  SimpleReceipt, 
   TransactionCallbacks, 
   TransactionResponse, 
   TransactionState, 
@@ -14,7 +15,6 @@ import {
 import TransactionToast, { TransactionToastStatus } from "@/components/web3/TransactionToast";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { useVaultContracts } from "@/components/vaults/VaultNetworkProvider";
-import { Hash, TransactionReceipt } from "viem";
 
 export const useTx = () => {
     const { address: usersAddress } = useAccount();
@@ -25,7 +25,7 @@ export const useTx = () => {
     const createTransaction = useSetAtom(createTransactionsAtom)
     const updateTransaction = useSetAtom(updateTransactionsAtom)
     let response: TransactionResponse
-    let receipt: TransactionReceipt
+    let receipt: SimpleReceipt
 
     const sendTransaction = async (
         id: string,
@@ -53,7 +53,7 @@ export const useTx = () => {
               }
             })
             const contractWriteRes = await responsePromise;
-            const hash = contractWriteRes.hash;
+            const hash = contractWriteRes;
             response = {
               hash,
               chainId
@@ -67,7 +67,7 @@ export const useTx = () => {
                 description: name,
               });
             }
-            const receiptPromise = publicClient.waitForTransactionReceipt({ hash: hash as `0x${string}` })
+            const receiptPromise = publicClient.waitForTransactionReceipt({ hash })
             toast.promise(receiptPromise, {
               pending: {
                 icon: true,
@@ -83,7 +83,7 @@ export const useTx = () => {
               },
               success: {
                 icon: true,
-                render: (props: ToastContentProps<TransactionReceipt>) => {
+                render: (props: ToastContentProps<SimpleReceipt>) => {
                   const { data } = props
                   return (
                     <TransactionToast
@@ -97,7 +97,7 @@ export const useTx = () => {
               },
               error: {
                 icon: true,
-                render: (props: ToastContentProps<TransactionReceipt>) => {
+                render: (props: ToastContentProps<SimpleReceipt>) => {
                   const { data } = props
                   return (
                     <TransactionToast
@@ -110,7 +110,12 @@ export const useTx = () => {
                 }
               }
             })
-            receipt = await receiptPromise
+            const transactionReceipt = await receiptPromise
+            receipt = {
+              transactionHash: transactionReceipt.transactionHash,
+              logs: [],
+              status: transactionReceipt.status
+            }
       
             // Transaction was confirmed on chain
             callbacks?.onComplete?.(id)

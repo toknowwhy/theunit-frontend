@@ -1,6 +1,6 @@
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
-import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import { usePublicClient, useWalletClient } from "wagmi";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import TxButton from "@/components/web3/TxButton";
@@ -8,6 +8,7 @@ import { VaultButtonProps, WriteResponse } from "@/utils/types";
 import { ContractFunc } from "@/utils/types";
 import { useVaultContracts } from "../VaultNetworkProvider";
 import { parseEther } from "viem";
+import buildTx from "@/utils/buildTx";
 
 export default function ConfirmBtn({ 
     collateral, 
@@ -25,6 +26,8 @@ export default function ConfirmBtn({
     const [txId, setTxId] = useState('');
     const sendTx = useTx();
     const network = useVaultContracts();
+    const publicClient = usePublicClient();
+    const { data: walletClient } = useWalletClient()
 
     let action: ContractFunc|undefined;
     let msgValue: number = 0;
@@ -75,15 +78,6 @@ export default function ConfirmBtn({
         }
     }
 
-
-
-    const { config } = usePrepareContractWrite({
-        ...network!.RouterV1,
-        functionName: action,
-        enabled: Boolean(action),
-        args: params
-    })
-    const { writeAsync } = useContractWrite(config);
     //TODO: estimate the gas
     const gasLimit = 0;
 
@@ -93,28 +87,31 @@ export default function ConfirmBtn({
             toast.error(t('action-not-supported'));
             return;
         }
+        const callTransaction = await buildTx({
+            publicClient,
+            walletClient: walletClient,
+            account,
+            contract: network!.RouterV1,
+            args: params,
+            value: msgValue,
+            functionName: action,
+            errMsg: t('cannot-send-transaction')
+        })
 
-        if (!writeAsync) {
-            toast.error(t('cannot-send-transaction'));
-            return;
+        if (callTransaction) {
+            const txId = await sendTx({
+                name: transactionName.startsWith('deposit') || transactionName.startsWith('withdraw') ? 
+                        t(transactionName, {symbol: collateral}) : t(transactionName),
+                callTransaction: callTransaction as WriteResponse,
+                callbacks: {
+                  onSuccess: (id) => {
+                    reset()
+                  }
+                }
+            })
+            setTxId(txId);
         }
 
-        params.push({
-            gasLimit: gasLimit ? gasLimit : 800000,
-            value: parseEther(msgValue.toString())
-        })
-
-        const txId = await sendTx({
-            name: transactionName.startsWith('deposit') || transactionName.startsWith('withdraw') ? 
-                    t(transactionName, {symbol: collateral}) : t(transactionName),
-            callTransaction: writeAsync as WriteResponse,
-            callbacks: {
-              onSuccess: (id) => {
-                reset()
-              }
-            }
-        })
-        setTxId(txId);
     }
 
     return <>

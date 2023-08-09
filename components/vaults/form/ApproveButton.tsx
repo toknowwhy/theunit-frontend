@@ -1,15 +1,15 @@
 import { toFloat } from "@/utils/functions";
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
-import { useContractRead, useContractWrite, usePrepareContractWrite } from "wagmi";
+import { useContractRead, usePublicClient, useWalletClient } from "wagmi";
 import { useState } from "react";
-import { VaultButtonProps, WriteResponse } from "@/utils/types";
+import { VaultButtonProps } from "@/utils/types";
 import ConfirmBtn from "./ManageButton";
 import TxButton from "@/components/web3/TxButton";
 import Button from "@/components/form/Button";
 import { useVaultContracts } from "../VaultNetworkProvider";
 import { formatEther, parseEther } from "viem";
-import { toast } from "react-toastify";
+import buildTx from "@/utils/buildTx";
 
 export default function ApproveButton(props : VaultButtonProps) {
     const { unitAmount, account, isManage } = props
@@ -19,6 +19,8 @@ export default function ApproveButton(props : VaultButtonProps) {
     const [txId, setTxId] = useState('');
     const t = useVaultTranslations();
     const network = useVaultContracts();
+    const publicClient = usePublicClient();
+    const { data: walletClient } = useWalletClient()
     const sendTx = useTx();
     const unitToken = network!.TinuToken;
     const contractAddress = network?.RouterV1.address;
@@ -53,15 +55,6 @@ export default function ApproveButton(props : VaultButtonProps) {
     const toPrepareContract = tinuNeedApproval ? unitToken : vault;
     const title = tinuNeedApproval ? t('approve-unit') : t('approve-vault');
     const needToApprove = !vaultAllow || tinuNeedApproval;
-    
-    const { config, error: prepareError } = usePrepareContractWrite({
-        ...toPrepareContract,
-        functionName: 'approve',
-        enabled: needToApprove,
-        args: !vaultAllow ? [contractAddress, true] : 
-            [contractAddress, parseEther(uamount.toString())]
-    })
-    const { writeAsync } = useContractWrite(config)    
 
     if (!needToApprove) {
         return <ConfirmBtn { ...props } />
@@ -69,7 +62,7 @@ export default function ApproveButton(props : VaultButtonProps) {
     if (isLoading || isVaultLoading) {
         return <Button loading={true} disabled={true}> </Button>
     }
-    if (error || vaultApproveError || prepareError) {
+    if (error || vaultApproveError) {
         return <>
             <Button disabled={true}>{title}</Button>
             <div className="rounded-full bg-error/10 text-error px-8 py-3 mb-4 text-sm mt-4">
@@ -87,25 +80,36 @@ export default function ApproveButton(props : VaultButtonProps) {
     }
 
     const approve = async () => {
-        if (!writeAsync) {
-            toast.error(t('cannot-send-transaction'))
+
+        const callTransaction = await buildTx({
+            publicClient,
+            walletClient,
+            account,
+            contract: toPrepareContract,
+            args: !vaultAllow ? [contractAddress, true] : 
+            [contractAddress, parseEther(uamount.toString())],
+            value: undefined,
+            functionName: 'approve',
+            errMsg: t('cannot-send-transaction'),
+        })
+        if (callTransaction) {
+            let tid = '';
+            if (needToApprove) {
+                tid = await sendTx({
+                    name: title,
+                    callTransaction,
+                    callbacks: {
+                    refetch: () => {
+                        refetchAllowance(vaultAllow)
+                    }
+                    }
+                })
+            }
+            setTxId(tid)
         }
-        let tid = '';
-        if (needToApprove) {
-            const txId = await sendTx({
-                name: title,
-                callTransaction: writeAsync as WriteResponse,
-                callbacks: {
-                  refetch: () => {
-                    refetchAllowance(vaultAllow)
-                  }
-                }
-            })
-        }
-        setTxId(tid)
     }
 
-    return <TxButton txId={txId}  onClick={approve} loading={isRefetching || vaultAllowanceIsRefetching}>
+    return <TxButton txId={txId}  onClick={approve} loading={isRefetching || vaultAllowanceIsRefetching || isLoading || isVaultLoading}>
                 {title}
            </TxButton>
 }
