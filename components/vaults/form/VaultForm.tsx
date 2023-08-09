@@ -12,15 +12,17 @@ import VaultButton from "./VaultButton";
 import { useBalance } from "wagmi";
 import BoxContainer from "@/components/BoxContainer";
 import { useTinuBalance } from "@/utils/hooks/useTinuBalance";
-import { formatEther } from "viem";
+import { Address, formatEther } from "viem";
 
 export default function VaultForm({
     account,
+    owner,
     networkInfo,
     vaultInfo,
     refetchVaultInfo,
 } : {
-    account?: `0x${string}`,
+    account?: Address,
+    owner?: Address,
     networkInfo: NetworkInfo,
     vaultInfo: VaultInfoType,
     refetchVaultInfo: () => void,
@@ -202,6 +204,7 @@ export default function VaultForm({
                         disabled={error.length > 0 || (uvalue == 0 && cvalue == 0)}
                         isManage={isManage}
                         account={account}
+                        owner={owner}
                         gasPrice={vaultInfo.gasPrice * vaultInfo.currentPrice}
                         reset={resetForm}
                         unitBalance={ubal}

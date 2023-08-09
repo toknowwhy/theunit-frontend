@@ -1,11 +1,13 @@
-import Spinner from '@/components/Spinner';
-import { allNetworkContracts } from '@/crypto/config';
-import { shortenAddress } from '@/utils/functions';
-import { DiscoverRank, VaultEvent } from '@/utils/types';
 import { gql, useQuery } from '@apollo/client';
 import { Fragment } from 'react';
 import { formatEther } from 'viem';
 import { useContractRead } from 'wagmi';
+import Link from 'next-intl/link';
+import Spinner from '@/components/Spinner';
+import { allNetworkContracts, supportedNetworks } from '@/crypto/config';
+import { shortenAddress } from '@/utils/functions';
+import { DiscoverRank, VaultEvent } from '@/utils/types';
+import BoxContainer from '@/components/BoxContainer';
 
 export default function DiscoverList({
     headers,
@@ -56,7 +58,8 @@ export default function DiscoverList({
         }
     }
 
-    return <div className="w-full py-8 px-10 border border-gray-border mt-4 rounded-2xl">
+    return <BoxContainer>
+        <div className='py-8 px-10'>
         <div className="grid grid-cols-[3fr_2fr_2fr_2fr_4fr_1fr] text-gray">
             {headers.map((h) => <div className='p-4' key={h}>{h}</div>)}
         </div>
@@ -85,12 +88,16 @@ export default function DiscoverList({
                         </div>
                     </div>
                     <div className='border-b border-b-gray-border p-4'>
-                        <div className='bg-gray-border px-4 rounded-full'>
+                        <Link 
+                            className='bg-gray-border px-4 rounded-full'
+                            href={`/vaults/${supportedNetworks[chainId].unitId}?owner=${vaultAction.owner}`}
+                        >
                             {viewText}
-                        </div>
+                        </Link>
                     </div>
                 </Fragment>
             })}
         </div>
-    </div>
+        </div>
+    </BoxContainer>
 }

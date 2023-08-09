@@ -217,6 +217,7 @@ export interface VaultButtonProps {
     collateralAmount: number;
     unitAmount: number;
     account?: Address;
+    owner?: Address;
     disabled: boolean;
     isManage: boolean;
     gasPrice: number;

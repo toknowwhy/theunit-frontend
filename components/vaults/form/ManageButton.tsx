@@ -12,7 +12,8 @@ import buildTx from "@/utils/buildTx";
 
 export default function ConfirmBtn({ 
     collateral, 
-    account, 
+    account: wallet, 
+    owner,
     collateralAmount, 
     isManage, 
     unitAmount,
@@ -30,6 +31,8 @@ export default function ConfirmBtn({
     const network = useVaultContracts();
     const publicClient = usePublicClient();
     const { data: walletClient } = useWalletClient()
+
+    const account = owner ?? wallet;
 
     let action: ContractFunc|undefined;
     let msgValue: number = 0;
@@ -84,7 +87,7 @@ export default function ConfirmBtn({
         (async function estimateGas() {
             if (action) {
                 const gas = await publicClient.estimateContractGas({
-                    account: account!,
+                    account: wallet!,
                     ...network!.RouterV1,
                     functionName: action,
                     args: params,
@@ -106,7 +109,7 @@ export default function ConfirmBtn({
         const callTransaction = await buildTx({
             publicClient,
             walletClient: walletClient,
-            account,
+            account: wallet,
             contract: network!.RouterV1,
             args: params,
             value: msgValue,

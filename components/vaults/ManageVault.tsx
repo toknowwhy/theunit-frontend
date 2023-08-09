@@ -3,19 +3,23 @@
 import { useEffect, useState } from 'react';
 import { useVaultInfo } from '@/utils/hooks/useVaultInfo';
 import { ToastContainer } from 'react-toastify';
-import { useAccount } from 'wagmi';
+import { Address, useAccount } from 'wagmi';
 import 'react-toastify/dist/ReactToastify.min.css';
 import VaultForm from './form/VaultForm';
 import VaultHeader from './info/VaultHeader';
 import { useVaultContracts } from './VaultNetworkProvider';
 import Loading from '@/app/[locale]/loading';
+import { useParams } from 'next/navigation';
 
 export default function ManageVault() {
-    
+
+    const params = useParams();
+    const owner = params?.owner;
     const currentNetwork = useVaultContracts();
     const { address: account } = useAccount();
     const [mounted, setMounted] = useState(false);
-    const {vaultInfo, refetch: refetchVaultInfo} = useVaultInfo(currentNetwork, account);
+    const {vaultInfo, refetch: refetchVaultInfo} = 
+        useVaultInfo(currentNetwork, owner ? (owner as Address) : account);
 
     useEffect(() => {
         setMounted(true)
@@ -36,6 +40,7 @@ export default function ManageVault() {
             {currentNetwork && (
                 <VaultForm 
                     account={account} 
+                    owner={owner as Address}
                     vaultInfo={vaultInfo} 
                     networkInfo={currentNetwork}
                     refetchVaultInfo={refetchVaultInfo}

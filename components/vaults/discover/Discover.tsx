@@ -35,7 +35,7 @@ export default function Discover({
 
     return (
         <div className="pt-3">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 mb-4">
                 <DropDown<string>
                     tabs={networks}
                     onSelect={onNetworkSelect}
