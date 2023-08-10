@@ -10,9 +10,10 @@ import Button from "@/components/form/Button";
 import { useVaultContracts } from "../VaultNetworkProvider";
 import { formatEther, parseEther } from "viem";
 import buildTx from "@/utils/buildTx";
+import GasEstimate from "@/components/web3/GasEstimate";
 
 export default function ApproveButton(props : VaultButtonProps) {
-    const { unitAmount, account, isManage } = props
+    const { unitAmount, account, isManage, unitPrice } = props
     const uamount = Math.abs(unitAmount);
     const [allowanceData, setAllowanceData] = useState<bigint>(BigInt(0));
     const [vaultAllow, setVaultAllow] = useState(isManage);
@@ -73,6 +74,9 @@ export default function ApproveButton(props : VaultButtonProps) {
         </>
     }
 
+    const approveParams = !vaultAllow ? [contractAddress, true] : 
+    [contractAddress, parseEther(uamount.toString())];
+
     const refetchAllowance = (isUnit = true) => {
         if (isUnit) {
             refetch();
@@ -89,8 +93,7 @@ export default function ApproveButton(props : VaultButtonProps) {
             walletClient,
             account,
             contract: toPrepareContract,
-            args: !vaultAllow ? [contractAddress, true] : 
-            [contractAddress, parseEther(uamount.toString())],
+            args: approveParams,
             value: undefined,
             functionName: 'approve',
             errMsg: t('cannot-send-transaction'),
@@ -114,11 +117,21 @@ export default function ApproveButton(props : VaultButtonProps) {
         }
     }
 
-    return <TxButton 
-                txId={txId}  
-                onClick={approve} 
-                loading={isRefetching || vaultAllowanceIsRefetching || isLoading || isVaultLoading || preparing}
-            >
-                {title}
-           </TxButton>
+    return <>
+        <TxButton 
+            txId={txId}  
+            onClick={approve} 
+            loading={isRefetching || vaultAllowanceIsRefetching || isLoading || isVaultLoading || preparing}
+        >
+            {title}
+        </TxButton>
+        {account && <GasEstimate 
+            publicClient={publicClient}
+            account={account}
+            contract={network!.RouterV1}
+            args={approveParams}
+            functionName='approve'
+            unitPrice={unitPrice}
+        />}
+    </>
 }

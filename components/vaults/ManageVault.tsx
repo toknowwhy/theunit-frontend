@@ -9,12 +9,12 @@ import VaultForm from './form/VaultForm';
 import VaultHeader from './info/VaultHeader';
 import { useVaultContracts } from './VaultNetworkProvider';
 import Loading from '@/app/[locale]/loading';
-import { useParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 export default function ManageVault() {
 
-    const params = useParams();
-    const owner = params?.owner;
+    const params = useSearchParams();
+    const owner = params?.get('owner')
     const currentNetwork = useVaultContracts();
     const { address: account } = useAccount();
     const [mounted, setMounted] = useState(false);

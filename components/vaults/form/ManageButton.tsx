@@ -1,14 +1,15 @@
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { usePublicClient, useWalletClient } from "wagmi";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import TxButton from "@/components/web3/TxButton";
 import { VaultButtonProps, WriteResponse } from "@/utils/types";
 import { ContractFunc } from "@/utils/types";
 import { useVaultContracts } from "../VaultNetworkProvider";
-import { formatEther, parseEther } from "viem";
+import { parseEther } from "viem";
 import buildTx from "@/utils/buildTx";
+import GasEstimate from "@/components/web3/GasEstimate";
 
 export default function ConfirmBtn({ 
     collateral, 
@@ -17,16 +18,15 @@ export default function ConfirmBtn({
     collateralAmount, 
     isManage, 
     unitAmount,
-    gasPrice,
     reset, 
     isClosing,
+    unitPrice,
     unitBalance,
     collateralBalance,
 } : VaultButtonProps) {
     const t = useVaultTranslations();
     const [txId, setTxId] = useState('');
     const [preparing, setPreparing] = useState(false);
-    const [gas, setGas] = useState<number>(0);
     const sendTx = useTx();
     const network = useVaultContracts();
     const publicClient = usePublicClient();
@@ -83,22 +83,6 @@ export default function ConfirmBtn({
         }
     }
 
-    useEffect(() => {
-        (async function estimateGas() {
-            if (action) {
-                const gas = await publicClient.estimateContractGas({
-                    account: wallet!,
-                    ...network!.RouterV1,
-                    functionName: action,
-                    args: params,
-                    value: msgValue ? parseEther(msgValue.toString()) : undefined
-                })
-                setGas(parseFloat(formatEther(gas)))
-            }
-        })()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [action, collateralAmountInWei, unitAmountInWei])
-
     const confirm = async () => {
 
         if (!action) {
@@ -139,11 +123,14 @@ export default function ConfirmBtn({
         <TxButton txId={txId}  onClick={confirm} loading={preparing}>
             { isManage ? t('update') : t('create')}
         </TxButton>
-        {Boolean(gasPrice) && Boolean(gas) && (
-            <div className='flex justify-between text-gray text-sm mt-2'>
-                <div>{t('estimated-gas')}:</div>
-                <div>Ø{(gasPrice * gas).toFixed(8)}</div>
-            </div>
-        )}
+        {action && wallet && <GasEstimate 
+            publicClient={publicClient}
+            account={wallet}
+            contract={network!.RouterV1}
+            args={params}
+            value={msgValue}
+            functionName={action}
+            unitPrice={unitPrice}
+        />}
     </>
 }

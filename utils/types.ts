@@ -209,7 +209,6 @@ export interface VaultInfoType {
     unitAmount: bigint;
     currentPrice: number;
     nextPrice: number;
-    gasPrice: number;
 }
 
 export interface VaultButtonProps {
@@ -220,8 +219,8 @@ export interface VaultButtonProps {
     owner?: Address;
     disabled: boolean;
     isManage: boolean;
-    gasPrice: number;
     isClosing?: boolean;
+    unitPrice: number;
     collateralBalance?: bigint,
     unitBalance?: bigint,
     reset: () => void;

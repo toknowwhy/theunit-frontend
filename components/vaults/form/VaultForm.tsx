@@ -40,11 +40,12 @@ export default function VaultForm({
     const uamount = vaultUnitDebt ? parseFloat(formatEther(vaultUnitDebt)) : 0;
     const isManage = camount > 0;
     const symbol = networkInfo.nativeSymbol;
+    const isOwner = !Boolean(owner) || owner === account;
     
     const t = useVaultTranslations();
 
     const [collateralAction, setCollateralAction] = useState<VaultActionType>('deposit');
-    const [unitAction, setUnitAction] = useState<VaultActionType>('mint');
+    const [unitAction, setUnitAction] = useState<VaultActionType>(isOwner ? 'mint' : 'burn');
     const [collateralValue, setCollateralValue] = useState<string>('');
     const [unitValue, setUnitValue] = useState<string>('');
     const [balance, setBalance] = useState(0);
@@ -158,11 +159,11 @@ export default function VaultForm({
                                 title={t('deposit', {symbol})} 
                                 onClick={() => { onCollateralActionChange('deposit') }} 
                             />
-                            <ActionTab 
+                            {isOwner && <ActionTab 
                                 active={collateralAction === 'withdraw'} 
                                 title={t('withdraw', {symbol})} 
                                 onClick={() => { onCollateralActionChange('withdraw') }} 
-                            />
+                            />}
                         </div>
                         <TokenBalance balance={collateralAction === 'withdraw' ? camount : balance} />
                     </div>
@@ -176,11 +177,11 @@ export default function VaultForm({
                     />
                     <div className="flex justify-between items-center mb-4 mt-8">
                     <div className="bg-transparent border border-gray-border rounded-md p-1 inline-block min-w-[250px]">
-                            <ActionTab 
+                            {isOwner && <ActionTab 
                                 active={unitAction === 'mint'} 
                                 title={t('mint')} 
                                 onClick={() => { setUnitAction('mint') }} 
-                            />
+                            />}
                             <ActionTab 
                                 active={unitAction === 'burn'} 
                                 title={t('burn')} 
@@ -205,9 +206,9 @@ export default function VaultForm({
                         isManage={isManage}
                         account={account}
                         owner={owner}
-                        gasPrice={vaultInfo.gasPrice * vaultInfo.currentPrice}
                         reset={resetForm}
                         unitBalance={ubal}
+                        unitPrice={vaultInfo.currentPrice}
                         collateralBalance={vaultCollateralAmount}
                         isClosing={isClosing}
                     />

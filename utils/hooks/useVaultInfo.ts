@@ -1,5 +1,5 @@
 import { formatEther } from "viem";
-import { useContractReads, useFeeData } from "wagmi"
+import { useContractReads } from "wagmi"
 import { NetworkInfo, VaultInfoType } from '../types';
 
 export const initialVaultInfo: VaultInfoType = {
@@ -9,11 +9,9 @@ export const initialVaultInfo: VaultInfoType = {
     unitAmount: BigInt(0),
     currentPrice: 0,
     nextPrice: 0,
-    gasPrice: 0,
 }
 
 export const useVaultInfo = (currentNetwork?: NetworkInfo, account?: `0x${string}`) => {
-    const { data: feeData } = useFeeData()
     const enabled = Boolean(currentNetwork) && Boolean(account);
     const { data: contractDatas, refetch } = useContractReads({
         enabled,
@@ -72,10 +70,6 @@ export const useVaultInfo = (currentNetwork?: NetworkInfo, account?: `0x${string
             ...defaultRes,
             currentPrice: currPrice,
             nextPrice: parseFloat(formatEther((roundDatas[1].result as any)[1]))
-        }
-
-        if (feeData?.formatted.gasPrice) {
-            defaultRes.gasPrice = parseFloat(feeData.formatted.gasPrice) * currPrice;
         }
     }
 
