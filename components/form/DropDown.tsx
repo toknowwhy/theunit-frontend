@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { TabItem } from "@/utils/types"
 import arrowUp from "@/public/icons/arrow-up.svg"
@@ -14,9 +14,22 @@ export default function DropDown<T>({
 }) {
 
     const [show, setShow] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent): void {
+          if (ref.current && !ref.current.contains(event.target as Node)) {
+            setShow(false);
+          }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+    });
 
     return (
-        <div className="relative">
+        <div className="relative z-[999]" ref={ref}>
             <div 
                 onClick={() => {
                     setShow(!show);
@@ -35,7 +48,7 @@ export default function DropDown<T>({
                     className={"-mt-[1px] transition-transform " + (show ? "rotate-0" : "rotate-180")}
                 />
             </div>
-            {show && <div className="absolute left-0 right-0 top-14 flex flex-col bg-gray-border rounded-lg">
+            {show && <div className="absolute left-0 right-0 top-14 flex flex-col bg-gray-border rounded-lg py-4">
                 {tabs.map((tab) => (
                     <DropDownItem<T>
                         key={tab.title}
