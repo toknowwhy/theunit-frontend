@@ -9,7 +9,7 @@ import {
 export async function getCoinLatestData(db, coinId) {
     const coinsInfo = await getCoinsInfo(db, coinId);
     const lastData = await db
-                            .collection("coinhourlydatas")
+                            .collection("coinfiveminutedatas")
                             .find({coin_id: coinId, price: { $exists: true }})
                             .sort({ "time": -1 })
                             .limit(1)
