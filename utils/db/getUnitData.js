@@ -21,7 +21,11 @@ export default async function getUnitData(db, isCandidate=false) {
     if (isCandidate) {
         data = await getCandidates(db, ids);
     } else {
-        data = await db.collection("coinfiveminutedatas").find({ coin_id: { $in: ids }, price: { $exists: true } }).sort({'time': -1}).limit(ids.length).toArray();
+        data = await db.collection("coinfiveminutedatas")
+                        .find({ coin_id: { $in: ids }, price: { $exists: true } })
+                        .sort({'time': -1})
+                        .limit(ids.length)
+                        .toArray();
     }
     const coinsData = await getCoinsInfo(db);
 

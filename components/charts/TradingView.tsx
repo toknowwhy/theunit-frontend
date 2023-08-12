@@ -12,7 +12,6 @@ import {
 } from '@/public/charting_library';
 import { UnitDatafeed } from './datafeed';
 import { useTheme } from 'next-themes';
-import { displayTokenPrice } from '@/utils/functions';
 
 
 const TVChartContainer = memo(function TVChartContainer({

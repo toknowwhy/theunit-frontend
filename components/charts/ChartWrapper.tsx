@@ -1,5 +1,6 @@
 import { useLocale } from "next-intl";
-import TVChartContainer from "./TradingView";
+import dynamic from 'next/dynamic';
+const TVChartContainer = dynamic(() => import('./TradingView'), { ssr: false })
 
 export default function ChartWrapper({
     symbol,

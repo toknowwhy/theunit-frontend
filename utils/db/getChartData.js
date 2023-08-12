@@ -103,7 +103,7 @@ export async function allBars(db, from, to, currency='BTC', coinId, resolution) 
     let latestDataFileter = {};
     if (cid) {
         latestDataModel = currency === "USD" ? "coinfiveminutedatausds" : "coinfiveminutedatas"
-        latestDataFileter = {coin_id: coinId, price: { $exists: true }};
+        latestDataFileter = {coin_id: cid, price: { $exists: true }};
     }
 
     const latestData = await db
