@@ -2,7 +2,7 @@
 
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import { FarmBoxProps } from "@/utils/types";
-import Button from "../button/Button";
+import Button from "../form/Button";
 import FarmBox from "./FarmBox";
 import FarmInfo from "./FarmInfo";
 

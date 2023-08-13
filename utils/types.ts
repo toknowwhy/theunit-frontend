@@ -1,7 +1,6 @@
-import { BigNumber } from "ethers";
-import { TransactionReceipt, TransactionResponse } from '@ethersproject/providers'
-import { AbiInput, AbiItem } from 'web3-utils'
-import { ReactElement, ReactNodeArray } from "react";
+import { ReactElement, ReactNode } from "react";
+import { Address, Chain } from "wagmi";
+import { Abi, Hex } from "viem";
 
 /***************************** Database Types **********************************/
 
@@ -25,20 +24,10 @@ export interface CoinTableData extends CoinData {
     rank: number
 }
 
-
 /***************************** Crypto Types **********************************/
 
-export type Abi = Omit<AbiItem, 'type' | 'stateMutability' | 'inputs'> & {
-    internalType?: string
-    type: string // 'function' | 'constructor' | 'event' | 'fallback'
-    stateMutability?: string // 'pure' | 'view' | 'nonpayable' | 'payable'
-    inputs?: (AbiInput & { internalType?: string })[]
-}
-
-export type Address = `0x${string}`;
-
 export interface ContractDesc {
-    abi: Abi[];
+    abi: Abi;
     address: Address;
 }
 
@@ -50,24 +39,36 @@ export interface TokenDesc extends ContractDesc {
     decimals: number;
 }
 
-export interface CollateralDesc extends TokenDesc {
-    liquidationRatio: number;
-    dustLimit: number;
+export interface NetworkConfig {
+    chain: Chain,
+    wrappedNative: Address,
+    unitId: string,
+    sloganKey: string,
+    liquidationRatio: number,
+    dustLimit: number,
+    nativeSymbol: string,
+    subgraphUrl: string,
+    splineLogo: string,
 }
 
-export function instanceOfContractDesc(object: any): object is ContractDesc {
-    return 'abi' in object && 'address' in object;
+export interface NetworkContracts {
+    VaultPriceFeed: ContractDesc;
+    RouterV1: ContractDesc;
+    TinuToken: ContractDesc;
+    UnitPriceFeed: ContractDesc;
+    Vault: ContractDesc;
 }
 
-export function instanceOfTokenDesc(object: any): object is TokenDesc {
-    return 'decimals' in object;
+export type AllContracts = {
+    [chain: string]: NetworkContracts
 }
 
-export type TheUnitContracts = 
-| "unitToken"
-| "unitRouter"
-| "vault"
-| "priceFeed"
+export interface NetworkInfo extends NetworkContracts {
+    Wrapped: ContractDesc;
+    name: string;
+    id: number;
+    nativeSymbol: string;
+}
 
 export type ContractFunc = 
 | "increaseCollateral"
@@ -112,7 +113,7 @@ export interface Transaction {
     status: TransactionStatus
     state: TransactionState
     response?: TransactionResponse
-    receipt?: TransactionReceipt
+    receipt?: SimpleReceipt
     callbacks?: TransactionCallbacks
 }
 
@@ -125,16 +126,38 @@ export interface TransactionCallbacks {
     onComplete?: (id: string) => void
     onError?: (id: string) => void
 }
+
+export interface TransactionResponse {
+    hash: string;
+    chainId: number;
+}
+
+export type WriteResponse = () => Promise<`0x${string}`>
   
 export interface SendTransactionOptions {
     name: string
-    callTransaction: () => Promise<TransactionResponse>
+    callTransaction: WriteResponse
     callbacks?: TransactionCallbacks
 }
 
 export interface AddressAndChain {
     account: string|undefined;
     chain: 4|undefined;
+}
+
+export interface VaultEvent {
+    id: string
+    owner: string
+    name: string
+    unitDebt: bigint
+    collateralToken: string
+    liquidationPrice: bigint
+}
+
+export interface SimpleReceipt {
+    transactionHash: string;
+    status: string;
+    logs: any[];
 }
 
 
@@ -161,6 +184,8 @@ export function instanceOfCurrencyType(object: any): object is CurrencyType {
 
 export type ChartSymbolType = "UNITSATOSHI" | "UNITFINNEY" | "UNITUSD"
 
+export type VaultContractInfoType = "liqiuidationRatio" | "dustLimit"
+
 export interface CoinInfo {
     id: string;
     symbol: string;
@@ -181,28 +206,28 @@ export interface PriceInfo {
 export interface VaultInfoType {
     liquidationFee: number;
     minUnit: number;
-    collateralAmount: BigNumber;
-    unitAmount: BigNumber;
+    collateralAmount: bigint;
+    unitAmount: bigint;
     currentPrice: number;
     nextPrice: number;
-    gasPrice: number;
 }
 
 export interface VaultButtonProps {
-    collateral: TokenDesc;
+    collateral: string;
     collateralAmount: number;
     unitAmount: number;
-    account?: string;
+    account?: Address;
+    owner?: Address;
     disabled: boolean;
     isManage: boolean;
-    gasPrice: number;
     isClosing?: boolean;
-    collateralBalance?: BigNumber,
-    unitBalance?: BigNumber,
+    unitPrice: number;
+    collateralBalance?: bigint,
+    unitBalance?: bigint,
     reset: () => void;
 }
 
-export type TransType = string | ReactElement | ReactNodeArray
+export type TransType = string | ReactElement | ReactNode
 
 export interface LockAPY {
     months: number;
@@ -226,7 +251,7 @@ export interface FarmBoxProps {
     unLPLocked: number;
     ethLockedLPs: LockLP[];
     unLockedLPs: LockLP[];
-    collateral: CollateralDesc;
+    collateral: string;
     account?: Address;
 }
 
@@ -238,3 +263,11 @@ export interface SiteLocale {
     locale: string;
     title: string;
 }
+
+export interface TabItem<T> {
+    title: string;
+    value: T;
+    icon?: string;
+}
+
+export type DiscoverRank = 'risk' | 'debt'

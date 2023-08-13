@@ -2,7 +2,7 @@
 
 import { usePathname } from "next-intl/client";
 import { useTheme } from "next-themes";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 export default function LinkContainer({
     links,
@@ -21,7 +21,15 @@ export default function LinkContainer({
             active = true;
         }
     })
-    return <div className={`group ${active ? 'is-active' : ''} ${theme === 'dark' ? 'is-dark' : 'is-light'} ${className ?? ''}`}>
+
+    const [localTheme, setLocalTheme] = useState('dark');
+    useEffect(() => {
+        if (theme) {
+            setLocalTheme(theme)
+        }
+    }, [theme])
+
+    return <div className={`group ${active ? 'is-active' : ''} ${localTheme === 'dark' ? 'is-dark' : 'is-light'} ${className ?? ''}`}>
         {children}
     </div>
 }

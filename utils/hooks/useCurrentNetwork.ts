@@ -1,8 +1,23 @@
-import { useNetwork } from "wagmi";
-import { initialNetwork, Network, networkById } from "../../crypto/config";
+import { Abi } from "viem";
+import { Address, erc20ABI, useNetwork } from "wagmi";
+import { allNetworkContracts, supportedNetworks } from "../../crypto/config";
+import { NetworkInfo } from "../types";
 
-export const useCurrentNetwork = () : Network => {
+export const useCurrentNetworkContracts = () : NetworkInfo|undefined => {
     const { chain } = useNetwork();
-    const network = networkById[chain?.id ?? initialNetwork.id]
-    return network ?? initialNetwork;
+    if (!chain || !supportedNetworks[chain.id]) {
+        return undefined;
+    }
+    const chainId = chain.id;
+    const contracts = allNetworkContracts[chainId];
+    return Boolean(contracts) ? ({
+        ...contracts!,
+        Wrapped: {
+            address: supportedNetworks[chainId].wrappedNative as Address, 
+            abi: erc20ABI as unknown as Abi
+        },
+        name: chain?.name ?? '',
+        id: chainId,
+        nativeSymbol: chain?.nativeCurrency.symbol ?? 'ETH',
+    }) : undefined;
 }

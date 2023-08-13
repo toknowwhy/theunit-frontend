@@ -1,32 +1,30 @@
-'use client';
-
 import { RECOMMENDED_COLLATERAL_RATIO } from "@/utils/constants";
-import { ContractDesc, TokenDesc, VaultActionType, VaultInfoType } from "@/utils/types";
+import { NetworkInfo, VaultActionType, VaultInfoType } from "@/utils/types";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
-import { useCollateralBalance } from '@/utils/hooks/useCollateralBalance';
 import { useEffect, useState } from "react";
 import ActionTab from "./ActionTab";
 import FormInput from "../../FormInput";
 import { getBalanceFromBigNumber, getRatioFromLiquidationFee, toFloat } from "@/utils/functions";
 import useDebounce from "@/utils/hooks/useDebounce";
-import { formatEther, formatUnits } from "ethers/lib/utils.js";
 import VaultStats from "../info/VaultStats";
 import TokenBalance from "./TokenBalance";
 import VaultButton from "./VaultButton";
 import { useBalance } from "wagmi";
 import BoxContainer from "@/components/BoxContainer";
+import { useTinuBalance } from "@/utils/hooks/useTinuBalance";
+import { Address, formatEther } from "viem";
 
 export default function VaultForm({
-    collateral,
-    vaultInfo,
-    unitToken,
     account,
+    owner,
+    networkInfo,
+    vaultInfo,
     refetchVaultInfo,
 } : {
-    collateral: TokenDesc,
+    account?: Address,
+    owner?: Address,
+    networkInfo: NetworkInfo,
     vaultInfo: VaultInfoType,
-    unitToken: ContractDesc,
-    account?: `0x${string}`,
     refetchVaultInfo: () => void,
 }) {
 
@@ -38,16 +36,16 @@ export default function VaultForm({
         unitAmount: vaultUnitDebt,
     } = vaultInfo;
 
-    const camount = vaultCollateralAmount ? parseFloat(formatUnits(vaultCollateralAmount, collateral.decimals)) : 0;
+    const camount = vaultCollateralAmount ? parseFloat(formatEther(vaultCollateralAmount)) : 0;
     const uamount = vaultUnitDebt ? parseFloat(formatEther(vaultUnitDebt)) : 0;
     const isManage = camount > 0;
-    const symbol = collateral.symbol;
-    const isETH = symbol === 'ETH';
+    const symbol = networkInfo.nativeSymbol;
+    const isOwner = !Boolean(owner) || owner === account;
     
     const t = useVaultTranslations();
 
     const [collateralAction, setCollateralAction] = useState<VaultActionType>('deposit');
-    const [unitAction, setUnitAction] = useState<VaultActionType>('mint');
+    const [unitAction, setUnitAction] = useState<VaultActionType>(isOwner ? 'mint' : 'burn');
     const [collateralValue, setCollateralValue] = useState<string>('');
     const [unitValue, setUnitValue] = useState<string>('');
     const [balance, setBalance] = useState(0);
@@ -55,10 +53,10 @@ export default function VaultForm({
 
     const debounceUnitValue = useDebounce(unitValue, 500);
     const debounceCollateralValue = useDebounce(collateralValue, 500);
-    const { balance: ubal, refetch: refetchUbal } = useCollateralBalance(unitToken, false, account);
+    const { balance: ubal, refetch: refetchUbal } = useTinuBalance(account);
     const { data: ebal, refetch: refetchEbal } = useBalance({
         address: account,
-        enabled: Boolean(account) && isETH
+        enabled: Boolean(account)
     })
 
     useEffect(() => {
@@ -66,9 +64,9 @@ export default function VaultForm({
             setBalance(parseFloat(ebal.formatted));
         }
         if (ubal !== undefined) {
-            setUnitBalance(getBalanceFromBigNumber(unitToken, ubal));
+            setUnitBalance(getBalanceFromBigNumber(ubal));
         }
-    }, [ubal, ebal, unitToken])
+    }, [ubal, ebal])
 
     
     const uvalue = toFloat(debounceUnitValue);
@@ -135,7 +133,7 @@ export default function VaultForm({
         collateralValueAfter,
         liquidationRatio,
         price,
-        error,
+        symbol,
     }
 
     const onMax = () => {
@@ -155,23 +153,23 @@ export default function VaultForm({
             <BoxContainer>
                 <div className="py-10 px-8">
                     <div className="flex justify-between items-center mb-4">
-                        <div className="bg-transparent border border-gray-border rounded-md p-1 inline-block min-w-[250px]">
+                        <div className="bg-transparent border border-gray-border rounded-md p-1 inline-block min-w-[300px]">
                             <ActionTab 
-                                active={collateralAction == 'deposit'} 
+                                active={collateralAction === 'deposit'} 
                                 title={t('deposit', {symbol})} 
                                 onClick={() => { onCollateralActionChange('deposit') }} 
                             />
-                            <ActionTab 
-                                active={collateralAction == 'withdraw'} 
+                            {isOwner && <ActionTab 
+                                active={collateralAction === 'withdraw'} 
                                 title={t('withdraw', {symbol})} 
                                 onClick={() => { onCollateralActionChange('withdraw') }} 
-                            />
+                            />}
                         </div>
-                        <TokenBalance balance={balance} />
+                        <TokenBalance balance={collateralAction === 'withdraw' ? camount : balance} />
                     </div>
                     
                     <FormInput 
-                        symbol={collateral.symbol} 
+                        symbol={symbol} 
                         onChange={onCollateralAmountChange} 
                         value={collateralValue} 
                         unitPrice={price}
@@ -179,13 +177,13 @@ export default function VaultForm({
                     />
                     <div className="flex justify-between items-center mb-4 mt-8">
                     <div className="bg-transparent border border-gray-border rounded-md p-1 inline-block min-w-[250px]">
-                            <ActionTab 
-                                active={unitAction == 'mint'} 
+                            {isOwner && <ActionTab 
+                                active={unitAction === 'mint'} 
                                 title={t('mint')} 
                                 onClick={() => { setUnitAction('mint') }} 
-                            />
+                            />}
                             <ActionTab 
-                                active={unitAction == 'burn'} 
+                                active={unitAction === 'burn'} 
                                 title={t('burn')} 
                                 onClick={() => { setUnitAction('burn') }} 
                             />
@@ -201,15 +199,16 @@ export default function VaultForm({
                     <div className="h-8"></div>
                     {error && <div className="rounded-full bg-error/10 text-error px-8 py-3 mb-4 text-sm">{error}</div>}
                     <VaultButton
-                        collateral={collateral}
+                        collateral={symbol}
                         collateralAmount={finalCollateralValue}
                         unitAmount={finalUnitValue}
                         disabled={error.length > 0 || (uvalue == 0 && cvalue == 0)}
                         isManage={isManage}
                         account={account}
-                        gasPrice={vaultInfo.gasPrice * vaultInfo.currentPrice}
+                        owner={owner}
                         reset={resetForm}
                         unitBalance={ubal}
+                        unitPrice={vaultInfo.currentPrice}
                         collateralBalance={vaultCollateralAmount}
                         isClosing={isClosing}
                     />

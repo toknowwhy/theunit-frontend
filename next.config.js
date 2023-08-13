@@ -4,6 +4,16 @@ const withNextIntl = require('next-intl/plugin')(
 
 module.exports = withNextIntl({
   experimental: {appDir: true},
+  webpack(config) {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,  
+      fs: false,
+      tls: false,
+      net: false
+    };
+    
+    return config;
+  },
   images: {
     remotePatterns: [
       {

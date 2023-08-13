@@ -3,43 +3,61 @@
 import '@rainbow-me/rainbowkit/styles.css';
 
 import {
-  getDefaultWallets,
   RainbowKitProvider,
-  darkTheme
+  darkTheme,
+  getDefaultWallets,
+  connectorsForWallets,
 } from '@rainbow-me/rainbowkit';
 import { ThemeProvider } from 'next-themes';
-import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { sepolia } from 'wagmi/chains';
+import { configureChains, WagmiConfig, createConfig } from 'wagmi';
+import { infuraProvider } from 'wagmi/providers/infura';
 import { publicProvider } from 'wagmi/providers/public';
-import { PropsWithChildren } from 'react';
-import { initialNetwork } from '@/crypto/config';
+import { ReactNode } from 'react';
+import { supportedNetworks as networks } from '@/crypto/config';
 
-const { chains, provider } = configureChains(
-    [sepolia],
-    [publicProvider()]
-  );
+const supportedNetworks = Object.values(networks).map((n) => n.chain);
+
+export default function Providers({ 
+  walletConnectId, 
+  infuraKey,
+  alchemyKey,
+  children 
+} : { 
+  walletConnectId: string, 
+  infuraKey: string,
+  alchemyKey: string,
+  children: ReactNode 
+}) {
   
-  const { connectors } = getDefaultWallets({
-    appName: 'UNIT',
-    chains
+  const { chains, publicClient, webSocketPublicClient } = configureChains(
+    supportedNetworks,
+    [infuraProvider({ apiKey: infuraKey }), publicProvider()],
+  )
+  const { wallets } = getDefaultWallets({
+    appName: 'UNIT APP',
+    projectId: walletConnectId,
+    chains,
   });
   
-  const wagmiClient = createClient({
+  const connectors = connectorsForWallets([
+    ...wallets,
+  ]);
+  
+  const wagmiConfig = createConfig({
     autoConnect: true,
     connectors,
-    provider
-  })
-
-export default function Providers({ children } : PropsWithChildren<{}>) {
+    publicClient,
+    webSocketPublicClient,
+  });
   return (
     <ThemeProvider>
-      <WagmiConfig client={wagmiClient}>
+      <WagmiConfig config={wagmiConfig}>
         <RainbowKitProvider 
           theme={darkTheme({
             accentColor: '#4844FF'
           })} 
           chains={chains}
-          initialChain={initialNetwork}
+          initialChain={supportedNetworks[0]}
           showRecentTransactions={true}
         >
             {children}

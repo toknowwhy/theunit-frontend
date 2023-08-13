@@ -1,83 +1,75 @@
-import { BigNumber } from 'ethers';
-import { useContractReads, useFeeData } from "wagmi"
-import { Network } from "@/crypto/config"
-import { VaultInfoType } from '../types';
-import { formatEther, parseEther } from 'ethers/lib/utils.js';
+import { formatEther } from "viem";
+import { useContractReads } from "wagmi"
+import { NetworkInfo, VaultInfoType } from '../types';
 
 export const initialVaultInfo: VaultInfoType = {
     liquidationFee: 0.15,
     minUnit: 1000,
-    collateralAmount: BigNumber.from(0),
-    unitAmount: BigNumber.from(0),
+    collateralAmount: BigInt(0),
+    unitAmount: BigInt(0),
     currentPrice: 0,
     nextPrice: 0,
-    gasPrice: 0,
 }
 
-export const useVaultInfo = (collateralAddress: string, currentNetwork?: Network, account?: `0x${string}`) => {
-    const { data: feeData } = useFeeData()
+export const useVaultInfo = (currentNetwork?: NetworkInfo, account?: `0x${string}`) => {
     const enabled = Boolean(currentNetwork) && Boolean(account);
     const { data: contractDatas, refetch } = useContractReads({
         enabled,
         contracts: [
             {
-                ...currentNetwork!.vault,
+                ...currentNetwork!.Vault,
                 functionName: "vaultOwnerAccount",
-                args: [account, collateralAddress]
+                args: [account!, currentNetwork!.Wrapped.address],
             },
             {
-                ...currentNetwork!.vault,
+                ...currentNetwork!.Vault,
                 functionName: "liquidationRatio",
             },
             {
-                ...currentNetwork!.priceFeed,
+                ...currentNetwork!.UnitPriceFeed,
                 functionName: "latestRound",
             },
             {
-                ...currentNetwork!.vault,
+                ...currentNetwork!.Vault,
                 functionName: "minimumCollateral",
             },
         ],
     })
-    const roundId = contractDatas ? (contractDatas[2] as BigNumber) : undefined; 
+    const roundId = contractDatas ? (contractDatas[2].result as bigint) : undefined; 
     const { data: roundDatas } = useContractReads({
+        enabled: enabled && Boolean(roundId),
         contracts: [
             {
-                ...currentNetwork!.priceFeed,
+                ...currentNetwork!.UnitPriceFeed,
                 functionName: "getRoundData",
-                enabled: enabled && Boolean(roundId),
-                args: [roundId?.sub(BigNumber.from(1))]
+                args: [roundId ? (roundId! - BigInt(1)) : BigInt(1)]
             },
             {
-                ...currentNetwork!.priceFeed,
+                ...currentNetwork!.UnitPriceFeed,
                 functionName: "getRoundData",
-                enabled: enabled && Boolean(roundId),
-                args: [roundId]
+                args: [roundId!]
             }
         ]
     })
 
     let defaultRes: VaultInfoType = initialVaultInfo
-
-    if (feeData?.gasPrice) {
-        defaultRes.gasPrice = parseFloat(formatEther(feeData.gasPrice))
-    }
-
+    
     if (contractDatas?.length == 4) {
         defaultRes = {
             ...defaultRes,
-            liquidationFee: (contractDatas[1] as BigNumber).toNumber(),
-            collateralAmount: (contractDatas[0] as any)[0] as BigNumber,
-            unitAmount: (contractDatas[0] as any)[1] as BigNumber,
-            minUnit: parseFloat(formatEther(contractDatas[3] as BigNumber))
+            liquidationFee: Number(contractDatas[1].result as bigint),
+            collateralAmount: contractDatas[0] ? ((contractDatas[0].result as any)[0] as bigint) : BigInt(0),
+            unitAmount: contractDatas[0] ? ((contractDatas[0].result as any)[1] as bigint) : BigInt(0),
+            minUnit: parseFloat(formatEther(contractDatas[3].result as bigint))
         }
     }
 
     if (roundDatas?.length == 2 && roundDatas[0] && roundDatas[1]) {
+        const currPrice = parseFloat(formatEther((roundDatas[0].result as any)[1]));
         defaultRes = {
             ...defaultRes,
-            currentPrice: parseFloat(formatEther((roundDatas[0] as any)[1])),
-            nextPrice: parseFloat(formatEther((roundDatas[1] as any)[1]))
+            currentPrice: currPrice,
+            nextPrice: parseFloat(formatEther((roundDatas[1].result as any)[1]))
         }
     }
 

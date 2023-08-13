@@ -1,70 +1,34 @@
-import { 
-    VaultABI, 
-    UnitRouterABI, 
-    UnitTokenABI,
-    PriceFeedABI, 
-    ERC20ABI,
-} from './abis';
+import { default as allContracts } from './contracts.json'
+import { sepolia, polygonMumbai } from 'wagmi/chains';
+import { AllContracts, NetworkConfig } from '@/utils/types';
+import { Dictionary } from 'ts-essentials';
+import { keyBy } from 'lodash';
 
-import { default as sepoliaAddresses } from './addresses/sepholia.json'
-import { Abi, Address, CollateralDesc, ContractDesc, TokenDesc } from '@/utils/types';
-import { sepolia as sepoliaChain } from 'wagmi/chains';
-import { keyBy } from 'lodash'
-
-export const initialNetwork = sepoliaChain;
-
-export function contractDesc(abi: Abi[], address: Address): ContractDesc {
-    return { abi, address }
-}
-
-export function tokenDesc(
-    coinId: string, 
-    name: string, 
-    symbol: string, 
-    stable: boolean, 
-    abi: Abi[], 
-    address: Address,
-    decimals: number,
-): TokenDesc {
-    return { coinId, name, symbol, stable, abi, address, decimals, }
-}
-
-export const defaultSupportedCollaterals = [
-    {
-        ...tokenDesc('ethereum', 'Ethereum', 'ETH', false, ERC20ABI, sepoliaAddresses.WETH as Address, 18),
+export const allNetworkContracts: AllContracts = allContracts.contracts as AllContracts;
+// The reason of hard coding chain ids is reading chains from wagmi
+// has to be within client components
+export const supportedNetworks: Dictionary<NetworkConfig> = {
+    '11155111': {
+        chain: sepolia,
+        wrappedNative: '0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9',
+        unitId: 'ethereum',
+        sloganKey: 'eth-vault-description', 
         liquidationRatio: 1.15,
-        dustLimit: 100
+        dustLimit: 1000,
+        nativeSymbol: 'ETH',
+        subgraphUrl: 'https://api.studio.thegraph.com/query/49276/tinu-vault-sepolia/version/latest',
+        splineLogo: 'https://prod.spline.design/fMMC-bW1jfG6gieo/scene.splinecode',
     },
-] as Array<CollateralDesc>
-
-const infuraProjectId = process.env.INFURA_PROJECT_ID || ''
-const etherscanAPIKey = process.env.ETHERSCAN_API_KEY || ''
-
-function getRpc(network: string): string {
-    return `https://${network}.infura.io/v3/${infuraProjectId}`
-}
-
-const sepolia = {
-    id: 11155111,
-    name: 'sepolia',
-    label: 'Sepolia test network',
-    infuraUrl: getRpc('sepolia'),
-    safeConfirmations: 6,
-    unitToken: tokenDesc('tinu', 'TINU', 'TINU', false, UnitTokenABI, sepoliaAddresses.UNIT_TOKEN as Address, 18),
-    unitRouter: contractDesc(UnitRouterABI, sepoliaAddresses.UNIT_ROUTER_V1 as Address),
-    vault: contractDesc(VaultABI, sepoliaAddresses.VAULT as Address),
-    priceFeed: contractDesc(PriceFeedABI, sepoliaAddresses.PRICE_FEED as Address),
-    tokens: defaultSupportedCollaterals,
-    ETHAddress: sepoliaAddresses.WETH,
-    etherscan: {
-        url: 'https://sepolia.etherscan.io',
+    '80001': {
+        chain: polygonMumbai,
+        wrappedNative: '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889',
+        unitId: 'matic-network',
+        sloganKey: 'polygon-vault-description',
+        liquidationRatio: 1.15,
+        dustLimit: 1000,
+        nativeSymbol: 'MATIC',
+        subgraphUrl: 'https://api.studio.thegraph.com/proxy/49276/tinu-vault-mumbai/version/latest',
+        splineLogo: 'https://prod.spline.design/2XUmnjtG8jRU4zPR/scene.splinecode',
     },
-}
-
-
-export type Network = typeof sepolia
-
-const supportedNetworks = [sepolia];
-
-export const networkById = keyBy(supportedNetworks, 'id')
-export const networkByName = keyBy(supportedNetworks, 'name')
+};
+export const networkByUnitId = keyBy(Object.values(supportedNetworks), 'unitId')

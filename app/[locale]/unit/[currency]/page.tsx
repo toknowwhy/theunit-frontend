@@ -5,7 +5,6 @@ import ChartWrapper from "@/components/charts/ChartWrapper";
 import ThumbCharts from "@/components/charts/ThumbCharts";
 import TokenPriceInfo from "@/components/theunit/TokenPriceInfo";
 import bgd from '@/public/thumbs-bgd.svg';
-import { useLocale } from "next-intl";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import BodyContainer from "@/components/navbar/BodyContainer";
@@ -29,7 +28,6 @@ export default async function UnitPage({
 } : {
     params: { currency: string }
 }) {
-    const locale = useLocale();
 
     const currency = params.currency.toUpperCase();
     if (!instanceOfCurrencyType(currency)) {
@@ -59,6 +57,6 @@ export default async function UnitPage({
             <TokenPriceInfo data={data[currency]} currency={currency} />
             <div className="pr-4 text-sm">Tweet this chart 👇🏼</div>
         </div>
-        <ChartWrapper locale={locale} symbol={symbol} />
+        <ChartWrapper symbol={symbol} />
     </BodyContainer>
 }

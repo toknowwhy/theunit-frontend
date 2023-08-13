@@ -1,36 +1,38 @@
-"use client"
-
-import { useCurrentNetwork } from "@/utils/hooks/useCurrentNetwork";
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
-import { parseEther, parseUnits } from "ethers/lib/utils.js";
-import { usePrepareContractWrite, useSigner } from "wagmi";
+import { usePublicClient, useWalletClient } from "wagmi";
 import { useState } from "react";
-import { buildTx } from "@/utils/buildTx";
 import { toast } from "react-toastify";
 import TxButton from "@/components/web3/TxButton";
-import { VaultButtonProps } from "@/utils/types";
+import { VaultButtonProps, WriteResponse } from "@/utils/types";
 import { ContractFunc } from "@/utils/types";
+import { useVaultContracts } from "../VaultNetworkProvider";
+import { parseEther } from "viem";
+import buildTx from "@/utils/buildTx";
+import GasEstimate from "@/components/web3/GasEstimate";
 
 export default function ConfirmBtn({ 
     collateral, 
-    account, 
+    account: wallet, 
+    owner,
     collateralAmount, 
     isManage, 
     unitAmount,
-    gasPrice,
     reset, 
     isClosing,
+    unitPrice,
     unitBalance,
     collateralBalance,
 } : VaultButtonProps) {
     const t = useVaultTranslations();
     const [txId, setTxId] = useState('');
+    const [preparing, setPreparing] = useState(false);
     const sendTx = useTx();
+    const network = useVaultContracts();
+    const publicClient = usePublicClient();
+    const { data: walletClient } = useWalletClient()
 
-    const { refetch: getSigner } = useSigner();
-    const network = useCurrentNetwork();
-    const isETH = collateral.symbol === 'ETH';
+    const account = owner ?? wallet;
 
     let action: ContractFunc|undefined;
     let msgValue: number = 0;
@@ -81,59 +83,54 @@ export default function ConfirmBtn({
         }
     }
 
-    const { config } = usePrepareContractWrite({
-        ...network.unitRouter,
-        functionName: action,
-        enabled: Boolean(action),
-        args: params
-    })
-    const gasLimit = config?.request?.gasLimit.toNumber() ?? 0;
-
     const confirm = async () => {
-        if (!isETH) {
-            toast.error(t('collateral-not-supported', {symbol: collateral.symbol}));
-            return;
-        }
-        const { data: signer } = await getSigner()
 
         if (!action) {
             toast.error(t('action-not-supported'));
             return;
         }
-
-        params.push({
-            gasLimit: gasLimit ? gasLimit : 800000,
-            value: parseEther(msgValue.toString())
+        setPreparing(true)
+        const callTransaction = await buildTx({
+            publicClient,
+            walletClient: walletClient,
+            account: wallet,
+            contract: network!.RouterV1,
+            args: params,
+            value: msgValue,
+            functionName: action,
+            errMsg: t('cannot-send-transaction')
         })
+        setPreparing(false)
 
-        const callTransaction = buildTx(
-            network.unitRouter, 
-            action,
-            signer!,
-            params
-        );
-        const txId = await sendTx({
-            name: transactionName.startsWith('deposit') || transactionName.startsWith('withdraw') ? 
-                    t(transactionName, {symbol: collateral.symbol}) : t(transactionName),
-            callTransaction,
-            callbacks: {
-              onSuccess: (id) => {
-                reset()
-              }
-            }
-        })
-        setTxId(txId);
+        if (callTransaction) {
+
+            const txId = await sendTx({
+                name: transactionName.startsWith('deposit') || transactionName.startsWith('withdraw') ? 
+                        t(transactionName, {symbol: collateral}) : t(transactionName),
+                callTransaction: callTransaction as WriteResponse,
+                callbacks: {
+                  onSuccess: (id) => {
+                    reset()
+                  }
+                }
+            })
+            setTxId(txId);
+        }
+
     }
 
     return <>
-        <TxButton txId={txId}  onClick={confirm}>
+        <TxButton txId={txId}  onClick={confirm} loading={preparing}>
             { isManage ? t('update') : t('create')}
         </TxButton>
-        {Boolean(gasLimit) && Boolean(gasPrice) && (
-            <div className='flex justify-between text-gray text-sm mt-2'>
-                <div>{t('estimated-gas')}:</div>
-                <div>Ø{(gasLimit * gasPrice).toFixed(3)}</div>
-            </div>
-        )}
+        {action && wallet && <GasEstimate 
+            publicClient={publicClient}
+            account={wallet}
+            contract={network!.RouterV1}
+            args={params}
+            value={msgValue}
+            functionName={action}
+            unitPrice={unitPrice}
+        />}
     </>
 }

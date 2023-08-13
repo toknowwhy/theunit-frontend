@@ -3,11 +3,11 @@ import { getBitcoinChange, getCoinsInfo, getStableCoins, getUnitHistory } from "
 export async function getCandidates(db, ids) {
     const stableCoins = await getStableCoins(db);
     const mids = ids.concat(stableCoins);
-    const lastData = await db.collection("coinhourlydatas").find().sort({ "_id": -1 }).limit(1).toArray();
+    const lastData = await db.collection("coinfiveminutedatas").find().sort({ "_id": -1 }).limit(1).toArray();
     const lastTime = lastData[0].time;
     const nowTime = new Date(lastTime.getTime() - 300000);
     const data = await db
-                        .collection("coinhourlydatas")
+                        .collection("coinfiveminutedatas")
                         .find({ coin_id: { $nin: mids }, "time" : {"$gte": nowTime}, price: { $exists: true } })
                         .sort({'market_cap': -1})
                         .limit(ids.length)
@@ -21,7 +21,11 @@ export default async function getUnitData(db, isCandidate=false) {
     if (isCandidate) {
         data = await getCandidates(db, ids);
     } else {
-        data = await db.collection("coinhourlydatas").find({ coin_id: { $in: ids }, price: { $exists: true } }).sort({'time': -1}).limit(ids.length).toArray();
+        data = await db.collection("coinfiveminutedatas")
+                        .find({ coin_id: { $in: ids }, price: { $exists: true } })
+                        .sort({'time': -1})
+                        .limit(ids.length)
+                        .toArray();
     }
     const coinsData = await getCoinsInfo(db);
 

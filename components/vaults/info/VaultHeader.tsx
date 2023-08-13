@@ -1,5 +1,3 @@
-'use client';
-
 import { 
     formatRatio,
     getMinutesToNextHour, 
@@ -17,12 +15,14 @@ export default function VaultHeader({
     minUnit, 
     price, 
     nextPrice,
+    spline,
 }: {
     symbol: string,
     liquidationFee: number,
     minUnit: number,
     price: number,
     nextPrice: number, 
+    spline: string,
 }) {
 
     const t = useVaultTranslations();
@@ -32,7 +32,7 @@ export default function VaultHeader({
         <div className="flex-none flex items-center">
             <div className="flex-none text-4xl font-bold">{symbol} {t('vault')}</div>
             <div className="flex-none w-24 h-20">
-                <SplineAnim url="https://prod.spline.design/2XUmnjtG8jRU4zPR/scene.splinecode"  />
+                <SplineAnim url={spline}  />
             </div>
         </div>
         <VaultInfo 

@@ -1,5 +1,3 @@
-'use client';
-
 import questionMark from '@/public/icons/question-mark.svg';
 import { TransType } from '@/utils/types';
 import Image from 'next/image';

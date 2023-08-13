@@ -39,4 +39,5 @@ next-env.d.ts
 /charting_library
 /public/charting_library
 
+#local scripts
 localScripts.js

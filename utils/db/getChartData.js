@@ -14,18 +14,35 @@ function getCorrectValue(data, isETH, cid) {
     return val;
 }
 
+function getBarData(resHourData, start, end, isETH, cid, hasData) {
+    const subarr = resHourData.slice(start, end);
+    const valueKey = cid ? 'price' : 'value';
+    const valueArr = subarr.map((sa) => sa[valueKey])
+    const bar = {
+        time: moment(subarr[0].time).toDate(),
+        high: Math.max(...valueArr),
+        low: Math.min(...valueArr),
+        open: getCorrectValue(hasData ? resHourData[start-1] : subarr[0], isETH, cid),
+        close: subarr[subarr.length-1][valueKey],
+        volume: subarr.reduce((partialSum, a) => partialSum + a.volume, 0),
+    };
+    return bar;
+}
+
 export async function allBars(db, from, to, currency='BTC', coinId, resolution) {
     let resHourData;
     const isETH = currency === 'ETH';
+    const mins = parseInt(resolution);
+    const isMinuteData = mins > 1;
     const cid = isETH ? 'ethereum' : coinId;
     if (cid) {
         resHourData = await db
-                                .collection('coinhourlydatas')
+                                .collection(isMinuteData ? 'coinfiveminutedatas': 'coinhourlydatas')
                                 .find({ "time" : {"$gte": new Date(from*1000), "$lte": new Date(to*1000)}, "coin_id": cid })
                                 .sort({'time': 1})
                                 .toArray();
     } else {
-        const model = currency === "USD" ? 'hourlydatausds' : 'hourlydatas';
+        const model = `${isMinuteData ? 'fiveminute' : 'hourly'}${currency === "USD" ? 'datausds' : 'datas'}`;
         resHourData = await db
                                 .collection(model)
                                 .find({ "time" : {"$gte": new Date(from*1000), "$lte": new Date(to*1000)} })
@@ -33,26 +50,20 @@ export async function allBars(db, from, to, currency='BTC', coinId, resolution) 
                                 .toArray();
     }
 
-    if (resolution === '240') {
-        const bars = []
-        let q = resHourData.length-1;
-        while (q > 2) {
-            const first = resHourData[q-3];
-            const last = resHourData[q];
-            const firstValue = getCorrectValue(first, isETH, cid);
-            const lastValue = getCorrectValue(last, isETH, cid);
-            const allValues = [firstValue, lastValue, getCorrectValue(resHourData[q-2], isETH, cid), getCorrectValue(resHourData[q-1], isETH, cid)]
-            const bar = {
-                time: moment(first.time).toDate(),
-                high: allValues.reduce((a, b) => Math.max(a, b), -Infinity),
-                low: allValues.reduce((a, b) => Math.min(a, b), Infinity),
-                open: q > 3 ? getCorrectValue(resHourData[q-4], isETH, cid) : firstValue,
-                close: lastValue,
-                volume: allValues.reduce((partialSum, a) => partialSum + a.volume, 0),
-            };
-            bars.push(bar);
-            q -= 4;
+    if (isMinuteData) {
+        const bars = [];
+        let counter = resHourData.length;
+        const dataCount = mins / 5; // We store data every 5 minutes
+        while (counter > dataCount) {
+            const bar = getBarData(resHourData, counter-dataCount, counter, isETH, cid, true)
+            bars.push(bar)
+            counter -= dataCount;
         }
+        if (counter > 0) {
+            const bar = getBarData(resHourData, 0, counter, isETH, cid, false)
+            bars.push(bar)
+        }
+
         return bars.reverse();
     }
 
@@ -88,12 +99,34 @@ export async function allBars(db, from, to, currency='BTC', coinId, resolution) 
         }
     }
 
+    let latestDataModel = currency === "USD" ? "fiveminutedatausds" : "fiveminutedatas";
+    let latestDataFileter = {};
+    if (cid) {
+        latestDataModel = currency === "USD" ? "coinfiveminutedatausds" : "coinfiveminutedatas"
+        latestDataFileter = {coin_id: cid, price: { $exists: true }};
+    }
+
+    const latestData = await db
+                .collection(latestDataModel)
+                .find(latestDataFileter)
+                .sort({ "time": -1 })
+                .limit(1)
+                .toArray();
+
     const keys = Object.keys(res).sort();
     let bars = [];
     for (let q = 0; q < keys.length; q++) {
         const barVal = res[keys[q]];
         if (q < (keys.length - 1)) {
             barVal.close = res[keys[q+1]].open;
+        } else {
+            const latestVal = getCorrectValue(latestData[0], isETH, cid)
+            barVal.close = latestVal;
+            if (latestVal > barVal.high) {
+                barVal.high = latestVal;
+            } else if (latestVal < barVal.low) {
+                barVal.low = latestVal;
+            }
         }
         bars.push(barVal);
     }

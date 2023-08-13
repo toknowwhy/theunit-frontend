@@ -1,5 +1,3 @@
-'use client';
-
 import { numberWithCommas } from '@/utils/functions';
 import { useVaultTranslations } from '@/utils/hooks/useVaultTranslations';
 import VaultInfoTitle from './VaultInfoTitle';

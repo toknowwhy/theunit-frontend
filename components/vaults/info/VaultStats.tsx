@@ -8,7 +8,7 @@ export default function VaultStats({
     collateralValueAfter,
     liquidationRatio,
     price,
-    error,
+    symbol,
 }: {
     camount: number,
     uamount: number,
@@ -16,7 +16,7 @@ export default function VaultStats({
     collateralValueAfter: number,
     liquidationRatio: number,
     price: number,
-    error: string,
+    symbol: string,
 }) {
     const ratio = collateralValueAfter == 0 ? 0 : (collateralValueAfter * price / unitValueAfter);
     
@@ -75,13 +75,13 @@ export default function VaultStats({
             value: camount,
             info: "collateral-locked-info",
             extraValue: collateralValueAfter,
-            suffix: 'ETH'
+            suffix: symbol
         },
         {
             title: "available-to-withdraw",
             value: Math.floor(availableToWithdraw * 1000) / 1000,
             extraValue: Math.floor(availableToWithdrawAfter * 1000) / 1000,
-            suffix: 'ETH'
+            suffix: symbol
         },
     ];
 
