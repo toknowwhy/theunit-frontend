@@ -5,7 +5,7 @@ export async function getCandidates(db, ids) {
     const mids = ids.concat(stableCoins);
     const lastData = await db.collection("coinfiveminutedatas").find().sort({ "_id": -1 }).limit(1).toArray();
     const lastTime = lastData[0].time;
-    const nowTime = new Date(lastTime.getTime() - 300000);
+    const nowTime = new Date(lastTime.getTime() - 120000);
     const data = await db
                         .collection("coinfiveminutedatas")
                         .find({ coin_id: { $nin: mids }, "time" : {"$gte": nowTime}, price: { $exists: true } })
