@@ -48,6 +48,7 @@ export interface NetworkConfig {
     dustLimit: number,
     nativeSymbol: string,
     subgraphUrl: string,
+    splineLogo: string,
 }
 
 export interface NetworkContracts {

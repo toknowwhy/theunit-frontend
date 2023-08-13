@@ -10,6 +10,7 @@ import VaultHeader from './info/VaultHeader';
 import { useVaultContracts } from './VaultNetworkProvider';
 import Loading from '@/app/[locale]/loading';
 import { useSearchParams } from 'next/navigation';
+import { supportedNetworks } from '@/crypto/config';
 
 export default function ManageVault() {
 
@@ -36,6 +37,7 @@ export default function ManageVault() {
                 minUnit={vaultInfo.minUnit}
                 price={vaultInfo.currentPrice} 
                 nextPrice={vaultInfo.nextPrice}
+                spline={currentNetwork?.id ? supportedNetworks[currentNetwork.id].splineLogo : ''}
             />
             {currentNetwork && (
                 <VaultForm 

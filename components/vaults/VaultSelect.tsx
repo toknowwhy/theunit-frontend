@@ -48,11 +48,7 @@ function VaultChoice({
                         <div className="text-gray-medium leading-5">{t(networkConfig.unitId+'-vault-description')}</div>
                     </div>
                     <div className="w-24 h-28 flex items-center justify-center">
-                        {(symbol === 'ETH' || symbol === 'SEP') ? (
-                            <SplineAnim url="https://prod.spline.design/2XUmnjtG8jRU4zPR/scene.splinecode"  />
-                        ) : (
-                            <Image src={coinLogoUrl(networkConfig.unitId)} width={60} height={60} alt={symbol} />
-                        )}
+                        <SplineAnim url={networkConfig.splineLogo} />
                     </div>
                 </div>
                 <VaultChoiceInfo title={t('unit-limit')} info={networkConfig.dustLimit.toString()} />

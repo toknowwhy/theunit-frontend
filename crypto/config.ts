@@ -17,6 +17,7 @@ export const supportedNetworks: Dictionary<NetworkConfig> = {
         dustLimit: 1000,
         nativeSymbol: 'ETH',
         subgraphUrl: 'https://api.studio.thegraph.com/query/49276/tinu-vault-sepolia/version/latest',
+        splineLogo: 'https://prod.spline.design/fMMC-bW1jfG6gieo/scene.splinecode',
     },
     '80001': {
         chain: polygonMumbai,
@@ -27,6 +28,7 @@ export const supportedNetworks: Dictionary<NetworkConfig> = {
         dustLimit: 1000,
         nativeSymbol: 'MATIC',
         subgraphUrl: 'https://api.studio.thegraph.com/proxy/49276/tinu-vault-mumbai/version/latest',
+        splineLogo: 'https://prod.spline.design/2XUmnjtG8jRU4zPR/scene.splinecode',
     },
 };
 export const networkByUnitId = keyBy(Object.values(supportedNetworks), 'unitId')
