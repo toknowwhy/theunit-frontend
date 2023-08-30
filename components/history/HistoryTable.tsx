@@ -54,9 +54,9 @@ export default function HistoryTable({
                 </div>
 
                 <div className="overflow-x-scroll scrollbar-hide">
-                    <div className="whitespace-nowrap overflow-visible text-center text-gray mb-4">
+                    <div className="whitespace-nowrap overflow-visible text-gray mb-4">
                         {mostCoins.map((coin, index) => (
-                            <span key={coin.id} className="mr-6 w-8 inline-block">
+                            <span key={coin.id} className="mr-6 w-8 text-center inline-block">
                                 {index+1}
                             </span>
                         ))}
