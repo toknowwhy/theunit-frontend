@@ -5,7 +5,7 @@
     "oneunit": "其它数据",
     "farm": "农场",
     "histories": "历史",
-    "goto-theunit": "回到unitindex.org网站",
+    "goto-theunit": "回到unitindex.org",
     "not-found": "找不到页面",
     "TheUnit": {
         "indexed-currencies": "UNIT中的代币",
@@ -110,10 +110,10 @@
         "locked-days": "被锁定天数",
         "input-amount": "{symbol}数量",
         "ethereum-vault-description": "这是我们最热门的金库",
-        "matic-network-vault-description": "Lower gas fee",
-        "not-enough-unit-burn": "Minimum {num} TINU need to be left in the vault, click MAX to payback all TINU",
-        "cannot-send-transaction": "Unable to send transaction now, please check your wallet connection",
-        "wrong-network": "Switch to {network}"
+        "matic-network-vault-description": "更低的矿工费",
+        "not-enough-unit-burn": "金库中至少需要存留 {num} TINU, 按 MAX 键来还清所有TINU",
+        "cannot-send-transaction": "无法完成交易，请查看您的钱包连接状态",
+        "wrong-network": "切换到{network}"
     },
     "History": {
         "name": "名称",
