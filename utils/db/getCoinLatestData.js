@@ -26,7 +26,7 @@ export async function getCoinLatestData(db, coinId) {
     } else {
         const candidates = await getCandidates(db, unitIds);
         const candidateIds = candidates.map((cde) => cde.coin_id)
-        rank = candidateIds.indexOf(coinId);
+        rank = unitIds.length + candidateIds.indexOf(coinId);
     }
 
     const d = lastData[0];

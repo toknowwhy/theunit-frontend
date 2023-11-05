@@ -1,5 +1,5 @@
 import { default as allContracts } from './contracts.json'
-import { sepolia, polygonMumbai } from 'wagmi/chains';
+import { arbitrumGoerli, optimismGoerli } from 'wagmi/chains';
 import { AllContracts, NetworkConfig } from '@/utils/types';
 import { Dictionary } from 'ts-essentials';
 import { keyBy } from 'lodash';
@@ -8,9 +8,9 @@ export const allNetworkContracts: AllContracts = allContracts.contracts as AllCo
 // The reason of hard coding chain ids is reading chains from wagmi
 // has to be within client components
 export const supportedNetworks: Dictionary<NetworkConfig> = {
-    '11155111': {
-        chain: sepolia,
-        wrappedNative: '0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9',
+    '421613': {
+        chain: arbitrumGoerli,
+        wrappedNative: '0xEe01c0CD76354C383B8c7B4e65EA88D00B06f36f',
         unitId: 'ethereum',
         sloganKey: 'eth-vault-description', 
         liquidationRatio: 1.15,
@@ -19,8 +19,8 @@ export const supportedNetworks: Dictionary<NetworkConfig> = {
         subgraphUrl: 'https://api.studio.thegraph.com/query/49276/tinu-vault-sepolia/version/latest',
         splineLogo: 'https://prod.spline.design/fMMC-bW1jfG6gieo/scene.splinecode',
     },
-    '80001': {
-        chain: polygonMumbai,
+    '420': {
+        chain: optimismGoerli,
         wrappedNative: '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889',
         unitId: 'matic-network',
         sloganKey: 'polygon-vault-description',

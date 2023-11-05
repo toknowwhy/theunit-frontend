@@ -135,5 +135,9 @@
         "go-to": "Go to",
         "page": "Page",
         "history-info": "Daily history of the coins making UNIT"
+    },
+    "Tokens": {
+        "token-claim": "UN Tokens Claim",
+        "claim-tips": "Here you can claim your UN tokens if they are unlocked"
     }
 }
