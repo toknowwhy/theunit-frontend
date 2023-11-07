@@ -1,10 +1,41 @@
 import {useLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import {ReactNode} from 'react';
+import { Metadata } from 'next';
 import localFont from '@next/font/local';
 import Providers from '../providers';
 import MainLayout from '@/components/navbar/MainLayout';
 import '@/styles/global.css';
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from '@/utils/constants';
+
+
+export const metadata: Metadata = {
+  title: SITE_TITLE,
+  metadataBase: new URL(SITE_URL),
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: 'Unit Index App',
+    images: [
+      {
+        url: '/og.jpg',
+        width: 816,
+        height: 510,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    site: '@unit_index',
+    creator: '@IbaiBasabe',
+    images: ['/og.jpg'],
+  },
+}
 
 const avenirFont = localFont({
   src: [
