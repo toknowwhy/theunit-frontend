@@ -8,6 +8,12 @@ import bgd from '@/public/thumbs-bgd.svg';
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import BodyContainer from "@/components/navbar/BodyContainer";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'UNIT Index Chart',
+    description: 'UNIT Index Chart'
+}
 
 async function getData()  {
     const client = await clientPromise;

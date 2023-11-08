@@ -4,6 +4,12 @@ import HistoryTable from "@/components/history/HistoryTable";
 import moment from "moment";
 import { notFound } from "next/navigation";
 import BodyContainer from "@/components/navbar/BodyContainer";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'UNIT Index History',
+    description: 'History of UNIT Index'
+}
 
 async function getData(page: number) {
     const client = await clientPromise;
