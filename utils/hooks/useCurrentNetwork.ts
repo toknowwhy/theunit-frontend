@@ -9,8 +9,9 @@ export const useCurrentNetworkContracts = () : NetworkInfo|undefined => {
         return undefined;
     }
     const chainId = chain.id;
-    return ({
-        ...allNetworkContracts,
+    const contracts = allNetworkContracts[chainId];
+    return Boolean(contracts) ? ({
+        ...contracts!,
         Wrapped: {
             address: supportedNetworks[chainId].wrappedNative as Address, 
             abi: erc20ABI as unknown as Abi
@@ -18,5 +19,5 @@ export const useCurrentNetworkContracts = () : NetworkInfo|undefined => {
         name: chain?.name ?? '',
         id: chainId,
         nativeSymbol: chain?.nativeCurrency.symbol ?? 'ETH',
-    });
+    }) : undefined;;
 }

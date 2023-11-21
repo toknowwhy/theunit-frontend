@@ -59,12 +59,16 @@ export interface ContractDeployedInfo {
 }
 
 export interface NetworkContracts {
-    // VaultPriceFeed: ContractDesc;
-    // RouterV1: ContractDesc;
-    // TinuToken: ContractDesc;
-    // UnitPriceFeed: ContractDesc;
-    // Vault: ContractDesc;
-    TicketFactory: ContractDeployedInfo
+    VaultPriceFeed: ContractDesc;
+    RouterV1: ContractDesc;
+    TinuToken: ContractDesc;
+    UnitPriceFeed: ContractDesc;
+    Vault: ContractDesc;
+    TicketFactory: ContractDesc;
+}
+
+export type AllContracts = {
+    [chain: string]: NetworkContracts
 }
 
 export interface NetworkInfo extends NetworkContracts {
