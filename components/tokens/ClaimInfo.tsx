@@ -19,8 +19,6 @@ export default function ClaimInfo() {
         return null;
     }
 
-    console.log('AAAA', contracts);
-
     return (
         <div>{address}</div>
     )
