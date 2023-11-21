@@ -9,7 +9,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import ConnectWallet from '../web3/ConnectWallet';
 
 const VaultNetworkContext = createContext<NetworkInfo|undefined>(undefined);
-export const useVaultContracts = () => {
+export const useContracts = () => {
     const vaultContracts = useContext(VaultNetworkContext);
     return vaultContracts;
 }
@@ -18,7 +18,7 @@ export default function VaultNetworkProvider({
     chainUnitId,
     children 
 } : {
-    chainUnitId: string,
+    chainUnitId?: string,
     children: JSX.Element | JSX.Element[]
 }) {
 
@@ -36,13 +36,17 @@ export default function VaultNetworkProvider({
         return <Loading />
     }
     
-    if (currentUnitId && currentUnitId.toString() !== chainUnitId) {
+    if ((currentUnitId && chainUnitId && currentUnitId.toString() !== chainUnitId) || !currentUnitId) {
         return (
             <div className='text-center mt-48'>
                 <ConnectWallet 
                     chainId={chainUnitId} 
                     connectLabel={t('connect-wallet')} 
-                    networkLabel={t('wrong-network', {network: networkByUnitId[chainUnitId].chain.name})} 
+                    networkLabel={
+                        chainUnitId ? 
+                            t('wrong-network', {network: networkByUnitId[chainUnitId].chain.name}) : 
+                            t('switch-network')
+                    } 
                 />
             </div>
         )

@@ -49,18 +49,22 @@ export interface NetworkConfig {
     nativeSymbol: string,
     subgraphUrl: string,
     splineLogo: string,
+    bridgedUN: Address,
+    tickets: Address[],
+}
+
+export interface ContractDeployedInfo {
+    deployments: { [chainId: string]: Address },
+    abi: Abi
 }
 
 export interface NetworkContracts {
-    VaultPriceFeed: ContractDesc;
-    RouterV1: ContractDesc;
-    TinuToken: ContractDesc;
-    UnitPriceFeed: ContractDesc;
-    Vault: ContractDesc;
-}
-
-export type AllContracts = {
-    [chain: string]: NetworkContracts
+    // VaultPriceFeed: ContractDesc;
+    // RouterV1: ContractDesc;
+    // TinuToken: ContractDesc;
+    // UnitPriceFeed: ContractDesc;
+    // Vault: ContractDesc;
+    TicketFactory: ContractDeployedInfo
 }
 
 export interface NetworkInfo extends NetworkContracts {

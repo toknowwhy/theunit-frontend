@@ -25,11 +25,11 @@ export default function Sidebar() {
             i18n: "candidates",
             activeKeys: ["/candidates"],
         }, 
-        {
-            link: "/vaults",
-            i18n: "vaults",
-            activeKeys: ["/vaults"],
-        }, 
+        // {
+        //     link: "/vaults",
+        //     i18n: "vaults",
+        //     activeKeys: ["/vaults"],
+        // }, 
         {
             link: "/unit/btc",
             i18n: "oneunit",

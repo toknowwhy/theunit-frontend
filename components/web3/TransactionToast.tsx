@@ -1,7 +1,7 @@
 "use client"
 
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations"
-import { useVaultContracts } from "../vaults/VaultNetworkProvider"
+import { useContracts } from "../vaults/VaultNetworkProvider"
 import BlockExplorerLink from "./BlockExplorerLink"
 
 export enum TransactionToastStatus {
@@ -24,7 +24,7 @@ export default function TransactionToast({
     hash?: string
 }) {
     const t = useVaultTranslations();
-    const network = useVaultContracts();
+    const network = useContracts();
   
     let _status;
 

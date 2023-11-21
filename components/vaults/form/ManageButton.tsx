@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import TxButton from "@/components/web3/TxButton";
 import { VaultButtonProps, WriteResponse } from "@/utils/types";
 import { ContractFunc } from "@/utils/types";
-import { useVaultContracts } from "../VaultNetworkProvider";
+import { useContracts } from "../VaultNetworkProvider";
 import { parseEther } from "viem";
 import buildTx from "@/utils/buildTx";
 import GasEstimate from "@/components/web3/GasEstimate";
@@ -28,7 +28,7 @@ export default function ConfirmBtn({
     const [txId, setTxId] = useState('');
     const [preparing, setPreparing] = useState(false);
     const sendTx = useTx();
-    const network = useVaultContracts();
+    const network = useContracts();
     const publicClient = usePublicClient();
     const { data: walletClient } = useWalletClient()
 

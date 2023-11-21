@@ -7,7 +7,7 @@ import { Address, useAccount } from 'wagmi';
 import 'react-toastify/dist/ReactToastify.min.css';
 import VaultForm from './form/VaultForm';
 import VaultHeader from './info/VaultHeader';
-import { useVaultContracts } from './VaultNetworkProvider';
+import { useContracts } from './VaultNetworkProvider';
 import Loading from '@/app/[locale]/loading';
 import { useSearchParams } from 'next/navigation';
 import { supportedNetworks } from '@/crypto/config';
@@ -16,7 +16,7 @@ export default function ManageVault() {
 
     const params = useSearchParams();
     const owner = params?.get('owner')
-    const currentNetwork = useVaultContracts();
+    const currentNetwork = useContracts();
     const { address: account } = useAccount();
     const [mounted, setMounted] = useState(false);
     const {vaultInfo, refetch: refetchVaultInfo} = 

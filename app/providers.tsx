@@ -13,7 +13,7 @@ import { configureChains, WagmiConfig, createConfig } from 'wagmi';
 import { infuraProvider } from 'wagmi/providers/infura';
 import { publicProvider } from 'wagmi/providers/public';
 import { ReactNode } from 'react';
-import { supportedNetworks as networks } from '@/crypto/config';
+import { initialChain, supportedNetworks as networks } from '@/crypto/config';
 
 const supportedNetworks = Object.values(networks).map((n) => n.chain);
 
@@ -57,7 +57,7 @@ export default function Providers({
             accentColor: '#4844FF'
           })} 
           chains={chains}
-          initialChain={supportedNetworks[0]}
+          initialChain={initialChain}
           showRecentTransactions={true}
         >
             {children}

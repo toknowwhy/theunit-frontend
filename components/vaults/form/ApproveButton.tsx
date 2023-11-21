@@ -7,7 +7,7 @@ import { VaultButtonProps } from "@/utils/types";
 import ConfirmBtn from "./ManageButton";
 import TxButton from "@/components/web3/TxButton";
 import Button from "@/components/form/Button";
-import { useVaultContracts } from "../VaultNetworkProvider";
+import { useContracts } from "../VaultNetworkProvider";
 import { formatEther, parseEther } from "viem";
 import buildTx from "@/utils/buildTx";
 import GasEstimate from "@/components/web3/GasEstimate";
@@ -21,7 +21,7 @@ export default function ApproveButton(props : VaultButtonProps) {
     const [gas, setGas] = useState<number>(0);
     const [txId, setTxId] = useState('');
     const t = useVaultTranslations();
-    const network = useVaultContracts();
+    const network = useContracts();
     const publicClient = usePublicClient();
     const { data: walletClient } = useWalletClient()
     const sendTx = useTx();

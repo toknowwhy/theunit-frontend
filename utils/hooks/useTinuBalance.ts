@@ -1,9 +1,9 @@
 import { useContractRead } from "wagmi";
-import { useVaultContracts } from "@/components/vaults/VaultNetworkProvider";
+import { useContracts } from "@/components/vaults/VaultNetworkProvider";
 
 export const useTinuBalance = (account?: string) => {
 
-    const contracts = useVaultContracts()
+    const contracts = useContracts()
 
     const { data, refetch } = useContractRead({
         ...contracts!.TinuToken,
