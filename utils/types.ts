@@ -59,11 +59,11 @@ export interface ContractDeployedInfo {
 }
 
 export interface NetworkContracts {
-    VaultPriceFeed: ContractDesc;
-    RouterV1: ContractDesc;
-    TinuToken: ContractDesc;
-    UnitPriceFeed: ContractDesc;
-    Vault: ContractDesc;
+    // VaultPriceFeed: ContractDesc;
+    // RouterV1: ContractDesc;
+    // TinuToken: ContractDesc;
+    // UnitPriceFeed: ContractDesc;
+    // Vault: ContractDesc;
     TicketFactory: ContractDesc;
 }
 

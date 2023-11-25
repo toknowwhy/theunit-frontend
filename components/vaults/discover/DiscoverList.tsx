@@ -24,15 +24,12 @@ export default function DiscoverList({
 }) {
 
     const orderby = rank === 'debt' ? 'unitDebt' : 'liquidationPrice';
-    // const contracts = allNetworkContracts
-    // const {data: priceData, isLoading: priceLoading} = useContractRead({
-    //     ...contracts.UnitPriceFeed,
-    //     functionName: 'latestAnswer',
-    //     chainId: parseInt(chainId)
-    // })
-    //TODO - change back to real price data
-    const priceData = undefined;
-    const priceLoading = true;
+    const contracts = allNetworkContracts
+    const {data: priceData, isLoading: priceLoading} = useContractRead({
+        ...contracts.UnitPriceFeed,
+        functionName: 'latestAnswer',
+        chainId: parseInt(chainId)
+    })
 
 
     const GET_VAULTS = gql`

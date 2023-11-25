@@ -26,11 +26,6 @@ export default function Sidebar() {
             activeKeys: ["/candidates"],
         }, 
         {
-            link: "/vaults",
-            i18n: "vaults",
-            activeKeys: ["/vaults"],
-        },
-        {
             link: "/unit/btc",
             i18n: "oneunit",
             activeKeys: ["/unit"],
@@ -47,6 +42,11 @@ export default function Sidebar() {
             link: "/farm",
             i18n: "farm",
             activeKeys: ["/farm"],
+        });
+        navLinks.push({
+            link: "/vaults",
+            i18n: "vaults",
+            activeKeys: ["/vaults"],
         });
     }
 
