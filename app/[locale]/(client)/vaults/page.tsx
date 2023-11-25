@@ -27,7 +27,7 @@ export default function VaultsPage() {
 
     const networkItems: TabItem<string>[] = Object.keys(supportedNetworks).map((sn) => ({
         value: sn,
-        title: supportedNetworks[sn].nativeSymbol,
+        title: supportedNetworks[sn].symbol,
         icon: coinLogoUrl(supportedNetworks[sn].unitId)
     }))
 

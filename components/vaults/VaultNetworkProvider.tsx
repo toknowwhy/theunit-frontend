@@ -1,7 +1,6 @@
 'use client';
 
 import Loading from '@/app/[locale]/loading';
-import { networkByUnitId, supportedNetworks } from '@/crypto/config';
 import { useCurrentNetworkContracts } from '@/utils/hooks/useCurrentNetwork';
 import { useVaultTranslations } from '@/utils/hooks/useVaultTranslations';
 import { NetworkInfo } from '@/utils/types';
@@ -15,10 +14,8 @@ export const useContracts = () => {
 }
 
 export default function VaultNetworkProvider({ 
-    chainUnitId,
     children 
 } : {
-    chainUnitId?: string,
     children: JSX.Element | JSX.Element[]
 }) {
 
@@ -26,7 +23,6 @@ export default function VaultNetworkProvider({
 
     const [mounted, setMounted] = useState(false)
     const network = useCurrentNetworkContracts();
-    const currentUnitId = network?.id ? supportedNetworks[network.id].unitId : undefined;
     
     useEffect(() => {
         setMounted(true)
@@ -34,22 +30,6 @@ export default function VaultNetworkProvider({
     
     if (!mounted) {
         return <Loading />
-    }
-    
-    if ((currentUnitId && chainUnitId && currentUnitId.toString() !== chainUnitId) || !currentUnitId) {
-        return (
-            <div className='text-center mt-48'>
-                <ConnectWallet 
-                    chainId={chainUnitId} 
-                    connectLabel={t('connect-wallet')} 
-                    networkLabel={
-                        chainUnitId ? 
-                            t('wrong-network', {network: networkByUnitId[chainUnitId].chain.name}) : 
-                            t('switch-network')
-                    } 
-                />
-            </div>
-        )
     }
 
     if (network) {

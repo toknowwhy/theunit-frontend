@@ -4,6 +4,7 @@ import { useState } from "react"
 import VaultsSelect from "./VaultSelect"
 import Discover from "./discover/Discover"
 import { TabItem, DiscoverRank } from "@/utils/types"
+import VaultNetworkProvider from "./VaultNetworkProvider"
 
 export default function VaultTabs({
     tabs,
@@ -39,7 +40,11 @@ export default function VaultTabs({
             />
         </div>
         <div>
-            { selected === vaultTitle ? <VaultsSelect /> : (
+            { selected === vaultTitle ? (
+                <VaultNetworkProvider>
+                    <VaultsSelect />
+                </VaultNetworkProvider>
+            ) : (
                 <Discover 
                     tabs={tabs} 
                     headers={headers} 

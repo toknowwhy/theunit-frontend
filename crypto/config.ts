@@ -19,11 +19,29 @@ export const supportedNetworks: Dictionary<NetworkConfig> = {
         sloganKey: 'eth-vault-description', 
         liquidationRatio: 1.15,
         dustLimit: 1000,
-        nativeSymbol: 'ETH',
+        symbol: 'ETH',
         subgraphUrl: 'https://api.studio.thegraph.com/query/49276/tinu-vault-sepolia/version/latest',
         splineLogo: 'https://prod.spline.design/fMMC-bW1jfG6gieo/scene.splinecode',
         bridgedUN: '0x983542016D5417Cf36A10521756a790c2c5BFDA3',
         tickets,
+        supportedCollaterals: [
+            {
+                symbol: 'WBTC',
+                dustLimit: 1000,
+                unitId: 'wrapped-bitcoin',
+                splineLogo: 'https://prod.spline.design/eRzonbZrwnTxxYbA/scene.splinecode',
+                liquidationRatio: 1.15,
+                address: '0xa8465274Ab3C397453D52b700eddF9543b9347ca'
+            },
+            {
+                symbol: 'stETH',
+                dustLimit: 1000,
+                unitId: 'lido-staked-ether',
+                splineLogo: 'https://prod.spline.design/fMMC-bW1jfG6gieo/scene.splinecode',
+                liquidationRatio: 1.15,
+                address: '0xa8465274Ab3C397453D52b700eddF9543b9347ca'
+            }
+        ]
     },
 };
 export const networkByUnitId = keyBy(Object.values(supportedNetworks), 'unitId')

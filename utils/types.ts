@@ -39,18 +39,23 @@ export interface TokenDesc extends ContractDesc {
     decimals: number;
 }
 
-export interface NetworkConfig {
+export interface CollateralInfo {
+    symbol: string;
+    dustLimit: number;
+    address?: Address;
+    splineLogo: string;
+    liquidationRatio: number;
+    unitId: string;
+}
+
+export interface NetworkConfig extends CollateralInfo {
     chain: Chain,
     wrappedNative: Address,
-    unitId: string,
     sloganKey: string,
-    liquidationRatio: number,
-    dustLimit: number,
-    nativeSymbol: string,
     subgraphUrl: string,
-    splineLogo: string,
     bridgedUN: Address,
     tickets: Address[],
+    supportedCollaterals: CollateralInfo[],
 }
 
 export interface ContractDeployedInfo {
