@@ -98,6 +98,7 @@ export default function ThumbChart({
       <Link 
         href={`/unit/${currency}`}
         className={"block p-4 rounded-xl hover:shadow-lg hover:shadow-shadow" + (active ? " shadow-lg shadow-shadow" : "")}
+        prefetch={false}
       >
         <div className="flex justify-between items-center mb-4">
             <div>

@@ -24,7 +24,11 @@ export default function Table({
                 </div>)}
             </div>
             {data.map((d) => (
-                <Link href={`${isCandidate ? '/candidates' : ''}/coins/${d.coin_id}`} className="group contents leading-[4rem]" key={d.coin_id}>
+                <Link 
+                    key={d.coin_id}
+                    href={`${isCandidate ? '/candidates' : ''}/coins/${d.coin_id}`} className="group contents leading-[4rem]" 
+                    prefetch={false}
+                >
                     <TableItem className="pl-6 rounded-l-lg">{d.rank}</TableItem>
                     <TableItem className="flex gap-4 items-center whitespace-nowrap">
                         <CoinLogo coinId={d.coin_id} /> {d.name} <span className="text-gray text-base font-normal">{d.symbol.toUpperCase()}</span>
