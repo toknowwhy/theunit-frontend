@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useVaultInfo } from '@/utils/hooks/useVaultInfo';
 import { Address, useAccount } from 'wagmi';
-import 'react-toastify/dist/ReactToastify.min.css';
 import VaultForm from './form/VaultForm';
 import VaultHeader from './info/VaultHeader';
 import { useContracts } from './VaultNetworkProvider';

@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useTx } from "@/utils/hooks/useTx";
 import buildTx from "@/utils/buildTx";
 import TxButton from "../web3/TxButton";
+import ApproveBtn from "../web3/ApproveBtn";
 
 export default function TicketInfo({
     address,
@@ -48,14 +49,6 @@ export default function TicketInfo({
     const now = new Date();
     const canClaim = Boolean(unlockTime) && now.getTime() > unlockMilliseconds;
 
-    const { data: allowance } = useContractRead({
-        abi: TicketABI as Abi,
-        address,
-        functionName: 'allowance',
-        args: [account, ticketFactory!.address],
-        enabled: Boolean(account) && Boolean(ticketFactory) && canClaim
-    })
-
     if (!unlockTime || !ticketBalance) {
         return null;
     }
@@ -65,7 +58,7 @@ export default function TicketInfo({
     const unlockTimeStr = unlockDate.toLocaleDateString();
 
     const claim = async () => {
-        if (canClaim) {
+        if (!canClaim) {
             setShowError(t('cannot-claim-yet'));
             return;
         }
@@ -77,31 +70,7 @@ export default function TicketInfo({
 
         setClaimLoading(true);
 
-        const approveTransaction = await buildTx({
-            publicClient,
-            walletClient,
-            account,
-            contract: {
-                abi: TicketABI as Abi,
-                address
-            },
-            args: [ticketFactory.address, ticketBalance],
-            value: 0,
-            functionName: 'approve',
-            errMsg: t('cannot-send-transaction'),
-        })
-        if (approveTransaction) {
-            const tid = await sendTx({
-                name: t('token-claim'),
-                callTransaction: approveTransaction,
-                callbacks: {
-                    refetch: () => {
-                        refetch()
-                    }
-                }
-            })
-            setTxId(tid)
-        }
+        
 
         const callTransaction = await buildTx({
             publicClient,
@@ -139,13 +108,22 @@ export default function TicketInfo({
                     <TicketInfoCol title="Ticket Balance" info={tbal} />
                 </div>
                 <div className="h-[1px] w-full bg-gray-border my-6" />
-                <TxButton
-                    txId={txId}
-                    loading={claimLoading}
-                    onClick={claim}
+                <ApproveBtn
+                    walletClient={walletClient}
+                    publicClient={publicClient}
+                    spender={ticketFactory?.address}
+                    tokenAddress={address}
+                    amount={ticketBalance as bigint}
+                    enabled={canClaim}
                 >
-                    {t('claim')}
-                </TxButton>
+                    <TxButton
+                        txId={txId}
+                        loading={claimLoading}
+                        onClick={claim}
+                    >
+                        { t('claim')}
+                    </TxButton>
+                </ApproveBtn>
                 {showError && <div className="text-green text-center mt-2">
                     {showError}
                 </div>}

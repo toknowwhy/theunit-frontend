@@ -4,12 +4,10 @@ import { useState } from "react"
 import VaultsSelect from "./VaultSelect"
 import Discover from "./discover/Discover"
 import { TabItem, DiscoverRank } from "@/utils/types"
-import VaultNetworkProvider from "./VaultNetworkProvider"
 
 export default function VaultTabs({
     tabs,
     headers,
-    networks,
     untilText,
     viewText,
     vaultTitle,
@@ -17,7 +15,6 @@ export default function VaultTabs({
 } : {
     tabs: TabItem<DiscoverRank>[],
     headers: string[],
-    networks: TabItem<string>[],
     untilText: string,
     viewText: string,
     vaultTitle: string,
@@ -41,14 +38,11 @@ export default function VaultTabs({
         </div>
         <div>
             { selected === vaultTitle ? (
-                <VaultNetworkProvider>
                     <VaultsSelect />
-                </VaultNetworkProvider>
             ) : (
                 <Discover 
                     tabs={tabs} 
                     headers={headers} 
-                    networks={networks}
                     viewText={viewText}
                     untilText={untilText}
                 />

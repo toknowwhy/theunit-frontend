@@ -3,6 +3,8 @@ import { pick } from 'lodash';
 import { ReactNode } from 'react';
 import BodyContainer from '@/components/navbar/BodyContainer';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import VaultNetworkProvider from '@/components/vaults/VaultNetworkProvider';
 
 export default function ClientSideLayout({ children } : { children: ReactNode }) {
     const locale = useLocale();
@@ -12,13 +14,15 @@ export default function ClientSideLayout({ children } : { children: ReactNode })
         locale={locale}
         messages={pick(messages!, 'Vault')}
     >
-        <BodyContainer hasBgd>
-            { children }
-        </BodyContainer>
-        <ToastContainer 
-            position="top-right"
-            theme='dark'
-            className='max-w-full'
-        />
+        <VaultNetworkProvider>
+            <BodyContainer hasBgd>
+                { children }
+            </BodyContainer>
+            <ToastContainer 
+                position="top-right"
+                theme='dark'
+                className='max-w-full'
+            />
+        </VaultNetworkProvider>
     </NextIntlClientProvider>
 }

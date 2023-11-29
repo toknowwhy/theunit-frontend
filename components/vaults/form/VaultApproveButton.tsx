@@ -12,7 +12,7 @@ import { formatEther, parseEther } from "viem";
 import buildTx from "@/utils/buildTx";
 import GasEstimate from "@/components/web3/GasEstimate";
 
-export default function ApproveButton(props : VaultButtonProps) {
+export default function VaultApproveButton(props : VaultButtonProps) {
     const { unitAmount, account, isManage, unitPrice } = props
     const uamount = Math.abs(unitAmount);
     const [allowanceData, setAllowanceData] = useState<bigint>(BigInt(0));

@@ -18,10 +18,7 @@ export default function TokenClaim() {
         <>
             <div className="text-4xl font-bold">{t('token-claim')}</div>
             <div className="text-gray">{t('claim-tips')}</div>
-
-            <VaultNetworkProvider>
-                <ClaimInfo />
-            </VaultNetworkProvider>
+            <ClaimInfo />
         </>
     )
 }

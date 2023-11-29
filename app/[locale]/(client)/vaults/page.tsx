@@ -1,7 +1,5 @@
 import BodyContainer from "@/components/navbar/BodyContainer";
 import VaultTabs from "@/components/vaults/VaultTabs";
-import { supportedNetworks } from "@/crypto/config";
-import { coinLogoUrl } from "@/utils/functions";
 import { TabItem, DiscoverRank } from "@/utils/types";
 import { Metadata } from "next";
 import { useTranslations } from "next-intl";
@@ -25,12 +23,6 @@ export default function VaultsPage() {
         }
     ]
 
-    const networkItems: TabItem<string>[] = Object.keys(supportedNetworks).map((sn) => ({
-        value: sn,
-        title: supportedNetworks[sn].symbol,
-        icon: coinLogoUrl(supportedNetworks[sn].unitId)
-    }))
-
     const headers = [
         t('owner'),
         t('liquidation-price'),
@@ -45,7 +37,6 @@ export default function VaultsPage() {
             <VaultTabs 
                 tabs={rankTabs} 
                 headers={headers} 
-                networks={networkItems}
                 viewText={t('view')}
                 untilText={t('until-liquidate')}
                 vaultListTitle={t('vault-list')}
