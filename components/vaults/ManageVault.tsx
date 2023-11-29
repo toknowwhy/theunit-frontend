@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useVaultInfo } from '@/utils/hooks/useVaultInfo';
-import { ToastContainer } from 'react-toastify';
 import { Address, useAccount } from 'wagmi';
 import 'react-toastify/dist/ReactToastify.min.css';
 import VaultForm from './form/VaultForm';
@@ -48,10 +47,5 @@ export default function ManageVault() {
                     refetchVaultInfo={refetchVaultInfo}
                 />
             )}
-            <ToastContainer 
-                position="top-right"
-                theme='dark'
-                className='max-w-full'
-            />
         </>
 }

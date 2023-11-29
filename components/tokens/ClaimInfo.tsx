@@ -1,18 +1,17 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { useAccount } from "wagmi";
+import { usePublicClient, useWalletClient } from "wagmi";
 import { useContracts } from "../vaults/VaultNetworkProvider";
 import { supportedNetworks } from "@/crypto/config";
 import TicketInfo from "./TicketInfo";
-import Button from "../form/Button";
 
 export default function ClaimInfo() {
 
     const [mounted, setMounted] = useState(false);
-    const [showError, setShowError] = useState(false);
-    const { address } = useAccount();
     const contracts = useContracts();
+    const publicClient = usePublicClient();
+    const { data: walletClient } = useWalletClient()
     const tickets = contracts?.id ? supportedNetworks[contracts.id].tickets : [];
 
     useEffect(() => {
@@ -23,26 +22,15 @@ export default function ClaimInfo() {
         return null;
     }
 
-    return <>
-        { tickets.map((ticket) => (
+    return <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-4">
+        { tickets.map((ticket) => (<>
             <TicketInfo 
                 address={ticket} 
                 key={ticket} 
-                account={address}
+                walletClient={walletClient}
+                publicClient={publicClient}
                 ticketFactory={contracts?.TicketFactory}
             />
-        ))}
-        {showError && <div className="text-green">
-        Cannot claim yet!
-        </div>}
-        <div className="inline-block w-72">
-            <Button 
-                onClick={() => {
-                    setShowError(true)
-                }}
-            >
-                Claim
-            </Button>
-        </div>
-    </>
+        </>))}
+    </div>
 }

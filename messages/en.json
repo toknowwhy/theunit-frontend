@@ -110,6 +110,8 @@
         "locked-days": "Locked Days",
         "input-amount": "{symbol} Amount",
         "ethereum-vault-description": "This is our most popular vault",
+        "wrapped-btc-vault-description": "This is our 2nd popular vault",
+        "lido-staked-ether-vault-description": "This is our 3rd popular vault",
         "matic-network-vault-description": "Lower gas fee",
         "not-enough-unit-burn": "Minimum {num} TINU need to be left in the vault, click MAX to payback all TINU",
         "cannot-send-transaction": "Unable to send transaction now, please check your wallet connection",
@@ -126,7 +128,8 @@
         "until-liquidate": "Until Liquidation",
         "view": "View",
         "token-claim": "UN Tokens Claim",
-        "claim-tips": "Claim UN if you hold UN Tickets"
+        "claim-tips": "Claim UN if you hold UN Tickets",
+        "cannot-claim-yet": "Cannot claim yet"
     },
     "History": {
         "name": "Name",
