@@ -46,6 +46,7 @@ export interface CollateralInfo {
     splineLogo: string;
     liquidationRatio: number;
     unitId: string;
+    priceFeed: Address;
 }
 
 export interface NetworkConfig extends CollateralInfo {
@@ -64,11 +65,11 @@ export interface ContractDeployedInfo {
 }
 
 export interface NetworkContracts {
-    // VaultPriceFeed: ContractDesc;
-    // RouterV1: ContractDesc;
-    // TinuToken: ContractDesc;
-    // UnitPriceFeed: ContractDesc;
-    // Vault: ContractDesc;
+    VaultPriceFeed: ContractDesc;
+    RouterV1: ContractDesc;
+    TinuToken: ContractDesc;
+    UnitPriceFeed: ContractDesc;
+    Vault: ContractDesc;
     TicketFactory: ContractDesc;
 }
 
