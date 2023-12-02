@@ -1,6 +1,6 @@
 import { formatEther } from "viem";
 import { useContractReads } from "wagmi"
-import { NetworkInfo, VaultInfoType } from '../types';
+import { NetworkInfoWithCollateral, VaultInfoType } from '../types';
 
 export const initialVaultInfo: VaultInfoType = {
     liquidationFee: 0.15,
@@ -11,26 +11,26 @@ export const initialVaultInfo: VaultInfoType = {
     nextPrice: 0,
 }
 
-export const useVaultInfo = (currentNetwork?: NetworkInfo, account?: `0x${string}`) => {
+export const useVaultInfo = (currentNetwork: NetworkInfoWithCollateral, account?: `0x${string}`) => {
     const enabled = Boolean(currentNetwork) && Boolean(account);
     const { data: contractDatas, refetch } = useContractReads({
         enabled,
         contracts: [
             {
-                ...currentNetwork!.Vault,
+                ...currentNetwork.Vault,
                 functionName: "vaultOwnerAccount",
-                args: [account!, currentNetwork!.Wrapped.address],
+                args: [account!, currentNetwork.collateral.address!],
             },
             {
-                ...currentNetwork!.Vault,
+                ...currentNetwork.Vault,
                 functionName: "liquidationRatio",
             },
             {
-                ...currentNetwork!.UnitPriceFeed,
+                ...currentNetwork.UnitPriceFeed,
                 functionName: "latestRound",
             },
             {
-                ...currentNetwork!.Vault,
+                ...currentNetwork.Vault,
                 functionName: "minimumCollateral",
             },
         ],
@@ -40,12 +40,12 @@ export const useVaultInfo = (currentNetwork?: NetworkInfo, account?: `0x${string
         enabled: enabled && Boolean(roundId),
         contracts: [
             {
-                ...currentNetwork!.UnitPriceFeed,
+                ...currentNetwork.UnitPriceFeed,
                 functionName: "getRoundData",
                 args: [roundId ? (roundId! - BigInt(1)) : BigInt(1)]
             },
             {
-                ...currentNetwork!.UnitPriceFeed,
+                ...currentNetwork.UnitPriceFeed,
                 functionName: "getRoundData",
                 args: [roundId!]
             }

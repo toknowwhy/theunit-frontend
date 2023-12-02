@@ -10,15 +10,24 @@ import Loading from '@/app/[locale]/loading';
 import { useSearchParams } from 'next/navigation';
 import { supportedNetworks } from '@/crypto/config';
 
-export default function ManageVault() {
+export default function ManageVault({
+    collateral
+} : {
+    collateral: string
+}) {
+
+    const networkInfo = useContracts()!;
+    const currentCollateral = supportedNetworks[networkInfo.id].supportedCollaterals.filter((sc) => sc.symbol === collateral)[0];
+    console.log('AAAA', supportedNetworks[networkInfo.id].supportedCollaterals)
+    console.log('BBBBB', collateral)
+    const networkInfoWithCollateral = {...networkInfo, collateral: currentCollateral}
 
     const params = useSearchParams();
     const owner = params?.get('owner')
-    const currentNetwork = useContracts();
     const { address: account } = useAccount();
     const [mounted, setMounted] = useState(false);
     const {vaultInfo, refetch: refetchVaultInfo} = 
-        useVaultInfo(currentNetwork, owner ? (owner as Address) : account);
+        useVaultInfo(networkInfoWithCollateral, owner ? (owner as Address) : account);
 
     useEffect(() => {
         setMounted(true)
@@ -30,21 +39,19 @@ export default function ManageVault() {
 
     return <>
             <VaultHeader 
-                symbol={currentNetwork?.nativeSymbol ?? 'ETH'} 
+                symbol={networkInfo.nativeSymbol} 
                 liquidationFee={vaultInfo.liquidationFee} 
                 minUnit={vaultInfo.minUnit}
                 price={vaultInfo.currentPrice} 
                 nextPrice={vaultInfo.nextPrice}
-                spline={currentNetwork?.id ? supportedNetworks[currentNetwork.id].splineLogo : ''}
+                spline={networkInfoWithCollateral.collateral.splineLogo}
             />
-            {currentNetwork && (
-                <VaultForm 
-                    account={account} 
-                    owner={owner as Address}
-                    vaultInfo={vaultInfo} 
-                    networkInfo={currentNetwork}
-                    refetchVaultInfo={refetchVaultInfo}
-                />
-            )}
+            <VaultForm 
+                account={account} 
+                owner={owner as Address}
+                vaultInfo={vaultInfo} 
+                networkInfo={networkInfo}
+                refetchVaultInfo={refetchVaultInfo}
+            />
         </>
 }

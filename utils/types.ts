@@ -49,9 +49,8 @@ export interface CollateralInfo {
     priceFeed: Address;
 }
 
-export interface NetworkConfig extends CollateralInfo {
+export interface NetworkConfig {
     chain: Chain,
-    wrappedNative: Address,
     sloganKey: string,
     subgraphUrl: string,
     bridgedUN: Address,
@@ -78,10 +77,13 @@ export type AllContracts = {
 }
 
 export interface NetworkInfo extends NetworkContracts {
-    Wrapped: ContractDesc;
-    name: string;
     id: number;
+    name: string;
     nativeSymbol: string;
+}
+
+export interface NetworkInfoWithCollateral extends NetworkInfo {
+    collateral: CollateralInfo;
 }
 
 export type ContractFunc = 

@@ -17,18 +17,20 @@ const ethPriceFeed: Address = '0x481aE08bE993e853E163D9c39a9a5e86760aD281'
 export const supportedNetworks: Dictionary<NetworkConfig> = {
     '421613': {
         chain: arbitrumGoerli,
-        wrappedNative: '0xEe01c0CD76354C383B8c7B4e65EA88D00B06f36f',
-        unitId: 'ethereum',
         sloganKey: 'eth-vault-description', 
-        liquidationRatio: 1.15,
-        dustLimit: 1000,
-        symbol: 'ETH',
-        priceFeed: ethPriceFeed,
         subgraphUrl: 'https://api.studio.thegraph.com/query/49276/tinu-vault-sepolia/version/latest',
-        splineLogo: 'https://prod.spline.design/fMMC-bW1jfG6gieo/scene.splinecode',
         bridgedUN: '0x983542016D5417Cf36A10521756a790c2c5BFDA3',
         tickets,
         supportedCollaterals: [
+            {
+                symbol: 'ETH',
+                dustLimit: 1000,
+                unitId: 'ethereum',
+                splineLogo: 'https://prod.spline.design/fMMC-bW1jfG6gieo/scene.splinecode',
+                liquidationRatio: 1.15,
+                address: '0xEe01c0CD76354C383B8c7B4e65EA88D00B06f36f',
+                priceFeed: ethPriceFeed
+            },
             {
                 symbol: 'WBTC',
                 dustLimit: 1000,
@@ -50,4 +52,3 @@ export const supportedNetworks: Dictionary<NetworkConfig> = {
         ]
     },
 };
-export const networkByUnitId = keyBy(Object.values(supportedNetworks), 'unitId')

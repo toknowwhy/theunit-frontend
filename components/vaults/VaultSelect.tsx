@@ -3,7 +3,7 @@
 import BoxContainer from "@/components/BoxContainer";
 import SplineAnim from "@/components/SplineAnim";
 import { supportedNetworks } from "@/crypto/config";
-import {  CollateralInfo, NetworkConfig } from "@/utils/types";
+import {  CollateralInfo } from "@/utils/types";
 import { useTranslations } from "next-intl";
 import Link from "next-intl/link";
 import { useContracts } from "./VaultNetworkProvider";
@@ -24,7 +24,6 @@ export default function VaultsSelect({
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 2xl:grid-cols-3 2xl:gap-4">
-            <VaultChoice choiceInfo={networkInfo} isFarm={isFarm} />
             {supportedCollaterals.map((collateral) => (
                 <VaultChoice
                     key={collateral.symbol}
@@ -64,7 +63,7 @@ function VaultChoice({
                 <VaultChoiceInfo title={t('liquidation-ratio')} info={(choiceInfo.liquidationRatio * 100).toFixed(0) + '%'} />
                 <VaultChoiceInfo title={t('stability-fee')} info='0.00%' />
                 <Link 
-                    href={`/${isFarm ? 'farm' : 'vaults'}/${choiceInfo.unitId}`} 
+                    href={`/${isFarm ? 'farm' : 'vaults'}/${choiceInfo.symbol}`} 
                     className="block mt-8 py-3 rounded-lg bg-gray-border text-center font-semibold hover:bg-transparent border border-gray-border" 
                 >
                         {t(isFarm ? 'start-farm' : 'enter-vault')}
