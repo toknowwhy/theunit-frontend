@@ -13,17 +13,19 @@ export const initialVaultInfo: VaultInfoType = {
 
 export const useVaultInfo = (currentNetwork: NetworkInfoWithCollateral, account?: `0x${string}`) => {
     const enabled = Boolean(currentNetwork) && Boolean(account);
+    const collateralAddress = currentNetwork.collateral.address!
     const { data: contractDatas, refetch } = useContractReads({
         enabled,
         contracts: [
             {
                 ...currentNetwork.Vault,
                 functionName: "vaultOwnerAccount",
-                args: [account!, currentNetwork.collateral.address!],
+                args: [account!, collateralAddress],
             },
             {
                 ...currentNetwork.Vault,
                 functionName: "liquidationRatio",
+                args: [collateralAddress]
             },
             {
                 ...currentNetwork.UnitPriceFeed,

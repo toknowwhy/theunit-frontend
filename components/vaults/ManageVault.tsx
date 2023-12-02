@@ -18,8 +18,6 @@ export default function ManageVault({
 
     const networkInfo = useContracts()!;
     const currentCollateral = supportedNetworks[networkInfo.id].supportedCollaterals.filter((sc) => sc.symbol === collateral)[0];
-    console.log('AAAA', supportedNetworks[networkInfo.id].supportedCollaterals)
-    console.log('BBBBB', collateral)
     const networkInfoWithCollateral = {...networkInfo, collateral: currentCollateral}
 
     const params = useSearchParams();
@@ -39,7 +37,7 @@ export default function ManageVault({
 
     return <>
             <VaultHeader 
-                symbol={networkInfo.nativeSymbol} 
+                symbol={currentCollateral.symbol} 
                 liquidationFee={vaultInfo.liquidationFee} 
                 minUnit={vaultInfo.minUnit}
                 price={vaultInfo.currentPrice} 
