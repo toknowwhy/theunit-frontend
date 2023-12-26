@@ -1,6 +1,7 @@
-import { formatEther } from "viem";
+import { Abi, formatEther } from "viem";
 import { useContractReads } from "wagmi"
-import { NetworkInfoWithCollateral, VaultInfoType } from '../types';
+import { ContractDesc, NetworkInfoWithCollateral, VaultInfoType } from '../types';
+import { PriceFeedABI } from "@/crypto/PriceFeedABI";
 
 export const initialVaultInfo: VaultInfoType = {
     liquidationFee: 0.15,
@@ -13,7 +14,12 @@ export const initialVaultInfo: VaultInfoType = {
 
 export const useVaultInfo = (currentNetwork: NetworkInfoWithCollateral, account?: `0x${string}`) => {
     const enabled = Boolean(currentNetwork) && Boolean(account);
-    const collateralAddress = currentNetwork.collateral.address!
+    const collateralAddress = currentNetwork.collateral.address!;
+    const priceFeedDesc: ContractDesc = {
+        address: currentNetwork.collateral.priceFeed,
+        abi: PriceFeedABI as Abi
+    }
+    console.log('BBBB', priceFeedDesc)
     const { data: contractDatas, refetch } = useContractReads({
         enabled,
         contracts: [
@@ -28,7 +34,7 @@ export const useVaultInfo = (currentNetwork: NetworkInfoWithCollateral, account?
                 args: [collateralAddress]
             },
             {
-                ...currentNetwork.UnitPriceFeed,
+                ...priceFeedDesc,
                 functionName: "latestRound",
             },
             {
@@ -42,12 +48,12 @@ export const useVaultInfo = (currentNetwork: NetworkInfoWithCollateral, account?
         enabled: enabled && Boolean(roundId),
         contracts: [
             {
-                ...currentNetwork.UnitPriceFeed,
+                ...priceFeedDesc,
                 functionName: "getRoundData",
                 args: [roundId ? (roundId! - BigInt(1)) : BigInt(1)]
             },
             {
-                ...currentNetwork.UnitPriceFeed,
+                ...priceFeedDesc,
                 functionName: "getRoundData",
                 args: [roundId!]
             }

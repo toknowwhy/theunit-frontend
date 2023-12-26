@@ -67,7 +67,6 @@ export interface NetworkContracts {
     VaultPriceFeed: ContractDesc;
     RouterV1: ContractDesc;
     TinuToken: ContractDesc;
-    UnitPriceFeed: ContractDesc;
     Vault: ContractDesc;
     TicketFactory: ContractDesc;
 }
