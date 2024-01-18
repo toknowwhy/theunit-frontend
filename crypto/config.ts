@@ -15,11 +15,11 @@ const ethPriceFeed: Address = '0x481aE08bE993e853E163D9c39a9a5e86760aD281'
 // The reason of hard coding chain ids is reading chains from wagmi
 // has to be within client components
 export const supportedNetworks: Dictionary<NetworkConfig> = {
-    '421613': {
+    '421614': {
         chain: arbitrumGoerli,
         sloganKey: 'eth-vault-description', 
         subgraphUrl: 'https://api.studio.thegraph.com/query/49276/tinu-vault-sepolia/version/latest',
-        bridgedUN: '0x983542016D5417Cf36A10521756a790c2c5BFDA3',
+        bridgedUN: '0x4CEcd017a9bA4dAbDC3d35A042Ea16ace0325115',
         tickets,
         supportedCollaterals: [
             {
@@ -28,7 +28,7 @@ export const supportedNetworks: Dictionary<NetworkConfig> = {
                 unitId: 'ethereum',
                 splineLogo: 'https://prod.spline.design/fMMC-bW1jfG6gieo/scene.splinecode',
                 liquidationRatio: 1.15,
-                address: '0xe39Ab88f8A4777030A534146A9Ca3B52bd5D43A3',
+                address: '0x980B62Da83eFf3D4576C647993b0c1D7faf17c73',
                 priceFeed: ethPriceFeed
             },
             {
@@ -37,7 +37,7 @@ export const supportedNetworks: Dictionary<NetworkConfig> = {
                 unitId: 'wrapped-bitcoin',
                 splineLogo: 'https://prod.spline.design/eRzonbZrwnTxxYbA/scene.splinecode',
                 liquidationRatio: 1.15,
-                address: '0xa8465274Ab3C397453D52b700eddF9543b9347ca',
+                address: '0xB24D631e7899F6D89eF9C6dEa293A6527e8a3438',
                 priceFeed: btcPriceFeed
             },
             {
@@ -46,7 +46,7 @@ export const supportedNetworks: Dictionary<NetworkConfig> = {
                 unitId: 'lido-staked-ether',
                 splineLogo: 'https://prod.spline.design/fMMC-bW1jfG6gieo/scene.splinecode',
                 liquidationRatio: 1.15,
-                address: '0xa8465274Ab3C397453D52b700eddF9543b9347ca',
+                address: '0xB24D631e7899F6D89eF9C6dEa293A6527e8a3438',
                 priceFeed: ethPriceFeed
             }
         ]
