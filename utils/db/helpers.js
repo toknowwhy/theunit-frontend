@@ -65,3 +65,11 @@ export async function getBitcoinChange(db) {
     return { change, changePerc }
 
 }
+
+export function getSymbolAndCurrency(symbol) {
+    const arr = symbol.split(':');
+    return {
+        symbol: arr[0],
+        currency: arr[1],
+    }
+}

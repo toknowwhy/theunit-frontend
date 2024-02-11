@@ -14,15 +14,14 @@ function getCorrectValue(data, isETH, cid) {
     return val;
 }
 
-function getBarData(resHourData, start, end, isETH, cid, hasData) {
-    const subarr = resHourData.slice(start, end);
+function getBarData(subarr, isETH, cid, prevData) {
     const valueKey = cid ? 'price' : 'value';
     const valueArr = subarr.map((sa) => sa[valueKey])
     const bar = {
         time: moment(subarr[0].time).toDate(),
         high: Math.max(...valueArr),
         low: Math.min(...valueArr),
-        open: getCorrectValue(hasData ? resHourData[start-1] : subarr[0], isETH, cid),
+        open: getCorrectValue(prevData ?? subarr[0], isETH, cid),
         close: subarr[subarr.length-1][valueKey],
         volume: subarr.reduce((partialSum, a) => partialSum + a.volume, 0),
     };
@@ -52,16 +51,21 @@ export async function allBars(db, from, to, currency='BTC', coinId, resolution) 
 
     if (isMinuteData) {
         const bars = [];
-        let counter = resHourData.length;
-        const dataCount = mins / 5; // We store data every 5 minutes
-        while (counter > dataCount) {
-            const bar = getBarData(resHourData, counter-dataCount, counter, isETH, cid, true)
-            bars.push(bar)
-            counter -= dataCount;
-        }
-        if (counter > 0) {
-            const bar = getBarData(resHourData, 0, counter, isETH, cid, false)
-            bars.push(bar)
+        const total = resHourData.length;
+        let lastData = resHourData[total-1];
+        const mod = (new Date(lastData.time)).getMinutes() % mins;
+
+        let counter = total-1;
+        let nextTime = moment(lastData.time).subtract(mod > 0 ? mod : mins, 'minutes');
+        while (counter >= 500) {
+            let subarr = [];
+            while (counter >=0 && moment(resHourData[counter].time).isAfter(nextTime)) {
+                subarr.push(resHourData[counter]);
+                counter--;
+            }
+            const bar = getBarData(subarr, isETH, cid, resHourData[counter])
+            bars.push(bar);
+            nextTime = nextTime.subtract(mins, 'minutes');
         }
 
         return bars.reverse();
