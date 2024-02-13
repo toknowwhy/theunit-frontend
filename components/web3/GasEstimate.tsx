@@ -13,7 +13,7 @@ const GasEstimate = memo(function GasEstimate({
     functionName,
     unitPrice,
 } : {
-    publicClient: PublicClient,
+    publicClient?: PublicClient,
     account: Address,
     contract: ContractDesc,
     args?: any[],
@@ -28,14 +28,16 @@ const GasEstimate = memo(function GasEstimate({
 
     useEffect(() => {
         (async function estimateGas() {
-            const gas = await publicClient.estimateContractGas({
-                account,
-                ...contract,
-                functionName,
-                args,
-                value: value ? parseEther(value.toString()) : undefined
-            })
-            setGas(parseFloat(formatGwei(gas)))
+            if (publicClient) {
+                const gas = await publicClient.estimateContractGas({
+                    account,
+                    ...contract,
+                    functionName,
+                    args,
+                    value: value ? parseEther(value.toString()) : undefined
+                })
+                setGas(parseFloat(formatGwei(gas)))
+            }
         })()
     }, [account, args, contract, functionName, publicClient, value])
 

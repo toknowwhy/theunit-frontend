@@ -1,5 +1,4 @@
 import { Address, PublicClient, WalletClient } from "viem";
-import { useContractRead } from "wagmi";
 import { TicketABI } from "@/crypto/TicketABI";
 import { Abi, formatEther } from "viem";
 import { ContractDesc } from "@/utils/types";
@@ -10,6 +9,7 @@ import { useTx } from "@/utils/hooks/useTx";
 import buildTx from "@/utils/buildTx";
 import TxButton from "../web3/TxButton";
 import ApproveBtn from "../web3/ApproveBtn";
+import { useReadContract } from "wagmi";
 
 export default function TicketInfo({
     address,
@@ -30,19 +30,23 @@ export default function TicketInfo({
     const [claimLoading, setClaimLoading] = useState(false);
     const sendTx = useTx();
 
-    const { data: ticketBalance, refetch } = useContractRead({
+    const { data: ticketBalance, refetch } = useReadContract({
         abi: TicketABI as Abi,
         address,
         functionName: 'balanceOf',
         args: [account],
-        enabled: Boolean(account)
+        query: {
+            enabled: Boolean(account)
+        }
     })
 
-    const { data: unlockTime } = useContractRead({
+    const { data: unlockTime } = useReadContract({
         ...ticketFactory,
         functionName: 'tickets',
         args: [address!],
-        enabled: Boolean(ticketBalance) && (ticketBalance as bigint) > 0 
+        query: {
+            enabled: Boolean(ticketBalance) && (ticketBalance as bigint) > 0 
+        }
     })
 
     const unlockMilliseconds = Number(unlockTime ?? 0)*1000;

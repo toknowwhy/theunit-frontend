@@ -35,6 +35,8 @@ export const useTx = () => {
         callbacks?: TransactionCallbacks
     ) => {
 
+      if (!publicClient) return;
+
         try {
             callbacks?.onSentToWallet?.(id)
             const responsePromise = callTransaction()

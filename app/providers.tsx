@@ -3,19 +3,24 @@
 import '@rainbow-me/rainbowkit/styles.css';
 
 import {
-  RainbowKitProvider,
   darkTheme,
+  RainbowKitProvider,
   getDefaultWallets,
-  connectorsForWallets,
+  getDefaultConfig,
 } from '@rainbow-me/rainbowkit';
 import { ThemeProvider } from 'next-themes';
-import { configureChains, WagmiConfig, createConfig } from 'wagmi';
-import { infuraProvider } from 'wagmi/providers/infura';
-import { publicProvider } from 'wagmi/providers/public';
+import { WagmiProvider } from 'wagmi';
 import { ReactNode } from 'react';
 import { initialChain, supportedNetworks as networks } from '@/crypto/config';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  argentWallet,
+  trustWallet,
+  ledgerWallet,
+} from '@rainbow-me/rainbowkit/wallets';
+import { arbitrumGoerli } from 'viem/chains';
 
-const supportedNetworks = Object.values(networks).map((n) => n.chain);
+// const supportedNetworks = Object.values(networks).map((n) => n.chain);
 
 export default function Providers({ 
   walletConnectId, 
@@ -28,41 +33,39 @@ export default function Providers({
   alchemyKey: string,
   children: ReactNode 
 }) {
-  
-  const { chains, publicClient, webSocketPublicClient } = configureChains(
-    supportedNetworks,
-    [infuraProvider({ apiKey: infuraKey }), publicProvider()],
-  )
-  const { wallets } = getDefaultWallets({
-    appName: 'UNIT APP',
+
+  const { wallets } = getDefaultWallets();
+  const config = getDefaultConfig({
+    appName: 'UNIT App',
     projectId: walletConnectId,
-    chains,
+    wallets: [
+      ...wallets,
+      {
+        groupName: 'Other',
+        wallets: [argentWallet, trustWallet, ledgerWallet],
+      },
+    ],
+    chains: [arbitrumGoerli],
+    ssr: true,
   });
+
+  const queryClient = new QueryClient();
   
-  const connectors = connectorsForWallets([
-    ...wallets,
-  ]);
-  
-  const wagmiConfig = createConfig({
-    autoConnect: true,
-    connectors,
-    publicClient,
-    webSocketPublicClient,
-  });
   return (
     <ThemeProvider>
-      <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider 
-          theme={darkTheme({
-            accentColor: '#4844FF'
-          })} 
-          chains={chains}
-          initialChain={initialChain}
-          showRecentTransactions={true}
-        >
-            {children}
-        </RainbowKitProvider>
-      </WagmiConfig>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider 
+            theme={darkTheme({
+              accentColor: '#4844FF'
+            })} 
+            initialChain={initialChain}
+            showRecentTransactions={true}
+          >
+              {children}
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
     </ThemeProvider>
   );
 }

@@ -24,7 +24,9 @@ export default function FarmForm(props: FarmBoxProps) {
 
     const { data: ethBalance, refetch: refetchEbal } = useBalance({
         address: account,
-        enabled: Boolean(account)
+        query: {
+            enabled: Boolean(account)
+        }
     })
 
     useEffect(() => {

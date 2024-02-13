@@ -8,7 +8,7 @@ import {
 	LanguageCode,
 	IChartingLibraryWidget, 
 } from '@/public/charting_library';
-import { UDFCompatibleDatafeed } from "@/public/charting_library/datafeeds/udf/src/udf-compatible-datafeed";
+import { UDFCompatibleDatafeed } from "@/public/datafeeds/udf/src/udf-compatible-datafeed";
 import { useTheme } from 'next-themes';
 
 

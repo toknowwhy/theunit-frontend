@@ -1,13 +1,13 @@
 import { gql, useQuery } from '@apollo/client';
 import { Fragment } from 'react';
 import { formatEther } from 'viem';
-import { useContractRead } from 'wagmi';
 import Link from 'next-intl/link';
 import Spinner from '@/components/Spinner';
 import { allNetworkContracts, supportedNetworks } from '@/crypto/config';
 import { shortenAddress } from '@/utils/functions';
 import { DiscoverRank, VaultEvent } from '@/utils/types';
 import BoxContainer from '@/components/BoxContainer';
+import { useReadContract } from 'wagmi';
 
 export default function DiscoverList({
     headers,
@@ -25,7 +25,7 @@ export default function DiscoverList({
 
     const orderby = rank === 'debt' ? 'unitDebt' : 'liquidationPrice';
     const contracts = allNetworkContracts
-    const {data: priceData, isLoading: priceLoading} = useContractRead({
+    const {data: priceData, isLoading: priceLoading} = useReadContract({
         ...contracts.UnitPriceFeed,
         functionName: 'latestAnswer',
         chainId: parseInt(chainId)
@@ -90,7 +90,8 @@ export default function DiscoverList({
                     <div className='border-b border-b-gray-border p-4'>
                         <Link 
                             className='bg-gray-border px-4 rounded-full'
-                            href={`/vaults/${supportedNetworks[chainId].unitId}?owner=${vaultAction.owner}`}
+                            href={ '' //`/vaults/${supportedNetworks[chainId].unitId}?owner=${vaultAction.owner}`
+                            }
                         >
                             {viewText}
                         </Link>

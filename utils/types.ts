@@ -1,6 +1,5 @@
 import { ReactElement, ReactNode } from "react";
-import { Address, Chain } from "wagmi";
-import { Abi, Hex } from "viem";
+import { Abi, Hex, Chain, Address } from "viem";
 
 /***************************** Database Types **********************************/
 

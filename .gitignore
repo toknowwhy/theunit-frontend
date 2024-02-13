@@ -38,6 +38,8 @@ next-env.d.ts
 #tradingview
 /charting_library
 /public/charting_library
+/datafeeds
+/public/datafeeds
 
 #local scripts
 localScripts.js

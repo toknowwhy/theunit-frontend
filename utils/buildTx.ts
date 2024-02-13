@@ -18,7 +18,7 @@ export default async function buildTx({
     functionName,
     errMsg,
 } : {
-    publicClient: PublicClient,
+    publicClient?: PublicClient,
     walletClient?: any,
     account?: Address,
     contract: ContractDesc,
@@ -27,6 +27,9 @@ export default async function buildTx({
     functionName: string,
     errMsg: string,
 }) {
+  if (!publicClient) {
+    return;
+  }
 
     try {
         const { request } = await publicClient.simulateContract({

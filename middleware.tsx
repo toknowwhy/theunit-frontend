@@ -10,5 +10,5 @@ export default createMiddleware({
 
 export const config = {
   // Skip all non-content paths
-  matcher: ['/((?!api|_next|favicon.ico|charting_library|bgds|.*\\..*).*)']
+  matcher: ['/((?!api|_next|favicon.ico|charting_library|datafeeds|bgds|.*\\..*).*)']
 };

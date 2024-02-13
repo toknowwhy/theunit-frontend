@@ -1,12 +1,11 @@
 import { ReactNode, useState } from "react";
-import { useContractRead } from "wagmi";
-import { Address, PublicClient, WalletClient } from "viem";
-import { erc20ABI } from "wagmi";
+import { Address, PublicClient, WalletClient, erc20Abi } from "viem";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
 import buildTx from "@/utils/buildTx";
 import { useTx } from "@/utils/hooks/useTx";
 import { toast } from "react-toastify";
 import TxButton from "./TxButton";
+import { useReadContract } from "wagmi";
 
 export default function ApproveBtn({
     tokenAddress,
@@ -32,12 +31,14 @@ export default function ApproveBtn({
     const [txId, setTxId] = useState('');
     const owner = walletClient?.account?.address;
 
-    const { data: allowance, refetch: refetchAllowance } = useContractRead({
-        abi: erc20ABI,
+    const { data: allowance, refetch: refetchAllowance } = useReadContract({
+        abi: erc20Abi,
         address: tokenAddress,
         functionName: 'allowance',
         args: [owner!, spender!],
-        enabled: Boolean(owner) && Boolean(spender) && enabled
+        query: {
+            enabled: Boolean(owner) && Boolean(spender) && enabled
+        }
     })
 
     if ((allowance && (allowance as bigint) >= amount) || !enabled) {
@@ -58,7 +59,7 @@ export default function ApproveBtn({
             walletClient,
             account: owner,
             contract: {
-                abi: erc20ABI,
+                abi: erc20Abi,
                 address: tokenAddress
             },
             args: [spender, amount],

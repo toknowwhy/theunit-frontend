@@ -41,7 +41,7 @@ export default async function TokenPage({ id }: { id: string }) {
         </div>
         <PriceChange priceChange={data.price_change_percentage_24h} diff={data.price_change_24h} />
         <div className="mb-8"></div>
-        <ChartWrapper symbol={(data.symbol ?? coinId).toUpperCase() + 'UNIT'} />
+        <ChartWrapper symbol={`${coinId}:BTC`} />
 
         <TokenInfo coin={data} />
     </BodyContainer>

@@ -1,9 +1,9 @@
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { allNetworkContracts, supportedNetworks } from "../../crypto/config";
 import { NetworkInfo } from "../types";
 
 export const useCurrentNetworkContracts = () : NetworkInfo|undefined => {
-    const { chain } = useNetwork();
+    const { chain } = useAccount();
     if (!chain || !supportedNetworks[chain.id]) {
         return undefined;
     }

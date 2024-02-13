@@ -1,8 +1,8 @@
 import { toFloat } from "@/utils/functions";
 import { useTx } from "@/utils/hooks/useTx";
 import { useVaultTranslations } from "@/utils/hooks/useVaultTranslations";
-import { useContractRead, usePublicClient, useWalletClient } from "wagmi";
-import { useState } from "react";
+import { usePublicClient, useReadContract, useWalletClient } from "wagmi";
+import { useEffect, useState } from "react";
 import { VaultButtonProps } from "@/utils/types";
 import ConfirmBtn from "./ManageButton";
 import TxButton from "@/components/web3/TxButton";
@@ -28,36 +28,47 @@ export default function VaultApproveButton(props : VaultButtonProps) {
     const unitToken = network!.TinuToken;
     const contractAddress = network?.RouterV1.address;
     const vault = network!.Vault;
-    const { error, isLoading, refetch, isRefetching } = useContractRead({
+    const { error, isLoading, refetch, isRefetching, data: unitAllowance } = useReadContract({
         address: unitToken.address,
         abi: unitToken.abi,
         functionName: 'allowance',
-        enabled: unitAmount < 0,
-        args: [account, contractAddress],
-        onSuccess(data) {
-            setAllowanceData(data as bigint)
+        query: {
+            enabled: unitAmount < 0,
         },
+        args: [account, contractAddress],
     })
     const { 
         error: vaultApproveError, 
         refetch: vaultAllowanceRefetch, 
         isLoading: isVaultLoading,
         isRefetching: vaultAllowanceIsRefetching, 
-    } = useContractRead({
+        data: vaultAllowance,
+    } = useReadContract({
         address: vault.address,
         abi: vault.abi,
         functionName: 'allowances',
-        enabled: !isManage,
-        args: [account, contractAddress],
-        onSuccess(data) {
-            setVaultAllow(data as boolean)
+        query: {
+            enabled: !isManage,
         },
+        args: [account, contractAddress],
     })
     const allowance = formatEther(allowanceData);
     const tinuNeedApproval = toFloat(allowance) < uamount && unitAmount < 0;
     const toPrepareContract = tinuNeedApproval ? unitToken : vault;
     const title = tinuNeedApproval ? t('approve-unit') : t('approve-vault');
     const needToApprove = !vaultAllow || tinuNeedApproval;
+
+    useEffect(() => {
+        if (vaultAllowance) {
+            setVaultAllow(vaultAllowance as boolean)
+        }
+    }, [vaultAllowance])
+
+    useEffect(() => {
+        if (unitAllowance) {
+            setAllowanceData(unitAllowance as bigint)
+        }
+    }, [unitAllowance])
 
     if (!needToApprove) {
         return <ConfirmBtn { ...props } />

@@ -1,7 +1,7 @@
 import { Abi, formatEther } from "viem";
-import { useContractReads } from "wagmi"
 import { ContractDesc, NetworkInfoWithCollateral, VaultInfoType } from '../types';
 import { PriceFeedABI } from "@/crypto/PriceFeedABI";
+import { useReadContracts } from "wagmi";
 
 export const initialVaultInfo: VaultInfoType = {
     liquidationFee: 0.15,
@@ -20,8 +20,10 @@ export const useVaultInfo = (currentNetwork: NetworkInfoWithCollateral, account?
         abi: PriceFeedABI as Abi
     }
     console.log('BBBB', priceFeedDesc)
-    const { data: contractDatas, refetch } = useContractReads({
-        enabled,
+    const { data: contractDatas, refetch } = useReadContracts({
+        query: {
+            enabled
+        },
         contracts: [
             {
                 ...currentNetwork.Vault,
@@ -44,8 +46,10 @@ export const useVaultInfo = (currentNetwork: NetworkInfoWithCollateral, account?
         ],
     })
     const roundId = contractDatas ? (contractDatas[2].result as bigint) : undefined; 
-    const { data: roundDatas } = useContractReads({
-        enabled: enabled && Boolean(roundId),
+    const { data: roundDatas } = useReadContracts({
+        query: {
+            enabled: enabled && Boolean(roundId),
+        },
         contracts: [
             {
                 ...priceFeedDesc,

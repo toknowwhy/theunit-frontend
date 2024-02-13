@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { useVaultInfo } from '@/utils/hooks/useVaultInfo';
-import { Address, useAccount } from 'wagmi';
+import { useAccount } from 'wagmi';
 import VaultForm from './form/VaultForm';
 import VaultHeader from './info/VaultHeader';
 import { useContracts } from './VaultNetworkProvider';
 import Loading from '@/app/[locale]/loading';
 import { useSearchParams } from 'next/navigation';
 import { supportedNetworks } from '@/crypto/config';
+import { Address } from 'viem';
 
 export default function ManageVault({
     collateral

@@ -3,7 +3,6 @@ const withNextIntl = require('next-intl/plugin')(
 );
 
 module.exports = withNextIntl({
-  experimental: {appDir: true},
   webpack(config) {
     config.resolve.fallback = {
       ...config.resolve.fallback,  

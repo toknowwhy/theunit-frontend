@@ -56,7 +56,9 @@ export default function VaultForm({
     const { balance: ubal, refetch: refetchUbal } = useTinuBalance(account);
     const { data: ebal, refetch: refetchEbal } = useBalance({
         address: account,
-        enabled: Boolean(account)
+        query: {
+            enabled: Boolean(account)
+        }
     })
 
     useEffect(() => {
