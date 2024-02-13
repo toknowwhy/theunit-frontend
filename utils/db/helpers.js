@@ -67,6 +67,14 @@ export async function getBitcoinChange(db) {
 }
 
 export function getIDAndCurrency(symbol) {
+    if (symbol.startsWith('UNIT')) {
+        const symbolArr = symbol.split('UNIT');
+        const currencyUnit = symbolArr[1];
+        return {
+            id: symbol,
+            currency: currencyUnit === 'USD' ? 'USD' : currencyUnit === 'SATOSHI' ? 'BTC' : 'ETH'
+        }
+    }
     const arr = symbol.split(':');
     return {
         id: arr[0],
