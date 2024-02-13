@@ -36,6 +36,7 @@
     "react-dom": "18.2.0",
     "react-toastify": "^9.1.1",
     "sharp": "^0.32.0",
+    "socket.io-client": "^4.7.3",
     "tailwind-scrollbar-hide": "^1.1.7",
     "ts-essentials": "^9.3.0",
     "typescript": "^5.1.6",

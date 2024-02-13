@@ -314,6 +314,7 @@ export class UnitDatafeed implements IDatafeedChartApi {
     listenerGuid: string,
     onResetCacheNeededCallback: () => void,
   ): void {
+
     if (this._subscribers.hasOwnProperty(listenerGuid)) {
       return;
     }
@@ -324,6 +325,21 @@ export class UnitDatafeed implements IDatafeedChartApi {
       resolution: resolution,
       symbolInfo: symbolInfo,
     };
+    let value = 5513.877;
+    let time = 1672376400000;
+    let interval = 1000;
+
+    setInterval(() => {
+      value += 2;
+      time += interval;
+      onTick({
+        time: time,
+        open: value,
+        close: value,
+        high: value,
+        low: value
+      })
+    }, interval)
   }
 
   public unsubscribeBars(listenerGuid: string): void {

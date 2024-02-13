@@ -3,14 +3,12 @@
 import { memo, useEffect, useRef } from 'react';
 import { 
 	widget, 
+	ResolutionString,
+  ThemeName,
+	LanguageCode,
 	IChartingLibraryWidget, 
-	ResolutionString, 
-	LanguageCode, 
-	AvailableSaveloadVersions, 
-	ThemeName, 
-	ChartingLibraryWidgetOptions
 } from '@/public/charting_library';
-import { UnitDatafeed } from './datafeed';
+import { UDFCompatibleDatafeed } from "@/public/charting_library/datafeeds/udf/src/udf-compatible-datafeed";
 import { useTheme } from 'next-themes';
 
 
@@ -27,17 +25,14 @@ const TVChartContainer = memo(function TVChartContainer({
 	const mainColor = theme === 'dark' ? '#151718' : '#f5f5f5';
 
 	const widgetOptions = {
-		symbol: symbol,
+		symbol,
 		// BEWARE: no trailing slash is expected in feed URL
-		datafeed: new UnitDatafeed(),
+		datafeed: new UDFCompatibleDatafeed('/api/udf', 30000),
 		interval: 'D' as ResolutionString,
 		library_path: '/charting_library/',
 		theme: (theme === 'dark' ? 'Dark' : 'Light') as ThemeName,
 		locale: locale as LanguageCode,
-		disabled_features: ['use_localstorage_for_settings'],
-		enabled_features: ['study_templates'],
 		charts_storage_url: 'https://saveload.tradingview.com',
-		charts_storage_api_version: '1.1' as AvailableSaveloadVersions,
 		client_id: 'tradingview.com',
 		user_id: 'public_user_id',
 		fullscreen: false,
@@ -56,12 +51,10 @@ const TVChartContainer = memo(function TVChartContainer({
 	};
 
 	useEffect(() => {
-		const options: ChartingLibraryWidgetOptions = {
+		let tvWidget: null | IChartingLibraryWidget = new widget({
 			...widgetOptions,
-			container: ref!.current!,
-		}
-
-		let tvWidget: null | IChartingLibraryWidget = new widget(options);
+			container: ref!.current!
+		});
 		tvWidget.onChartReady(() => {
 			tvWidget?.chart().getSeries().setChartStyleProperties(1, {
 				"upColor": "#FF8243",
@@ -102,7 +95,7 @@ const TVChartContainer = memo(function TVChartContainer({
 
 	})
 
-	return <div className="h-[660px]" ref={ref}></div>
+	return <div className="h-[760px]" ref={ref}></div>
 })
 
 export default TVChartContainer;
