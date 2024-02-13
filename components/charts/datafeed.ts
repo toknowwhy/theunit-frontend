@@ -315,8 +315,6 @@ export class UnitDatafeed implements IDatafeedChartApi {
     onResetCacheNeededCallback: () => void,
   ): void {
 
-    console.log('AAA', this._subscribers)
-
     if (this._subscribers.hasOwnProperty(listenerGuid)) {
       return;
     }

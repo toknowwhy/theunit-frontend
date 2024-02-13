@@ -66,10 +66,10 @@ export async function getBitcoinChange(db) {
 
 }
 
-export function getSymbolAndCurrency(symbol) {
+export function getIDAndCurrency(symbol) {
     const arr = symbol.split(':');
     return {
-        symbol: arr[0],
+        id: arr[0],
         currency: arr[1],
     }
 }
