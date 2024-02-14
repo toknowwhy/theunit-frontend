@@ -5,7 +5,7 @@ import SplineAnim from "@/components/SplineAnim";
 import { supportedNetworks } from "@/crypto/config";
 import {  CollateralInfo } from "@/utils/types";
 import { useTranslations } from "next-intl";
-import Link from "next-intl/link";
+import Link from 'next/link';
 import { useContracts } from "./VaultNetworkProvider";
 import Spinner from "../Spinner";
 

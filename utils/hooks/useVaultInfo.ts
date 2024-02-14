@@ -19,7 +19,6 @@ export const useVaultInfo = (currentNetwork: NetworkInfoWithCollateral, account?
         address: currentNetwork.collateral.priceFeed,
         abi: PriceFeedABI as Abi
     }
-    console.log('BBBB', priceFeedDesc)
     const { data: contractDatas, refetch } = useReadContracts({
         query: {
             enabled

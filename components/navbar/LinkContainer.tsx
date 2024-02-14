@@ -1,8 +1,8 @@
 'use client';
 
-import { usePathname } from "next-intl/client";
 import { useTheme } from "next-themes";
 import { ReactNode, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function LinkContainer({
     links,

@@ -1,8 +1,7 @@
-const withNextIntl = require('next-intl/plugin')(
-  './i18n.ts'
-);
-
-module.exports = withNextIntl({
+const createNextIntlPlugin = require('next-intl/plugin');
+const withNextIntl = createNextIntlPlugin();
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   webpack(config) {
     config.resolve.fallback = {
       ...config.resolve.fallback,  
@@ -23,4 +22,6 @@ module.exports = withNextIntl({
       },
     ],
   },
-});
+};
+ 
+module.exports = withNextIntl(nextConfig);

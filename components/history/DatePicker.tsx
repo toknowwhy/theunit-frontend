@@ -1,10 +1,10 @@
 'use client';
 
-import {useRouter} from 'next-intl/client';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./DatePicker.css";
 import moment from "moment";
+import { useRouter } from "next/navigation";
 
 
 export default function HistoryDatePicker({ 

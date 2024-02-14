@@ -1,7 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import { Fragment } from 'react';
 import { formatEther } from 'viem';
-import Link from 'next-intl/link';
 import Spinner from '@/components/Spinner';
 import { allNetworkContracts, supportedNetworks } from '@/crypto/config';
 import { shortenAddress } from '@/utils/functions';
@@ -88,13 +87,13 @@ export default function DiscoverList({
                         </div>
                     </div>
                     <div className='border-b border-b-gray-border p-4'>
-                        <Link 
+                        <a 
                             className='bg-gray-border px-4 rounded-full'
                             href={ '' //`/vaults/${supportedNetworks[chainId].unitId}?owner=${vaultAction.owner}`
                             }
                         >
                             {viewText}
-                        </Link>
+                        </a>
                     </div>
                 </Fragment>
             })}

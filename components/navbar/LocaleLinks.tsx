@@ -1,8 +1,8 @@
 'use client'
 
 import { AVAILABLE_LOCALES } from '@/utils/constants';
-import { usePathname } from 'next-intl/client';
-import Link from 'next-intl/link';
+import { Link, usePathname } from '@/navigation';
+import { SupportedLocale } from '@/utils/types';
 
 export default function AvailableLocales() {
 
@@ -14,7 +14,7 @@ export default function AvailableLocales() {
                 language={loc.locale} 
                 title={loc.title} 
                 key={loc.locale} 
-                path={path}
+                path={path ?? '/'}
             />
        ))}
     </>
@@ -25,18 +25,12 @@ function LocaleLink({
     title,
     path,
 } : {
-    language: string,
+    language: SupportedLocale,
     title: string,
     path: string,
 }) {
-
-    return (
-        <Link 
-            className='group/locale' 
-            href={path} 
-            locale={language}
-        >
+    // @ts-expect-error
+    return <Link className='group/locale' href={`/${path}`} locale={language}>
             <span className='group-hover/locale:text-gradient'>{title}</span>
-        </Link>
-    )
+        </Link>;
 }

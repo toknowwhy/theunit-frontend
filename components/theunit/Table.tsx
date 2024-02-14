@@ -2,9 +2,9 @@ import { CoinTableData } from "@/utils/types";
 import { renderPrice, renderBigNumber } from "@/utils/functions";
 import CoinLogo from "../CoinLogo";
 import PriceChange from "./PriceChange";
-import Link from "next-intl/link";
 import BoxContainer from "../BoxContainer";
 import { ReactNode } from "react";
+import { Link } from "@/navigation";
 
 export default function Table({ 
     data, 
@@ -24,9 +24,13 @@ export default function Table({
                 </div>)}
             </div>
             {data.map((d) => (
-                <a 
+                <Link
                     key={d.coin_id}
-                    href={`${isCandidate ? '/candidates' : ''}/coins/${d.coin_id}`} className="group contents leading-[4rem]" 
+                    href={{
+                        pathname: isCandidate ? '/candidates/coins/[id]' : '/coins/[id]',
+                        params: {id: d.coin_id}
+                    }}
+                    className="group contents leading-[4rem]" 
                 >
                     <TableItem className="pl-6 rounded-l-lg">{d.rank}</TableItem>
                     <TableItem className="flex gap-4 items-center whitespace-nowrap">
@@ -36,7 +40,7 @@ export default function Table({
                     <TableItem><PriceChange priceChange={d.price_change_percentage_24h} /></TableItem>
                     <TableItem>{renderBigNumber(d.market_cap)}</TableItem>
                     <TableItem className="ounded-r-lg">{renderBigNumber(d.volume)}</TableItem>
-                </a>
+                </Link>
             ))}
         </div>
     </BoxContainer>

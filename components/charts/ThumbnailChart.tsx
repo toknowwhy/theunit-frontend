@@ -5,7 +5,6 @@ import { CurrencyType, ThumbChartDataType } from '@/utils/types';
 import { ColorType, createChart } from 'lightweight-charts';
 import Image from 'next/image';
 import PriceChange from '../theunit/PriceChange';
-import Link from 'next/link';
 import { getCurrencyInfo, getPriceInfo } from '@/utils/functions';
 import BoxContainer from '../BoxContainer';
 

@@ -1,7 +1,7 @@
 import prev from '@/public/icons/previous.svg';
 import next from '@/public/icons/next.svg';
 import { useTranslations } from 'next-intl';
-import Link from 'next-intl/link';
+import Link from 'next/link';
 import Image from 'next/image';
 import { range } from 'lodash';
 import { historyPageSize } from '@/utils/db/getUnitHistory';

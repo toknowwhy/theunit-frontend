@@ -274,9 +274,9 @@ export class UnitDatafeed implements IDatafeedChartApi {
         minmov: 1,
         unit_id: symbolInfo.coin_id,
         supported_resolutions: [
+          '5' as ResolutionString,
           '15' as ResolutionString,
-          '1H' as ResolutionString,
-          '4H' as ResolutionString,
+          '60' as ResolutionString,
           '1D' as ResolutionString,
           '1W' as ResolutionString,
           '1M' as ResolutionString,
@@ -350,9 +350,9 @@ export class UnitDatafeed implements IDatafeedChartApi {
 function defaultConfiguration(): DatafeedConfiguration {
   return {
     supported_resolutions: [
+      '5' as ResolutionString,
       '15' as ResolutionString,
-      '1H' as ResolutionString,
-      '4H' as ResolutionString,
+      '60' as ResolutionString,
       '1D' as ResolutionString,
       '1W' as ResolutionString,
       '1M' as ResolutionString,

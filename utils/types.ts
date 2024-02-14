@@ -1,3 +1,4 @@
+import { locales } from "@/navigation";
 import { ReactElement, ReactNode } from "react";
 import { Abi, Hex, Chain, Address } from "viem";
 
@@ -273,8 +274,10 @@ export interface LPBoxProps extends FarmBoxProps {
     isUNPool: boolean;
 }
 
+export type SupportedLocale = typeof locales[number];
+
 export interface SiteLocale {
-    locale: string;
+    locale: SupportedLocale;
     title: string;
 }
 

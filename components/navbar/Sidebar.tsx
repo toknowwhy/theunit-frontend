@@ -3,7 +3,6 @@ import menuLogo from '@/public/icons/menu-logo.png';
 import menuLogoDark from '@/public/icons/menu-logo-dark.png';
 import LinkContainer from './LinkContainer';
 import { useTranslations } from 'next-intl';
-import Link from 'next-intl/link';
 import AvailableLocales from './LocaleLinks';
 
 export interface NavLink {
