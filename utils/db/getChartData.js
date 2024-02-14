@@ -37,14 +37,14 @@ export async function allBars(db, from, to, currency='BTC', coinId, resolution) 
     if (cid) {
         resHourData = await db
                                 .collection(isMinuteData ? 'coinfiveminutedatas': 'coinhourlydatas')
-                                .find({ "time" : {"$gte": new Date(from*1000), "$lte": new Date(to*1000)}, "coin_id": cid })
+                                .find({ "time" : {"$lte": new Date(to*1000)}, "coin_id": cid })
                                 .sort({'time': 1})
                                 .toArray();
     } else {
         const model = `${isMinuteData ? 'fiveminute' : 'hourly'}${currency === "USD" ? 'datausds' : 'datas'}`;
         resHourData = await db
                                 .collection(model)
-                                .find({ "time" : {"$gte": new Date(from*1000), "$lte": new Date(to*1000)} })
+                                .find({ "time" : {"$lte": new Date(to*1000)} })
                                 .sort({'time': 1})
                                 .toArray();
     }
