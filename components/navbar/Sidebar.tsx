@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import menuLogo from '@/public/menu-logo.svg';
-import menuLogoDark from '@/public/icons/menu-logo-dark.svg';
+import menuLogo from '@/public/icons/menu-logo.png';
+import menuLogoDark from '@/public/icons/menu-logo-dark.png';
 import LinkContainer from './LinkContainer';
 import { useTranslations } from 'next-intl';
 import Link from 'next-intl/link';
@@ -59,7 +59,7 @@ export default function Sidebar() {
                         links={link.activeKeys} 
                         key={link.i18n}
                     >
-                <Link 
+                <a 
                     key={link.i18n}
                     className='lg:group-[.is-active]:font-bold group-[.is-active]:text-white group-[.is-active]:relative'
                     href={link.link}
@@ -75,17 +75,17 @@ export default function Sidebar() {
                         alt="logo" 
                     />
                     {t(link.i18n)}
-                </Link>
+                </a>
             </LinkContainer>
         })}
         <div className='flex lg:hidden flex-col gap-10 mb-10 text-white'>
             <AvailableLocales />
         </div>
-        <Link 
+        <a 
             href="https://unitindex.org"
             className='text-center lg:absolute lg:bottom-24 lg:left-0 lg:right-0 text-gray hover:text-gradient inline-block'
         >
             {t('goto-theunit')}
-        </Link>
+        </a>
     </div>;
 }

@@ -24,10 +24,9 @@ export default function Table({
                 </div>)}
             </div>
             {data.map((d) => (
-                <Link 
+                <a 
                     key={d.coin_id}
                     href={`${isCandidate ? '/candidates' : ''}/coins/${d.coin_id}`} className="group contents leading-[4rem]" 
-                    prefetch={false}
                 >
                     <TableItem className="pl-6 rounded-l-lg">{d.rank}</TableItem>
                     <TableItem className="flex gap-4 items-center whitespace-nowrap">
@@ -37,7 +36,7 @@ export default function Table({
                     <TableItem><PriceChange priceChange={d.price_change_percentage_24h} /></TableItem>
                     <TableItem>{renderBigNumber(d.market_cap)}</TableItem>
                     <TableItem className="ounded-r-lg">{renderBigNumber(d.volume)}</TableItem>
-                </Link>
+                </a>
             ))}
         </div>
     </BoxContainer>

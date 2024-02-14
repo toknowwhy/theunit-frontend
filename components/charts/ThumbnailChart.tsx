@@ -95,10 +95,9 @@ export default function ThumbChart({
 
 	return (
     <BoxContainer>
-      <Link 
+      <a 
         href={`/unit/${currency}`}
         className={"block p-4 rounded-xl hover:shadow-lg hover:shadow-shadow" + (active ? " shadow-lg shadow-shadow" : "")}
-        prefetch={false}
       >
         <div className="flex justify-between items-center mb-4">
             <div>
@@ -111,7 +110,7 @@ export default function ThumbChart({
             <div className="inline-block pointer-events-none" ref={chartContainerRef}></div>
             <PriceChange className="font-2xl font-semibold" priceChange={changePercentage} />
         </div>
-      </Link>
+      </a>
     </BoxContainer>
   );
 };

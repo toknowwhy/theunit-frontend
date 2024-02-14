@@ -75,11 +75,7 @@ export default function RootLayout({
     <html suppressHydrationWarning lang={locale} className={avenirFont.className}>
       <head />
       <body className="text-lg text-text m-0 bg-black-light">
-          <Providers 
-            walletConnectId={process.env.WALLET_CONNECT_ID ?? ''} 
-            infuraKey={process.env.INFURA_PROJECT_ID ?? ''}
-            alchemyKey={process.env.ALCHEMY_KEY ?? ''}
-          >
+          <Providers>
             <MainLayout>
               {children}
             </MainLayout>
